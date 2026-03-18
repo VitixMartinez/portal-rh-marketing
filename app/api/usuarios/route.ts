@@ -34,8 +34,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Este empleado ya tiene acceso al portal" }, { status: 409 });
     }
 
-    // Verificar que el email no está en uso
-    const emailTaken = await prisma.user.findUnique({ where: { email } });
+    // Verificar que el email no está en uso en esta empresa
+    const emailTaken = await prisma.user.findFirst({ where: { email, companyId: session.companyId! } });
     if (emailTaken) {
       return NextResponse.json({ error: "Este correo ya está registrado en el portal" }, { status: 409 });
     }
