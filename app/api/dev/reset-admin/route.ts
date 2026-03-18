@@ -18,13 +18,13 @@ export async function GET(req: NextRequest) {
   const hashed   = hashPassword(password);
 
   try {
-    // Check if user exists
-    const existing = await prisma.user.findUnique({ where: { email } });
+    // Check if user exists (email is now unique per company, use findFirst)
+    const existing = await prisma.user.findFirst({ where: { email } });
 
     if (existing) {
       // Update password
       await prisma.user.update({
-        where: { email },
+        where: { id: existing.id },
         data:  { password: hashed },
       });
       return NextResponse.json({
