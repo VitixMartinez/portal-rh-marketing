@@ -80,17 +80,15 @@ export async function GET(req: Request) {
         email:        true,
         phone:        true,
         cedula:       true,
-        nss:          true,
         birthDate:    true,
         gender:       true,
-        department:   true,
+        departmentId: true,
         jobTitle:     true,
         salary:       true,
         status:       true,
         contractType: true,
         hireDate:     true,
         address:      true,
-        city:         true,
       },
     });
 
@@ -110,9 +108,7 @@ export async function GET(req: Request) {
       "Tipo Contrato",
       "Salario",
       "Estado",
-      "NSS",
       "Dirección",
-      "Ciudad",
     ].map(csv).join(",");
 
     const rows = empleados.map((e) => [
@@ -124,15 +120,13 @@ export async function GET(req: Request) {
       csv(formatDate(e.birthDate)),
       csv(e.gender === "M" ? "Masculino" : e.gender === "F" ? "Femenino" : e.gender ?? ""),
       csv(e.jobTitle),
-      csv(DEPT_LABELS[e.department ?? ""] ?? e.department ?? ""),
+      csv(DEPT_LABELS[e.departmentId ?? ""] ?? e.departmentId ?? ""),
       csv(formatDate(e.hireDate)),
       csv(calcAntiguedad(e.hireDate)),
       csv(CONTRACT_LABELS[e.contractType ?? ""] ?? e.contractType ?? ""),
       csv(e.salary ? Number(e.salary).toFixed(2) : ""),
       csv(STATUS_LABELS[e.status ?? ""] ?? e.status ?? ""),
-      csv(e.nss),
       csv(e.address),
-      csv(e.city),
     ].join(","));
 
     // BOM para que Excel abra UTF-8 correctamente en Windows/Mac

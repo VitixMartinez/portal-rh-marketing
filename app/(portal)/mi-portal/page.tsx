@@ -122,7 +122,7 @@ export default async function MiPortalPage() {
 
         <div className="bg-white rounded-2xl p-4 shadow-sm border border-gray-100">
           <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">Salario</p>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{formatMoney(employee.salary)}</p>
+          <p className="text-2xl font-bold text-gray-900 mt-1">{formatMoney(employee.salary ? Number(employee.salary) : null)}</p>
           <p className="text-xs text-gray-400 mt-0.5"> </p>
         </div>
 
@@ -206,7 +206,7 @@ export default async function MiPortalPage() {
           </div>
           <div className="px-5 py-4 space-y-3">
             {[
-              { label: "Cargo",        value: employee.position },
+              { label: "Cargo",        value: employee.jobTitle },
               { label: "Departamento", value: employee.department?.name },
               { label: "Supervisor",   value: employee.supervisor ? `${employee.supervisor.firstName} ${employee.supervisor.lastName}` : null },
               { label: "Tipo contrato",value: employee.contractType },

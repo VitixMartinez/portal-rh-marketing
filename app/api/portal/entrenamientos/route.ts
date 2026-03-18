@@ -16,7 +16,7 @@ export async function GET() {
   });
 
   // Enrich cursos with extra fields (materiales, preguntas, tieneEvaluacion, notaAprobatoria)
-  const cursoIds: string[] = [...new Set(asignaciones.map((a: any) => a.cursoId as string))];
+  const cursoIds: string[] = [...new Set(asignaciones.map((a: any) => a.cursoId as string))] as string[];
   const extraMap = new Map<string, any>();
 
   try {

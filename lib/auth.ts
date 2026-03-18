@@ -51,7 +51,7 @@ async function hmacSign(message: string): Promise<string> {
 
 async function hmacVerify(message: string, sig: string): Promise<boolean> {
   const key = await getHmacKey("verify");
-  return crypto.subtle.verify("HMAC", key, b64urlToBytes(sig), new TextEncoder().encode(message));
+  return crypto.subtle.verify("HMAC", key, b64urlToBytes(sig) as BufferSource, new TextEncoder().encode(message));
 }
 
 /* ── JWT ──────────────────────────────────────────────────────────────── */
