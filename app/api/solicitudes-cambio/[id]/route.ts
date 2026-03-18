@@ -8,7 +8,7 @@ import path from "path";
 const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads", "photos");
 
 // PATCH /api/solicitudes-cambio/[id] — admin approves or rejects
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session || !isAdmin(session.role)) {
@@ -87,7 +87,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 }
 
 // DELETE — employee cancels a pending request
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session) return NextResponse.json({ error: "No autenticado" }, { status: 401 });

@@ -11,7 +11,7 @@ const MAX_SIZE   = 5 * 1024 * 1024; // 5 MB
 // POST /api/employees/[id]/photo — upload & create approval request
 export async function POST(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -129,7 +129,7 @@ export async function POST(
 // DELETE /api/employees/[id]/photo — remove approved photo (admin only)
 export async function DELETE(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();

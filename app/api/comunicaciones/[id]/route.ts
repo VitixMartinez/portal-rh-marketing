@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
 /* ─── PATCH — editar una comunicación ───────────────────────────────────── */
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session) {
@@ -90,7 +90,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 }
 
 /* ─── DELETE — eliminar una comunicación ────────────────────────────────── */
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session) {

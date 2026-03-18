@@ -7,7 +7,7 @@ import { getSession } from "@/lib/auth";
 
 export async function DELETE(
   _req: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   const session = await getSession();
   if (!session?.employeeId) {

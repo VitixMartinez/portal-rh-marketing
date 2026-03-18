@@ -5,7 +5,7 @@ import { getSession } from "@/lib/auth";
 /* GET /api/prestamos/[id] */
 export async function GET(
   _req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -55,7 +55,7 @@ export async function GET(
 /* PATCH /api/prestamos/[id] — update estado or notas */
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();
@@ -101,7 +101,7 @@ export async function PATCH(
 /* DELETE /api/prestamos/[id] — cancel (soft: estado → CANCELADO) */
 export async function DELETE(
   _req: NextRequest,
-  context: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getSession();

@@ -8,7 +8,7 @@ import { getSession, isAdmin } from "@/lib/auth";
 
 export async function PATCH(
   req: NextRequest,
-  context: { params: { id: string } },
+  context: { params: Promise<{ id: string }> },
 ) {
   const session = await getSession();
   if (!session || !isAdmin(session.role)) {

@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 
 /* ─── PATCH — aprobar o rechazar una terminación pendiente ──────────────── */
-export async function PATCH(req: NextRequest, context: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session || session.role !== "OWNER_ADMIN") {
@@ -60,7 +60,7 @@ export async function PATCH(req: NextRequest, context: { params: { id: string } 
 }
 
 /* ─── DELETE — eliminar terminación (solo PENDIENTE) ────────────────────── */
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
     if (!session || session.role !== "OWNER_ADMIN") {
