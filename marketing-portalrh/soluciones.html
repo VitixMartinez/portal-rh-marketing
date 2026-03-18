@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Soluciones de RH — Portal RH</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:    #0f1e3d;
+      --navy2:   #132050;
+      --blue:    #1e6fd9;
+      --blue2:   #2e84f5;
+      --accent:  #38bdf8;
+      --text:    #e2e8f0;
+      --muted:   #94a3b8;
+      --card-bg: #162040;
+      --border:  #1e3060;
+      --white:   #ffffff;
+      --tag-bg:  rgba(30,111,217,.18);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--navy);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 78px;
+      background: var(--navy2);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    .nav-logo svg { width: 46px; height: 46px; }
+    .nav-logo-name {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -.5px;
+    }
+    .nav-logo-name span { color: var(--accent); }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .btn-demo {
+      background: var(--blue);
+      color: var(--white);
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: .9rem;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .btn-demo:hover { background: var(--blue2); }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 420px;
+      overflow: hidden;
+    }
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 64px;
+      background: var(--navy2);
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--tag-bg);
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(56,189,248,.25);
+      margin-bottom: 20px;
+      width: fit-content;
+    }
+    .hero-title {
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.15;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+    .hero-title span { color: var(--accent); }
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin-bottom: 36px;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--blue);
+      color: var(--white);
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      width: fit-content;
+      transition: background .2s;
+    }
+    .btn-primary:hover { background: var(--blue2); }
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-right img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+    }
+    .hero-right .img-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 420px;
+      background: linear-gradient(135deg, #1a2f5e 0%, #0d1a38 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: .9rem;
+    }
+
+    /* ── INTRO ── */
+    .section-intro {
+      text-align: center;
+      padding: 80px 48px 48px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--muted);
+    }
+
+    /* ── FEATURE GRID ── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      background: var(--border);
+      margin: 0 0 80px 0;
+    }
+    .feature-card {
+      background: var(--card-bg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background .2s;
+    }
+    .feature-card:hover { background: #1a2a55; }
+    .feature-card-img {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+    }
+    .feature-card-img-placeholder {
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: linear-gradient(135deg, #1a2f5e 0%, #0d1a38 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+    .feature-card-body {
+      padding: 28px 28px 32px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .feature-card-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--tag-bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+    .feature-card-icon svg { width: 20px; height: 20px; }
+    .feature-card-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+    .feature-card-desc {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .feature-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 20px;
+      color: var(--accent);
+      font-size: .875rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: gap .2s;
+    }
+    .feature-card-link:hover { gap: 10px; }
+    .feature-card-link svg { width: 16px; height: 16px; }
+
+    /* ── PILLARS ── */
+    .pillars {
+      background: var(--navy2);
+      padding: 80px 48px;
+      text-align: center;
+    }
+    .pillars-title {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .pillars-desc {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin: 0 auto 56px;
+    }
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .pillar {
+      text-align: left;
+    }
+    .pillar-icon {
+      width: 48px;
+      height: 48px;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .pillar-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+    .pillar-text {
+      font-size: .9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── CTA BOTTOM ── */
+    .cta-bottom {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e6fd9 100%);
+      padding: 72px 48px;
+      text-align: center;
+    }
+    .cta-bottom h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .cta-bottom p {
+      color: rgba(255,255,255,.8);
+      font-size: 1.05rem;
+      margin-bottom: 36px;
+    }
+    .cta-group {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-white {
+      background: var(--white);
+      color: var(--navy2);
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: .95rem;
+      transition: opacity .2s;
+    }
+    .btn-white:hover { opacity: .9; }
+    .btn-outline-white {
+      background: transparent;
+      color: var(--white);
+      padding: 14px 30px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: .95rem;
+      border: 2px solid rgba(255,255,255,.5);
+      transition: border-color .2s;
+    }
+    .btn-outline-white:hover { border-color: var(--white); }
+
+    /* ── FOOTER ── */
+    footer {
+      background: #0a1428;
+      padding: 28px 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: .82rem;
+      border-top: 1px solid var(--border);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--white); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .pillars-grid { grid-template-columns: 1fr; gap: 32px; }
+      nav { padding: 0 24px; }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .hero-left { padding: 48px 24px; }
+      .hero-title { font-size: 2rem; }
+      .section-intro { padding: 56px 24px 32px; }
+      .pillars { padding: 56px 24px; }
+      .cta-bottom { padding: 56px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ NAV ════════════════════════════════════════════════════════════════ -->
+<nav>
+  <a href="index.html" class="nav-logo">
+    <svg width="46" height="54" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z" fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
+      <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
+      <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
+      <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
+      <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span class="nav-logo-name">Portal <span>RH</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#modulos">Módulos</a></li>
+    <li><a href="index.html#precios">Precios</a></li>
+    <li><a href="index.html#contacto">Contacto</a></li>
+  </ul>
+  <a href="index.html#contacto" class="btn-demo">Solicitar demo</a>
+</nav>
+
+<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-tag">Soluciones de RH</span>
+    <h1 class="hero-title">Tu equipo, siempre al<br/><span>centro de todo.</span></h1>
+    <p class="hero-desc">
+      Portal RH reúne en una sola plataforma todo lo que necesitas para gestionar tu gente: desde el expediente hasta la nómina, los beneficios y el desarrollo profesional.
+    </p>
+    <a href="index.html#contacto" class="btn-primary">Solicitar demo gratuita</a>
+  </div>
+  <div class="hero-right">
+    <img src="images/hero-soluciones.jpg" alt="Directora de RH" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="img-placeholder" style="display:none">📷 hero-soluciones.jpg</div>
+  </div>
+</section>
+
+<!-- ══ INTRO ════════════════════════════════════════════════════════════════ -->
+<div class="section-intro">
+  <p class="section-label">Plataforma Integral</p>
+  <h2 class="section-title">Todo lo que tu fuerza laboral<br/>necesita para crecer.</h2>
+  <p class="section-desc">
+    Desde la contratación hasta el retiro, Portal RH centraliza los procesos clave de recursos humanos para que puedas enfocarte en lo que realmente importa: tu gente.
+  </p>
+</div>
+
+<!-- ══ FEATURE GRID ════════════════════════════════════════════════════════ -->
+<div class="features-grid">
+
+  <!-- Card 1 – Gestión de Empleados -->
+  <div class="feature-card">
+    <img class="feature-card-img" src="images/foto-gestion.jpg" alt="Gestión de Empleados"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="feature-card-img-placeholder" style="display:none">📷 foto-gestion.jpg</div>
+    <div class="feature-card-body">
+      <div class="feature-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3 class="feature-card-title">Gestión de Empleados</h3>
+      <p class="feature-card-desc">Expedientes digitales completos: datos personales, contratos, documentos y historial laboral en un solo lugar seguro y accesible.</p>
+      <a href="index.html#contacto" class="feature-card-link">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Card 2 – Portal del Empleado -->
+  <div class="feature-card">
+    <img class="feature-card-img" src="images/foto-portal.jpg" alt="Portal del Empleado"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="feature-card-img-placeholder" style="display:none">📷 foto-portal.jpg</div>
+    <div class="feature-card-body">
+      <div class="feature-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+      </div>
+      <h3 class="feature-card-title">Portal del Empleado</h3>
+      <p class="feature-card-desc">Cada colaborador tiene acceso a su información: recibos de pago, vacaciones, solicitudes y documentos, desde cualquier dispositivo.</p>
+      <a href="index.html#contacto" class="feature-card-link">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Card 3 – Nómina y Pagos -->
+  <div class="feature-card">
+    <img class="feature-card-img" src="images/foto-nomina.jpg" alt="Nómina y Pagos"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="feature-card-img-placeholder" style="display:none">📷 foto-nomina.jpg</div>
+    <div class="feature-card-body">
+      <div class="feature-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+      </div>
+      <h3 class="feature-card-title">Nómina y Pagos</h3>
+      <p class="feature-card-desc">Cálculo preciso de nómina con deducciones legales, historial de pagos y generación de recibos. Cumplimiento con la normativa dominicana.</p>
+      <a href="index.html#contacto" class="feature-card-link">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Card 4 – Beneficios y Prestaciones -->
+  <div class="feature-card">
+    <img class="feature-card-img" src="images/foto-beneficios.jpg" alt="Beneficios y Prestaciones"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="feature-card-img-placeholder" style="display:none">📷 foto-beneficios.jpg</div>
+    <div class="feature-card-body">
+      <div class="feature-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </div>
+      <h3 class="feature-card-title">Beneficios y Prestaciones</h3>
+      <p class="feature-card-desc">Administra regalía pascual, bonificación anual, seguro médico y otros beneficios con cálculos automáticos y control total.</p>
+      <a href="index.html#contacto" class="feature-card-link">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Card 5 – Vacantes Internas -->
+  <div class="feature-card">
+    <img class="feature-card-img" src="images/foto-vacantes.jpg" alt="Vacantes Internas"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="feature-card-img-placeholder" style="display:none">📷 foto-vacantes.jpg</div>
+    <div class="feature-card-body">
+      <div class="feature-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </div>
+      <h3 class="feature-card-title">Vacantes Internas</h3>
+      <p class="feature-card-desc">Publica oportunidades de crecimiento dentro de tu organización. Los empleados pueden aplicar directamente desde su portal personal.</p>
+      <a href="index.html#contacto" class="feature-card-link">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Card 6 – Reportes y Métricas -->
+  <div class="feature-card">
+    <img class="feature-card-img" src="images/foto-reportes.jpg" alt="Reportes y Métricas"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+    <div class="feature-card-img-placeholder" style="display:none">📷 foto-reportes.jpg</div>
+    <div class="feature-card-body">
+      <div class="feature-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <h3 class="feature-card-title">Reportes y Métricas</h3>
+      <p class="feature-card-desc">Dashboards en tiempo real con indicadores clave: rotación, ausentismo, headcount y costos laborales para tomar mejores decisiones.</p>
+      <a href="index.html#contacto" class="feature-card-link">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ PILLARS ═══════════════════════════════════════════════════════════ -->
+<section class="pillars">
+  <h2 class="pillars-title">Una plataforma diseñada para crecer contigo.</h2>
+  <p class="pillars-desc">Portal RH se adapta a tu empresa sin importar el tamaño, con soporte local y actualizaciones continuas.</p>
+  <div class="pillars-grid">
+    <div class="pillar">
+      <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      </svg>
+      <div class="pillar-name">Seguro y confiable.</div>
+      <p class="pillar-text">Tus datos están protegidos con cifrado de extremo a extremo y copias de seguridad automáticas. Cumplimos con las mejores prácticas de seguridad.</p>
+    </div>
+    <div class="pillar">
+      <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+      </svg>
+      <div class="pillar-name">Hecho para RD y LATAM.</div>
+      <p class="pillar-text">Desarrollado con el Código de Trabajo dominicano y las normativas laborales de Latinoamérica como base. No adaptamos, construimos desde el origen.</p>
+    </div>
+    <div class="pillar">
+      <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/>
+      </svg>
+      <div class="pillar-name">El idioma no es una barrera.</div>
+      <p class="pillar-text">Nuestro equipo de soporte atiende en <strong style="color:#38bdf8">español e inglés</strong>. WhatsApp, teléfono y correo — sin bots, sin esperas, con personas reales que entienden tu negocio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ CTA BOTTOM ════════════════════════════════════════════════════════ -->
+<div class="cta-bottom">
+  <h2>¿Listo para transformar tu gestión de RH?</h2>
+  <p>Agenda una demo de 30 minutos y te mostramos cómo Portal RH se adapta a tu empresa.</p>
+  <div class="cta-group">
+    <a href="mailto:info@portal-hr.com" class="btn-white">Contáctanos ahora</a>
+    <a href="https://wa.me/18099152223" class="btn-outline-white">WhatsApp</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<footer>
+  <p>© 2026 Portal RH · portal-hr.com · Todos los derechos reservados &nbsp;·&nbsp; <a href="index.html">Inicio</a></p>
+</footer>
+
+</body>
+</html>

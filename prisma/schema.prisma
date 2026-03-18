@@ -1,0 +1,446 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  OWNER_ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum EmployeeStatus {
+  ACTIVO
+  INACTIVO
+  SUSPENDIDO
+}
+
+enum ContractType {
+  INDEFINIDO
+  TEMPORAL
+  POR_OBRA
+  PRUEBA
+}
+
+enum AFP {
+  SIEMBRA
+  POPULAR
+  RESERVAS
+  CRECER
+  FUTURO
+  PROFUTURO
+}
+
+enum ARS {
+  ARS_HUMANO
+  ARS_SENASA
+  ARS_RESERVAS
+  ARS_MAPFRE
+  ARS_UNIVERSAL
+  ARS_PRIMERA
+  ARS_METASALUD
+  OTRO
+}
+
+enum NominaEstado {
+  BORRADOR
+  APROBADA
+  PAGADA
+}
+
+enum SolicitudEstado {
+  PENDIENTE
+  APROBADA
+  RECHAZADA
+}
+
+enum SolicitudTipo {
+  VACACIONES
+  PERMISO
+  LICENCIA_MEDICA
+  LICENCIA_MATERNIDAD
+  LICENCIA_PATERNIDAD
+  OTRO
+}
+
+enum AsistenciaEstado {
+  PRESENTE
+  AUSENTE
+  TARDANZA
+  PERMISO
+  FERIADO
+  MEDIO_DIA
+}
+
+enum ReviewCalificacion {
+  EXCEPCIONAL
+  SOBRESALIENTE
+  CUMPLE
+  NECESITA_MEJORA
+  INSATISFACTORIO
+}
+
+enum ReconocimientoTipo {
+  EMPLEADO_MES
+  MEJOR_DESEMPENO
+  INNOVACION
+  TRABAJO_EQUIPO
+  LIDERAZGO
+  PUNTUALIDAD
+  OTRO
+}
+
+model Company {
+  id          String       @id @default(cuid())
+  name        String
+  rnc         String?
+  subdomain   String?      @unique  // e.g. "kmdestinos" for kmdestinos.portal-hr.com
+  logoUrl     String?               // URL del logo de la empresa
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  users       User[]
+  employees   Employee[]
+  departments Department[]
+  nominas     Nomina[]
+  cursos      Curso[]
+  feriados    Feriado[]
+  prestamos   Prestamo[]
+}
+
+model User {
+  id         String   @id @default(cuid())
+  email      String
+  name       String?
+  password   String?                    // scrypt hash: "salt:hash"
+  role       UserRole @default(OWNER_ADMIN)
+  companyId  String
+  company    Company  @relation(fields: [companyId], references: [id])
+  employeeId String?  @unique           // link to Employee profile
+  employee   Employee? @relation("UserEmployee", fields: [employeeId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([email, companyId])          // email is unique per company (multi-tenant)
+}
+
+model Department {
+  id        String     @id @default(cuid())
+  name      String
+  companyId String
+  company   Company    @relation(fields: [companyId], references: [id])
+  employees Employee[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Employee {
+  id                String         @id @default(cuid())
+  employeeCode      String?
+
+  // Datos personales
+  firstName         String
+  lastName          String
+  cedula            String?
+  phone             String?
+  email             String?
+  address           String?
+  birthDate         DateTime?
+  gender            String?
+  nationality       String?        @default("Dominicana")
+  maritalStatus     String?
+
+  // Foto de perfil
+  photoUrl          String?
+
+  // Contacto de emergencia
+  emergencyName     String?
+  emergencyPhone    String?
+  emergencyRelation String?
+
+  // Datos laborales
+  jobTitle          String?
+  hireDate          DateTime?
+  status            EmployeeStatus @default(ACTIVO)
+  contractType      ContractType   @default(INDEFINIDO)
+  contractEnd       DateTime?
+  salary            Decimal?       @db.Decimal(12, 2)
+  payPeriod         String?        @default("MENSUAL")
+  bankName          String?
+  bankAccount       String?
+
+  // Seguridad social
+  tssNumber         String?
+  afp               AFP?
+  ars               ARS?
+
+  // Relaciones
+  companyId         String
+  company           Company        @relation(fields: [companyId], references: [id])
+  departmentId      String?
+  department        Department?    @relation(fields: [departmentId], references: [id])
+  supervisorId      String?
+  supervisor        Employee?      @relation("EmployeeSupervisor", fields: [supervisorId], references: [id])
+  subordinates      Employee[]     @relation("EmployeeSupervisor")
+  nominaItems       NominaItem[]
+  solicitudes       Solicitud[]
+  asistencias       Asistencia[]
+  reviewsRecibidos  PerformanceReview[] @relation("ReviewEmployee")
+  reviewsHechos     PerformanceReview[] @relation("ReviewReviewer")
+  reconocimientos    Reconocimiento[]
+  asignacionesCursos AsignacionCurso[]
+  solicitudesCambio  SolicitudCambio[]
+  prestamos          Prestamo[]
+  userAccount        User?              @relation("UserEmployee")
+
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+}
+
+model Nomina {
+  id        String       @id @default(cuid())
+  companyId String
+  company   Company      @relation(fields: [companyId], references: [id])
+  periodo   String
+  estado    NominaEstado @default(BORRADOR)
+  fechaPago DateTime?
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  items     NominaItem[]
+}
+
+model NominaItem {
+  id              String   @id @default(cuid())
+  nominaId        String
+  nomina          Nomina   @relation(fields: [nominaId], references: [id], onDelete: Cascade)
+  employeeId      String
+  employee        Employee @relation(fields: [employeeId], references: [id])
+  salarioBruto    Decimal  @db.Decimal(12, 2)
+  otrosIngresos   Decimal  @default(0) @db.Decimal(12, 2)
+  afpEmpleado     Decimal  @db.Decimal(12, 2)
+  sfsEmpleado     Decimal  @db.Decimal(12, 2)
+  isr             Decimal  @db.Decimal(12, 2)
+  afpPatronal     Decimal  @db.Decimal(12, 2)
+  sfsPatronal     Decimal  @db.Decimal(12, 2)
+  srl             Decimal  @db.Decimal(12, 2)
+  otrosDescuentos Decimal  @default(0) @db.Decimal(12, 2)
+  salarioNeto     Decimal  @db.Decimal(12, 2)
+  createdAt       DateTime @default(now())
+}
+
+// ─── Vacaciones / Solicitudes ──────────────────────────────────────────────────
+model Solicitud {
+  id           String          @id @default(cuid())
+  employeeId   String
+  employee     Employee        @relation(fields: [employeeId], references: [id])
+  tipo         SolicitudTipo   @default(VACACIONES)
+  fechaInicio  DateTime
+  fechaFin     DateTime
+  dias         Int
+  estado       SolicitudEstado @default(PENDIENTE)
+  motivo       String?
+  notas        String?         // Notas del aprobador
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+}
+
+// ─── Asistencia ────────────────────────────────────────────────────────────────
+model Asistencia {
+  id           String           @id @default(cuid())
+  employeeId   String
+  employee     Employee         @relation(fields: [employeeId], references: [id])
+  fecha        DateTime
+  horaEntrada  DateTime?
+  horaSalida   DateTime?
+  estado       AsistenciaEstado @default(PRESENTE)
+  notas        String?
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@unique([employeeId, fecha])
+}
+
+// ─── Desempeño ─────────────────────────────────────────────────────────────────
+model PerformanceReview {
+  id            String             @id @default(cuid())
+  employeeId    String
+  employee      Employee           @relation("ReviewEmployee", fields: [employeeId], references: [id])
+  reviewerId    String?
+  reviewer      Employee?          @relation("ReviewReviewer", fields: [reviewerId], references: [id])
+  periodo       String             // Ej: "2024-Q1", "2024-H1", "2024"
+  calificacion  ReviewCalificacion @default(CUMPLE)
+  puntuacion    Int?               // 1-100
+  fortalezas    String?
+  areasEnMejora String?
+  comentarios   String?
+  objetivos     String?            // Objetivos para el próximo período
+  fechaReview   DateTime           @default(now())
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+}
+
+// ─── Entrenamiento ─────────────────────────────────────────────────────────────
+
+enum CursoCategoria {
+  SEGURIDAD_INFO     // Seguridad de la información / ciberseguridad
+  SEGURIDAD_OCUP     // Seguridad ocupacional / salud laboral
+  POLITICAS          // Políticas de la empresa
+  LIDERAZGO          // Liderazgo y management
+  TECNICO            // Habilidades técnicas del puesto
+  COMPLIANCE         // Cumplimiento legal / normativa
+  SOFT_SKILLS        // Habilidades blandas
+  INDUCCION          // Inducción para nuevos empleados
+  OTRO
+}
+
+enum CursoRecurrencia {
+  UNA_VEZ
+  ANUAL
+  SEMESTRAL
+  TRIMESTRAL
+}
+
+enum AsignacionEstado {
+  PENDIENTE
+  EN_PROGRESO
+  COMPLETADO
+  VENCIDO
+  EXCUSADO
+}
+
+model Curso {
+  id          String           @id @default(cuid())
+  companyId   String
+  company     Company          @relation(fields: [companyId], references: [id])
+  titulo      String
+  descripcion String?
+  categoria   CursoCategoria   @default(OTRO)
+  modalidad   String?          @default("Virtual")  // Virtual, Presencial, E-learning
+  duracionHrs Int?
+  recurrencia CursoRecurrencia @default(UNA_VEZ)
+  obligatorio Boolean          @default(true)
+  activo      Boolean          @default(true)
+  asignaciones AsignacionCurso[]
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+}
+
+model AsignacionCurso {
+  id              String           @id @default(cuid())
+  cursoId         String
+  curso           Curso            @relation(fields: [cursoId], references: [id], onDelete: Cascade)
+  employeeId      String
+  employee        Employee         @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  estado          AsignacionEstado @default(PENDIENTE)
+  fechaLimite     DateTime?
+  fechaCompletado DateTime?
+  notas           String?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  @@unique([cursoId, employeeId])
+}
+
+// ─── Configuración ─────────────────────────────────────────────────────────────
+
+model Feriado {
+  id          String   @id @default(cuid())
+  companyId   String
+  company     Company  @relation(fields: [companyId], references: [id])
+  nombre      String
+  fecha       DateTime
+  tipo        String   @default("NACIONAL")  // NACIONAL, EMPRESA
+  recurrente  Boolean  @default(true)        // Se repite cada año
+  createdAt   DateTime @default(now())
+
+  @@unique([companyId, fecha])
+}
+
+// ─── Reconocimientos ───────────────────────────────────────────────────────────
+model Reconocimiento {
+  id          String             @id @default(cuid())
+  employeeId  String
+  employee    Employee           @relation(fields: [employeeId], references: [id])
+  tipo        ReconocimientoTipo @default(OTRO)
+  titulo      String
+  descripcion String?
+  otorgadoPor String?            // Nombre de quien otorga
+  fecha       DateTime           @default(now())
+  publico     Boolean            @default(true)
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+}
+
+// ─── Solicitudes de cambio de perfil (portal empleado) ────────────────────────
+
+enum SolicitudCambioEstado {
+  PENDIENTE
+  APROBADA
+  RECHAZADA
+}
+
+model SolicitudCambio {
+  id           String               @id @default(cuid())
+  employeeId   String
+  employee     Employee             @relation(fields: [employeeId], references: [id])
+  campo        String               // "lastName", "phone", "address", etc.
+  campoLabel   String               // Label legible: "Apellido", "Teléfono", etc.
+  valorActual  String?
+  valorNuevo   String
+  estado       SolicitudCambioEstado @default(PENDIENTE)
+  motivo       String?              // Razón del cambio (ej: "Me casé")
+  notasAdmin   String?              // Nota del admin al aprobar/rechazar
+  aprobadoPor  String?              // Nombre del admin
+  createdAt    DateTime             @default(now())
+  updatedAt    DateTime             @updatedAt
+}
+
+// ─── Préstamos a Empleados ─────────────────────────────────────────────────────
+
+enum PrestamoEstado {
+  ACTIVO
+  PAGADO
+  CANCELADO
+}
+
+model Prestamo {
+  id               String         @id @default(cuid())
+  companyId        String
+  company          Company        @relation(fields: [companyId], references: [id])
+  employeeId       String
+  employee         Employee       @relation(fields: [employeeId], references: [id])
+
+  monto            Decimal        @db.Decimal(12, 2)   // Monto total prestado
+  cuotas           Int            // Número de cuotas (quincenas)
+  cuotaMonto       Decimal        @db.Decimal(12, 2)   // Monto por cuota
+  saldoPendiente   Decimal        @db.Decimal(12, 2)   // Saldo restante
+  cuotasPagadas    Int            @default(0)
+
+  quincenaInicio   String         // "2026-03-2" → año-mes-quincena (1 o 2)
+  estado           PrestamoEstado @default(ACTIVO)
+
+  motivo           String?        // Razón del préstamo
+  notas            String?        // Notas adicionales
+  aprobadoPor      String?        // Nombre del admin que autorizó
+
+  pagos            PrestamoPago[]
+
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+}
+
+model PrestamoPago {
+  id          String   @id @default(cuid())
+  prestamoId  String
+  prestamo    Prestamo @relation(fields: [prestamoId], references: [id], onDelete: Cascade)
+
+  cuotaNum    Int      // Número de cuota (1, 2, 3...)
+  periodo     String   // "2026-03-2" → año-mes-quincena
+  monto       Decimal  @db.Decimal(12, 2)
+  aplicado    Boolean  @default(false)
+
+  createdAt   DateTime @default(now())
+}
