@@ -32,6 +32,7 @@ export async function GET(req: NextRequest) {
 
   const done: string[] = [];
 
+  try {
   // Add subdomain column
   await prisma.$executeRawUnsafe(
     `ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "subdomain" TEXT`
@@ -65,6 +66,9 @@ export async function GET(req: NextRequest) {
   done.push("User(email, companyId) unique index ✓");
 
   return NextResponse.json({ ok: true, migration: done });
+  } catch (err) {
+    return NextResponse.json({ error: String(err), completed: done }, { status: 500 });
+  }
 }
 
 /* ─── POST — create company + admin user ─────────────────────────────────── */
