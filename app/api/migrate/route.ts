@@ -8,6 +8,23 @@ export async function GET() {
   const results: string[] = [];
 
   try {
+    // Drop ALL possible global unique constraints/indexes on User.email
+    // (Postgres may have a standalone index instead of a named constraint)
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "User" DROP CONSTRAINT IF EXISTS "User_email_key"`
+    ).catch(() => {});
+    await prisma.$executeRawUnsafe(
+      `DROP INDEX IF EXISTS "User_email_key"`
+    ).catch(() => {});
+    await prisma.$executeRawUnsafe(
+      `DROP INDEX IF EXISTS "user_email_key"`
+    ).catch(() => {});
+    // Ensure per-company unique index exists
+    await prisma.$executeRawUnsafe(
+      `CREATE UNIQUE INDEX IF NOT EXISTS "User_email_companyId_key" ON "User"("email", "companyId")`
+    );
+    results.push('User.email global unique removed, per-company unique ensured ✓');
+
     // Employee.photoUrl
     await prisma.$executeRawUnsafe(
       `ALTER TABLE "Employee" ADD COLUMN IF NOT EXISTS "photoUrl" TEXT`
