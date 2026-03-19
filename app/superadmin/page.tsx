@@ -46,6 +46,8 @@ export default function SuperAdminPage() {
   const [editLogoUrl, setEditLogoUrl] = useState("");
   const [editPrimaryColor, setEditPrimaryColor] = useState("#2563eb");
   const [editBrandName, setEditBrandName] = useState("");
+  const [deleteClient, setDeleteClient] = useState<Client | null>(null);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const fetchClients = useCallback(async (pwd: string) => {
     setLoading(true);
@@ -235,7 +237,7 @@ export default function SuperAdminPage() {
                         day: "numeric",
                       })}
                     </td>
-                    <td className="px-6 py-4 text-right">
+                    <td className="px-6 py-4 text-right flex items-center justify-end gap-2">
                       <button
                         onClick={() => {
                           setEditClient(c);
@@ -247,6 +249,12 @@ export default function SuperAdminPage() {
                         className="text-gray-400 hover:text-white text-sm px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition"
                       >
                         Editar
+                      </button>
+                      <button
+                        onClick={() => setDeleteClient(c)}
+                        className="text-red-500 hover:text-red-400 text-sm px-3 py-1 rounded border border-red-900 hover:border-red-700 transition"
+                      >
+                        Eliminar
                       </button>
                     </td>
                   </tr>
@@ -428,6 +436,52 @@ export default function SuperAdminPage() {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {deleteClient && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 w-full max-w-md shadow-2xl">
+            <div className="text-center mb-6">
+              <div className="w-14 h-14 bg-red-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-7 h-7 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-white mb-2">¿Eliminar cliente?</h2>
+              <p className="text-gray-400 text-sm">
+                Estás a punto de eliminar <span className="text-white font-semibold">{deleteClient.name}</span> y todos sus datos (empleados, usuarios, etc.). Esta acción no se puede deshacer.
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => setDeleteClient(null)}
+                disabled={deleteLoading}
+                className="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2.5 rounded-lg transition"
+              >
+                Cancelar
+              </button>
+              <button
+                onClick={async () => {
+                  setDeleteLoading(true);
+                  const res = await fetch(`/api/superadmin/clients/${deleteClient.id}`, {
+                    method: "DELETE",
+                    headers: { "x-superadmin-key": password },
+                  });
+                  setDeleteLoading(false);
+                  if (res.ok) {
+                    setDeleteClient(null);
+                    fetchClients(password);
+                  }
+                }}
+                disabled={deleteLoading}
+                className="flex-1 bg-red-600 hover:bg-red-500 disabled:opacity-50 text-white font-semibold py-2.5 rounded-lg transition"
+              >
+                {deleteLoading ? "Eliminando..." : "Sí, eliminar"}
+              </button>
+            </div>
           </div>
         </div>
       )}
