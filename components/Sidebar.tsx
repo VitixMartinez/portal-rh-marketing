@@ -57,12 +57,18 @@ const ALL_GROUPS = [
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [role, setRole] = useState<string | null>(null);
+  const [role, setRole]   = useState<string | null>(null);
+  const [name, setName]   = useState<string>("Usuario");
+  const [email, setEmail] = useState<string>("");
 
   useEffect(() => {
     fetch("/api/auth/me")
       .then(r => r.ok ? r.json() : null)
-      .then(data => { if (data?.role) setRole(data.role); })
+      .then(data => {
+        if (data?.role)  setRole(data.role);
+        if (data?.name)  setName(data.name);
+        if (data?.email) setEmail(data.email);
+      })
       .catch(() => {});
   }, []);
 
@@ -127,11 +133,11 @@ export default function Sidebar() {
       <div className="border-t border-gray-100 dark:border-zinc-800 px-4 py-3">
         <div className="flex items-center gap-2.5">
           <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-            A
+            {name.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
-            <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">Admin</div>
-            <div className="text-[10px] text-gray-400 dark:text-zinc-500 truncate">admin@demo.com</div>
+            <div className="text-xs font-semibold text-gray-900 dark:text-white truncate">{name}</div>
+            <div className="text-[10px] text-gray-400 dark:text-zinc-500 truncate">{email}</div>
           </div>
         </div>
       </div>
