@@ -330,6 +330,15 @@ export async function GET() {
     await prisma.$executeRawUnsafe(`CREATE INDEX IF NOT EXISTS "ResultadoExamen_curso_emp_idx" ON "ResultadoExamen"("cursoId","employeeId")`);
     results.push('ResultadoExamen table ✓');
 
+    // Company branding fields
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "primaryColor" TEXT NOT NULL DEFAULT '#2563eb'`
+    );
+    await prisma.$executeRawUnsafe(
+      `ALTER TABLE "Company" ADD COLUMN IF NOT EXISTS "brandName" TEXT`
+    );
+    results.push('Company branding fields (primaryColor, brandName) ✓');
+
     return NextResponse.json({ ok: true, results });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: e.message, results }, { status: 500 });

@@ -1,9 +1,16 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import LogoIcon from "@/components/LogoIcon";
+
+interface Branding {
+  name: string;
+  brandName: string | null;
+  logoUrl: string | null;
+  primaryColor: string;
+}
 
 function LoginForm() {
   const router       = useRouter();
@@ -15,6 +22,27 @@ function LoginForm() {
   const [error,    setError]    = useState("");
   const [loading,  setLoading]  = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const [branding, setBranding] = useState<Branding | null>(null);
+
+  // Load company branding based on subdomain
+  useEffect(() => {
+    async function loadBranding() {
+      try {
+        const res = await fetch("/api/branding");
+        if (res.ok) {
+          const data = await res.json();
+          if (data.branding) setBranding(data.branding);
+        }
+      } catch {
+        // If no branding, use defaults
+      }
+    }
+    loadBranding();
+  }, []);
+
+  const primaryColor = branding?.primaryColor ?? "#2563eb";
+  const brandName    = branding?.brandName ?? branding?.name ?? "Portal RH";
+  const logoUrl      = branding?.logoUrl ?? null;
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -31,7 +59,6 @@ function LoginForm() {
         setError(data.error || "Error al iniciar sesión");
         return;
       }
-      // Redirect based on role
       if (data.role === "EMPLOYEE") {
         router.push(from && from.startsWith("/mi-") ? from : "/mi-portal");
       } else {
@@ -46,7 +73,10 @@ function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{ background: `linear-gradient(135deg, ${primaryColor}cc, ${primaryColor}99)` }}
+    >
       {/* Background decoration */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white/5 rounded-full" />
@@ -54,16 +84,23 @@ function LoginForm() {
       </div>
 
       <div className="w-full max-w-md relative">
-        {/* Card */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden">
           {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-8 text-center">
-            {/* Logo */}
+          <div
+            className="px-8 py-8 text-center"
+            style={{ background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)` }}
+          >
             <div className="mx-auto w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 shadow-inner ring-2 ring-white/20">
-              <LogoIcon size={44} variant="white" />
+              {logoUrl ? (
+                <img src={logoUrl} alt={brandName} className="w-12 h-12 object-contain rounded-lg" />
+              ) : (
+                <LogoIcon size={44} variant="white" />
+              )}
             </div>
-            <h1 className="text-2xl font-bold text-white tracking-tight">Portal RH</h1>
-            <p className="text-blue-100 text-sm mt-1.5 leading-snug">Toda la gestión de tu gente<br/>en un solo lugar</p>
+            <h1 className="text-2xl font-bold text-white tracking-tight">{brandName}</h1>
+            <p className="text-white/70 text-sm mt-1.5 leading-snug">
+              Toda la gestión de tu gente<br />en un solo lugar
+            </p>
           </div>
 
           {/* Form */}
@@ -98,7 +135,8 @@ function LoginForm() {
                     onChange={e => setEmail(e.target.value)}
                     required
                     placeholder="tu@empresa.com"
-                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    className="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:border-transparent transition"
+                    style={{ "--tw-ring-color": primaryColor } as React.CSSProperties}
                   />
                 </div>
               </div>
@@ -120,7 +158,7 @@ function LoginForm() {
                     onChange={e => setPassword(e.target.value)}
                     required
                     placeholder="••••••••"
-                    className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
+                    className="w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:border-transparent transition"
                   />
                   <button
                     type="button"
@@ -147,7 +185,8 @@ function LoginForm() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white py-2.5 rounded-lg font-medium text-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition mt-2"
+                className="w-full text-white py-2.5 rounded-lg font-medium text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition mt-2"
+                style={{ backgroundColor: primaryColor }}
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -165,7 +204,7 @@ function LoginForm() {
           {/* Footer */}
           <div className="px-8 pb-6 text-center">
             <p className="text-xs text-gray-400">
-              © {new Date().getFullYear()} Portal RH · Todos los derechos reservados
+              © {new Date().getFullYear()} {brandName} · Todos los derechos reservados
             </p>
           </div>
         </div>

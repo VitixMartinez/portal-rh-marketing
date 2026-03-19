@@ -7,6 +7,8 @@ interface Client {
   name: string;
   subdomain: string | null;
   logoUrl: string | null;
+  primaryColor: string | null;
+  brandName: string | null;
   createdAt: string;
   employeeCount: number;
   url: string | null;
@@ -41,6 +43,9 @@ export default function SuperAdminPage() {
   const [formSuccess, setFormSuccess] = useState("");
   const [editClient, setEditClient] = useState<Client | null>(null);
   const [editName, setEditName] = useState("");
+  const [editLogoUrl, setEditLogoUrl] = useState("");
+  const [editPrimaryColor, setEditPrimaryColor] = useState("#2563eb");
+  const [editBrandName, setEditBrandName] = useState("");
 
   const fetchClients = useCallback(async (pwd: string) => {
     setLoading(true);
@@ -110,7 +115,12 @@ export default function SuperAdminPage() {
         "Content-Type": "application/json",
         "x-superadmin-key": password,
       },
-      body: JSON.stringify({ name: editName }),
+      body: JSON.stringify({
+        name: editName,
+        logoUrl: editLogoUrl || null,
+        primaryColor: editPrimaryColor,
+        brandName: editBrandName || null,
+      }),
     });
 
     if (res.ok) {
@@ -227,7 +237,13 @@ export default function SuperAdminPage() {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
-                        onClick={() => { setEditClient(c); setEditName(c.name); }}
+                        onClick={() => {
+                          setEditClient(c);
+                          setEditName(c.name);
+                          setEditLogoUrl(c.logoUrl ?? "");
+                          setEditPrimaryColor(c.primaryColor ?? "#2563eb");
+                          setEditBrandName(c.brandName ?? "");
+                        }}
                         className="text-gray-400 hover:text-white text-sm px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition"
                       >
                         Editar
@@ -346,6 +362,47 @@ export default function SuperAdminPage() {
                   className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
                 />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">Nombre de marca (opcional)</label>
+                <input
+                  type="text"
+                  value={editBrandName}
+                  onChange={(e) => setEditBrandName(e.target.value)}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="KM Destinos"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">URL del logo</label>
+                <input
+                  type="url"
+                  value={editLogoUrl}
+                  onChange={(e) => setEditLogoUrl(e.target.value)}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="https://empresa.com/logo.png"
+                />
+                {editLogoUrl && (
+                  <img src={editLogoUrl} alt="Logo preview" className="mt-2 h-10 object-contain rounded" />
+                )}
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">Color principal de marca</label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="color"
+                    value={editPrimaryColor}
+                    onChange={(e) => setEditPrimaryColor(e.target.value)}
+                    className="w-12 h-10 rounded cursor-pointer bg-gray-800 border border-gray-700"
+                  />
+                  <input
+                    type="text"
+                    value={editPrimaryColor}
+                    onChange={(e) => setEditPrimaryColor(e.target.value)}
+                    className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="#2563eb"
+                  />
+                </div>
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-1">URL del sistema</label>

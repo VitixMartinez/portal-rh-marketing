@@ -19,7 +19,7 @@ export async function PATCH(
 
   const { id } = await context.params;
   const body = await req.json();
-  const { name, logoUrl } = body;
+  const { name, logoUrl, primaryColor, brandName } = body;
 
   const fields: string[] = [];
   const values: unknown[] = [];
@@ -27,6 +27,8 @@ export async function PATCH(
 
   if (name) { fields.push(`"name" = $${idx++}`); values.push(name); }
   if (logoUrl !== undefined) { fields.push(`"logoUrl" = $${idx++}`); values.push(logoUrl); }
+  if (primaryColor !== undefined) { fields.push(`"primaryColor" = $${idx++}`); values.push(primaryColor); }
+  if (brandName !== undefined) { fields.push(`"brandName" = $${idx++}`); values.push(brandName); }
 
   if (fields.length === 0) {
     return NextResponse.json({ error: "Nada que actualizar" }, { status: 400 });
