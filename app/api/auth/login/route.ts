@@ -10,12 +10,14 @@ import { verifyPassword, setSessionCookie } from "@/lib/auth";
 function extractSubdomain(req: NextRequest): string | null {
   const host = req.headers.get("host") ?? "";
   const hostname = host.split(":")[0]; // remove port
-  const parts = hostname.split(".");
 
-  // Needs at least 3 parts: sub.domain.tld  — ignore "www"
-  if (parts.length >= 3 && parts[0] !== "www") {
-    return parts[0];
+  // Only detect subdomains for portal-hr.com
+  // Ignore vercel.app preview URLs, localhost, etc.
+  if (hostname.endsWith(".portal-hr.com")) {
+    const sub = hostname.slice(0, hostname.length - ".portal-hr.com".length);
+    if (sub && sub !== "www") return sub;
   }
+
   return null;
 }
 
