@@ -22,7 +22,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Verificar si ya existe
-  const existing = await prisma.user.findUnique({ where: { email: EMAIL } });
+  const existing = await prisma.user.findFirst({ where: { email: EMAIL } });
   if (existing) {
     console.log(`⚠️  Ya existe un usuario con email: ${EMAIL}`);
     console.log("   Puedes cambiar el EMAIL en este script para crear otro.");
