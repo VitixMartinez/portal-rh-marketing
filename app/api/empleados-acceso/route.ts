@@ -7,6 +7,21 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { hashPassword, getSession, isAdmin } from "@/lib/auth";
+import { sendWelcomeEmail, sendPasswordReset } from "@/lib/email";
+
+// ─── Helper: obtener branding de la empresa ───────────────────────────────────
+async function getCompanyBranding(companyId: string) {
+  type Row = { name: string; brandName: string | null; primaryColor: string | null };
+  const rows = await prisma.$queryRawUnsafe<Row[]>(
+    `SELECT "name", "brandName", "primaryColor" FROM "Company" WHERE "id" = $1 LIMIT 1`,
+    companyId,
+  );
+  const r = rows[0];
+  return {
+    brandName:    r?.brandName ?? r?.name ?? "Portal RH",
+    primaryColor: r?.primaryColor ?? "#2563eb",
+  };
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -33,7 +48,10 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Empleado no encontrado" }, { status: 404 });
     }
 
-    const hashed = hashPassword(password);
+    const hashed   = hashPassword(password);
+    const empName  = `${employee.firstName} ${employee.lastName}`;
+    const host     = req.headers.get("host") ?? "";
+    const loginUrl = `https://${host}/login`;
 
     // Check if employee already has a user account
     const existing = await prisma.user.findFirst({
@@ -47,9 +65,22 @@ export async function POST(req: NextRequest) {
         data: {
           email:    email.toLowerCase().trim(),
           password: hashed,
-          name:     `${employee.firstName} ${employee.lastName}`,
+          name:     empName,
         },
       });
+
+      // Send password reset notification
+      if (process.env.RESEND_API_KEY) {
+        const branding = await getCompanyBranding(session.companyId);
+        sendPasswordReset({
+          to: email.toLowerCase().trim(),
+          employeeName: empName,
+          newPassword: password,
+          loginUrl,
+          branding,
+        }).catch(e => console.error("[EMAIL password reset]", e));
+      }
+
       return NextResponse.json({ ok: true, userId: updated.id, created: false });
     }
 
@@ -57,7 +88,7 @@ export async function POST(req: NextRequest) {
     const user = await (prisma as any).user.create({
       data: {
         id:         `user-emp-${employeeId}`,
-        name:       `${employee.firstName} ${employee.lastName}`,
+        name:       empName,
         email:      email.toLowerCase().trim(),
         password:   hashed,
         role:       "EMPLOYEE",
@@ -65,6 +96,18 @@ export async function POST(req: NextRequest) {
         employeeId: employeeId,
       },
     });
+
+    // Send welcome email with credentials
+    if (process.env.RESEND_API_KEY) {
+      const branding = await getCompanyBranding(session.companyId);
+      sendWelcomeEmail({
+        to: email.toLowerCase().trim(),
+        employeeName: empName,
+        tempPassword: password,
+        loginUrl,
+        branding,
+      }).catch(e => console.error("[EMAIL welcome]", e));
+    }
 
     return NextResponse.json({ ok: true, userId: user.id, created: true });
   } catch (error: any) {

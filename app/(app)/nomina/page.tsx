@@ -452,6 +452,8 @@ export default function NominaPage() {
   const [view,        setView]        = useState<"empleado" | "patronal">("empleado");
   const [exporting,   setExporting]   = useState(false);
   const [exportMode,  setExportMode]  = useState<"periodo" | "rango">("periodo");
+  const [notifying,   setNotifying]   = useState(false);
+  const [notifyMsg,   setNotifyMsg]   = useState<string | null>(null);
 
   const [mes, setMes] = useState(() => {
     const d = new Date();
@@ -573,6 +575,29 @@ export default function NominaPage() {
     }
   }
 
+  async function handleNotifyPayroll() {
+    if (!confirm(`¿Enviar notificaciones de nómina a todos los empleados para ${periodoLabel}?`)) return;
+    setNotifying(true);
+    setNotifyMsg(null);
+    try {
+      const res  = await fetch("/api/nomina/notify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ period: periodoLabel, mes }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setNotifyMsg(`✅ Notificaciones enviadas: ${data.sent} de ${data.total} empleados.`);
+      } else {
+        setNotifyMsg(`❌ Error: ${data.error}`);
+      }
+    } catch {
+      setNotifyMsg("❌ Error de conexión al enviar notificaciones.");
+    } finally {
+      setNotifying(false);
+    }
+  }
+
   const tssNote = quincena === 1
     ? "1ra Quincena: Solo ISR descontado. AFP y SFS se aplican en la 2da quincena."
     : "2da Quincena: AFP + SFS + ISR descontados (retención mensual completa de TSS).";
@@ -679,6 +704,38 @@ export default function NominaPage() {
           )}
           {exporting ? "Generando..." : exportMode === "rango" ? "Exportar rango consolidado" : "Exportar Excel"}
         </button>
+      </div>
+
+      {/* Email notifications panel */}
+      <div className="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-4 flex flex-col gap-3">
+        <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">Notificar empleados</span>
+        <p className="text-xs text-zinc-400">
+          Envía un correo con el resumen de nómina a cada empleado activo con email registrado.
+        </p>
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            onClick={handleNotifyPayroll}
+            disabled={notifying || loading || rows.length === 0}
+            className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 text-white text-sm font-medium transition w-fit"
+          >
+            {notifying ? (
+              <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                <circle className="opacity-30" cx="12" cy="12" r="10" stroke="white" strokeWidth="3"/>
+                <path fill="white" className="opacity-80" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            )}
+            {notifying ? "Enviando..." : `Enviar notificaciones — ${periodoLabel}`}
+          </button>
+          {notifyMsg && (
+            <span className={`text-sm font-medium ${notifyMsg.startsWith("✅") ? "text-emerald-600" : "text-red-600"}`}>
+              {notifyMsg}
+            </span>
+          )}
+        </div>
       </div>
 
       {/* Period banner */}
