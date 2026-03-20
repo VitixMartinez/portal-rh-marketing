@@ -112,10 +112,17 @@ export async function POST(req: NextRequest) {
       const end      = new Date(fechaFin).toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
       const numDias  = parseInt(dias);
 
+      const TIPO_LABEL: Record<string, string> = {
+        VACACIONES: "Vacaciones", PERMISO: "Permiso",
+        LICENCIA_MEDICA: "Licencia Médica", LICENCIA_MATERNIDAD: "Licencia Maternidad",
+        LICENCIA_PATERNIDAD: "Licencia Paternidad", OTRO: "Otro",
+      };
+      const tipoLabel = TIPO_LABEL[tipo ?? ""] ?? tipo ?? "Solicitud";
+
       // Al empleado
       if (emp.email) {
         sendVacationRequestConfirmation({
-          to: emp.email, employeeName: empName,
+          to: emp.email, employeeName: empName, tipo: tipoLabel,
           startDate: start, endDate: end, days: numDias, branding,
         }).catch(e => console.error("[EMAIL vacation employee]", e));
       }
@@ -123,7 +130,7 @@ export async function POST(req: NextRequest) {
       // Al admin
       if (branding.adminEmail) {
         sendVacationRequestToAdmin({
-          to: branding.adminEmail, employeeName: empName,
+          to: branding.adminEmail, employeeName: empName, tipo: tipoLabel,
           employeeEmail: emp.email ?? "", startDate: start, endDate: end, days: numDias,
           portalUrl: `https://${req.headers.get("host")}`, branding,
         }).catch(e => console.error("[EMAIL vacation admin]", e));

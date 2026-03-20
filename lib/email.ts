@@ -134,18 +134,20 @@ export async function sendWelcomeEmail(opts: {
 export async function sendVacationRequestConfirmation(opts: {
   to: string;
   employeeName: string;
+  tipo: string;
   startDate: string;
   endDate: string;
   days: number;
   branding: BrandingInfo;
 }): Promise<EmailResult> {
-  const { to, employeeName, startDate, endDate, days, branding } = opts;
+  const { to, employeeName, tipo, startDate, endDate, days, branding } = opts;
   const body = `
     <p style="color:#374151;font-size:15px;line-height:1.6;">Hola <strong>${employeeName}</strong>,</p>
     <p style="color:#374151;font-size:15px;line-height:1.6;">
-      Tu solicitud de vacaciones ha sido recibida y está pendiente de aprobación.
+      Tu solicitud de <strong>${tipo}</strong> ha sido recibida y está pendiente de aprobación.
     </p>
     <table style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:20px;width:100%;margin:16px 0;">
+      <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Tipo</td><td style="color:#111827;font-size:14px;font-weight:600;">${tipo}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Fecha inicio</td><td style="color:#111827;font-size:14px;font-weight:600;">${startDate}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Fecha fin</td><td style="color:#111827;font-size:14px;font-weight:600;">${endDate}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Total días</td><td style="color:#111827;font-size:14px;font-weight:600;">${days} día${days !== 1 ? "s" : ""}</td></tr>
@@ -155,8 +157,8 @@ export async function sendVacationRequestConfirmation(opts: {
   `;
   return send({
     to,
-    subject: `Solicitud de vacaciones recibida — ${startDate} al ${endDate}`,
-    html: baseTemplate({ brandName: branding.brandName, primaryColor: branding.primaryColor, title: "Solicitud de vacaciones recibida", body }),
+    subject: `Solicitud de ${tipo} recibida — ${startDate} al ${endDate}`,
+    html: baseTemplate({ brandName: branding.brandName, primaryColor: branding.primaryColor, title: `Solicitud de ${tipo} recibida`, body }),
   });
 }
 
@@ -166,30 +168,34 @@ export async function sendVacationRequestToAdmin(opts: {
   to: string;
   employeeName: string;
   employeeEmail: string;
+  tipo: string;
   startDate: string;
   endDate: string;
   days: number;
+  motivo?: string;
   portalUrl: string;
   branding: BrandingInfo;
 }): Promise<EmailResult> {
-  const { to, employeeName, employeeEmail, startDate, endDate, days, portalUrl, branding } = opts;
+  const { to, employeeName, employeeEmail, tipo, startDate, endDate, days, motivo, portalUrl, branding } = opts;
   const body = `
     <p style="color:#374151;font-size:15px;line-height:1.6;">
-      El empleado <strong>${employeeName}</strong> (${employeeEmail}) ha solicitado vacaciones.
+      El empleado <strong>${employeeName}</strong> (${employeeEmail}) ha solicitado <strong>${tipo}</strong>.
     </p>
     <table style="background:#fefce8;border:1px solid #fde68a;border-radius:8px;padding:20px;width:100%;margin:16px 0;">
+      <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Tipo</td><td style="color:#111827;font-size:14px;font-weight:600;">${tipo}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Fecha inicio</td><td style="color:#111827;font-size:14px;font-weight:600;">${startDate}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Fecha fin</td><td style="color:#111827;font-size:14px;font-weight:600;">${endDate}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Total días</td><td style="color:#111827;font-size:14px;font-weight:600;">${days} día${days !== 1 ? "s" : ""}</td></tr>
+      ${motivo ? `<tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Motivo</td><td style="color:#374151;font-size:14px;">${motivo}</td></tr>` : ""}
     </table>
     <a href="${portalUrl}/vacaciones" style="display:inline-block;margin-top:8px;padding:12px 24px;background:${branding.primaryColor};color:#fff;text-decoration:none;border-radius:8px;font-size:14px;font-weight:600;">
-      Revisar solicitud
+      Revisar y aprobar
     </a>
   `;
   return send({
     to,
-    subject: `Nueva solicitud de vacaciones — ${employeeName}`,
-    html: baseTemplate({ brandName: branding.brandName, primaryColor: branding.primaryColor, title: "Nueva solicitud de vacaciones", body }),
+    subject: `Nueva solicitud de ${tipo} — ${employeeName}`,
+    html: baseTemplate({ brandName: branding.brandName, primaryColor: branding.primaryColor, title: `Nueva solicitud de ${tipo}`, body }),
   });
 }
 
@@ -198,6 +204,7 @@ export async function sendVacationRequestToAdmin(opts: {
 export async function sendVacationDecision(opts: {
   to: string;
   employeeName: string;
+  tipo?: string;
   startDate: string;
   endDate: string;
   days: number;
@@ -205,17 +212,19 @@ export async function sendVacationDecision(opts: {
   reason?: string;
   branding: BrandingInfo;
 }): Promise<EmailResult> {
-  const { to, employeeName, startDate, endDate, days, approved, reason, branding } = opts;
+  const { to, employeeName, tipo, startDate, endDate, days, approved, reason, branding } = opts;
+  const tipoLabel   = tipo ?? "Solicitud";
   const statusLabel = approved ? "✅ Aprobada" : "❌ Rechazada";
   const statusColor = approved ? "#16a34a" : "#dc2626";
-  const bgColor    = approved ? "#f0fdf4" : "#fef2f2";
+  const bgColor     = approved ? "#f0fdf4" : "#fef2f2";
   const borderColor = approved ? "#bbf7d0" : "#fecaca";
   const body = `
     <p style="color:#374151;font-size:15px;line-height:1.6;">Hola <strong>${employeeName}</strong>,</p>
     <p style="color:#374151;font-size:15px;line-height:1.6;">
-      Tu solicitud de vacaciones ha sido <strong style="color:${statusColor};">${approved ? "aprobada" : "rechazada"}</strong>.
+      Tu solicitud de <strong>${tipoLabel}</strong> ha sido <strong style="color:${statusColor};">${approved ? "aprobada" : "rechazada"}</strong>.
     </p>
     <table style="background:${bgColor};border:1px solid ${borderColor};border-radius:8px;padding:20px;width:100%;margin:16px 0;">
+      <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Tipo</td><td style="color:#111827;font-size:14px;font-weight:600;">${tipoLabel}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Fecha inicio</td><td style="color:#111827;font-size:14px;font-weight:600;">${startDate}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Fecha fin</td><td style="color:#111827;font-size:14px;font-weight:600;">${endDate}</td></tr>
       <tr><td style="color:#6b7280;font-size:13px;padding:4px 0;">Total días</td><td style="color:#111827;font-size:14px;font-weight:600;">${days} día${days !== 1 ? "s" : ""}</td></tr>
@@ -225,8 +234,8 @@ export async function sendVacationDecision(opts: {
   `;
   return send({
     to,
-    subject: `Vacaciones ${approved ? "aprobadas" : "rechazadas"} — ${startDate} al ${endDate}`,
-    html: baseTemplate({ brandName: branding.brandName, primaryColor: branding.primaryColor, title: `Vacaciones ${approved ? "aprobadas" : "rechazadas"}`, body }),
+    subject: `${tipoLabel} ${approved ? "aprobada" : "rechazada"} — ${startDate} al ${endDate}`,
+    html: baseTemplate({ brandName: branding.brandName, primaryColor: branding.primaryColor, title: `${tipoLabel} ${approved ? "aprobada" : "rechazada"}`, body }),
   });
 }
 

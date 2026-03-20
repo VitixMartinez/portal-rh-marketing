@@ -3,6 +3,15 @@ import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { sendVacationDecision } from "@/lib/email";
 
+const TIPO_LABEL: Record<string, string> = {
+  VACACIONES:          "Vacaciones",
+  PERMISO:             "Permiso",
+  LICENCIA_MEDICA:     "Licencia Médica",
+  LICENCIA_MATERNIDAD: "Licencia Maternidad",
+  LICENCIA_PATERNIDAD: "Licencia Paternidad",
+  OTRO:                "Otro",
+};
+
 // ─── Helper: obtener branding de la empresa ───────────────────────────────────
 async function getCompanyBranding(companyId: string) {
   type Row = { name: string; brandName: string | null; primaryColor: string | null };
@@ -20,20 +29,45 @@ async function getCompanyBranding(companyId: string) {
 export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   try {
     const session = await getSession();
-    if (!session || session.role !== "OWNER_ADMIN") {
-      return NextResponse.json({ error: "Solo administradores pueden aprobar/rechazar solicitudes" }, { status: 403 });
+    if (!session) {
+      return NextResponse.json({ error: "No autenticado" }, { status: 401 });
     }
 
     const { id } = await context.params;
     const body = await req.json();
 
-    // Fetch the full request before updating (to get employee email)
+    // Fetch full solicitud to verify permissions
     const existing = await prisma.solicitud.findUnique({
       where: { id },
       include: {
-        employee: { select: { firstName: true, lastName: true, email: true, companyId: true } },
+        employee: {
+          select: {
+            firstName: true, lastName: true, email: true,
+            companyId: true, supervisorId: true,
+          },
+        },
       },
     });
+
+    if (!existing) {
+      return NextResponse.json({ error: "Solicitud no encontrada" }, { status: 404 });
+    }
+
+    // Permission check:
+    // - OWNER_ADMIN can approve any request in their company
+    // - EMPLOYEE with an employeeId can approve if they are the direct supervisor
+    const isAdmin = session.role === "OWNER_ADMIN";
+    const isSupervisor =
+      session.role === "EMPLOYEE" &&
+      session.employeeId &&
+      existing.employee.supervisorId === session.employeeId;
+
+    if (!isAdmin && !isSupervisor) {
+      return NextResponse.json(
+        { error: "No tienes permiso para aprobar esta solicitud" },
+        { status: 403 }
+      );
+    }
 
     const solicitud = await prisma.solicitud.update({
       where: { id },
@@ -44,20 +78,22 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     });
 
     // ── Notificaciones por email (fire-and-forget) ──────────────────────────
-    if (process.env.RESEND_API_KEY && existing && body.estado && body.estado !== "PENDIENTE") {
-      const emp     = existing.employee;
+    if (process.env.RESEND_API_KEY && body.estado && body.estado !== "PENDIENTE") {
+      const emp       = existing.employee;
       const companyId = emp.companyId;
       const branding  = await getCompanyBranding(companyId);
       const empName   = `${emp.firstName} ${emp.lastName}`;
       const approved  = body.estado === "APROBADA";
+      const tipoLabel = TIPO_LABEL[existing.tipo] ?? existing.tipo;
       const start = new Date(existing.fechaInicio).toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
-      const end   = new Date(existing.fechaFin).toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
+      const end   = new Date(existing.fechaFin).toLocaleDateString("es-MX",   { day: "2-digit", month: "long", year: "numeric" });
 
       if (emp.email) {
         sendVacationDecision({
           to: emp.email, employeeName: empName,
           startDate: start, endDate: end, days: existing.dias,
-          approved, reason: body.notas ?? undefined, branding,
+          approved, tipo: tipoLabel,
+          reason: body.notas ?? undefined, branding,
         }).catch(e => console.error("[EMAIL vacation decision]", e));
       }
     }

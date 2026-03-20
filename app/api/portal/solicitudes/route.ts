@@ -1,6 +1,6 @@
 /**
- * GET  /api/portal/solicitudes  — lista solicitudes de tiempo del empleado autenticado
- * POST /api/portal/solicitudes  — crea una nueva solicitud de vacaciones/permiso
+ * GET  /api/portal/solicitudes  — lista solicitudes del empleado autenticado
+ * POST /api/portal/solicitudes  — crea una nueva solicitud de tiempo
  */
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
@@ -10,12 +10,23 @@ import {
   sendVacationRequestToAdmin,
 } from "@/lib/email";
 
-// ─── Helper: branding de la empresa ──────────────────────────────────────────
+const TIPO_LABEL: Record<string, string> = {
+  VACACIONES:          "Vacaciones",
+  PERMISO:             "Permiso",
+  LICENCIA_MEDICA:     "Licencia Médica",
+  LICENCIA_MATERNIDAD: "Licencia Maternidad",
+  LICENCIA_PATERNIDAD: "Licencia Paternidad",
+  OTRO:                "Otro",
+};
+
+// ─── Helper: branding + adminEmail de la empresa ─────────────────────────────
 async function getCompanyBranding(companyId: string) {
   type Row = { name: string; brandName: string | null; primaryColor: string | null; adminEmail: string | null };
   const rows = await prisma.$queryRawUnsafe<Row[]>(
     `SELECT c."name", c."brandName", c."primaryColor",
-            (SELECT u."email" FROM "User" u WHERE u."companyId" = c."id" AND u."role" = 'OWNER_ADMIN' LIMIT 1) AS "adminEmail"
+            (SELECT u."email" FROM "User" u
+             WHERE u."companyId" = c."id" AND u."role" = 'OWNER_ADMIN'
+             LIMIT 1) AS "adminEmail"
      FROM "Company" c WHERE c."id" = $1 LIMIT 1`,
     companyId,
   );
@@ -93,32 +104,60 @@ export async function POST(req: NextRequest) {
 
   // ── Notificaciones por email (fire-and-forget) ────────────────────────────
   if (process.env.RESEND_API_KEY && session.companyId) {
+    // Get employee with supervisor info
     const emp = await prisma.employee.findUnique({
       where:  { id: session.employeeId },
-      select: { firstName: true, lastName: true, email: true },
+      select: {
+        firstName: true, lastName: true, email: true,
+        supervisor: {
+          select: {
+            email: true, firstName: true, lastName: true,
+            userAccount: { select: { email: true } },
+          },
+        },
+      },
     });
 
     if (emp) {
-      const branding  = await getCompanyBranding(session.companyId);
-      const empName   = `${emp.firstName} ${emp.lastName}`;
-      const startStr  = inicio.toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
-      const endStr    = fin.toLocaleDateString("es-MX",   { day: "2-digit", month: "long", year: "numeric" });
+      const branding   = await getCompanyBranding(session.companyId);
+      const empName    = `${emp.firstName} ${emp.lastName}`;
+      const tipoLabel  = TIPO_LABEL[tipo] ?? tipo;
+      const startStr   = inicio.toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
+      const endStr     = fin.toLocaleDateString("es-MX",   { day: "2-digit", month: "long", year: "numeric" });
+      const portalUrl  = `https://${req.headers.get("host")}`;
 
-      // Al empleado
+      // 1. Al empleado
       if (emp.email) {
         sendVacationRequestConfirmation({
-          to: emp.email, employeeName: empName,
+          to: emp.email, employeeName: empName, tipo: tipoLabel,
           startDate: startStr, endDate: endStr, days: dias, branding,
         }).catch(e => console.error("[EMAIL portal vacation employee]", e));
       }
 
-      // Al admin
-      if (branding.adminEmail) {
+      // 2. Al supervisor directo (si existe y tiene email)
+      const supervisorEmail = emp.supervisor?.email ?? emp.supervisor?.userAccount?.email ?? null;
+      if (supervisorEmail) {
         sendVacationRequestToAdmin({
-          to: branding.adminEmail, employeeName: empName,
+          to: supervisorEmail,
+          employeeName: empName,
           employeeEmail: emp.email ?? "",
+          tipo: tipoLabel,
           startDate: startStr, endDate: endStr, days: dias,
-          portalUrl: `https://${req.headers.get("host")}`, branding,
+          motivo: motivo || undefined,
+          portalUrl, branding,
+        }).catch(e => console.error("[EMAIL portal vacation supervisor]", e));
+      }
+
+      // 3. Al admin OWNER_ADMIN (si es diferente al supervisor)
+      if (branding.adminEmail && branding.adminEmail !== supervisorEmail) {
+        sendVacationRequestToAdmin({
+          to: branding.adminEmail,
+          employeeName: empName,
+          employeeEmail: emp.email ?? "",
+          tipo: tipoLabel,
+          startDate: startStr, endDate: endStr, days: dias,
+          motivo: motivo || undefined,
+          portalUrl, branding,
         }).catch(e => console.error("[EMAIL portal vacation admin]", e));
       }
     }
