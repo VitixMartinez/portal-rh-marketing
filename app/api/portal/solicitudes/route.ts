@@ -5,6 +5,27 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import {
+  sendVacationRequestConfirmation,
+  sendVacationRequestToAdmin,
+} from "@/lib/email";
+
+// ─── Helper: branding de la empresa ──────────────────────────────────────────
+async function getCompanyBranding(companyId: string) {
+  type Row = { name: string; brandName: string | null; primaryColor: string | null; adminEmail: string | null };
+  const rows = await prisma.$queryRawUnsafe<Row[]>(
+    `SELECT c."name", c."brandName", c."primaryColor",
+            (SELECT u."email" FROM "User" u WHERE u."companyId" = c."id" AND u."role" = 'OWNER_ADMIN' LIMIT 1) AS "adminEmail"
+     FROM "Company" c WHERE c."id" = $1 LIMIT 1`,
+    companyId,
+  );
+  const r = rows[0];
+  return {
+    brandName:    r?.brandName ?? r?.name ?? "Portal RH",
+    primaryColor: r?.primaryColor ?? "#2563eb",
+    adminEmail:   r?.adminEmail ?? undefined,
+  };
+}
 
 export async function GET() {
   const session = await getSession();
@@ -69,6 +90,40 @@ export async function POST(req: NextRequest) {
       estado:      "PENDIENTE",
     },
   });
+
+  // ── Notificaciones por email (fire-and-forget) ────────────────────────────
+  if (process.env.RESEND_API_KEY && session.companyId) {
+    const emp = await prisma.employee.findUnique({
+      where:  { id: session.employeeId },
+      select: { firstName: true, lastName: true, email: true },
+    });
+
+    if (emp) {
+      const branding  = await getCompanyBranding(session.companyId);
+      const empName   = `${emp.firstName} ${emp.lastName}`;
+      const startStr  = inicio.toLocaleDateString("es-MX", { day: "2-digit", month: "long", year: "numeric" });
+      const endStr    = fin.toLocaleDateString("es-MX",   { day: "2-digit", month: "long", year: "numeric" });
+
+      // Al empleado
+      if (emp.email) {
+        sendVacationRequestConfirmation({
+          to: emp.email, employeeName: empName,
+          startDate: startStr, endDate: endStr, days: dias, branding,
+        }).catch(e => console.error("[EMAIL portal vacation employee]", e));
+      }
+
+      // Al admin
+      if (branding.adminEmail) {
+        sendVacationRequestToAdmin({
+          to: branding.adminEmail, employeeName: empName,
+          employeeEmail: emp.email ?? "",
+          startDate: startStr, endDate: endStr, days: dias,
+          portalUrl: `https://${req.headers.get("host")}`, branding,
+        }).catch(e => console.error("[EMAIL portal vacation admin]", e));
+      }
+    }
+  }
+  // ──────────────────────────────────────────────────────────────────────────
 
   return NextResponse.json(solicitud, { status: 201 });
 }
