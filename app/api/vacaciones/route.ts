@@ -19,7 +19,7 @@ async function getCompanyBranding(companyId: string) {
   return {
     brandName:    r?.brandName ?? r?.name ?? "Portal RH",
     primaryColor: r?.primaryColor ?? "#2563eb",
-    adminEmail:   r?.adminEmail ?? null,
+    adminEmail:   r?.adminEmail ?? undefined,
   };
 }
 

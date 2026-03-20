@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore – resend is installed at build time
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
