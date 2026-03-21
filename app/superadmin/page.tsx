@@ -44,6 +44,7 @@ export default function SuperAdminPage() {
   const [editClient, setEditClient] = useState<Client | null>(null);
   const [editName, setEditName] = useState("");
   const [editLogoUrl, setEditLogoUrl] = useState("");
+  const [editLogoPreview, setEditLogoPreview] = useState("");
   const [editPrimaryColor, setEditPrimaryColor] = useState("#2563eb");
   const [editBrandName, setEditBrandName] = useState("");
   const [deleteClient, setDeleteClient] = useState<Client | null>(null);
@@ -243,6 +244,7 @@ export default function SuperAdminPage() {
                           setEditClient(c);
                           setEditName(c.name);
                           setEditLogoUrl(c.logoUrl ?? "");
+                          setEditLogoPreview(c.logoUrl ?? "");
                           setEditPrimaryColor(c.primaryColor ?? "#2563eb");
                           setEditBrandName(c.brandName ?? "");
                         }}
@@ -382,17 +384,51 @@ export default function SuperAdminPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-1">URL del logo</label>
-                <input
-                  type="url"
-                  value={editLogoUrl}
-                  onChange={(e) => setEditLogoUrl(e.target.value)}
-                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="https://empresa.com/logo.png"
-                />
-                {editLogoUrl && (
-                  <img src={editLogoUrl} alt="Logo preview" className="mt-2 h-10 object-contain rounded" />
+                <label className="block text-sm text-gray-400 mb-1">Logo de la empresa</label>
+                {/* Preview */}
+                {editLogoPreview && (
+                  <div className="mb-3 flex items-center gap-3 p-3 bg-gray-800 rounded-lg border border-gray-700">
+                    <img src={editLogoPreview} alt="Logo preview" className="h-12 max-w-[160px] object-contain rounded" />
+                    <button
+                      type="button"
+                      onClick={() => { setEditLogoUrl(""); setEditLogoPreview(""); }}
+                      className="text-xs text-red-400 hover:text-red-300"
+                    >
+                      Quitar logo
+                    </button>
+                  </div>
                 )}
+                {/* File upload */}
+                <label className="flex items-center gap-3 cursor-pointer w-full bg-gray-800 border border-gray-700 border-dashed rounded-lg px-4 py-3 hover:border-blue-500 transition">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                    <polyline points="17 8 12 3 7 8"/>
+                    <line x1="12" y1="3" x2="12" y2="15"/>
+                  </svg>
+                  <span className="text-sm text-gray-400">
+                    {editLogoPreview ? "Cambiar imagen" : "Subir logo"} — PNG, JPG, SVG (max 1MB)
+                  </span>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      if (file.size > 1024 * 1024) {
+                        alert("La imagen no puede superar 1MB. Comprime el archivo e intenta de nuevo.");
+                        return;
+                      }
+                      const reader = new FileReader();
+                      reader.onload = (ev) => {
+                        const result = ev.target?.result as string;
+                        setEditLogoUrl(result);
+                        setEditLogoPreview(result);
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                </label>
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-1">Color principal de marca</label>
