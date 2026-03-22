@@ -10,6 +10,7 @@ interface Branding {
   brandName: string | null;
   logoUrl: string | null;
   primaryColor: string;
+  tagline: string | null;
 }
 
 function LoginForm() {
@@ -90,16 +91,16 @@ function LoginForm() {
             className="px-8 py-8 text-center"
             style={{ background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)` }}
           >
-            <div className="mx-auto w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center mb-4 shadow-inner ring-2 ring-white/20">
+            <div className="mx-auto w-24 h-24 bg-white/20 rounded-2xl flex items-center justify-center mb-4 shadow-inner ring-2 ring-white/20">
               {logoUrl ? (
-                <img src={logoUrl} alt={brandName} className="w-12 h-12 object-contain rounded-lg" />
+                <img src={logoUrl} alt={brandName} className="w-20 h-20 object-contain rounded-xl" />
               ) : (
-                <LogoIcon size={44} variant="white" />
+                <LogoIcon size={64} variant="white" />
               )}
             </div>
             <h1 className="text-2xl font-bold text-white tracking-tight">{brandName}</h1>
             <p className="text-white/70 text-sm mt-1.5 leading-snug">
-              Toda la gestión de tu gente<br />en un solo lugar
+              {branding?.tagline ?? "Toda la gestión de tu gente\nen un solo lugar"}
             </p>
           </div>
 

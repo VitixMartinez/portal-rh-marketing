@@ -23,10 +23,11 @@ export async function GET(req: NextRequest) {
       brandName: string | null;
       logoUrl: string | null;
       primaryColor: string | null;
+      settings: Record<string, unknown> | null;
     };
 
     const rows = await prisma.$queryRawUnsafe<BrandingRow[]>(
-      `SELECT "name","brandName","logoUrl","primaryColor"
+      `SELECT "name","brandName","logoUrl","primaryColor","settings"
        FROM "Company" WHERE "subdomain" = $1 LIMIT 1`,
       subdomain
     );
@@ -35,12 +36,15 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ branding: null });
     }
 
+    const settings = (rows[0].settings ?? {}) as Record<string, unknown>;
+
     return NextResponse.json({
       branding: {
         name: rows[0].name,
         brandName: rows[0].brandName,
         logoUrl: rows[0].logoUrl,
         primaryColor: rows[0].primaryColor ?? "#2563eb",
+        tagline: (settings.tagline as string) ?? null,
       },
     });
   } catch {

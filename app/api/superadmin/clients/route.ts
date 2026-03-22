@@ -46,12 +46,15 @@ export async function GET(req: NextRequest) {
     logoUrl: string | null;
     primaryColor: string | null;
     brandName: string | null;
+    tagline: string | null;
     createdAt: Date;
   };
   type CountRow = { companyId: string; count: bigint };
 
   const companies = await prisma.$queryRawUnsafe<CompanyRow[]>(
-    `SELECT "id","name","subdomain","logoUrl","primaryColor","brandName","createdAt" FROM "Company" ORDER BY "createdAt" DESC`
+    `SELECT "id","name","subdomain","logoUrl","primaryColor","brandName","createdAt",
+            COALESCE("settings"->>'tagline', NULL) as "tagline"
+     FROM "Company" ORDER BY "createdAt" DESC`
   );
 
   const counts = await prisma.$queryRawUnsafe<CountRow[]>(
@@ -68,6 +71,7 @@ export async function GET(req: NextRequest) {
     logoUrl: c.logoUrl,
     primaryColor: c.primaryColor,
     brandName: c.brandName,
+    tagline: c.tagline ?? null,
     createdAt: c.createdAt,
     employeeCount: countMap[c.id] ?? 0,
     url: c.subdomain ? `https://${c.subdomain}.portal-hr.com` : null,

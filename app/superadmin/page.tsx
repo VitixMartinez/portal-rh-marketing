@@ -9,6 +9,7 @@ interface Client {
   logoUrl: string | null;
   primaryColor: string | null;
   brandName: string | null;
+  tagline: string | null;
   createdAt: string;
   employeeCount: number;
   url: string | null;
@@ -47,6 +48,7 @@ export default function SuperAdminPage() {
   const [editLogoPreview, setEditLogoPreview] = useState("");
   const [editPrimaryColor, setEditPrimaryColor] = useState("#2563eb");
   const [editBrandName, setEditBrandName] = useState("");
+  const [editTagline, setEditTagline] = useState("");
   const [deleteClient, setDeleteClient] = useState<Client | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
@@ -123,6 +125,7 @@ export default function SuperAdminPage() {
         logoUrl: editLogoUrl || null,
         primaryColor: editPrimaryColor,
         brandName: editBrandName || null,
+        tagline: editTagline || null,
       }),
     });
 
@@ -247,6 +250,7 @@ export default function SuperAdminPage() {
                           setEditLogoPreview(c.logoUrl ?? "");
                           setEditPrimaryColor(c.primaryColor ?? "#2563eb");
                           setEditBrandName(c.brandName ?? "");
+                          setEditTagline(c.tagline ?? "");
                         }}
                         className="text-gray-400 hover:text-white text-sm px-3 py-1 rounded border border-gray-700 hover:border-gray-500 transition"
                       >
@@ -429,6 +433,16 @@ export default function SuperAdminPage() {
                     }}
                   />
                 </label>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">Tagline (texto debajo del nombre en login)</label>
+                <input
+                  type="text"
+                  value={editTagline}
+                  onChange={(e) => setEditTagline(e.target.value)}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Toda la gestión de tu gente en un solo lugar"
+                />
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-1">Color principal de marca</label>

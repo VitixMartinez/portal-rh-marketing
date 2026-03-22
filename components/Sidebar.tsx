@@ -55,11 +55,12 @@ const ALL_GROUPS = [
   },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ brandColor }: { brandColor?: string }) {
   const pathname = usePathname();
   const [role, setRole]   = useState<string | null>(null);
   const [name, setName]   = useState<string>("Usuario");
   const [email, setEmail] = useState<string>("");
+  void brandColor; // used via CSS variables injected by layout
 
   useEffect(() => {
     fetch("/api/auth/me")
@@ -109,18 +110,19 @@ export default function Sidebar() {
                     className={[
                       "flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition-all duration-150 group",
                       active
-                        ? "bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 font-semibold"
+                        ? "font-semibold"
                         : "text-gray-600 dark:text-zinc-400 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-gray-900 dark:hover:text-white font-medium",
                     ].join(" ")}
+                    style={active ? { backgroundColor: "var(--brand-bg)", color: "var(--brand-text)" } : {}}
                   >
                     <Icon
                       className={[
                         "w-4 h-4 flex-shrink-0 transition-colors",
-                        active ? "text-blue-600 dark:text-blue-400" : "text-gray-400 dark:text-zinc-500 group-hover:text-gray-600 dark:group-hover:text-zinc-300",
+                        active ? "opacity-100" : "text-gray-400 dark:text-zinc-500 group-hover:text-gray-600 dark:group-hover:text-zinc-300",
                       ].join(" ")}
                     />
                     <span>{label}</span>
-                    {active && <span className="ml-auto w-1.5 h-1.5 rounded-full bg-blue-500 dark:bg-blue-400" />}
+                    {active && <span className="ml-auto w-1.5 h-1.5 rounded-full" style={{ backgroundColor: "var(--brand-text)" }} />}
                   </Link>
                 );
               })}
@@ -132,7 +134,7 @@ export default function Sidebar() {
       {/* User footer */}
       <div className="border-t border-gray-100 dark:border-zinc-800 px-4 py-3">
         <div className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-blue-600 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <div className="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style={{ backgroundColor: "var(--brand)" }}>
             {name.charAt(0).toUpperCase()}
           </div>
           <div className="min-w-0">
