@@ -100,6 +100,8 @@ model Company {
   rnc         String?
   subdomain   String?      @unique  // e.g. "kmdestinos" for kmdestinos.portal-hr.com
   logoUrl     String?               // URL del logo de la empresa
+  features    Json         @default("{}")  // Feature flags por cliente: { "showNomina": true, "showAsistencia": true }
+  settings    Json         @default("{}")  // Configuraciones por cliente: { "maxVacationDays": 30, "welcomeMessage": "" }
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   users       User[]
