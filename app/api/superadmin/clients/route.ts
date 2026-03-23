@@ -51,11 +51,21 @@ export async function GET(req: NextRequest) {
   };
   type CountRow = { companyId: string; count: bigint };
 
-  const companies = await prisma.$queryRawUnsafe<CompanyRow[]>(
-    `SELECT "id","name","subdomain","logoUrl","primaryColor","brandName","createdAt",
-            COALESCE("settings"->>'tagline', NULL) as "tagline"
-     FROM "Company" ORDER BY "createdAt" DESC`
-  );
+  let companies: CompanyRow[];
+  try {
+    companies = await prisma.$queryRawUnsafe<CompanyRow[]>(
+      `SELECT "id","name","subdomain","logoUrl","primaryColor","brandName","createdAt",
+              COALESCE("settings"->>'tagline', NULL) as "tagline"
+       FROM "Company" ORDER BY "createdAt" DESC`
+    );
+  } catch {
+    // Fallback if settings column doesn't exist yet in production DB
+    companies = await prisma.$queryRawUnsafe<CompanyRow[]>(
+      `SELECT "id","name","subdomain","logoUrl","primaryColor","brandName","createdAt",
+              NULL::text as "tagline"
+       FROM "Company" ORDER BY "createdAt" DESC`
+    );
+  }
 
   const counts = await prisma.$queryRawUnsafe<CountRow[]>(
     `SELECT "companyId", COUNT(*) as count FROM "Employee" GROUP BY "companyId"`
