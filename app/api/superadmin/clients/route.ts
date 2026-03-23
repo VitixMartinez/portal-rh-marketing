@@ -3,12 +3,12 @@ import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth";
 import { randomUUID } from "crypto";
 
-const SUPERADMIN_PASSWORD = process.env.SUPERADMIN_PASSWORD ?? "superadmin-2026";
+const SUPERADMIN_PASSWORD = (process.env.SUPERADMIN_PASSWORD ?? "superadmin-2026").trim();
 const VERCEL_TOKEN = process.env.VERCEL_TOKEN ?? "";
 const VERCEL_PROJECT_ID = process.env.VERCEL_PROJECT_ID ?? "prj_XLoIekGQDxw6ljTYuhHqUvjGTbI4";
 
 function checkAuth(req: NextRequest): boolean {
-  const key = req.headers.get("x-superadmin-key");
+  const key = (req.headers.get("x-superadmin-key") ?? "").trim();
   return key === SUPERADMIN_PASSWORD;
 }
 

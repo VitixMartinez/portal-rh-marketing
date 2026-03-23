@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
-const SUPERADMIN_PASSWORD = process.env.SUPERADMIN_PASSWORD ?? "superadmin-2026";
+const SUPERADMIN_PASSWORD = (process.env.SUPERADMIN_PASSWORD ?? "superadmin-2026").trim();
 
 function checkAuth(req: NextRequest): boolean {
-  const key = req.headers.get("x-superadmin-key");
+  const key = (req.headers.get("x-superadmin-key") ?? "").trim();
   return key === SUPERADMIN_PASSWORD;
 }
 
