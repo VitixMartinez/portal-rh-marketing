@@ -14,6 +14,28 @@ function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   return { r: parseInt(m[1], 16), g: parseInt(m[2], 16), b: parseInt(m[3], 16) };
 }
 
+function toHex(r: number, g: number, b: number): string {
+  return "#" + [r, g, b].map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, "0")).join("");
+}
+
+function buildPalette(hex: string): Record<string, string> {
+  const rgb = hexToRgb(hex);
+  if (!rgb) return {};
+  const { r, g, b } = rgb;
+  const mix = (t: number, toward: number) => ({ r: r + (toward - r) * t, g: g + (toward - g) * t, b: b + (toward - b) * t });
+  const steps: [string, number, number][] = [
+    ["50",0.93,255],["100",0.85,255],["200",0.70,255],["300",0.50,255],["400",0.25,255],["500",0.08,255],
+    ["600",0,0],["700",0.15,0],["800",0.30,0],["900",0.45,0],
+  ];
+  const palette: Record<string, string> = {};
+  steps.forEach(([key, t, toward]) => {
+    if (key === "600") { palette[key] = hex; return; }
+    const c = mix(t, toward);
+    palette[key] = toHex(c.r, c.g, c.b);
+  });
+  return palette;
+}
+
 async function getBrandColor(): Promise<string> {
   try {
     const headersList = await headers();
@@ -40,16 +62,34 @@ export default async function PortalLayout({ children }: { children: React.React
 
   const primaryColor = await getBrandColor();
   const rgb = hexToRgb(primaryColor) ?? { r: 37, g: 99, b: 235 };
+  const p   = buildPalette(primaryColor);
 
   const brandCss = `
     :root {
       --brand: ${primaryColor};
       --brand-bg: rgba(${rgb.r},${rgb.g},${rgb.b},0.08);
       --brand-text: ${primaryColor};
+      --brand-50:${p["50"]}; --brand-100:${p["100"]}; --brand-200:${p["200"]};
+      --brand-300:${p["300"]}; --brand-400:${p["400"]}; --brand-500:${p["500"]};
+      --brand-600:${p["600"]}; --brand-700:${p["700"]}; --brand-800:${p["800"]}; --brand-900:${p["900"]};
     }
-    .dark {
-      --brand-bg: rgba(${rgb.r},${rgb.g},${rgb.b},0.18);
-    }
+    .dark { --brand-bg: rgba(${rgb.r},${rgb.g},${rgb.b},0.18); }
+    .bg-blue-50{background-color:var(--brand-50)!important}
+    .bg-blue-100{background-color:var(--brand-100)!important}
+    .bg-blue-500{background-color:var(--brand-500)!important}
+    .bg-blue-600{background-color:var(--brand-600)!important}
+    .bg-blue-700{background-color:var(--brand-700)!important}
+    .hover\\:bg-blue-500:hover{background-color:var(--brand-500)!important}
+    .hover\\:bg-blue-600:hover{background-color:var(--brand-600)!important}
+    .hover\\:bg-blue-700:hover{background-color:var(--brand-700)!important}
+    .text-blue-400{color:var(--brand-400)!important}
+    .text-blue-500{color:var(--brand-500)!important}
+    .text-blue-600{color:var(--brand-600)!important}
+    .text-blue-700{color:var(--brand-700)!important}
+    .border-blue-500{border-color:var(--brand-500)!important}
+    .border-blue-600{border-color:var(--brand-600)!important}
+    .ring-blue-500{--tw-ring-color:var(--brand-500)!important}
+    .focus\\:ring-blue-500:focus{--tw-ring-color:var(--brand-500)!important}
   `;
 
   return (
