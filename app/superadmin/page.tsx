@@ -47,6 +47,7 @@ export default function SuperAdminPage() {
   const [editLogoUrl, setEditLogoUrl] = useState("");
   const [editLogoPreview, setEditLogoPreview] = useState("");
   const [editPrimaryColor, setEditPrimaryColor] = useState("#2563eb");
+  const [editSecondaryColor, setEditSecondaryColor] = useState("");
   const [editBrandName, setEditBrandName] = useState("");
   const [editTagline, setEditTagline] = useState("");
   const [deleteClient, setDeleteClient] = useState<Client | null>(null);
@@ -126,6 +127,7 @@ export default function SuperAdminPage() {
         primaryColor: editPrimaryColor,
         brandName: editBrandName || null,
         tagline: editTagline || null,
+        secondaryColor: editSecondaryColor || null,
       }),
     });
 
@@ -249,6 +251,7 @@ export default function SuperAdminPage() {
                           setEditLogoUrl(c.logoUrl ?? "");
                           setEditLogoPreview(c.logoUrl ?? "");
                           setEditPrimaryColor(c.primaryColor ?? "#2563eb");
+                          setEditSecondaryColor("");
                           setEditBrandName(c.brandName ?? "");
                           setEditTagline(c.tagline ?? "");
                         }}
@@ -461,6 +464,39 @@ export default function SuperAdminPage() {
                     placeholder="#2563eb"
                   />
                 </div>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-400 mb-1">
+                  Color secundario <span className="text-gray-500">(hovers y acentos — opcional)</span>
+                </label>
+                <div className="flex items-center gap-3">
+                  <input
+                    type="color"
+                    value={editSecondaryColor || "#ffffff"}
+                    onChange={(e) => setEditSecondaryColor(e.target.value)}
+                    className="w-12 h-10 rounded cursor-pointer bg-gray-800 border border-gray-700"
+                  />
+                  <input
+                    type="text"
+                    value={editSecondaryColor}
+                    onChange={(e) => setEditSecondaryColor(e.target.value)}
+                    className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Dejar vacío para usar tono del color principal"
+                  />
+                  {editSecondaryColor && (
+                    <button type="button" onClick={() => setEditSecondaryColor("")} className="text-xs text-red-400 hover:text-red-300 whitespace-nowrap">
+                      Quitar
+                    </button>
+                  )}
+                </div>
+                {editPrimaryColor && editSecondaryColor && (
+                  <div className="mt-2 flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full border border-gray-600" style={{ backgroundColor: editPrimaryColor }} title="Principal" />
+                    <span className="text-gray-500 text-xs">+</span>
+                    <div className="w-6 h-6 rounded-full border border-gray-600" style={{ backgroundColor: editSecondaryColor }} title="Secundario" />
+                    <span className="text-gray-400 text-xs ml-1">Vista previa de la combinación</span>
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-sm text-gray-400 mb-1">URL del sistema</label>

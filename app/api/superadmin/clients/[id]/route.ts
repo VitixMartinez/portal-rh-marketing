@@ -19,7 +19,7 @@ export async function PATCH(
 
   const { id } = await context.params;
   const body = await req.json();
-  const { name, logoUrl, primaryColor, brandName, tagline } = body;
+  const { name, logoUrl, primaryColor, secondaryColor, brandName, tagline } = body;
 
   const fields: string[] = [];
   const values: unknown[] = [];
@@ -29,10 +29,14 @@ export async function PATCH(
   if (logoUrl !== undefined) { fields.push(`"logoUrl" = $${idx++}`); values.push(logoUrl); }
   if (primaryColor !== undefined) { fields.push(`"primaryColor" = $${idx++}`); values.push(primaryColor); }
   if (brandName !== undefined) { fields.push(`"brandName" = $${idx++}`); values.push(brandName); }
-  if (tagline !== undefined) {
-    // Merge tagline into the settings JSON field using a parameterized value
-    fields.push(`"settings" = COALESCE("settings", '{}')::jsonb || jsonb_build_object('tagline', $${idx++}::text)::jsonb`);
-    values.push(tagline ?? "");
+
+  // Merge tagline and/or secondaryColor into the settings JSON field
+  const jsonMerge: Record<string, string> = {};
+  if (tagline !== undefined) jsonMerge.tagline = tagline ?? "";
+  if (secondaryColor !== undefined) jsonMerge.secondaryColor = secondaryColor ?? "";
+  if (Object.keys(jsonMerge).length > 0) {
+    fields.push(`"settings" = COALESCE("settings", '{}')::jsonb || $${idx++}::jsonb`);
+    values.push(JSON.stringify(jsonMerge));
   }
 
   if (fields.length === 0) {

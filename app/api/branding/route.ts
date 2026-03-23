@@ -44,6 +44,7 @@ export async function GET(req: NextRequest) {
         brandName: rows[0].brandName,
         logoUrl: rows[0].logoUrl,
         primaryColor: rows[0].primaryColor ?? "#2563eb",
+        secondaryColor: (settings.secondaryColor as string) ?? null,
         tagline: (settings.tagline as string) ?? null,
       },
     });

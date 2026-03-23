@@ -42,21 +42,25 @@ function buildPalette(hex: string): Record<string, string> {
   return palette;
 }
 
-async function getBrandColor(): Promise<string> {
+async function getBranding(): Promise<{ primaryColor: string; secondaryColor: string | null }> {
   try {
     const headersList = await headers();
     const host = headersList.get("host") ?? "";
     const hostname = host.split(":")[0];
-    if (!hostname.endsWith(".portal-hr.com")) return "#2563eb";
+    if (!hostname.endsWith(".portal-hr.com")) return { primaryColor: "#2563eb", secondaryColor: null };
     const sub = hostname.slice(0, hostname.length - ".portal-hr.com".length);
-    if (!sub || sub === "www") return "#2563eb";
-    type Row = { primaryColor: string | null };
+    if (!sub || sub === "www") return { primaryColor: "#2563eb", secondaryColor: null };
+    type Row = { primaryColor: string | null; settings: Record<string,unknown> | null };
     const rows = await prisma.$queryRawUnsafe<Row[]>(
-      `SELECT "primaryColor" FROM "Company" WHERE "subdomain" = $1 LIMIT 1`, sub
+      `SELECT "primaryColor","settings" FROM "Company" WHERE "subdomain" = $1 LIMIT 1`, sub
     );
-    return rows[0]?.primaryColor ?? "#2563eb";
+    const settings = (rows[0]?.settings ?? {}) as Record<string, unknown>;
+    return {
+      primaryColor: rows[0]?.primaryColor ?? "#2563eb",
+      secondaryColor: (settings.secondaryColor as string) ?? null,
+    };
   } catch {
-    return "#2563eb";
+    return { primaryColor: "#2563eb", secondaryColor: null };
   }
 }
 
@@ -67,24 +71,32 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
 
   const userInitial  = session.name?.[0]?.toUpperCase() || "A";
   const roleLabel    = session.role === "OWNER_ADMIN" ? "Administrador" : "Gerente";
-  const primaryColor = await getBrandColor();
-  const rgb          = hexToRgb(primaryColor) ?? { r: 37, g: 99, b: 235 };
-  const p            = buildPalette(primaryColor);
+  const { primaryColor, secondaryColor } = await getBranding();
+  const rgb   = hexToRgb(primaryColor) ?? { r: 37, g: 99, b: 235 };
+  const p     = buildPalette(primaryColor);
+  // Secondary: use secondary if set, else derive a slightly darker shade of primary
+  const sec   = secondaryColor ?? p["700"];
+  const sRgb  = hexToRgb(sec) ?? { r: 29, g: 78, b: 216 };
+  const s     = buildPalette(sec);
 
   const brandCss = `
     :root {
-      --brand:    ${primaryColor};
-      --brand-bg: rgba(${rgb.r},${rgb.g},${rgb.b},0.08);
+      --brand:      ${primaryColor};
+      --brand-sec:  ${sec};
+      --brand-bg:   rgba(${rgb.r},${rgb.g},${rgb.b},0.08);
       --brand-text: ${primaryColor};
       --brand-50:  ${p["50"]};  --brand-100: ${p["100"]};
       --brand-200: ${p["200"]}; --brand-300: ${p["300"]};
       --brand-400: ${p["400"]}; --brand-500: ${p["500"]};
       --brand-600: ${p["600"]}; --brand-700: ${p["700"]};
       --brand-800: ${p["800"]}; --brand-900: ${p["900"]};
+      --brand-s50:  ${s["50"]};  --brand-s100: ${s["100"]};
+      --brand-s400: ${s["400"]}; --brand-s500: ${s["500"]};
+      --brand-s600: ${s["600"]}; --brand-s700: ${s["700"]};
     }
     .dark { --brand-bg: rgba(${rgb.r},${rgb.g},${rgb.b},0.18); }
 
-    /* ── Override Tailwind blue classes with brand palette ── */
+    /* ── Primary color: normal states ── */
     .bg-blue-50  { background-color: var(--brand-50)  !important; }
     .bg-blue-100 { background-color: var(--brand-100) !important; }
     .bg-blue-200 { background-color: var(--brand-200) !important; }
@@ -95,16 +107,18 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     .bg-blue-700 { background-color: var(--brand-700) !important; }
     .bg-blue-800 { background-color: var(--brand-800) !important; }
     .bg-blue-900 { background-color: var(--brand-900) !important; }
-    .hover\\:bg-blue-500:hover { background-color: var(--brand-500) !important; }
-    .hover\\:bg-blue-600:hover { background-color: var(--brand-600) !important; }
-    .hover\\:bg-blue-700:hover { background-color: var(--brand-700) !important; }
+
+    /* ── Secondary color: hover states ── */
+    .hover\\:bg-blue-500:hover { background-color: var(--brand-s500) !important; }
+    .hover\\:bg-blue-600:hover { background-color: var(--brand-s600) !important; }
+    .hover\\:bg-blue-700:hover { background-color: var(--brand-s700) !important; }
 
     .text-blue-400 { color: var(--brand-400) !important; }
     .text-blue-500 { color: var(--brand-500) !important; }
     .text-blue-600 { color: var(--brand-600) !important; }
     .text-blue-700 { color: var(--brand-700) !important; }
-    .hover\\:text-blue-300:hover { color: var(--brand-300) !important; }
-    .hover\\:text-blue-400:hover { color: var(--brand-400) !important; }
+    .hover\\:text-blue-300:hover { color: var(--brand-s500) !important; }
+    .hover\\:text-blue-400:hover { color: var(--brand-s400) !important; }
 
     .border-blue-200 { border-color: var(--brand-200) !important; }
     .border-blue-500 { border-color: var(--brand-500) !important; }
@@ -112,17 +126,17 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
     .border-blue-700 { border-color: var(--brand-700) !important; }
     .border-blue-800 { border-color: var(--brand-800) !important; }
 
-    .ring-blue-500  { --tw-ring-color: var(--brand-500) !important; }
-    .focus\\:ring-blue-500:focus { --tw-ring-color: var(--brand-500) !important; }
+    .ring-blue-500 { --tw-ring-color: var(--brand-500) !important; }
+    .focus\\:ring-blue-500:focus { --tw-ring-color: var(--brand-s500) !important; }
 
     .dark .dark\\:bg-blue-600\\/20  { background-color: rgba(${rgb.r},${rgb.g},${rgb.b},0.20) !important; }
     .dark .dark\\:bg-blue-900\\/20  { background-color: rgba(${rgb.r},${rgb.g},${rgb.b},0.20) !important; }
     .dark .dark\\:bg-blue-900\\/30  { background-color: rgba(${rgb.r},${rgb.g},${rgb.b},0.30) !important; }
     .dark .dark\\:text-blue-200     { color: var(--brand-200) !important; }
-    .dark .dark\\:text-blue-300     { color: var(--brand-300) !important; }
-    .dark .dark\\:text-blue-400     { color: var(--brand-400) !important; }
-    .dark .dark\\:border-blue-600\\/30 { border-color: rgba(${rgb.r},${rgb.g},${rgb.b},0.30) !important; }
-    .dark .dark\\:border-blue-700   { border-color: var(--brand-700) !important; }
+    .dark .dark\\:text-blue-300     { color: var(--brand-s100) !important; }
+    .dark .dark\\:text-blue-400     { color: var(--brand-s400) !important; }
+    .dark .dark\\:border-blue-600\\/30 { border-color: rgba(${sRgb.r},${sRgb.g},${sRgb.b},0.30) !important; }
+    .dark .dark\\:border-blue-700   { border-color: var(--brand-s700) !important; }
     .dark .dark\\:border-blue-800   { border-color: var(--brand-800) !important; }
   `;
 
