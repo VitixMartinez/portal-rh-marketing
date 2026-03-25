@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
+import MoodDashboard from "@/components/MoodDashboard";
 
 /* ─── Helpers de saludo ──────────────────────────────────────────────────── */
 function getSaludo(nombre: string | undefined): string {
@@ -293,6 +294,7 @@ export default async function DashboardPage() {
 
       {/* Sección inferior */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <MoodDashboard />
 
         {/* Estado del equipo: solo activos y suspendidos */}
         <div className="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/40 p-5">

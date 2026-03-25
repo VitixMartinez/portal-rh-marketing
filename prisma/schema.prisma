@@ -446,3 +446,17 @@ model PrestamoPago {
 
   createdAt   DateTime @default(now())
 }
+
+
+model MoodEntry {
+  id          String   @id @default(cuid())
+  companyId   String
+  employeeId  String
+  mood        Int      // 1=Muy mal, 2=Mal, 3=Regular, 4=Bien, 5=Excelente
+  nota        String?  // Comentario opcional
+  fecha       String   // "YYYY-MM-DD" — una entrada por empleado por día
+  createdAt   DateTime @default(now())
+
+  @@unique([employeeId, fecha])
+  @@index([companyId, fecha])
+}

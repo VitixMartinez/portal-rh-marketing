@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import ComunicacionesWidget from "@/components/ComunicacionesWidget";
+import MoodWidget from "@/components/MoodWidget";
 
 const TIPO_LABEL: Record<string, string> = {
   TIEMPO_COMPLETO: "Tiempo completo",
@@ -100,6 +101,11 @@ export default async function MiPortalPage() {
         <p className="text-gray-500 text-sm mt-1">
           {new Date().toLocaleDateString("es-DO", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}
         </p>
+      </div>
+
+      {/* Mood widget */}
+      <div className="mb-6">
+        <MoodWidget />
       </div>
 
       {/* KPI cards */}
