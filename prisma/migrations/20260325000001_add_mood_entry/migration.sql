@@ -1,4 +1,4 @@
-CREATE TABLE "MoodEntry" (
+CREATE TABLE IF NOT EXISTS "MoodEntry" (
   "id"         TEXT NOT NULL,
   "companyId"  TEXT NOT NULL,
   "employeeId" TEXT NOT NULL,
@@ -11,4 +11,4 @@ CREATE TABLE "MoodEntry" (
   CONSTRAINT "MoodEntry_employeeId_fecha_key" UNIQUE ("employeeId", "fecha")
 );
 
-CREATE INDEX "MoodEntry_companyId_fecha_idx" ON "MoodEntry"("companyId", "fecha");
+CREATE INDEX IF NOT EXISTS "MoodEntry_companyId_fecha_idx" ON "MoodEntry"("companyId", "fecha");
