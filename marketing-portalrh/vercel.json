@@ -1,0 +1,7 @@
+{
+  "version": 2,
+  "name": "portal-rh-marketing",
+  "builds": [
+    { "src": "**/*", "use": "@vercel/static" }
+  ]
+}
