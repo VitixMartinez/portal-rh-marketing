@@ -220,10 +220,12 @@
     <h2>Solicitar demo gratuita</h2>
     <p>Completa el formulario y te contactamos en menos de 24 horas.</p>
 
-    <!-- Netlify form: add netlify attribute so Netlify processes submissions -->
-    <form name="demo-request" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="contact-form" id="contactForm">
-      <input type="hidden" name="form-name" value="demo-request" />
-      <p style="display:none"><input name="bot-field" /></p>
+    <form action="https://api.web3forms.com/submit" method="POST" class="contact-form" id="contactForm">
+      <input type="hidden" name="access_key" value="c4757937-b0bd-4c56-9f6d-42e80b740af1" />
+      <input type="hidden" name="subject" value="Nueva solicitud de demo — Portal RH" />
+      <input type="hidden" name="from_name" value="Portal RH Web" />
+      <input type="hidden" name="redirect" value="false" />
+      <input type="checkbox" name="botcheck" style="display:none" />
 
       <div class="form-row">
         <div class="form-group">
@@ -294,19 +296,24 @@
 
   if (form) {
     form.addEventListener('submit', function (e) {
-      e.preventDefault(); // evitar redirección de Netlify
+      e.preventDefault();
 
       if (btn) { btn.disabled = true; btn.textContent = 'Enviando...'; }
 
-      fetch('/', {
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(new FormData(form)).toString()
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
       })
-      .then(function () {
-        form.style.display = 'none';
-        success.style.display = 'block';
-        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data.success) {
+          form.style.display = 'none';
+          success.style.display = 'block';
+          success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        } else {
+          throw new Error('Error en envío');
+        }
       })
       .catch(function () {
         if (btn) { btn.disabled = false; btn.textContent = 'Solicitar demo gratuita'; }
