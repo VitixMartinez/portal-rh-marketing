@@ -3,1243 +3,1000 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal RH — Toda la gestión de tu gente en un solo lugar</title>
-  <meta name="description" content="Portal RH es el sistema de recursos humanos en la nube que centraliza asistencia, vacaciones, capacitación, desempeño y más. Hecho para empresas que quieren crecer sin perder el control." />
+  <title>Portal RH — Sistema de Recursos Humanos en la Nube</title>
+  <meta name="description" content="Portal RH centraliza asistencia, vacaciones, nómina, capacitación y desempeño en una plataforma moderna y segura. Hecho para empresas dominicanas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --blue-dark:  #1A4FAA;
-      --blue-mid:   #2563EB;
-      --blue-light: #4A9FD4;
-      --gray-dark:  #4B5563;
-      --gray-mid:   #6B7280;
-      --gray-light: #F3F4F6;
-      --white:      #FFFFFF;
+      --navy:    #060B18;
+      --navy2:   #0D1526;
+      --navy3:   #111E35;
+      --blue:    #2563EB;
+      --indigo:  #6366F1;
+      --violet:  #8B5CF6;
+      --cyan:    #06B6D4;
+      --white:   #FFFFFF;
+      --gray:    #94A3B8;
+      --border:  rgba(255,255,255,0.08);
+      --glass:   rgba(255,255,255,0.04);
     }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; color: #111827; background: #fff; }
+    body { font-family: 'Inter', sans-serif; color: #0F172A; background: #fff; overflow-x: hidden; }
 
-    /* ── NAV ── */
+    /* ───────── NAV ───────── */
     nav {
-      position: sticky; top: 0; z-index: 100;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 78px;
-      background: rgba(255,255,255,0.97);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid #E5E7EB;
+      padding: 0 5%; height: 68px;
+      background: rgba(6,11,24,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background .3s;
     }
-    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .nav-logo span { font-size: 1.6rem; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.5px; }
-    .nav-logo span em { color: var(--gray-dark); font-style: normal; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-icon {
+      width: 34px; height: 34px; border-radius: 8px;
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff; font-weight: 900; letter-spacing: -1px;
+    }
+    .nav-logo span { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .nav-logo span em { color: var(--indigo); font-style: normal; }
     .nav-links { display: flex; align-items: center; gap: 2rem; }
-    .nav-links a { text-decoration: none; font-size: 0.9rem; font-weight: 500; color: var(--gray-dark); transition: color .2s; }
-    .nav-links a:hover { color: var(--blue-mid); }
-    .btn-demo {
-      background: var(--blue-mid); color: #fff;
-      padding: 0.5rem 1.25rem; border-radius: 8px;
+    .nav-links a { text-decoration: none; font-size: 0.875rem; font-weight: 500; color: var(--gray); transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+    .btn-nav {
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px;
       font-size: 0.875rem; font-weight: 600; text-decoration: none;
-      transition: background .2s, transform .1s;
+      transition: opacity .2s, transform .15s;
+      box-shadow: 0 0 20px rgba(99,102,241,0.35);
     }
-    .btn-demo:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-nav:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ── HERO BRAND LOCKUP ── */
-    .hero-brand-lockup {
-      display: flex; align-items: center; gap: 14px;
-      margin-bottom: 1.5rem;
-    }
-    .hero-brand-text { display: flex; flex-direction: column; gap: 2px; }
-    .hero-brand-name {
-      font-size: 3.2rem; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.5px; line-height: 1;
-    }
-    .hero-brand-name em { color: var(--gray-dark); font-style: normal; }
-    .hero-brand-tag {
-      font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 1.5px; color: var(--blue-mid);
-      background: #EFF6FF; padding: 4px 12px; border-radius: 20px;
-      display: inline-block; width: fit-content;
-    }
-
-    /* ── HERO ── */
+    /* ───────── HERO ───────── */
     .hero {
-      display: grid; grid-template-columns: 1fr 1.25fr;
-      align-items: center; gap: 4rem;
-      padding: 3.5rem 5% 3.5rem;
-      background: linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 50%, #F8FAFC 100%);
-      min-height: 78vh;
+      min-height: 100vh;
+      background: var(--navy);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 100px 5% 80px;
+      position: relative; overflow: hidden;
     }
+    /* Dot grid background */
+    .hero::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(99,102,241,0.18) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
+    }
+    /* Glow orbs */
+    .glow-1 {
+      position: absolute; top: 10%; left: 15%;
+      width: 500px; height: 500px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .glow-2 {
+      position: absolute; bottom: 5%; right: 10%;
+      width: 400px; height: 400px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative; z-index: 1;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 5rem; width: 100%; max-width: 1200px;
+    }
+    /* Badge */
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3);
+      color: #A5B4FC; font-size: 0.78rem; font-weight: 600;
+      padding: 6px 14px; border-radius: 99px; margin-bottom: 1.5rem;
+      letter-spacing: 0.3px;
+    }
+    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--indigo); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
     .hero-text h1 {
-      font-size: clamp(2.2rem, 4vw, 3.4rem);
-      font-weight: 900; line-height: 1.12;
-      color: #0F172A; margin-bottom: 1.25rem;
+      font-size: clamp(2.4rem, 4vw, 3.8rem);
+      font-weight: 900; line-height: 1.1;
+      color: #fff; margin-bottom: 1.5rem;
+      letter-spacing: -1px;
     }
-    .hero-text h1 span { color: var(--blue-mid); }
+    .hero-text h1 .grad {
+      background: linear-gradient(135deg, #60A5FA, #A78BFA, #818CF8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
     .hero-text p {
-      font-size: 1.1rem; color: var(--gray-mid);
-      line-height: 1.7; margin-bottom: 2rem; max-width: 480px;
+      font-size: 1.1rem; color: var(--gray); line-height: 1.75;
+      margin-bottom: 2.5rem; max-width: 460px;
     }
-    .hero-cta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .hero-cta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 3rem; }
     .btn-primary {
-      background: var(--blue-mid); color: #fff;
-      padding: 0.9rem 2rem; border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      color: #fff; padding: 0.9rem 2rem; border-radius: 10px;
       font-size: 1rem; font-weight: 700; text-decoration: none;
-      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+      box-shadow: 0 0 30px rgba(99,102,241,0.4), 0 4px 14px rgba(37,99,235,0.35);
+      transition: all .2s; position: relative; overflow: hidden;
+    }
+    .btn-primary::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
+      transition: opacity .2s; opacity: 0;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(99,102,241,0.55), 0 8px 20px rgba(37,99,235,0.4); }
+    .btn-primary:hover::after { opacity: 1; }
+    .btn-ghost {
+      color: var(--gray); font-weight: 600; font-size: 1rem;
+      text-decoration: none; display: flex; align-items: center; gap: 7px;
+      border: 1px solid var(--border); padding: 0.9rem 1.5rem; border-radius: 10px;
       transition: all .2s;
     }
-    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.45); }
-    .btn-secondary {
-      color: var(--blue-mid); font-weight: 600; font-size: 1rem;
-      text-decoration: none; display: flex; align-items: center; gap: 6px;
-      transition: gap .2s;
-    }
-    .btn-secondary:hover { gap: 10px; }
+    .btn-ghost:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: var(--glass); }
 
-    .hero-visual {
-      display: flex; justify-content: center; align-items: center;
-      filter: drop-shadow(0 32px 64px rgba(37,99,235,0.13));
+    /* Trust badges row */
+    .trust-row {
+      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
+    }
+    .trust-item {
+      display: flex; align-items: center; gap: 6px;
+      color: #64748B; font-size: 0.78rem; font-weight: 500;
+    }
+    .trust-item svg { color: #4ADE80; flex-shrink: 0; }
+    .trust-sep { width: 1px; height: 14px; background: var(--border); }
+
+    /* ───────── HERO DASHBOARD VISUAL ───────── */
+    .hero-visual { position: relative; }
+    .dash-glow {
+      position: absolute; top: -40px; left: -40px; right: -40px; bottom: -40px;
+      background: radial-gradient(ellipse at center, rgba(99,102,241,0.2) 0%, transparent 70%);
+      pointer-events: none;
     }
     .hero-dashboard {
-      background: #fff; border-radius: 18px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-      padding: 24px; width: 100%; max-width: 480px;
-      border: 1px solid #E5E7EB;
+      position: relative;
+      background: rgba(13,21,38,0.9);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      padding: 0;
+      overflow: hidden;
+      box-shadow: 0 0 60px rgba(99,102,241,0.2), 0 30px 80px rgba(0,0,0,0.5);
+      backdrop-filter: blur(20px);
     }
-    .dash-header {
-      display: flex; align-items: center; gap: 10px;
-      margin-bottom: 20px; padding-bottom: 16px;
-      border-bottom: 1px solid #F3F4F6;
+    .dash-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid var(--border);
     }
-    .dash-dots { display: flex; gap: 5px; }
-    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dash-dots { display: flex; gap: 6px; }
+    .dot { width: 11px; height: 11px; border-radius: 50%; }
     .dot.r { background: #FC5C65; } .dot.y { background: #FED330; } .dot.g { background: #26de81; }
-    .dash-title { font-size: 0.75rem; font-weight: 600; color: #9CA3AF; }
-    .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
-    .stat-card {
-      background: #F8FAFC; border-radius: 10px; padding: 14px 12px;
-      border: 1px solid #E5E7EB;
+    .dash-tabs { display: flex; gap: 0; }
+    .dash-tab {
+      font-size: 0.7rem; font-weight: 600; color: var(--gray);
+      padding: 5px 12px; border-radius: 6px; cursor: default;
     }
-    .stat-label { font-size: 0.65rem; font-weight: 600; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
-    .stat-value { font-size: 1.4rem; font-weight: 800; color: #0F172A; }
-    .stat-sub { font-size: 0.65rem; color: #6B7280; margin-top: 2px; }
-    .stat-up { color: #10B981; font-weight: 600; }
-    .dash-chart { background: #F8FAFC; border-radius: 10px; padding: 14px; border: 1px solid #E5E7EB; margin-bottom: 14px; }
-    .chart-label { font-size: 0.7rem; font-weight: 600; color: #6B7280; margin-bottom: 10px; }
-    .bars { display: flex; align-items: flex-end; gap: 6px; height: 60px; }
-    .bar { flex: 1; border-radius: 4px 4px 0 0; background: var(--blue-light); opacity: 0.7; }
-    .bar.active { background: var(--blue-mid); opacity: 1; }
-    .dash-list { display: flex; flex-direction: column; gap: 8px; }
+    .dash-tab.active { background: rgba(99,102,241,0.2); color: #A5B4FC; }
+    .dash-body { padding: 18px; }
+    .dash-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
+    .stat-card {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px;
+    }
+    .stat-label { font-size: 0.6rem; font-weight: 600; color: #4B5E8A; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .stat-value { font-size: 1.5rem; font-weight: 800; color: #fff; }
+    .stat-sub { font-size: 0.6rem; color: #4ADE80; margin-top: 3px; font-weight: 600; }
+    .stat-sub.warn { color: #FBBF24; }
+    .dash-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+    .dash-chart {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px;
+    }
+    .chart-title { font-size: 0.65rem; font-weight: 600; color: #4B5E8A; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .bars { display: flex; align-items: flex-end; gap: 4px; height: 52px; }
+    .bar { flex:1; border-radius: 3px 3px 0 0; background: rgba(99,102,241,0.3); }
+    .bar.hi { background: linear-gradient(to top, var(--blue), var(--indigo)); }
+    .pie-row { display: flex; align-items: center; gap: 10px; }
+    .pie-circle {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: conic-gradient(#4ADE80 0% 72%, #60A5FA 72% 90%, rgba(255,255,255,0.1) 90%);
+      flex-shrink: 0;
+    }
+    .pie-legend { display: flex; flex-direction: column; gap: 4px; }
+    .pie-item { display: flex; align-items: center; gap: 5px; font-size: 0.6rem; color: var(--gray); }
+    .pie-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    .dash-list { display: flex; flex-direction: column; gap: 7px; }
     .list-item {
       display: flex; align-items: center; gap: 10px;
-      background: #F8FAFC; border-radius: 8px; padding: 10px 12px;
-      border: 1px solid #E5E7EB;
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      border-radius: 10px; padding: 10px 12px;
     }
     .list-avatar {
-      width: 28px; height: 28px; border-radius: 50%;
+      width: 28px; height: 28px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.65rem; font-weight: 700; color: #fff; flex-shrink: 0;
+      font-size: 0.62rem; font-weight: 700; color: #fff; flex-shrink: 0;
     }
     .list-info { flex: 1; }
-    .list-name { font-size: 0.75rem; font-weight: 600; color: #374151; }
-    .list-role { font-size: 0.65rem; color: #9CA3AF; }
-    .list-badge {
-      font-size: 0.6rem; font-weight: 600; padding: 2px 7px;
-      border-radius: 20px;
-    }
-    .badge-green { background: #D1FAE5; color: #065F46; }
-    .badge-blue  { background: #DBEAFE; color: #1E40AF; }
-    .badge-amber { background: #FEF3C7; color: #92400E; }
+    .list-name { font-size: 0.72rem; font-weight: 600; color: #E2E8F0; }
+    .list-role { font-size: 0.62rem; color: #4B5E8A; }
+    .list-badge { font-size: 0.58rem; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
+    .badge-green { background: rgba(74,222,128,0.15); color: #4ADE80; border: 1px solid rgba(74,222,128,0.2); }
+    .badge-blue  { background: rgba(96,165,250,0.15); color: #60A5FA; border: 1px solid rgba(96,165,250,0.2); }
+    .badge-amber { background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.2); }
 
-    /* ── LOGOS BAR ── */
-    .logos-bar {
-      padding: 2.75rem 5%;
-      background: #fff;
-      border-bottom: 1px solid #F3F4F6;
-      text-align: center;
+    /* Floating badge on dashboard */
+    .float-badge {
+      position: absolute; bottom: -20px; left: -20px;
+      background: rgba(13,21,38,0.95); border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 14px; padding: 12px 16px;
+      display: flex; align-items: center; gap: 10px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
     }
-    .logos-bar p { font-size: 0.8rem; color: #9CA3AF; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2rem; }
-    .logos-row { display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap; }
-    .client-logo { display: flex; align-items: center; opacity: 0.85; transition: opacity .2s; }
-    .client-logo:hover { opacity: 1; }
-    .fake-logo {
-      font-size: 1rem; font-weight: 800; color: #D1D5DB; letter-spacing: -0.5px;
-    }
+    .float-badge-icon { font-size: 1.4rem; }
+    .float-badge-text { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
+    .float-badge-text span { color: #4ADE80; }
 
-    /* ── SECTION DEFAULTS ── */
-    section { padding: 5rem 5%; }
+    /* ───────── TRUST BAR ───────── */
+    .trust-bar {
+      background: var(--navy2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 1.1rem 5%;
+      display: flex; align-items: center; justify-content: center;
+      gap: 3rem; flex-wrap: wrap;
+    }
+    .trust-pill {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; font-weight: 600; color: var(--gray);
+      white-space: nowrap;
+    }
+    .trust-pill-icon { font-size: 1rem; }
+    .trust-pill .check { color: #4ADE80; font-size: 0.75rem; }
+
+    /* ───────── STATS ───────── */
+    .stats-section {
+      background: var(--navy);
+      padding: 5rem 5%;
+      position: relative; overflow: hidden;
+    }
+    .stats-section::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(99,102,241,0.08) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .stats-inner { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; text-align: center; }
+    .stats-label { font-size: 0.78rem; font-weight: 700; color: var(--indigo); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
+    .stats-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; color: #fff; margin-bottom: 3rem; line-height: 1.2; }
+    .stats-title .grad { background: linear-gradient(135deg, #60A5FA, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .stat-box {
+      background: var(--glass); border: 1px solid var(--border);
+      border-radius: 18px; padding: 2rem 1.5rem; text-align: center;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .stat-box:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 0 30px rgba(99,102,241,0.15); }
+    .stat-box-value { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 0.5rem; letter-spacing: -1px; }
+    .stat-box-value .unit { font-size: 1.5rem; color: var(--indigo); }
+    .stat-box-label { font-size: 0.83rem; color: var(--gray); font-weight: 500; }
+
+    /* ───────── FEATURES ───────── */
+    #modulos { background: #F8FAFC; padding: 5rem 5%; }
+    .section-center { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
     .section-tag {
-      display: inline-block; font-size: 0.75rem; font-weight: 700;
-      color: var(--blue-mid); background: #EFF6FF;
-      padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;
+      display: inline-block; font-size: 0.72rem; font-weight: 700;
+      color: var(--indigo); background: #EEF2FF; border: 1px solid #C7D2FE;
+      padding: 5px 14px; border-radius: 99px; letter-spacing: 1px;
       text-transform: uppercase; margin-bottom: 1rem;
     }
     h2.section-title {
-      font-size: clamp(1.75rem, 3vw, 2.5rem);
-      font-weight: 800; color: #0F172A; line-height: 1.2;
-      margin-bottom: 1rem;
+      font-size: clamp(1.75rem, 3vw, 2.4rem);
+      font-weight: 800; color: #0F172A; line-height: 1.2; margin-bottom: 1rem;
     }
-    h2.section-title span { color: var(--blue-mid); }
-    p.section-sub {
-      font-size: 1.05rem; color: var(--gray-mid);
-      max-width: 560px; line-height: 1.7; margin-bottom: 3rem;
-    }
-
-    /* ── FEATURES ── */
-    #modulos { background: #fff; }
+    h2.section-title span { background: linear-gradient(135deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    p.section-sub { font-size: 1.02rem; color: #64748B; line-height: 1.75; }
     .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.5rem;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
     }
     .feature-card {
-      background: #F8FAFC; border: 1px solid #E5E7EB; border-radius: 16px;
+      background: #fff; border: 1px solid #E2E8F0; border-radius: 18px;
       padding: 2rem; transition: all .25s;
+      position: relative; overflow: hidden;
     }
-    .feature-card:hover {
-      border-color: var(--blue-light);
-      box-shadow: 0 8px 30px rgba(37,99,235,0.1);
-      transform: translateY(-4px);
+    .feature-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--blue), var(--indigo));
+      opacity: 0; transition: opacity .25s;
     }
+    .feature-card:hover { border-color: #C7D2FE; box-shadow: 0 12px 40px rgba(99,102,241,0.1); transform: translateY(-4px); }
+    .feature-card:hover::before { opacity: 1; }
     .feature-icon {
-      width: 52px; height: 52px; border-radius: 12px;
+      width: 52px; height: 52px; border-radius: 14px;
+      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
       display: flex; align-items: center; justify-content: center;
       font-size: 1.5rem; margin-bottom: 1.25rem;
     }
     .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem; }
-    .feature-card p  { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.6; }
+    .feature-card p  { font-size: 0.875rem; color: #64748B; line-height: 1.65; }
 
-    /* ── HOW IT WORKS ── */
-    #como-funciona { background: #F8FAFC; }
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    /* ───────── HOW IT WORKS ───────── */
+    #como-funciona { background: var(--navy); padding: 5rem 5%; position: relative; overflow: hidden; }
+    #como-funciona::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(99,102,241,0.1) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    #como-funciona .section-center { position: relative; z-index: 1; }
+    #como-funciona .section-tag { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.3); color: #A5B4FC; }
+    #como-funciona h2.section-title { color: #fff; }
+    #como-funciona p.section-sub { color: var(--gray); }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2.5rem; position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; }
     .step { text-align: center; }
     .step-num {
-      width: 56px; height: 56px; border-radius: 50%;
-      background: var(--blue-mid); color: #fff;
-      font-size: 1.25rem; font-weight: 800;
+      width: 60px; height: 60px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      color: #fff; font-size: 1.3rem; font-weight: 800;
       display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
+      margin: 0 auto 1.25rem;
+      box-shadow: 0 0 30px rgba(99,102,241,0.4);
     }
-    .step h3 { font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.4rem; }
-    .step p  { font-size: 0.875rem; color: var(--gray-mid); line-height: 1.6; }
+    .step h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .step p  { font-size: 0.875rem; color: var(--gray); line-height: 1.65; }
 
-    /* ── BENEFITS ── */
-    #beneficios { background: #fff; }
-    .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
-    .benefits-list { display: flex; flex-direction: column; gap: 1.25rem; }
-    .benefit-item { display: flex; align-items: flex-start; gap: 1rem; }
-    .benefit-check {
-      width: 28px; height: 28px; border-radius: 50%;
-      background: #DBEAFE; color: var(--blue-mid);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px;
+    /* ───────── SECURITY SECTION ───────── */
+    .security-section {
+      background: #fff; padding: 5rem 5%;
+      border-top: 1px solid #E2E8F0;
     }
-    .benefit-item h4 { font-size: 0.95rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; }
-    .benefit-item p  { font-size: 0.875rem; color: var(--gray-mid); line-height: 1.6; }
-    .benefits-visual {
-      background: linear-gradient(135deg, #1A4FAA 0%, #2563EB 100%);
-      border-radius: 20px; padding: 2.5rem;
-      color: #fff;
+    .security-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .security-visual {
+      background: linear-gradient(135deg, var(--navy2) 0%, #1A2744 100%);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 24px; padding: 2.5rem;
+      position: relative; overflow: hidden;
     }
-    .benefits-visual h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; }
-    .metrics { display: flex; flex-direction: column; gap: 1rem; }
-    .metric { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 1rem 1.25rem; }
-    .metric-label { font-size: 0.75rem; font-weight: 500; opacity: 0.8; margin-bottom: 4px; }
-    .metric-value { font-size: 1.8rem; font-weight: 900; }
-    .metric-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; margin-top: 8px; overflow: hidden; }
-    .metric-fill { height: 100%; background: #60A5FA; border-radius: 3px; }
+    .security-visual::before {
+      content: ""; position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
+    }
+    .sec-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem; }
+    .sec-items { display: flex; flex-direction: column; gap: 0.85rem; }
+    .sec-item {
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px;
+    }
+    .sec-item-icon { font-size: 1.3rem; }
+    .sec-item-text { flex: 1; }
+    .sec-item-title { font-size: 0.82rem; font-weight: 600; color: #E2E8F0; margin-bottom: 2px; }
+    .sec-item-desc { font-size: 0.73rem; color: #4B5E8A; }
+    .sec-item-check { color: #4ADE80; font-size: 1rem; font-weight: 700; }
+    .security-text { }
+    .security-text h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 800; color: #0F172A; margin-bottom: 1rem; line-height: 1.2; }
+    .security-text h2 span { background: linear-gradient(135deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .security-text p { font-size: 1rem; color: #64748B; line-height: 1.75; margin-bottom: 2rem; }
+    .security-checks { display: flex; flex-direction: column; gap: 0.85rem; }
+    .sec-check { display: flex; align-items: flex-start; gap: 10px; }
+    .sec-check-icon { width: 22px; height: 22px; border-radius: 50%; background: #EEF2FF; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--indigo); font-weight: 800; flex-shrink: 0; margin-top: 2px; }
+    .sec-check h4 { font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; }
+    .sec-check p { font-size: 0.83rem; color: #64748B; line-height: 1.6; }
 
-    /* ── PRICING ── */
-    #precios { background: #F8FAFC; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+    /* ───────── PRICING ───────── */
+    #precios { background: #F8FAFC; padding: 5rem 5%; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
     .pricing-card {
-      background: #fff; border: 1.5px solid #E5E7EB; border-radius: 20px;
-      padding: 2rem; transition: all .25s;
+      background: #fff; border: 1.5px solid #E2E8F0; border-radius: 22px;
+      padding: 2rem; position: relative; transition: all .25s;
     }
+    .pricing-card:hover { box-shadow: 0 12px 40px rgba(99,102,241,0.1); transform: translateY(-3px); }
     .pricing-card.popular {
-      border-color: var(--blue-mid);
-      box-shadow: 0 10px 40px rgba(37,99,235,0.15);
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 1px var(--indigo), 0 20px 60px rgba(99,102,241,0.2);
+      background: linear-gradient(180deg, #FAFAFA 0%, #F5F3FF 100%);
     }
     .popular-badge {
-      display: inline-block; background: var(--blue-mid); color: #fff;
-      font-size: 0.7rem; font-weight: 700; padding: 3px 12px; border-radius: 20px;
-      margin-bottom: 1rem; letter-spacing: 0.5px;
+      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--blue), var(--indigo)); color: #fff;
+      font-size: 0.68rem; font-weight: 700; padding: 4px 14px; border-radius: 99px;
+      white-space: nowrap; letter-spacing: 0.5px;
     }
-    .pricing-card h3 { font-size: 1.1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.25rem; }
-    .pricing-card .price { font-size: 2.5rem; font-weight: 900; color: var(--blue-mid); margin: 1rem 0 0.25rem; }
-    .pricing-card .price span { font-size: 1rem; color: var(--gray-mid); font-weight: 500; }
-    .pricing-card .price-desc { font-size: 0.8rem; color: var(--gray-mid); margin-bottom: 1.5rem; }
-    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+    .pricing-card h3 { font-size: 1.1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.35rem; }
+    .pricing-card .price-desc-top { font-size: 0.8rem; color: #64748B; margin-bottom: 0.75rem; }
+    .pricing-card .price { font-size: 2.8rem; font-weight: 900; color: var(--indigo); margin: 0.75rem 0 0.25rem; letter-spacing: -1px; }
+    .pricing-card .price span { font-size: 1rem; color: #94A3B8; font-weight: 500; letter-spacing: 0; }
+    .pricing-card .price-sub { font-size: 0.78rem; color: #94A3B8; margin-bottom: 1.5rem; }
+    .pricing-divider { height: 1px; background: #E2E8F0; margin-bottom: 1.5rem; }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
     .pricing-features li { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: #374151; }
-    .pricing-features li::before { content: "✓"; color: var(--blue-mid); font-weight: 700; }
+    .pricing-features li::before { content: "✓"; color: var(--indigo); font-weight: 800; font-size: 0.8rem; }
     .btn-plan {
-      display: block; text-align: center; padding: 0.8rem;
-      border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+      display: block; text-align: center; padding: 0.85rem;
+      border-radius: 12px; font-size: 0.9rem; font-weight: 700;
       text-decoration: none; transition: all .2s;
     }
-    .btn-plan-primary { background: var(--blue-mid); color: #fff; }
-    .btn-plan-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
-    .btn-plan-outline { border: 1.5px solid var(--blue-mid); color: var(--blue-mid); }
-    .btn-plan-outline:hover { background: #EFF6FF; }
-
-    /* ── CTA BANNER ── */
-    .cta-banner {
-      background: linear-gradient(135deg, #1A4FAA 0%, #2563EB 60%, #3B82F6 100%);
-      padding: 5rem 5%; text-align: center; color: #fff;
+    .btn-plan-primary {
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      color: #fff; box-shadow: 0 4px 15px rgba(99,102,241,0.35);
     }
-    .cta-banner h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900; margin-bottom: 1rem; }
-    .cta-banner p  { font-size: 1.1rem; opacity: 0.85; margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .btn-plan-primary:hover { box-shadow: 0 8px 25px rgba(99,102,241,0.45); transform: translateY(-1px); }
+    .btn-plan-outline { border: 1.5px solid #E2E8F0; color: var(--indigo); }
+    .btn-plan-outline:hover { border-color: var(--indigo); background: #EEF2FF; }
+
+    /* ───────── CTA BANNER ───────── */
+    .cta-banner {
+      background: var(--navy);
+      padding: 6rem 5%; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .cta-banner::before {
+      content: ""; position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(99,102,241,0.15) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .cta-banner-glow {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+      width: 600px; height: 300px; border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(99,102,241,0.25) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .cta-banner-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
+    .cta-banner h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 900; color: #fff; margin-bottom: 1rem; line-height: 1.15; letter-spacing: -0.5px; }
+    .cta-banner h2 .grad { background: linear-gradient(135deg, #60A5FA, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .cta-banner p  { font-size: 1.05rem; color: var(--gray); margin-bottom: 2.5rem; line-height: 1.7; }
     .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
     .btn-white {
-      background: #fff; color: var(--blue-mid);
+      background: #fff; color: var(--indigo);
       padding: 0.9rem 2rem; border-radius: 10px;
       font-size: 1rem; font-weight: 700; text-decoration: none;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
       transition: all .2s;
     }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
     .btn-outline-white {
-      border: 2px solid rgba(255,255,255,0.7); color: #fff;
+      border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
       padding: 0.9rem 2rem; border-radius: 10px;
       font-size: 1rem; font-weight: 600; text-decoration: none;
       transition: all .2s;
     }
-    .btn-outline-white:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+    .btn-outline-white:hover { border-color: rgba(255,255,255,0.5); color: #fff; background: rgba(255,255,255,0.05); }
 
-    /* ── FOOTER ── */
+    /* ───────── FOOTER ───────── */
     footer {
-      background: #0F172A; color: #94A3B8;
-      padding: 4rem 5% 2rem;
+      background: #040810;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 5% 2rem; color: var(--gray);
     }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
-    .footer-brand p { font-size: 0.875rem; line-height: 1.7; max-width: 280px; margin-top: 0.75rem; }
-    .footer-col h4 { font-size: 0.8rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
-    .footer-col a { display: block; font-size: 0.875rem; color: #94A3B8; text-decoration: none; margin-bottom: 0.5rem; transition: color .2s; }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
+    }
+    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
+    .footer-brand-icon {
+      width: 30px; height: 30px; border-radius: 7px;
+      background: linear-gradient(135deg, var(--blue), var(--indigo));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; color: #fff; font-weight: 900;
+    }
+    .footer-brand span { font-size: 1rem; font-weight: 800; color: #fff; }
+    .footer-brand span em { color: var(--indigo); font-style: normal; }
+    .footer-desc { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
+    .footer-col h4 { font-size: 0.8rem; font-weight: 700; color: #fff; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-col a { display: block; font-size: 0.85rem; color: #64748B; text-decoration: none; margin-bottom: 0.5rem; transition: color .2s; }
     .footer-col a:hover { color: #fff; }
-    .footer-bottom { border-top: 1px solid #1E293B; padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: gap; }
-    .footer-bottom p { font-size: 0.8rem; }
-
-    /* ── HERO CAROUSEL ── */
-    .hero-carousel { width: 100%; max-width: 660px; }
-    .carousel-tabs {
-      display: flex; gap: 4px; margin-bottom: 12px;
-      background: rgba(255,255,255,0.8); border-radius: 11px; padding: 5px;
-      border: 1px solid #E5E7EB; backdrop-filter: blur(4px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    .footer-bottom {
+      max-width: 1200px; margin: 2rem auto 0;
+      padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
     }
-    .carousel-tab {
-      flex: 1; padding: 7px 6px; border: none; background: transparent;
-      border-radius: 8px; font-size: 0.72rem; font-weight: 600;
-      color: #9CA3AF; cursor: pointer; transition: all 0.2s;
-      font-family: 'Inter', sans-serif; white-space: nowrap;
-    }
-    .carousel-tab.active { background: #fff; color: #2563EB; box-shadow: 0 1px 5px rgba(0,0,0,0.12); }
-    .carousel-tab:hover:not(.active) { color: #4B5563; background: rgba(255,255,255,0.6); }
-    .carousel-window {
-      background: #fff; border-radius: 18px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 12px 32px rgba(37,99,235,0.1), 0 32px 64px rgba(0,0,0,0.1);
-      border: 1px solid rgba(226,232,240,0.8); overflow: hidden;
-    }
-    .carousel-titlebar {
-      display: flex; align-items: center; gap: 10px;
-      padding: 14px 20px; border-bottom: 1px solid #F1F5F9; background: #F8FAFC;
-    }
-    .carousel-title { font-size: 0.73rem; font-weight: 600; color: #94A3B8; }
-    .carousel-body { position: relative; min-height: 300px; }
-    .carousel-slide { padding: 16px; display: none; animation: slideIn 0.3s ease; }
-    .carousel-slide.active { display: block; }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(10px); }
-      to   { opacity: 1; transform: translateX(0); }
-    }
-    .carousel-progress { height: 3px; background: #EEF2FF; border-radius: 0 0 18px 18px; overflow: hidden; }
-    .carousel-progress-bar {
-      height: 100%; background: linear-gradient(90deg, #2563EB, #60A5FA);
-      border-radius: 3px; width: 0%;
+    .footer-bottom p { font-size: 0.8rem; color: #334155; }
+    .footer-badges { display: flex; gap: 1rem; }
+    .footer-badge {
+      font-size: 0.68rem; font-weight: 600; color: #4B5E8A;
+      border: 1px solid rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 99px;
+      display: flex; align-items: center; gap: 5px;
     }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1024px) {
-      .hero { grid-template-columns: 1fr 1.1fr; gap: 2.5rem; }
-      .hero-carousel { max-width: 100%; }
-    }
+    /* ───────── RESPONSIVE ───────── */
     @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; padding: 3.5rem 5% 3rem; min-height: auto; }
+      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
       .hero-visual { display: none; }
-      .benefits-grid { grid-template-columns: 1fr; }
-      .footer-grid { grid-template-columns: 1fr 1fr; }
-      .nav-links .nav-hide { display: none; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); }
+      .security-inner { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr 1fr; }
+      .trust-bar { gap: 1.5rem; }
     }
     @media (max-width: 600px) {
       nav { padding: 0 4%; }
-      section { padding: 3.5rem 4%; }
-      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .hero-text h1 { font-size: 2rem; }
+      .nav-links { display: none; }
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 1rem; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .hero-badge { font-size: 0.72rem; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
+<!-- ── NAV ── -->
 <nav>
-  <a href="#" class="nav-logo">
-    <!-- Logo SVG (escudo + personas) -->
-    <svg width="46" height="54" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z"
-        fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
-      <!-- persona izquierda (gris) -->
-      <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
-      <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <!-- persona derecha (gris) -->
-      <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
-      <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <!-- persona central (azul) -->
-      <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
-      <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    </svg>
-    <span>Portal <em>RH</em></span>
+  <a href="/" class="nav-logo">
+    <div class="nav-logo-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
+    <span>Portal<em>RH</em></span>
   </a>
-
   <div class="nav-links">
-    <a href="#modulos" class="nav-hide">Módulos</a>
-    <a href="#como-funciona" class="nav-hide">Cómo funciona</a>
-    <a href="soluciones.html">Soluciones</a>
+    <a href="#modulos">Módulos</a>
+    <a href="#como-funciona">Cómo funciona</a>
     <a href="#precios">Precios</a>
-    <a href="contacto.html" class="btn-demo">Solicitar demo</a>
+    <a href="contacto.html">Contacto</a>
+    <a href="#precios" class="btn-nav">Solicitar demo</a>
   </div>
 </nav>
 
-<!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
+<!-- ── HERO ── -->
 <section class="hero">
-  <div class="hero-text">
-    <!-- Portal RH brand lockup -->
-    <div class="hero-brand-lockup">
-      <svg width="90" height="105" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z"
-          fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
-        <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
-        <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
-        <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-        <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
-        <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-      </svg>
-      <div class="hero-brand-text">
-        <span class="hero-brand-name">Portal <em>RH</em></span>
-        <span class="hero-brand-tag">Sistema de RH en la nube</span>
+  <div class="glow-1"></div>
+  <div class="glow-2"></div>
+  <div class="hero-inner">
+
+    <!-- Left: text -->
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span></span>
+        Sistema de RH en la Nube · República Dominicana
+      </div>
+      <h1>Gestiona tu equipo<br/><span class="grad">de forma inteligente</span></h1>
+      <p>Portal RH centraliza asistencia, vacaciones, nómina, capacitación y desempeño en una sola plataforma. Menos papeleo, más control, más tiempo para lo que importa.</p>
+      <div class="hero-cta">
+        <a href="contacto.html" class="btn-primary">Solicitar demo gratuita</a>
+        <a href="#modulos" class="btn-ghost">Ver módulos →</a>
+      </div>
+      <div class="trust-row">
+        <div class="trust-item">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.73l-4 3.9.94 5.5L10 13.77 5.06 16.13 6 10.63 2 6.73l5.61-.89L10 1z"/></svg>
+          Ley 172-13 RD
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-item">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
+          Encriptación SSL
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-item">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/></svg>
+          Respaldo diario
+        </div>
+        <div class="trust-sep"></div>
+        <div class="trust-item">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+          99.9% uptime
+        </div>
       </div>
     </div>
-    <h1>Toda la gestión de tu gente <span>en un solo lugar</span></h1>
-    <p>Portal RH centraliza asistencia, vacaciones, capacitación, desempeño y nómina en una plataforma moderna. Menos papeleo, más tiempo para lo que importa.</p>
-    <div class="hero-cta">
-      <a href="contacto.html" class="btn-primary">Solicitar demo gratuita</a>
-      <a href="#modulos" class="btn-secondary">Ver módulos →</a>
-    </div>
-  </div>
 
-  <div class="hero-visual">
-    <div class="hero-carousel" id="heroCarousel">
-
-      <!-- Tab buttons -->
-      <div class="carousel-tabs">
-        <button class="carousel-tab active" data-index="0">Dashboard</button>
-        <button class="carousel-tab" data-index="1">Empleados</button>
-        <button class="carousel-tab" data-index="2">Vacaciones</button>
-        <button class="carousel-tab" data-index="3">Nómina</button>
-        <button class="carousel-tab" data-index="4">Asistencia</button>
-      </div>
-
-      <!-- Window frame -->
-      <div class="carousel-window">
-        <div class="carousel-titlebar">
+    <!-- Right: dark dashboard mockup -->
+    <div class="hero-visual">
+      <div class="dash-glow"></div>
+      <div class="hero-dashboard">
+        <div class="dash-topbar">
           <div class="dash-dots">
             <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
           </div>
-          <span class="carousel-title" id="carouselTitle">Dashboard — Portal RH</span>
+          <div class="dash-tabs">
+            <div class="dash-tab active">Dashboard</div>
+            <div class="dash-tab">Empleados</div>
+            <div class="dash-tab">Nómina</div>
+          </div>
+          <div style="font-size:0.65rem;color:#4B5E8A;font-weight:600">Marzo 2026</div>
         </div>
-
-        <div class="carousel-body">
-
-          <!-- ── Slide 0: Dashboard ── -->
-          <div class="carousel-slide active">
-            <div class="dash-stats" style="margin-bottom:14px">
-              <div class="stat-card">
-                <div class="stat-label">Empleados</div>
-                <div class="stat-value">142</div>
-                <div class="stat-sub stat-up">↑ +8 este mes</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Asistencia hoy</div>
-                <div class="stat-value">96%</div>
-                <div class="stat-sub">136 presentes</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Pendientes</div>
-                <div class="stat-value">7</div>
-                <div class="stat-sub">solicitudes</div>
-              </div>
+        <div class="dash-body">
+          <div class="dash-stats">
+            <div class="stat-card">
+              <div class="stat-label">Equipo activo</div>
+              <div class="stat-value">142</div>
+              <div class="stat-sub">↑ +4 este mes</div>
             </div>
-            <div class="dash-chart" style="margin-bottom:14px">
-              <div class="chart-label">Asistencia semanal</div>
+            <div class="stat-card">
+              <div class="stat-label">Masa salarial</div>
+              <div class="stat-value" style="font-size:1.1rem">RD$284k</div>
+              <div class="stat-sub">↑ listo a pagar</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Asistencia hoy</div>
+              <div class="stat-value">96<span style="font-size:.75rem;color:#4B5E8A">%</span></div>
+              <div class="stat-sub warn">3 ausentes</div>
+            </div>
+          </div>
+          <div class="dash-chart-row">
+            <div class="dash-chart">
+              <div class="chart-title">Asistencia mensual</div>
               <div class="bars">
+                <div class="bar" style="height:55%"></div>
                 <div class="bar" style="height:70%"></div>
-                <div class="bar" style="height:85%"></div>
-                <div class="bar" style="height:78%"></div>
-                <div class="bar" style="height:92%"></div>
-                <div class="bar active" style="height:96%"></div>
+                <div class="bar" style="height:60%"></div>
+                <div class="bar hi" style="height:85%"></div>
+                <div class="bar hi" style="height:90%"></div>
+                <div class="bar" style="height:75%"></div>
+                <div class="bar hi" style="height:95%"></div>
               </div>
             </div>
-            <div class="dash-list">
-              <div class="list-item">
-                <div class="list-avatar" style="background:#3B82F6">JM</div>
-                <div class="list-info"><div class="list-name">Juan Martínez</div><div class="list-role">Gerente de Ventas</div></div>
-                <span class="list-badge badge-green">Presente</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#8B5CF6">AP</div>
-                <div class="list-info"><div class="list-name">Ana Pérez</div><div class="list-role">Recursos Humanos</div></div>
-                <span class="list-badge badge-blue">Remoto</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── Slide 1: Empleados ── -->
-          <div class="carousel-slide">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <div style="font-size:0.78rem;font-weight:700;color:#0F172A">Directorio de Empleados</div>
-              <span style="font-size:0.65rem;background:#EFF6FF;color:#2563EB;font-weight:600;padding:3px 8px;border-radius:20px">142 activos</span>
-            </div>
-            <!-- Search bar mockup -->
-            <div style="background:#F8FAFC;border:1px solid #E5E7EB;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:12px">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-              <span style="font-size:0.72rem;color:#9CA3AF">Buscar empleado...</span>
-            </div>
-            <div class="dash-list">
-              <div class="list-item">
-                <div class="list-avatar" style="background:#3B82F6">JM</div>
-                <div class="list-info"><div class="list-name">Juan Martínez</div><div class="list-role">Gerente de Ventas · Ventas</div></div>
-                <span class="list-badge badge-green">Activo</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#8B5CF6">AP</div>
-                <div class="list-info"><div class="list-name">Ana Pérez</div><div class="list-role">HRBP · Recursos Humanos</div></div>
-                <span class="list-badge badge-green">Activo</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#10B981">ML</div>
-                <div class="list-info"><div class="list-name">María López</div><div class="list-role">Contadora · Finanzas</div></div>
-                <span class="list-badge badge-green">Activo</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#F59E0B">CR</div>
-                <div class="list-info"><div class="list-name">Carlos Rodríguez</div><div class="list-role">Dev Backend · TI</div></div>
-                <span class="list-badge badge-amber">Vacaciones</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ── Slide 2: Vacaciones ── -->
-          <div class="carousel-slide">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <div style="font-size:0.78rem;font-weight:700;color:#0F172A">Solicitudes de Tiempo Libre</div>
-              <span style="font-size:0.65rem;background:#FEF3C7;color:#92400E;font-weight:600;padding:3px 8px;border-radius:20px">⏳ 3 pendientes</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:8px">
-              <div style="background:#F8FAFC;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px">
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
-                  <div style="display:flex;align-items:center;gap:8px">
-                    <div class="list-avatar" style="background:#3B82F6;width:26px;height:26px;font-size:0.6rem">JM</div>
-                    <div>
-                      <div style="font-size:0.73rem;font-weight:600;color:#0F172A">Juan Martínez</div>
-                      <div style="font-size:0.62rem;color:#9CA3AF">Vacaciones · 5 días</div>
-                    </div>
-                  </div>
-                  <span class="list-badge badge-amber">Pendiente</span>
-                </div>
-                <div style="display:flex;gap:6px">
-                  <div style="flex:1;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:4px 8px;text-align:center;font-size:0.62rem;font-weight:600;color:#16A34A;cursor:pointer">✓ Aprobar</div>
-                  <div style="flex:1;background:#FFF5F5;border:1px solid #FECACA;border-radius:6px;padding:4px 8px;text-align:center;font-size:0.62rem;font-weight:600;color:#DC2626;cursor:pointer">✕ Rechazar</div>
-                </div>
-              </div>
-              <div style="background:#F8FAFC;border:1px solid #FDE68A;border-radius:10px;padding:10px 12px">
-                <div style="display:flex;align-items:center;justify-content:space-between">
-                  <div style="display:flex;align-items:center;gap:8px">
-                    <div class="list-avatar" style="background:#10B981;width:26px;height:26px;font-size:0.6rem">ML</div>
-                    <div>
-                      <div style="font-size:0.73rem;font-weight:600;color:#0F172A">María López</div>
-                      <div style="font-size:0.62rem;color:#9CA3AF">Lic. Médica · 2 días</div>
-                    </div>
-                  </div>
-                  <span class="list-badge badge-green">Aprobada</span>
-                </div>
-              </div>
-              <div style="background:#F8FAFC;border:1px solid #E5E7EB;border-radius:10px;padding:10px 12px">
-                <div style="display:flex;align-items:center;justify-content:space-between">
-                  <div style="display:flex;align-items:center;gap:8px">
-                    <div class="list-avatar" style="background:#8B5CF6;width:26px;height:26px;font-size:0.6rem">AP</div>
-                    <div>
-                      <div style="font-size:0.73rem;font-weight:600;color:#0F172A">Ana Pérez</div>
-                      <div style="font-size:0.62rem;color:#9CA3AF">Permiso · 1 día</div>
-                    </div>
-                  </div>
-                  <span class="list-badge badge-green">Aprobada</span>
+            <div class="dash-chart">
+              <div class="chart-title">Estado del equipo</div>
+              <div class="pie-row">
+                <div class="pie-circle"></div>
+                <div class="pie-legend">
+                  <div class="pie-item"><div class="pie-dot" style="background:#4ADE80"></div>Activo (72%)</div>
+                  <div class="pie-item"><div class="pie-dot" style="background:#60A5FA"></div>Vacaciones (18%)</div>
+                  <div class="pie-item"><div class="pie-dot" style="background:rgba(255,255,255,.15)"></div>Otros (10%)</div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!-- ── Slide 3: Nómina ── -->
-          <div class="carousel-slide">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <div style="font-size:0.78rem;font-weight:700;color:#0F172A">Resumen de Nómina</div>
-              <span style="font-size:0.65rem;background:#EFF6FF;color:#2563EB;font-weight:600;padding:3px 8px;border-radius:20px">Marzo 2026</span>
+          <div class="dash-list">
+            <div class="list-item">
+              <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
+              <div class="list-info"><div class="list-name">Juan Martínez</div><div class="list-role">Gerente · Ventas</div></div>
+              <div class="list-badge badge-green">Activo</div>
             </div>
-            <!-- Summary cards -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-              <div class="stat-card">
-                <div class="stat-label">Total Bruto</div>
-                <div style="font-size:1.1rem;font-weight:800;color:#0F172A">$284,500</div>
-                <div class="stat-sub">142 empleados</div>
-              </div>
-              <div class="stat-card">
-                <div class="stat-label">Total Neto</div>
-                <div style="font-size:1.1rem;font-weight:800;color:#10B981">$231,200</div>
-                <div class="stat-sub stat-up">↑ listo para pagar</div>
-              </div>
+            <div class="list-item">
+              <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
+              <div class="list-info"><div class="list-name">Ana Pérez</div><div class="list-role">Analista · RRHH</div></div>
+              <div class="list-badge badge-amber">Vacaciones</div>
             </div>
-            <!-- Employee rows -->
-            <div class="dash-list">
-              <div class="list-item">
-                <div class="list-avatar" style="background:#3B82F6">JM</div>
-                <div class="list-info"><div class="list-name">Juan Martínez</div><div class="list-role">Bruto: $3,800 · Neto: $3,080</div></div>
-                <span class="list-badge badge-green">Pagado</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#8B5CF6">AP</div>
-                <div class="list-info"><div class="list-name">Ana Pérez</div><div class="list-role">Bruto: $3,200 · Neto: $2,600</div></div>
-                <span class="list-badge badge-blue">Procesando</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#10B981">ML</div>
-                <div class="list-info"><div class="list-name">María López</div><div class="list-role">Bruto: $4,100 · Neto: $3,320</div></div>
-                <span class="list-badge badge-green">Pagado</span>
-              </div>
+            <div class="list-item">
+              <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
+              <div class="list-info"><div class="list-name">María López</div><div class="list-role">Contadora · Finanzas</div></div>
+              <div class="list-badge badge-blue">Nómina OK</div>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="float-badge">
+        <div class="float-badge-icon">🔒</div>
+        <div class="float-badge-text">Datos encriptados<br/><span>Cumple Ley 172-13</span></div>
+      </div>
+    </div>
 
-          <!-- ── Slide 4: Asistencia ── -->
-          <div class="carousel-slide">
-            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-              <div style="font-size:0.78rem;font-weight:700;color:#0F172A">Control de Asistencia</div>
-              <span style="font-size:0.65rem;color:#9CA3AF">Hoy, 20 mar 2026</span>
-            </div>
-            <!-- Stats row -->
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-              <div style="background:#F0FDF4;border:1px solid #BBF7D0;border-radius:8px;padding:8px;text-align:center">
-                <div style="font-size:0.6rem;font-weight:600;color:#16A34A;text-transform:uppercase;margin-bottom:2px">Presentes</div>
-                <div style="font-size:1.3rem;font-weight:800;color:#15803D">136</div>
-              </div>
-              <div style="background:#FFF7ED;border:1px solid #FED7AA;border-radius:8px;padding:8px;text-align:center">
-                <div style="font-size:0.6rem;font-weight:600;color:#C2410C;text-transform:uppercase;margin-bottom:2px">Tardanzas</div>
-                <div style="font-size:1.3rem;font-weight:800;color:#EA580C">4</div>
-              </div>
-              <div style="background:#FFF5F5;border:1px solid #FECACA;border-radius:8px;padding:8px;text-align:center">
-                <div style="font-size:0.6rem;font-weight:600;color:#DC2626;text-transform:uppercase;margin-bottom:2px">Ausentes</div>
-                <div style="font-size:1.3rem;font-weight:800;color:#DC2626">2</div>
-              </div>
-            </div>
-            <!-- Clock-in log -->
-            <div style="font-size:0.7rem;font-weight:600;color:#6B7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px">Últimos registros</div>
-            <div class="dash-list">
-              <div class="list-item">
-                <div class="list-avatar" style="background:#3B82F6">JM</div>
-                <div class="list-info"><div class="list-name">Juan Martínez</div><div class="list-role">Entrada: 8:02 AM · Oficina</div></div>
-                <span class="list-badge badge-green">✓</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#8B5CF6">AP</div>
-                <div class="list-info"><div class="list-name">Ana Pérez</div><div class="list-role">Entrada: 8:15 AM · Remoto</div></div>
-                <span class="list-badge badge-blue">✓</span>
-              </div>
-              <div class="list-item">
-                <div class="list-avatar" style="background:#EF4444">LG</div>
-                <div class="list-info"><div class="list-name">Luis García</div><div class="list-role">Tardanza: 9:47 AM · Oficina</div></div>
-                <span class="list-badge badge-amber">!</span>
-              </div>
-            </div>
-          </div>
-
-        </div><!-- /carousel-body -->
-
-        <!-- Progress bar -->
-        <div class="carousel-progress"><div class="carousel-progress-bar" id="carouselBar"></div></div>
-      </div><!-- /carousel-window -->
-
-    </div><!-- /hero-carousel -->
   </div>
 </section>
 
-<!-- ══ LOGOS BAR ══════════════════════════════════════════════════════════════ -->
-<div class="logos-bar" style="display:none">
-  <p>Empresas que confían en Portal RH</p>
-  <div class="logos-row">
-
-    <!-- CompuGrama -->
-    <div class="client-logo">
-      <!--
-        FLAT-TOP hexagon: vértices en LEFT(6,50) y RIGHT(102,50)
-        Bordes planos arriba e abajo. Ancho=96, Alto=83.
-        Centro: (54,50). r=48.
-        Upper-right=(78,8.4) Upper-left=(30,8.4)
-        Lower-right=(78,91.6) Lower-left=(30,91.6)
-      -->
-      <svg viewBox="0 0 460 100" width="322" height="70" aria-label="CompuGrama">
-
-        <!-- ① Cuerpo principal del hexágono (azul claro) -->
-        <polygon points="102,50 78,8 30,8 6,50 30,92 78,92" fill="#29ABE2"/>
-
-        <!-- ② Panel izquierdo más oscuro — efecto 3D/doblez
-             Kite desde vértice izq → upper-left → centro → lower-left -->
-        <polygon points="6,50 30,8 54,50 30,92" fill="#1877B8"/>
-
-        <!-- ③ Línea de doblez sutil (blanca) en el borde del panel oscuro -->
-        <polyline points="30,8 54,50 30,92" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-
-        <!-- ④ Borde exterior del hexágono (blanco) -->
-        <polygon points="102,50 78,8 30,8 6,50 30,92 78,92"
-                 fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
-
-        <!-- ⑤ Borde interior offset (segunda línea interna para profundidad) -->
-        <polygon points="97,50 75,13 33,13 11,50 33,87 75,87"
-                 fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-
-        <!-- ⑥ C arc: blanco, grueso, apertura hacia la DERECHA
-             Centro aprox (40,56), r=20
-             Extremos de apertura: superior (55,42) e inferior (55,70) -->
-        <path d="M 55,42 A 20,20 0 1,0 55,70"
-              stroke="rgba(255,255,255,0.90)" stroke-width="8" fill="none" stroke-linecap="round"/>
-
-        <!-- ⑦ G blanca, bold, centro aprox (67,48) en coordenadas del hex -->
-        <text x="68" y="65"
-              font-size="40" font-weight="900" fill="white"
-              text-anchor="middle"
-              font-family="Arial Rounded MT Bold,Arial Black,Arial,sans-serif">G</text>
-
-        <!-- ⑧ Texto "CompuGrama" — azul marino oscuro, bold -->
-        <text x="116" y="64"
-              font-size="38" font-weight="800" fill="#132050"
-              font-family="Arial,Helvetica,sans-serif">CompuGrama</text>
-      </svg>
-    </div>
-
-    <!-- K&M Destinos -->
-    <div class="client-logo">
-      <svg viewBox="0 0 520 215" width="300" height="124" aria-label="K&amp;M Destinos Corporate Events DMC">
-        <defs>
-          <radialGradient id="globeBg" cx="38%" cy="32%" r="62%">
-            <stop offset="0%" stop-color="#7ec0ee"/>
-            <stop offset="45%" stop-color="#2e7fc1"/>
-            <stop offset="100%" stop-color="#0d3d6e"/>
-          </radialGradient>
-          <radialGradient id="globeHi" cx="28%" cy="22%" r="42%">
-            <stop offset="0%" stop-color="rgba(255,255,255,0.6)"/>
-            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
-          </radialGradient>
-        </defs>
-
-        <!-- K&M italic top-left -->
-        <text x="10" y="48" font-family="Georgia,'Times New Roman',serif" font-style="italic"
-              font-size="44" fill="#1a1a1a" letter-spacing="2">K&amp;M</text>
-
-        <!-- DESTIN large italic serif -->
-        <text x="6" y="140" font-family="Georgia,'Times New Roman',serif" font-style="italic"
-              font-size="116" fill="#1c1c1c">Destin</text>
-
-        <!-- Globe (replacing O) — positioned after DESTIN -->
-        <circle cx="393" cy="90" r="50" fill="url(#globeBg)"/>
-        <!-- Green North America -->
-        <path d="M372,60 C377,55 384,55 388,59 L392,64 C396,62 401,61 404,65
-                 C408,69 410,74 407,79 C404,84 400,86 397,88
-                 C393,91 391,95 389,99 C387,103 385,107 383,109
-                 C380,104 378,99 376,95 C373,90 371,84 370,78
-                 C369,71 370,65 372,60 Z" fill="#4a9e3f"/>
-        <!-- Green South America -->
-        <path d="M386,111 C390,107 395,106 399,110
-                 C403,115 404,121 402,127 C400,133 396,137 392,139
-                 C389,136 387,130 386,124 C385,118 385,114 386,111 Z" fill="#4a9e3f"/>
-        <!-- Latitude lines -->
-        <ellipse cx="393" cy="90" rx="50" ry="14" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
-        <ellipse cx="393" cy="74" rx="44" ry="10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.7"/>
-        <ellipse cx="393" cy="106" rx="44" ry="10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.7"/>
-        <!-- Longitude curves -->
-        <path d="M393,40 Q413,90 393,140" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
-        <path d="M393,40 Q373,90 393,140" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
-        <!-- Globe border -->
-        <circle cx="393" cy="90" r="50" fill="none" stroke="#a0b8cc" stroke-width="1.2"/>
-        <!-- Specular highlight -->
-        <circle cx="393" cy="90" r="50" fill="url(#globeHi)"/>
-
-        <!-- S after globe -->
-        <text x="446" y="140" font-family="Georgia,'Times New Roman',serif" font-style="italic"
-              font-size="116" fill="#1c1c1c">s</text>
-
-        <!-- Divider line -->
-        <line x1="6" y1="156" x2="514" y2="156" stroke="#bbbfc4" stroke-width="1.3"/>
-
-        <!-- CORPORATE EVENTS -->
-        <text x="260" y="182" text-anchor="middle" font-family="Arial,Helvetica,sans-serif"
-              font-size="22" fill="#1c1c1c" letter-spacing="9" font-weight="400">CORPORATE EVENTS</text>
-
-        <!-- DMC italic -->
-        <text x="260" y="211" text-anchor="middle" font-family="Georgia,'Times New Roman',serif"
-              font-style="italic" font-size="36" fill="#1c1c1c" letter-spacing="8">DMC</text>
-      </svg>
-    </div>
-
-  </div>
+<!-- ── TRUST BAR ── -->
+<div class="trust-bar">
+  <div class="trust-pill"><span class="trust-pill-icon">🔐</span>Cifrado TLS 1.3 <span class="check">✓</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">🇩🇴</span>Ley 172-13 Privacidad <span class="check">✓</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">☁️</span>Hospedado en la nube <span class="check">✓</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">💾</span>Respaldo automático diario <span class="check">✓</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">🛡️</span>Acceso por roles y permisos <span class="check">✓</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">⚡</span>99.9% disponibilidad <span class="check">✓</span></div>
 </div>
 
-<!-- ══ MÓDULOS ═══════════════════════════════════════════════════════════════ -->
-<section id="modulos">
-  <div class="section-tag">Módulos</div>
-  <h2 class="section-title">Todo lo que tu equipo de <span>Recursos Humanos Necesita</span></h2>
-  <p class="section-sub">Desde el primer día del empleado hasta su crecimiento dentro de la empresa, Portal RH lo cubre todo.</p>
-
-  <div class="features-grid">
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#EFF6FF">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>
+<!-- ── STATS ── -->
+<section class="stats-section">
+  <div class="stats-inner">
+    <div class="stats-label">Portal RH en números</div>
+    <h2 class="stats-title">Una plataforma en la que las<br/><span class="grad">empresas dominicanas confían</span></h2>
+    <div class="stats-grid">
+      <div class="stat-box">
+        <div class="stat-box-value">12<span class="unit">+</span></div>
+        <div class="stat-box-label">Módulos integrados</div>
       </div>
-      <h3>Gestión de Empleados</h3>
-      <p>Expedientes digitales completos, historial, documentos, foto y organigrama interactivo. Todo en un solo perfil.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FFF4">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
-        </svg>
+      <div class="stat-box">
+        <div class="stat-box-value">100<span class="unit">%</span></div>
+        <div class="stat-box-label">En la nube · Sin instalación</div>
       </div>
-      <h3>Control de Asistencia</h3>
-      <p>Registro de entradas y salidas, tardanzas, ausencias y reportes exportables por período o departamento.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FFF7ED">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/>
-          <line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-          <path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>
-        </svg>
+      <div class="stat-box">
+        <div class="stat-box-value">24<span class="unit">h</span></div>
+        <div class="stat-box-label">Soporte técnico disponible</div>
       </div>
-      <h3>Vacaciones y Permisos</h3>
-      <p>Los empleados solicitan desde su portal, los supervisores aprueban con un clic. Balance actualizado en tiempo real.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F5F3FF">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-        </svg>
+      <div class="stat-box">
+        <div class="stat-box-value">0<span class="unit">$</span></div>
+        <div class="stat-box-label">Costo de implementación</div>
       </div>
-      <h3>Capacitación (LMS)</h3>
-      <p>Crea cursos, asigna por departamento, evalúa con quizzes y genera certificados de completación automáticos.</p>
     </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FFF1F2">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E11D48" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/>
-        </svg>
-      </div>
-      <h3>Evaluación de Desempeño</h3>
-      <p>Ciclos de evaluación 360°, metas por empleado, historial de revisiones y planes de mejora.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0F9FF">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
-        </svg>
-      </div>
-      <h3>Préstamos y Beneficios</h3>
-      <p>Gestión de préstamos con plan de descuento, seguimiento de cuotas y registro de beneficios por empleado.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#FEFCE8">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-        </svg>
-      </div>
-      <h3>Comunicaciones</h3>
-      <p>Notificaciones internas, anuncios por empresa y directorio de empleados accesible desde el portal.</p>
-    </div>
-
-    <div class="feature-card">
-      <div class="feature-icon" style="background:#F0FFF4">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-        </svg>
-      </div>
-      <h3>Reportes y Analytics</h3>
-      <p>Exporta datos a Excel, visualiza tendencias de asistencia, rotación, capacitación y más con un clic.</p>
-    </div>
-
   </div>
 </section>
 
-<!-- ══ CÓMO FUNCIONA ══════════════════════════════════════════════════════════ -->
-<section id="como-funciona">
-  <div class="section-tag">Proceso</div>
-  <h2 class="section-title">Empieza a usar Portal RH <span>en días, no meses</span></h2>
-  <p class="section-sub">Sin instalaciones complicadas, sin servidores que mantener. Todo en la nube y listo para operar.</p>
+<!-- ── FEATURES ── -->
+<section id="modulos">
+  <div class="section-center">
+    <div class="section-tag">Módulos</div>
+    <h2 class="section-title">Todo lo que tu equipo de<br/><span>Recursos Humanos necesita</span></h2>
+    <p class="section-sub">Cada módulo está diseñado para simplificar el trabajo diario de RH — sin hojas de cálculo, sin papeles, sin complicaciones.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">👥</div>
+      <h3>Gestión de empleados</h3>
+      <p>Expediente digital completo: datos personales, documentos, historial, contratos y accesos desde un solo lugar.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📅</div>
+      <h3>Control de asistencia</h3>
+      <p>Registra entradas, salidas, ausencias y tardanzas. Genera reportes con un clic. Cumple con la Ley 16-92.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🌴</div>
+      <h3>Gestión de vacaciones</h3>
+      <p>Flujo completo: solicitud, aprobación y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💰</div>
+      <h3>Nómina</h3>
+      <p>Cálculo automático de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📈</div>
+      <h3>Evaluación de desempeño</h3>
+      <p>Evaluaciones 360°, metas y retroalimentación. Identifica talento y toma decisiones con datos.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🎓</div>
+      <h3>Capacitación</h3>
+      <p>Asigna cursos, rastrea avances y certifica a tu equipo. Todo en la plataforma sin herramientas externas.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏆</div>
+      <h3>Reconocimientos</h3>
+      <p>Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempeño y más.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📋</div>
+      <h3>Reclutamiento</h3>
+      <p>Publica vacantes, gestiona candidatos y formaliza contrataciones sin salir de la plataforma.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">📱</div>
+      <h3>Portal del empleado</h3>
+      <p>Cada colaborador tiene su propio acceso para ver recibos, solicitar vacaciones y actualizar sus datos.</p>
+    </div>
+  </div>
+</section>
 
+<!-- ── HOW IT WORKS ── -->
+<section id="como-funciona">
+  <div class="section-center">
+    <div class="section-tag">Cómo funciona</div>
+    <h2 class="section-title" style="color:#fff">En marcha en <span>menos de un día</span></h2>
+    <p class="section-sub">Sin servidores, sin instalaciones, sin IT. Solo acceso inmediato desde cualquier dispositivo.</p>
+  </div>
   <div class="steps">
     <div class="step">
       <div class="step-num">1</div>
-      <h3>Contrata tu plan</h3>
-      <p>Elige el plan que se ajusta al tamaño de tu empresa. Sin contratos largos ni costos ocultos.</p>
+      <h3>Creamos tu cuenta</h3>
+      <p>Configuramos tu empresa con tu logo, colores y accesos en minutos. Sin formularios complicados.</p>
     </div>
     <div class="step">
       <div class="step-num">2</div>
-      <h3>Configuramos tu empresa</h3>
-      <p>Te creamos un subdominio exclusivo y configuramos tus departamentos, políticas y perfiles en 24-48 horas.</p>
+      <h3>Importas tus empleados</h3>
+      <p>Sube tu lista de empleados desde Excel o regístralos uno a uno. Nosotros te guiamos.</p>
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <h3>Importamos tus empleados</h3>
-      <p>Subimos tu plantilla de Excel o CSV y tus empleados tienen acceso desde el primer día.</p>
+      <h3>Tu equipo accede</h3>
+      <p>Cada empleado recibe sus credenciales y puede acceder desde cualquier dispositivo de inmediato.</p>
     </div>
     <div class="step">
       <div class="step-num">4</div>
-      <h3>Empieza a operar</h3>
-      <p>Tu equipo inicia sesión desde cualquier dispositivo. Nosotros nos encargamos de las actualizaciones y soporte.</p>
+      <h3>Tú tienes el control</h3>
+      <p>Dashboard en tiempo real, reportes automáticos y alertas. Todo lo que necesitas en un solo lugar.</p>
     </div>
   </div>
 </section>
 
-<!-- ══ BENEFICIOS ═════════════════════════════════════════════════════════════ -->
-<section id="beneficios">
-  <div class="benefits-grid">
-    <div>
-      <div class="section-tag">Beneficios</div>
-      <h2 class="section-title">¿Por qué elegir <span>Portal RH</span>?</h2>
-      <div class="benefits-list">
-        <div class="benefit-item">
-          <div class="benefit-check">✓</div>
-          <div>
-            <h4>Portal propio para tu empresa</h4>
-            <p>Tu empresa tiene su propio subdominio exclusivo. Tus empleados ven solo lo tuyo, con tu identidad.</p>
+<!-- ── SECURITY ── -->
+<section class="security-section">
+  <div class="security-inner">
+    <div class="security-visual">
+      <div class="sec-title">🔒 Seguridad de nivel empresarial</div>
+      <div class="sec-items">
+        <div class="sec-item">
+          <div class="sec-item-icon">🔐</div>
+          <div class="sec-item-text">
+            <div class="sec-item-title">Cifrado de extremo a extremo</div>
+            <div class="sec-item-desc">TLS 1.3 en tránsito · AES-256 en reposo</div>
           </div>
+          <div class="sec-item-check">✓</div>
         </div>
-        <div class="benefit-item">
-          <div class="benefit-check">✓</div>
-          <div>
-            <h4>Acceso desde cualquier dispositivo</h4>
-            <p>Web, móvil o tablet. Los empleados pueden consultar sus vacaciones, cursos y recibos desde donde estén.</p>
+        <div class="sec-item">
+          <div class="sec-item-icon">🇩🇴</div>
+          <div class="sec-item-text">
+            <div class="sec-item-title">Cumplimiento Ley 172-13</div>
+            <div class="sec-item-desc">Ley de Protección de Datos Personales de RD</div>
           </div>
+          <div class="sec-item-check">✓</div>
         </div>
-        <div class="benefit-item">
-          <div class="benefit-check">✓</div>
-          <div>
-            <h4>Cumplimiento legal local</h4>
-            <p>Diseñado para las normativas laborales de República Dominicana. Feriados, liquidaciones y más.</p>
+        <div class="sec-item">
+          <div class="sec-item-icon">👤</div>
+          <div class="sec-item-text">
+            <div class="sec-item-title">Control de acceso por roles</div>
+            <div class="sec-item-desc">Admin · Gerente · Empleado — cada uno ve solo lo que le corresponde</div>
           </div>
+          <div class="sec-item-check">✓</div>
         </div>
-        <div class="benefit-item">
-          <div class="benefit-check">✓</div>
-          <div>
-            <h4>Soporte en español, siempre</h4>
-            <p>Equipo local que responde rápido. Sin chatbots en inglés, sin esperar horas en cola.</p>
+        <div class="sec-item">
+          <div class="sec-item-icon">💾</div>
+          <div class="sec-item-text">
+            <div class="sec-item-title">Respaldo automático diario</div>
+            <div class="sec-item-desc">Copias de seguridad en múltiples ubicaciones en la nube</div>
           </div>
+          <div class="sec-item-check">✓</div>
         </div>
-        <div class="benefit-item">
-          <div class="benefit-check">✓</div>
-          <div>
-            <h4>Precio justo para la región</h4>
-            <p>Sin los costos de plataformas internacionales. Pagado en pesos o dólares según prefieras.</p>
+        <div class="sec-item">
+          <div class="sec-item-icon">📊</div>
+          <div class="sec-item-text">
+            <div class="sec-item-title">Registro de auditoría completo</div>
+            <div class="sec-item-desc">Cada cambio queda registrado: quién, cuándo y qué modificó</div>
           </div>
+          <div class="sec-item-check">✓</div>
         </div>
       </div>
     </div>
-
-    <div class="benefits-visual">
-      <h3>Resultados que nuestros clientes reportan</h3>
-      <div class="metrics">
-        <div class="metric">
-          <div class="metric-label">Reducción en tiempo administrativo de RH</div>
-          <div class="metric-value">-70%</div>
-          <div class="metric-bar"><div class="metric-fill" style="width:70%"></div></div>
+    <div class="security-text">
+      <div class="section-tag">Seguridad & Privacidad</div>
+      <h2>Tus datos de RH<br/><span>siempre protegidos</span></h2>
+      <p>La información de tus empleados es lo más sensible que maneja tu empresa. Construimos Portal RH con seguridad como prioridad, no como añadido.</p>
+      <div class="security-checks">
+        <div class="sec-check">
+          <div class="sec-check-icon">✓</div>
+          <div>
+            <h4>Datos almacenados en la nube segura</h4>
+            <p>Infraestructura redundante con 99.9% de disponibilidad garantizada.</p>
+          </div>
         </div>
-        <div class="metric">
-          <div class="metric-label">Empleados que usan el portal activamente</div>
-          <div class="metric-value">92%</div>
-          <div class="metric-bar"><div class="metric-fill" style="width:92%"></div></div>
+        <div class="sec-check">
+          <div class="sec-check-icon">✓</div>
+          <div>
+            <h4>Sin acceso de terceros a tus datos</h4>
+            <p>Tu información es tuya. No la vendemos ni la compartimos con nadie.</p>
+          </div>
         </div>
-        <div class="metric">
-          <div class="metric-label">Más cursos completados vs. antes</div>
-          <div class="metric-value">+240%</div>
-          <div class="metric-bar"><div class="metric-fill" style="width:80%"></div></div>
-        </div>
-        <div class="metric">
-          <div class="metric-label">Satisfacción del cliente (NPS)</div>
-          <div class="metric-value">9.1/10</div>
-          <div class="metric-bar"><div class="metric-fill" style="width:91%"></div></div>
+        <div class="sec-check">
+          <div class="sec-check-icon">✓</div>
+          <div>
+            <h4>Exporta o elimina tus datos cuando quieras</h4>
+            <p>Control total sobre tu información en todo momento.</p>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ══ SOLUCIONES BANNER ═════════════════════════════════════════════════════ -->
-<section style="background:linear-gradient(135deg,#0f1e3d 0%,#1a2f5e 100%);padding:72px 48px;text-align:center;">
-  <p style="font-size:.75rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#38bdf8;margin-bottom:14px;">Plataforma Integral</p>
-  <h2 style="font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:16px;line-height:1.2;">Todo lo que tu equipo necesita,<br/>en una sola plataforma.</h2>
-  <p style="color:#94a3b8;font-size:1.05rem;max-width:560px;margin:0 auto 36px;">Gestión de empleados, nómina, beneficios, vacantes internas y reportes. Descubre cómo cada módulo de Portal RH transforma tu área de RH.</p>
-  <a href="soluciones.html" style="display:inline-block;background:#1e6fd9;color:#fff;padding:14px 32px;border-radius:8px;font-weight:700;font-size:1rem;text-decoration:none;transition:background .2s;" onmouseover="this.style.background='#2e84f5'" onmouseout="this.style.background='#1e6fd9'">Ver todas las soluciones →</a>
-</section>
-
-<!-- ══ PRECIOS ════════════════════════════════════════════════════════════════ -->
+<!-- ── PRICING ── -->
 <section id="precios">
-  <div style="text-align:center; max-width:600px; margin:0 auto;">
+  <div class="section-center">
     <div class="section-tag">Precios</div>
-    <h2 class="section-title">Planes claros, <span>sin sorpresas</span></h2>
-    <p class="section-sub" style="margin:0 auto 3rem;">Todos los planes incluyen onboarding, soporte y actualizaciones.</p>
+    <h2 class="section-title">Planes para cada<br/><span>tamaño de empresa</span></h2>
+    <p class="section-sub">Sin contratos de un año. Sin costos ocultos. Comienza con el plan que necesitas hoy.</p>
   </div>
-
   <div class="pricing-grid">
     <div class="pricing-card">
       <h3>Starter</h3>
-      <p style="font-size:.85rem;color:#6B7280;margin-top:.25rem;">Para empresas pequeñas</p>
-      <div class="price">$39 <span>/ mes</span></div>
-      <div class="price-desc">Incluye 15 empleados · pago mensual</div>
-      <div style="font-size:.78rem;color:#6B7280;margin-bottom:.25rem;">Desde $2.60 por empleado</div>
-      <div style="font-size:.78rem;color:#1e6fd9;font-weight:600;margin:.5rem 0 1rem;padding:.4rem .75rem;background:#EFF6FF;border-radius:6px;display:inline-block;">+ Implementación: pago único · <a href="#contacto" style="color:#1e6fd9;text-decoration:underline;">Cotizar</a></div>
+      <div class="price-desc-top">Empresas pequeñas que arrancan</div>
+      <div class="price">RD$3,500<span>/mes</span></div>
+      <div class="price-sub">Hasta 25 empleados · 1 admin</div>
+      <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Gestión de empleados</li>
         <li>Control de asistencia</li>
         <li>Vacaciones y permisos</li>
         <li>Portal del empleado</li>
-        <li>Reportes básicos en Excel</li>
+        <li>Soporte por correo</li>
       </ul>
-      <a href="https://www.portal-hr.com/contacto.html" class="btn-plan btn-plan-outline">Comenzar</a>
+      <a href="contacto.html" class="btn-plan btn-plan-outline">Comenzar gratis →</a>
     </div>
-
     <div class="pricing-card popular">
-      <span class="popular-badge">MÁS POPULAR</span>
-      <h3>Negocio</h3>
-      <p style="font-size:.85rem;color:#6B7280;margin-top:.25rem;">Para empresas en crecimiento</p>
-      <div class="price">$99 <span>/ mes</span></div>
-      <div class="price-desc">Incluye 50 empleados · pago mensual</div>
-      <div style="font-size:.78rem;color:#6B7280;margin-bottom:.25rem;">Desde $1.98 por empleado</div>
-      <div style="font-size:.78rem;color:#1e6fd9;font-weight:600;margin:.5rem 0 1rem;padding:.4rem .75rem;background:#EFF6FF;border-radius:6px;display:inline-block;">+ Implementación: pago único · <a href="#contacto" style="color:#1e6fd9;text-decoration:underline;">Cotizar</a></div>
+      <div class="popular-badge">⭐ Más popular</div>
+      <h3>Business</h3>
+      <div class="price-desc-top">El favorito de las PyMEs en RD</div>
+      <div class="price">RD$7,500<span>/mes</span></div>
+      <div class="price-sub">Hasta 100 empleados · 5 admins</div>
+      <div class="pricing-divider"></div>
       <ul class="pricing-features">
-        <li>Gestión de empleados</li>
-        <li>Control de asistencia</li>
-        <li>Vacaciones y permisos</li>
-        <li>Portal del empleado</li>
-        <li>Reportes básicos en Excel</li>
-        <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid #e5e7eb;font-weight:700;color:#1e6fd9;list-style:none;">➕ Además incluye:</li>
-        <li>Capacitación (LMS completo)</li>
+        <li>Todo lo del plan Starter</li>
+        <li>Nómina automatizada</li>
         <li>Evaluación de desempeño</li>
-        <li>Préstamos y beneficios</li>
-        <li>Comunicaciones internas</li>
-        <li>Reportes avanzados + Excel</li>
-      </ul>
-      <a href="https://www.portal-hr.com/contacto.html" class="btn-plan btn-plan-primary">Solicitar demo</a>
-      <p style="font-size:.75rem;color:#6B7280;text-align:center;margin-top:.6rem;">✓ Prueba gratis por 7 días · Cancela cuando quieras</p>
-    </div>
-
-    <div class="pricing-card">
-      <h3>Empresa</h3>
-      <p style="font-size:.85rem;color:#6B7280;margin-top:.25rem;">Para organizaciones grandes</p>
-      <div class="price">$249 <span>/ mes</span></div>
-      <div class="price-desc">Incluye 150 empleados · pago mensual</div>
-      <div style="font-size:.78rem;color:#6B7280;margin-bottom:.25rem;">Desde $1.66 por empleado</div>
-      <div style="font-size:.78rem;color:#1e6fd9;font-weight:600;margin:.5rem 0 1rem;padding:.4rem .75rem;background:#EFF6FF;border-radius:6px;display:inline-block;">+ Implementación: pago único · <a href="#contacto" style="color:#1e6fd9;text-decoration:underline;">Cotizar</a></div>
-      <ul class="pricing-features">
-        <li>Gestión de empleados</li>
-        <li>Control de asistencia</li>
-        <li>Vacaciones y permisos</li>
-        <li>Portal del empleado</li>
-        <li>Capacitación (LMS completo)</li>
-        <li>Evaluación de desempeño</li>
-        <li>Préstamos y beneficios</li>
-        <li>Comunicaciones internas</li>
-        <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid #e5e7eb;font-weight:700;color:#1e6fd9;list-style:none;">➕ Además incluye:</li>
-        <li>Múltiples departamentos</li>
-        <li>Roles y permisos avanzados</li>
+        <li>Capacitación y cursos</li>
+        <li>Reclutamiento</li>
+        <li>Reconocimientos</li>
         <li>Soporte prioritario</li>
-        <li>Onboarding dedicado</li>
       </ul>
-      <a href="https://www.portal-hr.com/contacto.html" class="btn-plan btn-plan-outline">Contáctanos</a>
+      <a href="contacto.html" class="btn-plan btn-plan-primary">Solicitar demo →</a>
     </div>
-
-    <div class="pricing-card" style="border-style:dashed; background:#FAFAFA;">
-      <h3>Corporativo</h3>
-      <p style="font-size:.85rem;color:#6B7280;margin-top:.25rem;">Para grandes organizaciones</p>
-      <div class="price" style="font-size:2rem;">A medida</div>
-      <div class="price-desc">+150 empleados · contrato anual</div>
-      <div style="font-size:.78rem;color:#1e6fd9;font-weight:600;margin:.5rem 0 1rem;padding:.4rem .75rem;background:#EFF6FF;border-radius:6px;display:inline-block;">+ Implementación: pago único · <a href="#contacto" style="color:#1e6fd9;text-decoration:underline;">Cotizar</a></div>
+    <div class="pricing-card">
+      <h3>Pro</h3>
+      <div class="price-desc-top">Para empresas en crecimiento</div>
+      <div class="price">RD$14,000<span>/mes</span></div>
+      <div class="price-sub">Hasta 300 empleados · admins ilimitados</div>
+      <div class="pricing-divider"></div>
       <ul class="pricing-features">
-        <li>Todo lo del plan Empresa</li>
-        <li style="margin-top:.5rem;padding-top:.5rem;border-top:1px solid #e5e7eb;font-weight:700;color:#1e6fd9;list-style:none;">➕ Además incluye:</li>
-        <li>Múltiples sucursales</li>
-        <li>Integraciones a medida</li>
-        <li>Gerente de cuenta dedicado</li>
-        <li>Tiempo de respuesta: menos de 4h</li>
-        <li>Capacitación al equipo de RH</li>
+        <li>Todo lo del plan Business</li>
+        <li>Organigrama avanzado</li>
+        <li>Reportes personalizados</li>
+        <li>Importación masiva</li>
+        <li>API access</li>
+        <li>Gestor de cuenta dedicado</li>
       </ul>
-      <a href="https://www.portal-hr.com/contacto.html" class="btn-plan btn-plan-outline">Hablemos</a>
+      <a href="contacto.html" class="btn-plan btn-plan-outline">Contactar ventas →</a>
+    </div>
+    <div class="pricing-card">
+      <h3>Enterprise</h3>
+      <div class="price-desc-top">Grandes organizaciones</div>
+      <div class="price" style="font-size:1.8rem;letter-spacing:-0.5px">A medida</div>
+      <div class="price-sub">Empleados ilimitados · SLA garantizado</div>
+      <div class="pricing-divider"></div>
+      <ul class="pricing-features">
+        <li>Todo lo del plan Pro</li>
+        <li>Onboarding personalizado</li>
+        <li>Integración con sistemas existentes</li>
+        <li>SLA 99.9% garantizado</li>
+        <li>Capacitación al equipo</li>
+        <li>Soporte 24/7</li>
+      </ul>
+      <a href="contacto.html" class="btn-plan btn-plan-outline">Hablar con ventas →</a>
     </div>
   </div>
-
-  <!-- Implementación notice -->
-  <div style="max-width:760px;margin:2.5rem auto 0;background:#F0F6FF;border:1px solid #C7DEFF;border-radius:14px;padding:28px 36px;display:flex;gap:20px;align-items:flex-start;">
-    <div style="flex-shrink:0;width:40px;height:40px;background:#1e6fd9;border-radius:10px;display:flex;align-items:center;justify-content:center;">
-      <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    </div>
-    <div>
-      <p style="font-weight:700;color:#0f1e3d;font-size:1rem;margin-bottom:6px;">¿Quieres Portal RH con tu marca?</p>
-      <p style="color:#4B5563;font-size:.9rem;line-height:1.6;">La configuración de tu subdominio propio (<strong>tuempresa.portal-hr.com</strong>), logo, colores corporativos y datos iniciales conlleva un <strong>costo único de implementación</strong>. Si prefieres usar el sistema tal como viene, sin personalización, no aplica ningún cargo adicional. <a href="#contacto" style="color:#1e6fd9;font-weight:600;text-decoration:none;">Contáctanos para tu cotización →</a></p>
-    </div>
-  </div>
-
 </section>
 
-<!-- ══ CTA BANNER ══════════════════════════════════════════════════════════════ -->
-<div class="cta-banner" id="contacto">
-  <h2>¿Listo para transformar tu gestión de Recursos Humanos?</h2>
-  <p>Agenda una demo de 30 minutos y te mostramos cómo Portal RH se adapta a tu empresa.</p>
-  <div class="cta-group">
-    <a href="contacto.html" class="btn-white">Contáctanos ahora</a>
-    <a href="https://wa.me/18099152223" class="btn-outline-white">WhatsApp</a>
-  </div>
-</div>
-
-<!-- ══ FOOTER ══════════════════════════════════════════════════════════════════ -->
-<footer>
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <!-- Logo footer -->
-      <a href="#" class="nav-logo" style="margin-bottom:.5rem;">
-        <svg width="30" height="35" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z"
-            fill="rgba(255,255,255,0.08)" stroke="#4A9FD4" stroke-width="2.5"/>
-          <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
-          <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
-          <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-          <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
-          <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-        </svg>
-        <span style="font-size:1.1rem;font-weight:800;color:#fff;">Portal <span style="color:#94A3B8;font-weight:800;">RH</span></span>
-      </a>
-      <p>Toda la gestión de tu gente en un solo lugar. Hecho para empresas de República Dominicana y Latinoamérica.</p>
+<!-- ── CTA ── -->
+<section class="cta-banner">
+  <div class="cta-banner-glow"></div>
+  <div class="cta-banner-inner">
+    <h2>¿Listo para modernizar<br/>tu <span class="grad">gestión de RH</span>?</h2>
+    <p>Únete a las empresas dominicanas que ya usan Portal RH para gestionar su equipo con tecnología de vanguardia.</p>
+    <div class="cta-group">
+      <a href="contacto.html" class="btn-white">Solicitar demo gratuita</a>
+      <a href="contacto.html" class="btn-outline-white">Hablar con un asesor</a>
     </div>
+  </div>
+</section>
 
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <div class="footer-brand-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
+        <span>Portal<em>RH</em></span>
+      </div>
+      <p class="footer-desc">Sistema de Recursos Humanos en la nube para empresas dominicanas. Moderno, seguro y fácil de usar.</p>
+    </div>
     <div class="footer-col">
       <h4>Producto</h4>
       <a href="#modulos">Módulos</a>
-      <a href="#precios">Precios</a>
       <a href="#como-funciona">Cómo funciona</a>
-      <a href="#">Actualizaciones</a>
-    </div>
-    <div class="footer-col">
-      <h4>Empresa</h4>
-      <a href="#">Sobre nosotros</a>
-      <a href="contacto.html">Contacto</a>
+      <a href="#precios">Precios</a>
+      <a href="contacto.html">Demo gratuita</a>
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
-      <a href="terminos.html">Términos de uso</a>
       <a href="privacidad.html">Privacidad</a>
+      <a href="terminos.html">Términos de uso</a>
       <a href="seguridad.html">Seguridad</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contacto</h4>
+      <a href="contacto.html">Solicitar demo</a>
+      <a href="mailto:hola@portal-hr.com">hola@portal-hr.com</a>
+      <a href="https://wa.me/18094567890">WhatsApp</a>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Portal RH · portal-hr.com · Todos los derechos reservados</p>
-    <p style="display:flex;align-items:center;gap:16px;font-size:0.75rem;color:#64748B">
-      <span style="display:flex;align-items:center;gap:5px">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Datos encriptados
-      </span>
-      <span style="color:#475569">·</span>
-      <span style="display:flex;align-items:center;gap:5px">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-        Uptime 99.9%
-      </span>
-      <span style="color:#475569">·</span>
-      <span style="display:flex;align-items:center;gap:5px">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Soporte en español
-      </span>
-    </p>
+    <p>© 2026 Portal RH. Todos los derechos reservados. Hecho en República Dominicana 🇩🇴</p>
+    <div class="footer-badges">
+      <div class="footer-badge">🔒 SSL</div>
+      <div class="footer-badge">🇩🇴 Ley 172-13</div>
+      <div class="footer-badge">☁️ 99.9% uptime</div>
+    </div>
   </div>
 </footer>
 
-
-<script>
-(function () {
-  var DURATION = 4500;
-  var TITLES   = [
-    'Dashboard — Portal RH',
-    'Empleados — Portal RH',
-    'Vacaciones — Portal RH',
-    'Nómina — Portal RH',
-    'Asistencia — Portal RH'
-  ];
-
-  var tabs    = document.querySelectorAll('.carousel-tab');
-  var slides  = document.querySelectorAll('.carousel-slide');
-  var bar     = document.getElementById('carouselBar');
-  var titleEl = document.getElementById('carouselTitle');
-
-  if (!tabs.length || !bar) return;
-
-  var current = 0;
-  var timer   = null;
-
-  function go(index) {
-    // Deactivate current
-    tabs[current].classList.remove('active');
-    slides[current].classList.remove('active');
-
-    current = ((index % tabs.length) + tabs.length) % tabs.length;
-
-    tabs[current].classList.add('active');
-    slides[current].classList.add('active');
-    if (titleEl) titleEl.textContent = TITLES[current];
-
-    // Reset & animate progress bar
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
-
-    clearTimeout(timer);
-
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        bar.style.transition = 'width ' + DURATION + 'ms linear';
-        bar.style.width = '100%';
-      });
-    });
-
-    timer = setTimeout(function () { go(current + 1); }, DURATION);
-  }
-
-  tabs.forEach(function (tab, i) {
-    tab.addEventListener('click', function () { go(i); });
-  });
-
-  // Kick off
-  go(0);
-})();
-</script>
 </body>
 </html>
