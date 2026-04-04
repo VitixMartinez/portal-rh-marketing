@@ -3,596 +3,694 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Soluciones de RH — Portal RH</title>
+  <title>Soluciones — Portal RH</title>
+  <meta name="description" content="Conoce todos los módulos de Portal RH: nómina, asistencia, vacaciones, reclutamiento, evaluación y más. Diseñado para empresas dominicanas." />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="apple-touch-icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --navy:    #0f1e3d;
-      --navy2:   #132050;
-      --blue:    #1e6fd9;
-      --blue2:   #2e84f5;
-      --accent:  #38bdf8;
-      --text:    #e2e8f0;
-      --muted:   #94a3b8;
-      --card-bg: #162040;
-      --border:  #1e3060;
-      --white:   #ffffff;
-      --tag-bg:  rgba(30,111,217,.18);
+      --navy:   #060B18;
+      --navy2:  #0D1526;
+      --navy3:  #111E35;
+      --blue:   #2563EB;
+      --indigo: #6366F1;
+      --cyan:   #38BDF8;
+      --white:  #FFFFFF;
+      --gray:   #94A3B8;
+      --border: rgba(255,255,255,0.08);
+      --card:   #0F1C33;
     }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--navy);
-      color: var(--text);
-      line-height: 1.6;
-    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: var(--navy); color: #E2E8F0; line-height: 1.6; overflow-x: hidden; }
 
     /* ── NAV ── */
     nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 48px;
-      height: 78px;
-      background: var(--navy2);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5%; height: 68px;
+      background: rgba(6,11,24,0.92);
+      backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 0;
-      z-index: 100;
+      position: sticky; top: 0; z-index: 200;
     }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      text-decoration: none;
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo img { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; }
+    .nav-logo span { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
+    .nav-logo span em { color: var(--indigo); font-style: normal; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--gray); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: #fff; }
+    .btn-nav {
+      background: var(--blue); color: #fff; padding: 9px 20px; border-radius: 8px;
+      font-weight: 600; font-size: .875rem; text-decoration: none; transition: background .2s;
     }
-    .nav-logo svg { width: 46px; height: 46px; }
-    .nav-logo-name {
-      font-size: 1.6rem;
-      font-weight: 800;
-      color: var(--white);
-      letter-spacing: -.5px;
-    }
-    .nav-logo-name span { color: var(--accent); }
-    .nav-links {
-      display: flex;
-      gap: 32px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: .9rem;
-      font-weight: 500;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--white); }
-    .btn-demo {
-      background: var(--blue);
-      color: var(--white);
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: .9rem;
-      text-decoration: none;
-      transition: background .2s;
-    }
-    .btn-demo:hover { background: var(--blue2); }
+    .btn-nav:hover { background: #1d4ed8; }
 
     /* ── HERO ── */
     .hero {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      min-height: 420px;
-      overflow: hidden;
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 380px; overflow: hidden;
     }
     .hero-left {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 72px 64px;
-      background: var(--navy2);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 72px 64px; background: var(--navy2);
     }
     .hero-tag {
-      display: inline-block;
-      background: var(--tag-bg);
-      color: var(--accent);
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(56,189,248,.25);
-      margin-bottom: 20px;
-      width: fit-content;
+      display: inline-block; background: rgba(99,102,241,.15);
+      color: var(--cyan); font-size: .75rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 20px;
+      border: 1px solid rgba(56,189,248,.25); margin-bottom: 20px; width: fit-content;
     }
-    .hero-title {
-      font-size: 2.8rem;
-      font-weight: 900;
-      line-height: 1.15;
-      color: var(--white);
-      margin-bottom: 20px;
-    }
-    .hero-title span { color: var(--accent); }
-    .hero-desc {
-      font-size: 1.05rem;
-      color: var(--muted);
-      max-width: 480px;
-      margin-bottom: 36px;
-    }
+    .hero-title { font-size: 2.6rem; font-weight: 900; line-height: 1.15; color: #fff; margin-bottom: 18px; }
+    .hero-title span { color: var(--cyan); }
+    .hero-desc { font-size: 1rem; color: var(--gray); max-width: 460px; margin-bottom: 32px; }
     .btn-primary {
-      display: inline-block;
-      background: var(--blue);
-      color: var(--white);
-      padding: 14px 30px;
-      border-radius: 8px;
-      font-weight: 700;
-      font-size: 1rem;
-      text-decoration: none;
-      width: fit-content;
-      transition: background .2s;
+      display: inline-block; background: var(--blue); color: #fff;
+      padding: 13px 28px; border-radius: 8px; font-weight: 700;
+      font-size: .95rem; text-decoration: none; width: fit-content; transition: background .2s;
     }
-    .btn-primary:hover { background: var(--blue2); }
-    .hero-right {
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-right img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center top;
-      display: block;
-    }
-    .hero-right .img-placeholder {
-      width: 100%;
-      height: 100%;
-      min-height: 420px;
+    .btn-primary:hover { background: #1d4ed8; }
+    .hero-right { position: relative; overflow: hidden; }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+    .hero-placeholder {
+      width: 100%; height: 100%; min-height: 380px;
       background: linear-gradient(135deg, #1a2f5e 0%, #0d1a38 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: .9rem;
+      display: flex; align-items: center; justify-content: center; color: var(--gray);
     }
 
-    /* ── INTRO ── */
-    .section-intro {
-      text-align: center;
-      padding: 80px 48px 48px;
-      max-width: 800px;
-      margin: 0 auto;
-    }
+    /* ── SECTION INTRO ── */
+    .section-intro { text-align: center; padding: 72px 5% 40px; max-width: 760px; margin: 0 auto; }
     .section-label {
-      font-size: .75rem;
-      font-weight: 700;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 16px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 14px;
     }
-    .section-title {
-      font-size: 2.4rem;
-      font-weight: 900;
-      color: var(--white);
-      line-height: 1.2;
-      margin-bottom: 20px;
-    }
-    .section-desc {
-      font-size: 1.05rem;
-      color: var(--muted);
-    }
+    .section-title { font-size: 2.2rem; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 16px; }
+    .section-desc { font-size: 1rem; color: var(--gray); }
 
-    /* ── FEATURE GRID ── */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      background: var(--border);
-      margin: 0 0 80px 0;
+    /* ── MODULE GRID ── */
+    .modules-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2px; background: var(--border); margin: 0 0 80px;
     }
-    .feature-card {
-      background: var(--card-bg);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: background .2s;
+    .mod-card {
+      background: var(--card); overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: background .2s; scroll-margin-top: 90px;
     }
-    .feature-card:hover { background: #1a2a55; }
-    .feature-card-img {
-      width: 100%;
-      aspect-ratio: 16/9;
-      object-fit: cover;
-      display: block;
-    }
-    .feature-card-img-placeholder {
-      width: 100%;
-      aspect-ratio: 16/9;
+    .mod-card:hover { background: #162040; }
+    .mod-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
+    .mod-card-img-ph {
+      width: 100%; aspect-ratio: 16/9;
       background: linear-gradient(135deg, #1a2f5e 0%, #0d1a38 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--muted);
-      font-size: .8rem;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray); font-size: .8rem;
     }
-    .feature-card-body {
-      padding: 28px 28px 32px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+    .mod-card-body { padding: 28px 28px 32px; flex: 1; display: flex; flex-direction: column; }
+    .mod-card-icon {
+      width: 40px; height: 40px; background: rgba(99,102,241,.15);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px; color: var(--cyan);
     }
-    .feature-card-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--tag-bg);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 16px;
-      color: var(--accent);
-    }
-    .feature-card-icon svg { width: 20px; height: 20px; }
-    .feature-card-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 10px;
-    }
-    .feature-card-desc {
-      font-size: .9rem;
-      color: var(--muted);
-      line-height: 1.6;
-      flex: 1;
-    }
-    .feature-card-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      margin-top: 20px;
-      color: var(--accent);
-      font-size: .875rem;
-      font-weight: 600;
-      text-decoration: none;
+    .mod-card-icon svg { width: 20px; height: 20px; }
+    .mod-card-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .mod-card-desc { font-size: .875rem; color: var(--gray); line-height: 1.65; flex: 1; }
+    .btn-details {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 20px; color: var(--cyan); font-size: .875rem;
+      font-weight: 600; text-decoration: none; background: none;
+      border: none; cursor: pointer; padding: 0; font-family: inherit;
       transition: gap .2s;
     }
-    .feature-card-link:hover { gap: 10px; }
-    .feature-card-link svg { width: 16px; height: 16px; }
+    .btn-details:hover { gap: 10px; }
+    .btn-details svg { width: 16px; height: 16px; }
 
     /* ── PILLARS ── */
-    .pillars {
-      background: var(--navy2);
-      padding: 80px 48px;
-      text-align: center;
-    }
-    .pillars-title {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--white);
-      margin-bottom: 12px;
-    }
-    .pillars-desc {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 600px;
-      margin: 0 auto 56px;
-    }
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    .pillar {
-      text-align: left;
-    }
-    .pillar-icon {
-      width: 48px;
-      height: 48px;
-      color: var(--accent);
-      margin-bottom: 16px;
-    }
-    .pillar-name {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--white);
-      margin-bottom: 8px;
-    }
-    .pillar-text {
-      font-size: .9rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+    .pillars { background: var(--navy2); padding: 72px 5%; text-align: center; }
+    .pillars h2 { font-size: 1.9rem; font-weight: 900; color: #fff; margin-bottom: 12px; }
+    .pillars p { color: var(--gray); font-size: 1rem; max-width: 580px; margin: 0 auto 52px; }
+    .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 940px; margin: 0 auto; }
+    .pillar { text-align: left; }
+    .pillar-icon { width: 46px; height: 46px; color: var(--cyan); margin-bottom: 14px; }
+    .pillar-name { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .pillar-text { font-size: .875rem; color: var(--gray); line-height: 1.65; }
 
-    /* ── CTA BOTTOM ── */
+    /* ── CTA ── */
     .cta-bottom {
-      background: linear-gradient(135deg, #1e3a8a 0%, #1e6fd9 100%);
-      padding: 72px 48px;
-      text-align: center;
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      padding: 72px 5%; text-align: center;
     }
-    .cta-bottom h2 {
-      font-size: 2.2rem;
-      font-weight: 900;
-      color: var(--white);
-      margin-bottom: 16px;
-    }
-    .cta-bottom p {
-      color: rgba(255,255,255,.8);
-      font-size: 1.05rem;
-      margin-bottom: 36px;
-    }
-    .cta-group {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
+    .cta-bottom h2 { font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 14px; }
+    .cta-bottom p { color: rgba(255,255,255,.8); font-size: 1rem; margin-bottom: 32px; }
+    .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
     .btn-white {
-      background: var(--white);
-      color: var(--navy2);
-      padding: 14px 30px;
-      border-radius: 8px;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: .95rem;
-      transition: opacity .2s;
+      background: #fff; color: #1e3a8a; padding: 13px 28px; border-radius: 8px;
+      font-weight: 700; text-decoration: none; font-size: .95rem; transition: opacity .2s;
     }
     .btn-white:hover { opacity: .9; }
     .btn-outline-white {
-      background: transparent;
-      color: var(--white);
-      padding: 14px 30px;
-      border-radius: 8px;
-      font-weight: 700;
-      text-decoration: none;
-      font-size: .95rem;
-      border: 2px solid rgba(255,255,255,.5);
-      transition: border-color .2s;
+      background: transparent; color: #fff; padding: 13px 28px; border-radius: 8px;
+      font-weight: 700; text-decoration: none; font-size: .95rem;
+      border: 2px solid rgba(255,255,255,.5); transition: border-color .2s;
     }
-    .btn-outline-white:hover { border-color: var(--white); }
+    .btn-outline-white:hover { border-color: #fff; }
 
     /* ── FOOTER ── */
     footer {
-      background: #0a1428;
-      padding: 28px 48px;
-      text-align: center;
-      color: var(--muted);
-      font-size: .82rem;
-      border-top: 1px solid var(--border);
+      background: #040A14; padding: 28px 5%; text-align: center;
+      color: var(--gray); font-size: .82rem; border-top: 1px solid var(--border);
     }
-    footer a { color: var(--muted); text-decoration: none; }
-    footer a:hover { color: var(--white); }
+    footer a { color: var(--gray); text-decoration: none; }
+    footer a:hover { color: #fff; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(4,10,20,.85); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: #0F1C33; border: 1px solid rgba(99,102,241,.25);
+      border-radius: 16px; width: 100%; max-width: 640px;
+      max-height: 88vh; overflow-y: auto; position: relative;
+      padding: 40px 40px 36px;
+    }
+    .modal-close {
+      position: absolute; top: 18px; right: 18px;
+      background: rgba(255,255,255,.06); border: none; cursor: pointer;
+      color: var(--gray); width: 32px; height: 32px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
+      transition: background .2s; font-family: inherit;
+    }
+    .modal-close:hover { background: rgba(255,255,255,.12); color: #fff; }
+    .modal-icon {
+      width: 52px; height: 52px; background: rgba(99,102,241,.15);
+      border-radius: 14px; display: flex; align-items: center;
+      justify-content: center; color: var(--cyan); margin-bottom: 20px;
+    }
+    .modal-icon svg { width: 26px; height: 26px; }
+    .modal h2 { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
+    .modal .modal-subtitle { font-size: .95rem; color: var(--gray); margin-bottom: 24px; line-height: 1.6; }
+    .modal-features { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
+    .modal-features li {
+      display: flex; align-items: flex-start; gap: 10px;
+      font-size: .9rem; color: #CBD5E1; line-height: 1.5;
+    }
+    .modal-features li::before {
+      content: "✓"; color: var(--cyan); font-weight: 800;
+      font-size: .85rem; margin-top: 1px; flex-shrink: 0;
+    }
+    .modal-tag {
+      display: inline-block; background: rgba(56,189,248,.1);
+      border: 1px solid rgba(56,189,248,.2); color: var(--cyan);
+      font-size: .75rem; font-weight: 600; padding: 4px 10px;
+      border-radius: 20px; margin-bottom: 20px;
+    }
+    .modal-cta {
+      display: inline-block; background: var(--blue); color: #fff;
+      padding: 12px 26px; border-radius: 8px; font-weight: 700;
+      font-size: .9rem; text-decoration: none; transition: background .2s;
+    }
+    .modal-cta:hover { background: #1d4ed8; }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; }
       .hero-right { display: none; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
+      .modules-grid { grid-template-columns: 1fr 1fr; }
       .pillars-grid { grid-template-columns: 1fr; gap: 32px; }
       nav { padding: 0 24px; }
       .nav-links { display: none; }
+      .modal { padding: 28px 24px 24px; }
     }
     @media (max-width: 600px) {
-      .features-grid { grid-template-columns: 1fr; }
+      .modules-grid { grid-template-columns: 1fr; }
       .hero-left { padding: 48px 24px; }
       .hero-title { font-size: 2rem; }
-      .section-intro { padding: 56px 24px 32px; }
-      .pillars { padding: 56px 24px; }
-      .cta-bottom { padding: 56px 24px; }
+      .section-intro { padding: 52px 24px 32px; }
+      .pillars { padding: 52px 24px; }
+      .cta-bottom { padding: 52px 24px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ══ NAV ════════════════════════════════════════════════════════════════ -->
+<!-- ══ NAV ══ -->
 <nav>
   <a href="index.html" class="nav-logo">
-    <svg width="46" height="54" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z" fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
-      <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
-      <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
-      <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
-      <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    </svg>
-    <span class="nav-logo-name">Portal <span>RH</span></span>
+    <img src="apple-touch-icon.png" alt="Portal RH" />
+    <span>Portal<em>RH</em></span>
   </a>
   <ul class="nav-links">
     <li><a href="index.html#modulos">Módulos</a></li>
+    <li><a href="index.html#como-funciona">Cómo funciona</a></li>
     <li><a href="index.html#precios">Precios</a></li>
-    <li><a href="index.html#contacto">Contacto</a></li>
+    <li><a href="contacto.html">Contacto</a></li>
   </ul>
-  <a href="index.html#contacto" class="btn-demo">Solicitar demo</a>
+  <a href="contacto.html" class="btn-nav">Solicitar demo</a>
 </nav>
 
-<!-- ══ HERO ════════════════════════════════════════════════════════════════ -->
+<!-- ══ HERO ══ -->
 <section class="hero">
   <div class="hero-left">
     <span class="hero-tag">Soluciones de RH</span>
-    <h1 class="hero-title">Tu equipo, siempre al<br/><span>centro de todo.</span></h1>
-    <p class="hero-desc">
-      Portal RH reúne en una sola plataforma todo lo que necesitas para gestionar tu gente: desde el expediente hasta la nómina, los beneficios y el desarrollo profesional.
-    </p>
-    <a href="index.html#contacto" class="btn-primary">Solicitar demo gratuita</a>
+    <h1 class="hero-title">Todo lo que tu equipo<br/><span>necesita para crecer.</span></h1>
+    <p class="hero-desc">Portal RH reúne en una sola plataforma todo lo que necesitas para gestionar tu gente: desde el expediente hasta la nómina, los beneficios y el desarrollo profesional.</p>
+    <a href="contacto.html" class="btn-primary">Solicitar demo gratuita</a>
   </div>
   <div class="hero-right">
-    <img src="images/hero-soluciones.jpg" alt="Directora de RH" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="img-placeholder" style="display:none">📷 hero-soluciones.jpg</div>
+    <img src="images/hero-soluciones.jpg" alt="Gestión de RH"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="hero-placeholder" style="display:none">📷 hero-soluciones.jpg</div>
   </div>
 </section>
 
-<!-- ══ INTRO ════════════════════════════════════════════════════════════════ -->
+<!-- ══ INTRO ══ -->
 <div class="section-intro">
   <p class="section-label">Plataforma Integral</p>
-  <h2 class="section-title">Todo lo que tu fuerza laboral<br/>necesita para crecer.</h2>
-  <p class="section-desc">
-    Desde la contratación hasta el retiro, Portal RH centraliza los procesos clave de recursos humanos para que puedas enfocarte en lo que realmente importa: tu gente.
-  </p>
+  <h2 class="section-title">Todos los módulos que tu empresa necesita.</h2>
+  <p class="section-desc">Desde la contratación hasta la nómina, cada módulo está conectado y diseñado para el mercado dominicano. Haz clic en cualquier módulo para ver los detalles.</p>
 </div>
 
-<!-- ══ FEATURE GRID ════════════════════════════════════════════════════════ -->
-<div class="features-grid">
+<!-- ══ MÓDULOS GRID ══ -->
+<div class="modules-grid">
 
-  <!-- Card 1 – Gestión de Empleados -->
-  <div class="feature-card">
-    <img class="feature-card-img" src="images/foto-gestion.jpg" alt="Gestión de Empleados"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="feature-card-img-placeholder" style="display:none">📷 foto-gestion.jpg</div>
-    <div class="feature-card-body">
-      <div class="feature-card-icon">
+  <!-- 1. Gestión de Empleados -->
+  <div class="mod-card" id="gestion-empleados">
+    <img class="mod-card-img" src="images/foto-gestion.jpg" alt="Gestión de Empleados"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">👥 Gestión de Empleados</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
-      <h3 class="feature-card-title">Gestión de Empleados</h3>
-      <p class="feature-card-desc">Expedientes digitales completos: datos personales, contratos, documentos y historial laboral en un solo lugar seguro y accesible.</p>
-      <a href="index.html#contacto" class="feature-card-link">
+      <h3 class="mod-card-title">Gestión de Empleados</h3>
+      <p class="mod-card-desc">Expedientes digitales completos: datos personales, contratos, documentos y historial laboral en un solo lugar seguro.</p>
+      <button class="btn-details" onclick="openModal('modal-empleados')">
         Ver detalles
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 
-  <!-- Card 2 – Portal del Empleado -->
-  <div class="feature-card">
-    <img class="feature-card-img" src="images/foto-portal.jpg" alt="Portal del Empleado"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="feature-card-img-placeholder" style="display:none">📷 foto-portal.jpg</div>
-    <div class="feature-card-body">
-      <div class="feature-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+  <!-- 2. Control de Asistencia -->
+  <div class="mod-card" id="asistencia">
+    <img class="mod-card-img" src="images/foto-portal.jpg" alt="Control de Asistencia"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">📅 Control de Asistencia</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
       </div>
-      <h3 class="feature-card-title">Portal del Empleado</h3>
-      <p class="feature-card-desc">Cada colaborador tiene acceso a su información: recibos de pago, vacaciones, solicitudes y documentos, desde cualquier dispositivo.</p>
-      <a href="index.html#contacto" class="feature-card-link">
+      <h3 class="mod-card-title">Control de Asistencia</h3>
+      <p class="mod-card-desc">Registra entradas, salidas, ausencias y tardanzas. Genera reportes con un clic. Cumple con la Ley 16-92.</p>
+      <button class="btn-details" onclick="openModal('modal-asistencia')">
         Ver detalles
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 
-  <!-- Card 3 – Nómina y Pagos -->
-  <div class="feature-card">
-    <img class="feature-card-img" src="images/foto-nomina.jpg" alt="Nómina y Pagos"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="feature-card-img-placeholder" style="display:none">📷 foto-nomina.jpg</div>
-    <div class="feature-card-body">
-      <div class="feature-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+  <!-- 3. Gestión de Vacaciones -->
+  <div class="mod-card" id="vacaciones">
+    <img class="mod-card-img" src="images/foto-beneficios.jpg" alt="Gestión de Vacaciones"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">🌴 Gestión de Vacaciones</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
       </div>
-      <h3 class="feature-card-title">Nómina y Pagos</h3>
-      <p class="feature-card-desc">Cálculo preciso de nómina con deducciones legales, historial de pagos y generación de recibos. Cumplimiento con la normativa dominicana.</p>
-      <a href="index.html#contacto" class="feature-card-link">
+      <h3 class="mod-card-title">Gestión de Vacaciones</h3>
+      <p class="mod-card-desc">Flujo completo de solicitud, aprobación y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
+      <button class="btn-details" onclick="openModal('modal-vacaciones')">
         Ver detalles
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 
-  <!-- Card 4 – Beneficios y Prestaciones -->
-  <div class="feature-card">
-    <img class="feature-card-img" src="images/foto-beneficios.jpg" alt="Beneficios y Prestaciones"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="feature-card-img-placeholder" style="display:none">📷 foto-beneficios.jpg</div>
-    <div class="feature-card-body">
-      <div class="feature-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+  <!-- 4. Nómina -->
+  <div class="mod-card" id="nomina">
+    <img class="mod-card-img" src="images/foto-nomina.jpg" alt="Nómina"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">💰 Nómina</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
       </div>
-      <h3 class="feature-card-title">Beneficios y Prestaciones</h3>
-      <p class="feature-card-desc">Administra regalía pascual, bonificación anual, seguro médico y otros beneficios con cálculos automáticos y control total.</p>
-      <a href="index.html#contacto" class="feature-card-link">
+      <h3 class="mod-card-title">Nómina Automatizada</h3>
+      <p class="mod-card-desc">Cálculo automático de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
+      <button class="btn-details" onclick="openModal('modal-nomina')">
         Ver detalles
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 
-  <!-- Card 5 – Vacantes Internas -->
-  <div class="feature-card">
-    <img class="feature-card-img" src="images/foto-vacantes.jpg" alt="Vacantes Internas"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="feature-card-img-placeholder" style="display:none">📷 foto-vacantes.jpg</div>
-    <div class="feature-card-body">
-      <div class="feature-card-icon">
+  <!-- 5. Evaluación de Desempeño -->
+  <div class="mod-card" id="evaluacion">
+    <img class="mod-card-img" src="images/foto-reportes.jpg" alt="Evaluación de Desempeño"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">📈 Evaluación de Desempeño</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3 class="mod-card-title">Evaluación de Desempeño</h3>
+      <p class="mod-card-desc">Evaluaciones 360°, metas y retroalimentación continua. Identifica talento y toma decisiones con datos.</p>
+      <button class="btn-details" onclick="openModal('modal-evaluacion')">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 6. Capacitación -->
+  <div class="mod-card" id="capacitacion">
+    <img class="mod-card-img" src="images/foto-gestion.jpg" alt="Capacitación"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">🎓 Capacitación</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+      </div>
+      <h3 class="mod-card-title">Capacitación y Cursos</h3>
+      <p class="mod-card-desc">Asigna cursos, rastrea avances y certifica a tu equipo. Todo en la plataforma sin herramientas externas.</p>
+      <button class="btn-details" onclick="openModal('modal-capacitacion')">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 7. Reconocimientos -->
+  <div class="mod-card" id="reconocimientos">
+    <img class="mod-card-img" src="images/foto-portal.jpg" alt="Reconocimientos"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">🏆 Reconocimientos</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 22V4h4v18"/><path d="M6 9v5a6 6 0 0 0 12 0V9"/></svg>
+      </div>
+      <h3 class="mod-card-title">Reconocimientos</h3>
+      <p class="mod-card-desc">Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempeño y logros destacados.</p>
+      <button class="btn-details" onclick="openModal('modal-reconocimientos')">
+        Ver detalles
+        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 8. Reclutamiento -->
+  <div class="mod-card" id="reclutamiento">
+    <img class="mod-card-img" src="images/foto-vacantes.jpg" alt="Reclutamiento"
+         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
+    <div class="mod-card-img-ph" style="display:none">🔍 Reclutamiento</div>
+    <div class="mod-card-body">
+      <div class="mod-card-icon">
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </div>
-      <h3 class="feature-card-title">Vacantes Internas</h3>
-      <p class="feature-card-desc">Publica oportunidades de crecimiento dentro de tu organización. Los empleados pueden aplicar directamente desde su portal personal.</p>
-      <a href="index.html#contacto" class="feature-card-link">
+      <h3 class="mod-card-title">Vacantes Internas y Externas</h3>
+      <p class="mod-card-desc">Publica vacantes dentro y fuera de tu organización. Gestiona candidatos y formaliza contrataciones sin salir de la plataforma.</p>
+      <button class="btn-details" onclick="openModal('modal-reclutamiento')">
         Ver detalles
         <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-  </div>
-
-  <!-- Card 6 – Reportes y Métricas -->
-  <div class="feature-card">
-    <img class="feature-card-img" src="images/foto-reportes.jpg" alt="Reportes y Métricas"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
-    <div class="feature-card-img-placeholder" style="display:none">📷 foto-reportes.jpg</div>
-    <div class="feature-card-body">
-      <div class="feature-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-      </div>
-      <h3 class="feature-card-title">Reportes y Métricas</h3>
-      <p class="feature-card-desc">Dashboards en tiempo real con indicadores clave: rotación, ausentismo, headcount y costos laborales para tomar mejores decisiones.</p>
-      <a href="index.html#contacto" class="feature-card-link">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
+      </button>
     </div>
   </div>
 
 </div>
 
-<!-- ══ PILLARS ═══════════════════════════════════════════════════════════ -->
+<!-- ══ PILLARS ══ -->
 <section class="pillars">
-  <h2 class="pillars-title">Una plataforma diseñada para crecer contigo.</h2>
-  <p class="pillars-desc">Portal RH se adapta a tu empresa sin importar el tamaño, con soporte local y actualizaciones continuas.</p>
+  <h2>Una plataforma diseñada para crecer contigo.</h2>
+  <p>Portal RH se adapta a tu empresa sin importar el tamaño, con soporte local y actualizaciones continuas.</p>
   <div class="pillars-grid">
     <div class="pillar">
       <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       </svg>
-      <div class="pillar-name">Seguro y confiable.</div>
-      <p class="pillar-text">Tus datos están protegidos con cifrado de extremo a extremo y copias de seguridad automáticas. Cumplimos con las mejores prácticas de seguridad.</p>
+      <div class="pillar-name">Seguro y confiable</div>
+      <p class="pillar-text">Cifrado de extremo a extremo, copias de seguridad automáticas y cumplimiento con la Ley 172-13 de protección de datos de República Dominicana.</p>
     </div>
     <div class="pillar">
       <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
         <circle cx="12" cy="12" r="10"/>
         <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
       </svg>
-      <div class="pillar-name">Hecho para RD y LATAM.</div>
-      <p class="pillar-text">Desarrollado con el Código de Trabajo dominicano y las normativas laborales de Latinoamérica como base. No adaptamos, construimos desde el origen.</p>
+      <div class="pillar-name">Hecho para RD y LATAM</div>
+      <p class="pillar-text">Construido desde el origen con el Código de Trabajo dominicano, cálculo de TSS, regalía pascual y bonificación anual ya incorporados.</p>
     </div>
     <div class="pillar">
       <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
         <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/>
       </svg>
-      <div class="pillar-name">El idioma no es una barrera.</div>
-      <p class="pillar-text">Nuestro equipo de soporte atiende en <strong style="color:#38bdf8">español e inglés</strong>. WhatsApp, teléfono y correo — sin bots, sin esperas, con personas reales que entienden tu negocio.</p>
+      <div class="pillar-name">Soporte en español</div>
+      <p class="pillar-text">Nuestro equipo de soporte atiende en español e inglés por WhatsApp, teléfono y correo. Sin bots, sin esperas — personas reales que entienden tu negocio.</p>
     </div>
   </div>
 </section>
 
-<!-- ══ CTA BOTTOM ════════════════════════════════════════════════════════ -->
+<!-- ══ CTA ══ -->
 <div class="cta-bottom">
   <h2>¿Listo para transformar tu gestión de RH?</h2>
   <p>Agenda una demo de 30 minutos y te mostramos cómo Portal RH se adapta a tu empresa.</p>
   <div class="cta-group">
-    <a href="mailto:info@portal-hr.com" class="btn-white">Contáctanos ahora</a>
+    <a href="contacto.html" class="btn-white">Solicitar demo gratuita</a>
     <a href="https://wa.me/18099152223" class="btn-outline-white">WhatsApp</a>
   </div>
 </div>
 
-<!-- ══ FOOTER ════════════════════════════════════════════════════════════ -->
+<!-- ══ FOOTER ══ -->
 <footer>
-  <p>© 2026 Portal RH · portal-hr.com · Todos los derechos reservados &nbsp;·&nbsp; <a href="index.html">Inicio</a></p>
+  <p>© 2026 Portal RH · <a href="index.html">Inicio</a> · <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a> · Todos los derechos reservados</p>
 </footer>
+
+
+<!-- ══════════════════════════════════════════
+     MODALES
+═══════════════════════════════════════════ -->
+
+<!-- Modal: Gestión de Empleados -->
+<div class="modal-overlay" id="modal-empleados" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-empleados')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    </div>
+    <span class="modal-tag">Módulo principal</span>
+    <h2>Gestión de Empleados</h2>
+    <p class="modal-subtitle">El expediente digital de cada colaborador en un solo lugar: datos, documentos, contratos e historial laboral accesibles en segundos, con control de permisos por rol.</p>
+    <ul class="modal-features">
+      <li>Expediente digital completo: datos personales, contacto de emergencia, cargo, departamento y fecha de ingreso</li>
+      <li>Carga y firma digital de contratos, acuerdos de confidencialidad y documentos de onboarding</li>
+      <li>Historial laboral con cambios de cargo, aumentos de sueldo y sanciones</li>
+      <li>Importación masiva de empleados desde Excel con plantilla incluida</li>
+      <li>Foto de perfil, acceso desde cualquier dispositivo</li>
+      <li>Roles diferenciados: Admin, Gerente y Empleado ven solo lo que les corresponde</li>
+      <li>Alertas automáticas de vencimiento de contratos y documentos</li>
+      <li>Reportes de headcount, rotación y antigüedad exportables en PDF o Excel</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Control de Asistencia -->
+<div class="modal-overlay" id="modal-asistencia" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-asistencia')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    </div>
+    <span class="modal-tag">Cumplimiento Ley 16-92</span>
+    <h2>Control de Asistencia</h2>
+    <p class="modal-subtitle">Registra la jornada de trabajo de cada empleado con precisión. Elimina las hojas de cálculo y cumple con los requerimientos del Código de Trabajo dominicano.</p>
+    <ul class="modal-features">
+      <li>Registro de entrada y salida con marca de tiempo (timestamp) desde el portal del empleado</li>
+      <li>Detección automática de tardanzas, ausencias y horas extra</li>
+      <li>Aprobación de justificaciones de ausencia por el supervisor directo</li>
+      <li>Reportes de asistencia semanal, mensual y por rango de fechas con un clic</li>
+      <li>Integración directa con nómina: descuentos por ausencias se calculan automáticamente</li>
+      <li>Alertas al supervisor cuando un empleado no marca entrada</li>
+      <li>Historial de asistencia por empleado exportable a Excel o PDF</li>
+      <li>Compatible con la normativa de jornadas laborales de la Ley 16-92</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Gestión de Vacaciones -->
+<div class="modal-overlay" id="modal-vacaciones" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-vacaciones')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
+    </div>
+    <span class="modal-tag">Flujo completo</span>
+    <h2>Gestión de Vacaciones y Permisos</h2>
+    <p class="modal-subtitle">Digitaliza el proceso completo de vacaciones: desde la solicitud del empleado hasta la aprobación del gerente, con cálculo automático de días disponibles según la ley dominicana.</p>
+    <ul class="modal-features">
+      <li>Solicitud de vacaciones en línea desde el portal del empleado, sin formularios en papel</li>
+      <li>Cálculo automático de días disponibles según antigüedad (14 días al año según el Código de Trabajo)</li>
+      <li>Flujo de aprobación: el supervisor recibe la solicitud, aprueba o rechaza con un comentario</li>
+      <li>Notificación automática al empleado al ser aprobado o rechazado</li>
+      <li>Visualización del equipo en modo calendario para evitar conflictos de fechas</li>
+      <li>Permisos por enfermedad, maternidad, paternidad y días personales diferenciados</li>
+      <li>Historial completo de vacaciones por empleado</li>
+      <li>Reporte de saldos pendientes por departamento</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Nómina -->
+<div class="modal-overlay" id="modal-nomina" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-nomina')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+    </div>
+    <span class="modal-tag">Integrado con TSS e ISR</span>
+    <h2>Nómina Automatizada</h2>
+    <p class="modal-subtitle">Calcula la nómina de toda tu empresa en minutos con todas las deducciones legales aplicadas. Sin errores, sin recalcular manualmente, listo para exportar al banco.</p>
+    <ul class="modal-features">
+      <li>Cálculo automático de salario bruto, TSS (AFP + SFS), ISR y otras deducciones configurables</li>
+      <li>Regalía pascual y bonificación anual calculadas automáticamente con base en el sueldo</li>
+      <li>Descuentos automáticos por ausencias y tardanzas vinculados al módulo de asistencia</li>
+      <li>Generación de recibos de pago digitales para cada empleado (enviados por correo o disponibles en su portal)</li>
+      <li>Exportación de archivo de pago en formato compatible con Banco Popular, BHD, Banreservas y más</li>
+      <li>Historial de nóminas por período con posibilidad de reimpresión</li>
+      <li>Soporte para nómina semanal, quincenal y mensual</li>
+      <li>Reportes de costo laboral por departamento y centro de costo</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Evaluación de Desempeño -->
+<div class="modal-overlay" id="modal-evaluacion" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-evaluacion')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+    </div>
+    <span class="modal-tag">Decisiones basadas en datos</span>
+    <h2>Evaluación de Desempeño</h2>
+    <p class="modal-subtitle">Deja de depender de la intuición. Evalúa a tu equipo con criterios objetivos, establece metas medibles y construye planes de desarrollo personalizados.</p>
+    <ul class="modal-features">
+      <li>Evaluaciones 360°: el empleado se evalúa, su supervisor lo evalúa y sus compañeros también</li>
+      <li>Creación de metas (OKRs o KPIs) por empleado, departamento o empresa</li>
+      <li>Seguimiento del avance de metas en tiempo real con semáforo de estatus</li>
+      <li>Retroalimentación continua: los supervisores pueden dejar comentarios en cualquier momento</li>
+      <li>Planes de mejora individual (PIP) con fechas y responsables asignados</li>
+      <li>Identificación de talento de alto rendimiento para promociones internas</li>
+      <li>Historial de evaluaciones anteriores por empleado</li>
+      <li>Reportes de desempeño por equipo y área para decisiones de compensación</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Capacitación -->
+<div class="modal-overlay" id="modal-capacitacion" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-capacitacion')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+    </div>
+    <span class="modal-tag">Sin herramientas externas</span>
+    <h2>Capacitación y Cursos</h2>
+    <p class="modal-subtitle">Gestiona el desarrollo de tu equipo dentro de la misma plataforma. Asigna cursos, rastrea avances y emite certificaciones sin necesidad de herramientas externas.</p>
+    <ul class="modal-features">
+      <li>Biblioteca de cursos interna: sube videos, PDFs, presentaciones o enlaces externos</li>
+      <li>Asignación de cursos por empleado, cargo o departamento con fecha límite</li>
+      <li>Seguimiento de avance por módulo: el supervisor ve quién completó y quién no</li>
+      <li>Evaluaciones y quizzes al final de cada curso para validar el aprendizaje</li>
+      <li>Certificados digitales personalizados al completar un curso</li>
+      <li>Registro del historial de capacitaciones de cada empleado en su expediente</li>
+      <li>Alertas automáticas de cursos pendientes o próximos a vencer</li>
+      <li>Reportes de horas de capacitación por empleado y departamento</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Reconocimientos -->
+<div class="modal-overlay" id="modal-reconocimientos" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-reconocimientos')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 22V4h4v18"/><path d="M6 9v5a6 6 0 0 0 12 0V9"/></svg>
+    </div>
+    <span class="modal-tag">Cultura organizacional</span>
+    <h2>Reconocimientos</h2>
+    <p class="modal-subtitle">Un equipo motivado es más productivo. El módulo de reconocimientos permite celebrar logros, destacar colaboradores y fortalecer la cultura de tu empresa.</p>
+    <ul class="modal-features">
+      <li>Nominación de Empleado del Mes con votación entre compañeros o decisión gerencial</li>
+      <li>Reconocimientos por metas cumplidas, antigüedad, proyectos especiales y valores de la empresa</li>
+      <li>Feed interno de reconocimientos visible para todo el equipo (tipo mural de logros)</li>
+      <li>Notificación al empleado reconocido con mensaje personalizable</li>
+      <li>Integración con el módulo de evaluación: los reconocimientos se registran en el expediente</li>
+      <li>Historial de reconocimientos por empleado visible en su perfil</li>
+      <li>Categorías de reconocimiento configurables según los valores de tu empresa</li>
+      <li>Reportes de reconocimientos por período y departamento</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+<!-- Modal: Reclutamiento -->
+<div class="modal-overlay" id="modal-reclutamiento" onclick="closeOnOverlay(event, this)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-reclutamiento')">✕</button>
+    <div class="modal-icon">
+      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    </div>
+    <span class="modal-tag">Interno y externo</span>
+    <h2>Vacantes Internas y Externas</h2>
+    <p class="modal-subtitle">Gestiona todo tu proceso de reclutamiento desde un solo lugar: publica vacantes, recibe aplicaciones, evalúa candidatos y formaliza contrataciones sin salir de Portal RH.</p>
+    <ul class="modal-features">
+      <li>Publicación de vacantes internas: tus empleados pueden ver y aplicar desde su portal</li>
+      <li>Publicación de vacantes externas con página de aplicación pública para candidatos externos</li>
+      <li>Pipeline de candidatos por etapa: Recibido → Entrevista → Oferta → Contratado</li>
+      <li>Gestión de CVs y perfiles de candidatos centralizados por vacante</li>
+      <li>Programación de entrevistas con notificaciones automáticas al candidato y entrevistador</li>
+      <li>Evaluación de candidatos con formulario de retroalimentación post-entrevista</li>
+      <li>Al contratar, el candidato se convierte en empleado y se crea su expediente automáticamente</li>
+      <li>Reportes de tiempo de contratación, fuentes de candidatos y costo por hire</li>
+    </ul>
+    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
+  </div>
+</div>
+
+
+<!-- ══ SCRIPTS ══ -->
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function closeOnOverlay(event, overlay) {
+    if (event.target === overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
+        m.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
+</script>
 
 </body>
 </html>
