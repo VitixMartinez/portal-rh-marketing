@@ -417,7 +417,7 @@
     .pricing-divider { height: 1px; background: #E2E8F0; margin-bottom: 1.5rem; }
     .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
     .pricing-features li { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: #374151; }
-    .pricing-features li::before { content: "&#10003;"; color: var(--indigo); font-weight: 800; font-size: 0.8rem; }
+    .pricing-features li::before { content: "\2713"; color: var(--indigo); font-weight: 800; font-size: 0.8rem; }
     .btn-plan {
       display: block; text-align: center; padding: 0.85rem;
       border-radius: 12px; font-size: 0.9rem; font-weight: 700;
@@ -521,7 +521,15 @@
       .footer-inner { grid-template-columns: 1fr; }
       .hero-badge { font-size: 0.72rem; }
     }
-  </style>
+
+    /* Mobile hamburger menu */
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; margin: 5px 0; border-radius: 2px; transition: all .3s; }
+    .nav-mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--navy2); padding: 1.5rem 5%; gap: 1rem; z-index: 999; border-top: 1px solid rgba(255,255,255,0.08); }
+    @media (max-width: 600px) {
+      .nav-hamburger { display: block; }
+    }
+    </style>
 </head>
 <body>
 
@@ -531,12 +539,16 @@
     <div class="nav-logo-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
     <span>Portal<em>RH</em></span>
   </a>
-  <div class="nav-links">
-    <a href="#modulos">M&#243;dulos</a>
-    <a href="#como-funciona">C&#243;mo funciona</a>
-    <a href="#precios">Precios</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Men&#250;" onclick="var m=document.getElementById('navMenu');m.classList.toggle('nav-mobile-open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navMenu">
+    <a href="#modulos" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">M&#243;dulos</a>
+    <a href="#como-funciona" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">C&#243;mo funciona</a>
+    <a href="soluciones.html">Soluciones</a>
+    <a href="#precios" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">Precios</a>
     <a href="contacto.html">Contacto</a>
-    <a href="#precios" class="btn-nav">Solicitar demo</a>
+    <a href="#precios" class="btn-nav" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">Solicitar demo</a>
   </div>
 </nav>
 
@@ -605,7 +617,7 @@
             </div>
             <div class="stat-card">
               <div class="stat-label">Masa salarial</div>
-              <div class="stat-value" style="font-size:1.1rem">RD$284k</div>
+              <div class="stat-value" style="font-size:1.1rem">$284k</div>
               <div class="stat-sub">&#8593; listo a pagar</div>
             </div>
             <div class="stat-card">
@@ -659,7 +671,7 @@
         </div>
       </div>
       <div class="float-badge">
-        <div class="float-badge-icon">&#128276;</div>
+        <div class="float-badge-icon">&#128274;</div>
         <div class="float-badge-text">Datos encriptados<br/><span>Cumple Ley 172-13</span></div>
       </div>
     </div>
@@ -880,7 +892,7 @@
     <div class="pricing-card">
       <h3>Starter</h3>
       <div class="price-desc-top">Empresas peque&#241;as que arrancan</div>
-      <div class="price">RD$3,500<span>/mes</span></div>
+      <div class="price">$59<span>/mes</span></div>
       <div class="price-sub">Hasta 25 empleados &#183; 1 admin</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
@@ -895,8 +907,8 @@
     <div class="pricing-card popular">
       <div class="popular-badge">&#11088; M&#225;s popular</div>
       <h3>Business</h3>
-      <div class="price-desc-top">El favorito de las PyMEs en RD</div>
-      <div class="price">RD$7,500<span>/mes</span></div>
+      <div class="price-desc-top">El favorito de las PyMEs</div>
+      <div class="price">$129<span>/mes</span></div>
       <div class="price-sub">Hasta 100 empleados &#183; 5 admins</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
@@ -913,7 +925,7 @@
     <div class="pricing-card">
       <h3>Pro</h3>
       <div class="price-desc-top">Para empresas en crecimiento</div>
-      <div class="price">RD$14,000<span>/mes</span></div>
+      <div class="price">$249<span>/mes</span></div>
       <div class="price-sub">Hasta 300 empleados &#183; admins ilimitados</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
@@ -972,6 +984,7 @@
       <h4>Producto</h4>
       <a href="#modulos">M&#243;dulos</a>
       <a href="#como-funciona">C&#243;mo funciona</a>
+      <a href="soluciones.html">Soluciones</a>
       <a href="#precios">Precios</a>
       <a href="contacto.html">Demo gratuita</a>
     </div>
