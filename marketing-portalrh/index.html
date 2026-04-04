@@ -194,24 +194,34 @@
     .stat-value { font-size: 1.5rem; font-weight: 800; color: #fff; }
     .stat-sub { font-size: 0.6rem; color: #4ADE80; margin-top: 3px; font-weight: 600; }
     .stat-sub.warn { color: #FBBF24; }
-    .dash-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .dash-chart {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px;
-    }
-    .chart-title { font-size: 0.65rem; font-weight: 600; color: #4B5E8A; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .bars { display: flex; align-items: flex-end; gap: 4px; height: 52px; }
-    .bar { flex:1; border-radius: 3px 3px 0 0; background: rgba(99,102,241,0.3); }
-    .bar.hi { background: linear-gradient(to top, var(--blue), var(--indigo)); }
-    .pie-row { display: flex; align-items: center; gap: 10px; }
-    .pie-circle {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: conic-gradient(#4ADE80 0% 72%, #60A5FA 72% 90%, rgba(255,255,255,0.1) 90%);
-      flex-shrink: 0;
-    }
-    .pie-legend { display: flex; flex-direction: column; gap: 4px; }
-    .pie-item { display: flex; align-items: center; gap: 5px; font-size: 0.6rem; color: var(--gray); }
-    .pie-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    /* ── ROTATING SCREENS ── */
+    .dash-screens { position: relative; overflow: hidden; height: 218px; }
+    .dash-screen { position: absolute; inset: 0; opacity: 0; transition: opacity 0.45s ease; pointer-events: none; }
+    .dash-screen.active { opacity: 1; pointer-events: auto; }
+    .dash-table { width: 100%; border-collapse: collapse; }
+    .dash-table th { font-size: 0.58rem; color: #4B5E8A; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; padding: 0 4px 6px 0; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .dash-table td { font-size: 0.65rem; color: #CBD5E1; padding: 5px 4px 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+    .dash-toolbar { display: flex; align-items: center; gap: 6px; margin-bottom: 9px; }
+    .dash-search-bar { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 4px 8px; font-size: 0.62rem; color: #64748B; }
+    .dash-btn-xs { background: #2563EB; color: #fff; font-size: 0.61rem; font-weight: 700; border: none; border-radius: 5px; padding: 4px 9px; cursor: default; white-space: nowrap; }
+    .dash-mini-stats { display: flex; gap: 6px; margin-bottom: 9px; }
+    .mini-stat { flex:1; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:7px; padding:7px 8px; }
+    .mini-stat-v { font-size: 1rem; font-weight: 800; color: #fff; line-height:1; }
+    .mini-stat-v.g { color: #4ADE80; } .mini-stat-v.r { color: #F87171; } .mini-stat-v.a { color: #FBBF24; }
+    .mini-stat-l { font-size: 0.56rem; color: #4B5E8A; margin-top: 2px; }
+    .att-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .att-time { font-size: 0.62rem; color: #60A5FA; font-weight: 600; min-width: 36px; }
+    .att-time.out { color: #F87171; }
+    .vac-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .vac-info { flex:1; }
+    .vac-name { font-size: 0.67rem; font-weight: 600; color: #E2E8F0; }
+    .vac-dates { font-size: 0.57rem; color: #4B5E8A; margin-top:2px; }
+    .nomina-foot { font-size:0.62rem; color:#4B5E8A; padding-top:7px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.06); }
+    .nomina-total { font-weight:700; color:#4ADE80; }
+    .dash-nav { display:flex; justify-content:center; gap:5px; padding:8px 0 12px; }
+    .dash-dot { width:5px; height:5px; border-radius:99px; background:rgba(255,255,255,0.15); cursor:pointer; transition:all .3s; }
+    .dash-dot.active { background:#6366F1; width:16px; }
+    .av-sm { width:22px; height:22px; border-radius:6px; font-size:0.54rem; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; flex-shrink:0; }
     .dash-list { display: flex; flex-direction: column; gap: 7px; }
     .list-item {
       display: flex; align-items: center; gap: 10px;
@@ -608,66 +618,196 @@
           <div style="font-size:0.65rem;color:#4B5E8A;font-weight:600">Marzo 2026</div>
         </div>
         <div class="dash-body">
-          <div class="dash-stats">
-            <div class="stat-card">
-              <div class="stat-label">Equipo activo</div>
-              <div class="stat-value">142</div>
-              <div class="stat-sub">&#8593; +4 este mes</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Masa salarial</div>
-              <div class="stat-value" style="font-size:1.1rem">$284k</div>
-              <div class="stat-sub">&#8593; listo a pagar</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Asistencia hoy</div>
-              <div class="stat-value">96<span style="font-size:.75rem;color:#4B5E8A">%</span></div>
-              <div class="stat-sub warn">3 ausentes</div>
-            </div>
-          </div>
-          <div class="dash-chart-row">
-            <div class="dash-chart">
-              <div class="chart-title">Asistencia mensual</div>
-              <div class="bars">
-                <div class="bar" style="height:55%"></div>
-                <div class="bar" style="height:70%"></div>
-                <div class="bar" style="height:60%"></div>
-                <div class="bar hi" style="height:85%"></div>
-                <div class="bar hi" style="height:90%"></div>
-                <div class="bar" style="height:75%"></div>
-                <div class="bar hi" style="height:95%"></div>
+          <div class="dash-screens">
+
+            <!-- Screen 0: Dashboard principal -->
+            <div class="dash-screen active" id="dscreen-0">
+              <div class="dash-stats">
+                <div class="stat-card">
+                  <div class="stat-label">Equipo activo</div>
+                  <div class="stat-value">142</div>
+                  <div class="stat-sub">&#8593; +4 este mes</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Masa salarial</div>
+                  <div class="stat-value" style="font-size:1.1rem">$284k</div>
+                  <div class="stat-sub">&#8593; listo a pagar</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Asistencia hoy</div>
+                  <div class="stat-value">96<span style="font-size:.7rem;color:#4B5E8A">%</span></div>
+                  <div class="stat-sub warn">3 ausentes</div>
+                </div>
               </div>
-            </div>
-            <div class="dash-chart">
-              <div class="chart-title">Estado del equipo</div>
-              <div class="pie-row">
-                <div class="pie-circle"></div>
-                <div class="pie-legend">
-                  <div class="pie-item"><div class="pie-dot" style="background:#4ADE80"></div>Activo (72%)</div>
-                  <div class="pie-item"><div class="pie-dot" style="background:#60A5FA"></div>Vacaciones (18%)</div>
-                  <div class="pie-item"><div class="pie-dot" style="background:rgba(255,255,255,.15)"></div>Otros (10%)</div>
+              <div class="dash-list">
+                <div class="list-item">
+                  <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
+                  <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div><div class="list-role">Gerente &#183; Ventas</div></div>
+                  <div class="list-badge badge-green">Activo</div>
+                </div>
+                <div class="list-item">
+                  <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
+                  <div class="list-info"><div class="list-name">Ana P&#233;rez</div><div class="list-role">Analista &#183; RRHH</div></div>
+                  <div class="list-badge badge-amber">Vacaciones</div>
+                </div>
+                <div class="list-item">
+                  <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
+                  <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div><div class="list-role">Contadora &#183; Finanzas</div></div>
+                  <div class="list-badge badge-blue">N&#243;mina OK</div>
                 </div>
               </div>
             </div>
+
+            <!-- Screen 1: Gesti&#243;n de Empleados -->
+            <div class="dash-screen" id="dscreen-1">
+              <div class="dash-toolbar">
+                <div class="dash-search-bar">&#128269; Buscar empleado...</div>
+                <div class="dash-btn-xs">+ Nuevo empleado</div>
+              </div>
+              <table class="dash-table">
+                <thead><tr><th>Empleado</th><th>Cargo</th><th>Depto.</th><th>Estado</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>Juan Mart&#237;nez</div></td>
+                    <td>Gerente</td><td>Ventas</td>
+                    <td><div class="list-badge badge-green">Activo</div></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>Ana P&#233;rez</div></td>
+                    <td>Analista RH</td><td>RRHH</td>
+                    <td><div class="list-badge badge-amber">Vacaciones</div></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>Mar&#237;a L&#243;pez</div></td>
+                    <td>Contadora</td><td>Finanzas</td>
+                    <td><div class="list-badge badge-blue">Activa</div></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">CR</div>Carlos Reyes</div></td>
+                    <td>Dev. Frontend</td><td>Tecnolog&#237;a</td>
+                    <td><div class="list-badge badge-green">Activo</div></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="font-size:0.57rem;color:#4B5E8A;margin-top:7px">142 empleados &#183; P&#225;gina 1 de 10</div>
+            </div>
+
+            <!-- Screen 2: N&#243;mina -->
+            <div class="dash-screen" id="dscreen-2">
+              <div class="dash-toolbar">
+                <div style="font-size:0.67rem;font-weight:700;color:#E2E8F0">N&#243;mina &#183; Abril 2026</div>
+                <div style="font-size:0.58rem;color:#FBBF24;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);border-radius:5px;padding:3px 7px">En preparaci&#243;n</div>
+                <div class="dash-btn-xs" style="margin-left:auto">Procesar &#8594;</div>
+              </div>
+              <table class="dash-table">
+                <thead><tr><th>Empleado</th><th>Salario</th><th>TSS</th><th>ISR</th><th>Neto</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Juan Mart&#237;nez</td><td>$45,000</td>
+                    <td><span style="color:#F87171">-$3,825</span></td>
+                    <td><span style="color:#F87171">-$2,100</span></td>
+                    <td><span style="color:#4ADE80">$39,075</span></td>
+                  </tr>
+                  <tr>
+                    <td>Ana P&#233;rez</td><td>$32,000</td>
+                    <td><span style="color:#F87171">-$2,720</span></td>
+                    <td><span style="color:#F87171">-$980</span></td>
+                    <td><span style="color:#4ADE80">$28,300</span></td>
+                  </tr>
+                  <tr>
+                    <td>Mar&#237;a L&#243;pez</td><td>$38,500</td>
+                    <td><span style="color:#F87171">-$3,272</span></td>
+                    <td><span style="color:#F87171">-$1,540</span></td>
+                    <td><span style="color:#4ADE80">$33,688</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="nomina-foot">
+                <span>12 empleados incluidos</span>
+                <span class="nomina-total">Total neto: $284,400</span>
+              </div>
+            </div>
+
+            <!-- Screen 3: Asistencia -->
+            <div class="dash-screen" id="dscreen-3">
+              <div style="font-size:0.65rem;font-weight:700;color:#E2E8F0;margin-bottom:8px">Hoy &#183; Viernes 4 Abril 2026</div>
+              <div class="dash-mini-stats">
+                <div class="mini-stat"><div class="mini-stat-v g">38</div><div class="mini-stat-l">Presentes</div></div>
+                <div class="mini-stat"><div class="mini-stat-v r">3</div><div class="mini-stat-l">Ausentes</div></div>
+                <div class="mini-stat"><div class="mini-stat-v a">5</div><div class="mini-stat-l">Tardanzas</div></div>
+                <div class="mini-stat"><div class="mini-stat-v" style="font-size:.85rem">96%</div><div class="mini-stat-l">Asistencia</div></div>
+              </div>
+              <div class="att-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
+                <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div></div>
+                <div class="att-time">08:02</div>
+                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
+                <div class="att-time out">&#8212;</div>
+                <div class="list-badge badge-green">Presente</div>
+              </div>
+              <div class="att-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
+                <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div></div>
+                <div class="att-time">08:47</div>
+                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
+                <div class="att-time out">&#8212;</div>
+                <div class="list-badge badge-amber">Tardanza</div>
+              </div>
+              <div class="att-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">CR</div>
+                <div class="list-info"><div class="list-name">Carlos Reyes</div></div>
+                <div class="att-time" style="color:#4B5E8A">&#8212;</div>
+                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
+                <div class="att-time out" style="color:#4B5E8A">&#8212;</div>
+                <div class="list-badge" style="background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.2)">Ausente</div>
+              </div>
+            </div>
+
+            <!-- Screen 4: Vacaciones -->
+            <div class="dash-screen" id="dscreen-4">
+              <div class="dash-toolbar">
+                <div style="font-size:0.67rem;font-weight:700;color:#E2E8F0">Solicitudes de vacaciones</div>
+                <div class="list-badge badge-amber" style="font-size:0.58rem">3 pendientes</div>
+              </div>
+              <div class="vac-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);width:26px;height:26px;border-radius:7px">CG</div>
+                <div class="vac-info">
+                  <div class="vac-name">Carlos Garc&#237;a &#183; 7 d&#237;as</div>
+                  <div class="vac-dates">15 Abr &#8212; 22 Abr 2026</div>
+                </div>
+                <div class="list-badge badge-amber">Pendiente</div>
+              </div>
+              <div class="vac-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669);width:26px;height:26px;border-radius:7px">LS</div>
+                <div class="vac-info">
+                  <div class="vac-name">Laura Soto &#183; 5 d&#237;as</div>
+                  <div class="vac-dates">1 May &#8212; 5 May 2026</div>
+                </div>
+                <div class="list-badge badge-green">Aprobada &#10003;</div>
+              </div>
+              <div class="vac-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444);width:26px;height:26px;border-radius:7px">PR</div>
+                <div class="vac-info">
+                  <div class="vac-name">Pedro Ruiz &#183; 1 d&#237;a</div>
+                  <div class="vac-dates">10 Abr 2026</div>
+                </div>
+                <div class="list-badge" style="background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.2)">Rechazada</div>
+              </div>
+              <div style="font-size:0.57rem;color:#4B5E8A;margin-top:7px">Promedio disponible: 11.4 d&#237;as por empleado</div>
+            </div>
+
+          </div><!-- /dash-screens -->
+
+          <!-- Navigation dots -->
+          <div class="dash-nav">
+            <div class="dash-dot active" onclick="goToScreen(0)"></div>
+            <div class="dash-dot" onclick="goToScreen(1)"></div>
+            <div class="dash-dot" onclick="goToScreen(2)"></div>
+            <div class="dash-dot" onclick="goToScreen(3)"></div>
+            <div class="dash-dot" onclick="goToScreen(4)"></div>
           </div>
-          <div class="dash-list">
-            <div class="list-item">
-              <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
-              <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div><div class="list-role">Gerente &#183; Ventas</div></div>
-              <div class="list-badge badge-green">Activo</div>
-            </div>
-            <div class="list-item">
-              <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
-              <div class="list-info"><div class="list-name">Ana P&#233;rez</div><div class="list-role">Analista &#183; RRHH</div></div>
-              <div class="list-badge badge-amber">Vacaciones</div>
-            </div>
-            <div class="list-item">
-              <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
-              <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div><div class="list-role">Contadora &#183; Finanzas</div></div>
-              <div class="list-badge badge-blue">N&#243;mina OK</div>
-            </div>
-          </div>
-        </div>
+
+        </div><!-- /dash-body -->
       </div>
       <div class="float-badge">
         <div class="float-badge-icon">&#128274;</div>
@@ -1010,5 +1150,36 @@
   </div>
 </footer>
 
+
+<script>
+(function(){
+  var total = 5;
+  var tabSets = [
+    ['Dashboard','Empleados','N\u00f3mina'],
+    ['Empleados','Asistencia','Vacaciones'],
+    ['N\u00f3mina','Historial','Reportes'],
+    ['Asistencia','Justificaciones','Reportes'],
+    ['Vacaciones','Permisos','Calendario']
+  ];
+  var cur = 0;
+  var timer;
+
+  function go(n){
+    document.getElementById('dscreen-'+cur).classList.remove('active');
+    document.querySelectorAll('.dash-dot')[cur].classList.remove('active');
+    cur = ((n % total) + total) % total;
+    document.getElementById('dscreen-'+cur).classList.add('active');
+    document.querySelectorAll('.dash-dot')[cur].classList.add('active');
+    var tabs = document.querySelectorAll('.dash-tab');
+    tabSets[cur].forEach(function(lbl,i){ if(tabs[i]) tabs[i].textContent = lbl; });
+    tabs.forEach(function(t,i){ t.classList.toggle('active', i===0); });
+    clearInterval(timer);
+    timer = setInterval(function(){ go(cur+1); }, 4500);
+  }
+
+  window.goToScreen = go;
+  timer = setInterval(function(){ go(1); }, 4500);
+})();
+</script>
 </body>
 </html>
