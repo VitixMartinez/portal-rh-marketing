@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="apple-touch-icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -38,10 +40,8 @@
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo-icon {
-      width: 34px; height: 34px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: #fff; font-weight: 900; letter-spacing: -1px;
+      width: 36px; height: 36px; border-radius: 8px;
+      object-fit: contain;
     }
     .nav-logo span { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
     .nav-logo span em { color: var(--indigo); font-style: normal; }
@@ -481,10 +481,8 @@
     }
     .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
     .footer-brand-icon {
-      width: 30px; height: 30px; border-radius: 7px;
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; color: #fff; font-weight: 900;
+      width: 32px; height: 32px; border-radius: 7px;
+      object-fit: contain;
     }
     .footer-brand span { font-size: 1rem; font-weight: 800; color: #fff; }
     .footer-brand span em { color: var(--indigo); font-style: normal; }
@@ -536,7 +534,7 @@
 <!-- &#9472;&#9472; NAV &#9472;&#9472; -->
 <nav>
   <a href="/" class="nav-logo">
-    <div class="nav-logo-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
+    <img src="apple-touch-icon.png" alt="Portal RH" class="nav-logo-icon" />
     <span>Portal<em>RH</em></span>
   </a>
   <button class="nav-hamburger" id="navHamburger" aria-label="Men&#250;" onclick="var m=document.getElementById('navMenu');m.classList.toggle('nav-mobile-open')">
@@ -892,8 +890,8 @@
     <div class="pricing-card">
       <h3>Starter</h3>
       <div class="price-desc-top">Empresas peque&#241;as que arrancan</div>
-      <div class="price">$59<span>/mes</span></div>
-      <div class="price-sub">Hasta 25 empleados &#183; 1 admin</div>
+      <div class="price">$49<span>/mes</span></div>
+      <div class="price-sub">Hasta 15 empleados &#183; 1 admin</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Gesti&#243;n de empleados</li>
@@ -908,8 +906,8 @@
       <div class="popular-badge">&#11088; M&#225;s popular</div>
       <h3>Business</h3>
       <div class="price-desc-top">El favorito de las PyMEs</div>
-      <div class="price">$129<span>/mes</span></div>
-      <div class="price-sub">Hasta 100 empleados &#183; 5 admins</div>
+      <div class="price">$119<span>/mes</span></div>
+      <div class="price-sub">Hasta 50 empleados &#183; 5 admins</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Starter</li>
@@ -926,7 +924,7 @@
       <h3>Pro</h3>
       <div class="price-desc-top">Para empresas en crecimiento</div>
       <div class="price">$249<span>/mes</span></div>
-      <div class="price-sub">Hasta 300 empleados &#183; admins ilimitados</div>
+      <div class="price-sub">Hasta 150 empleados &#183; admins ilimitados</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Business</li>
@@ -975,7 +973,7 @@
   <div class="footer-inner">
     <div>
       <div class="footer-brand">
-        <div class="footer-brand-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
+        <img src="apple-touch-icon.png" alt="Portal RH" class="footer-brand-icon" />
         <span>Portal<em>RH</em></span>
       </div>
       <p class="footer-desc">Sistema de Recursos Humanos en la nube para empresas dominicanas. Moderno, seguro y f&#225;cil de usar.</p>
