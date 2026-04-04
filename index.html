@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal RH — Sistema de Recursos Humanos en la Nube</title>
-  <meta name="description" content="Portal RH centraliza asistencia, vacaciones, nómina, capacitación y desempeño en una plataforma moderna y segura. Hecho para empresas dominicanas." />
+  <title>Portal RH &#8212; Sistema de Recursos Humanos en la Nube</title>
+  <meta name="description" content="Portal RH centraliza asistencia, vacaciones, n&#243;mina, capacitaci&#243;n y desempe&#241;o en una plataforma moderna y segura. Hecho para empresas dominicanas." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="icon" href="apple-touch-icon.png" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -26,7 +28,7 @@
     html { scroll-behavior: smooth; }
     body { font-family: 'Inter', sans-serif; color: #0F172A; background: #fff; overflow-x: hidden; }
 
-    /* ───────── NAV ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; NAV &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 200;
       display: flex; align-items: center; justify-content: space-between;
@@ -38,10 +40,8 @@
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
     .nav-logo-icon {
-      width: 34px; height: 34px; border-radius: 8px;
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1rem; color: #fff; font-weight: 900; letter-spacing: -1px;
+      width: 36px; height: 36px; border-radius: 8px;
+      object-fit: contain;
     }
     .nav-logo span { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
     .nav-logo span em { color: var(--indigo); font-style: normal; }
@@ -57,7 +57,7 @@
     }
     .btn-nav:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ───────── HERO ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; HERO &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .hero {
       min-height: 100vh;
       background: var(--navy);
@@ -152,7 +152,7 @@
     .trust-item svg { color: #4ADE80; flex-shrink: 0; }
     .trust-sep { width: 1px; height: 14px; background: var(--border); }
 
-    /* ───────── HERO DASHBOARD VISUAL ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; HERO DASHBOARD VISUAL &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .hero-visual { position: relative; }
     .dash-glow {
       position: absolute; top: -40px; left: -40px; right: -40px; bottom: -40px;
@@ -243,7 +243,7 @@
     .float-badge-text { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
     .float-badge-text span { color: #4ADE80; }
 
-    /* ───────── TRUST BAR ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; TRUST BAR &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .trust-bar {
       background: var(--navy2);
       border-top: 1px solid var(--border);
@@ -260,7 +260,7 @@
     .trust-pill-icon { font-size: 1rem; }
     .trust-pill .check { color: #4ADE80; font-size: 0.75rem; }
 
-    /* ───────── STATS ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; STATS &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .stats-section {
       background: var(--navy);
       padding: 5rem 5%;
@@ -287,7 +287,7 @@
     .stat-box-value .unit { font-size: 1.5rem; color: var(--indigo); }
     .stat-box-label { font-size: 0.83rem; color: var(--gray); font-weight: 500; }
 
-    /* ───────── FEATURES ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; FEATURES &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     #modulos { background: #F8FAFC; padding: 5rem 5%; }
     .section-center { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
     .section-tag {
@@ -327,7 +327,7 @@
     .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem; }
     .feature-card p  { font-size: 0.875rem; color: #64748B; line-height: 1.65; }
 
-    /* ───────── HOW IT WORKS ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; HOW IT WORKS &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     #como-funciona { background: var(--navy); padding: 5rem 5%; position: relative; overflow: hidden; }
     #como-funciona::before {
       content: ""; position: absolute; inset: 0;
@@ -351,7 +351,7 @@
     .step h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
     .step p  { font-size: 0.875rem; color: var(--gray); line-height: 1.65; }
 
-    /* ───────── SECURITY SECTION ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; SECURITY SECTION &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .security-section {
       background: #fff; padding: 5rem 5%;
       border-top: 1px solid #E2E8F0;
@@ -390,7 +390,7 @@
     .sec-check h4 { font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; }
     .sec-check p { font-size: 0.83rem; color: #64748B; line-height: 1.6; }
 
-    /* ───────── PRICING ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; PRICING &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     #precios { background: #F8FAFC; padding: 5rem 5%; }
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
     .pricing-card {
@@ -417,7 +417,7 @@
     .pricing-divider { height: 1px; background: #E2E8F0; margin-bottom: 1.5rem; }
     .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
     .pricing-features li { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: #374151; }
-    .pricing-features li::before { content: "✓"; color: var(--indigo); font-weight: 800; font-size: 0.8rem; }
+    .pricing-features li::before { content: "\2713"; color: var(--indigo); font-weight: 800; font-size: 0.8rem; }
     .btn-plan {
       display: block; text-align: center; padding: 0.85rem;
       border-radius: 12px; font-size: 0.9rem; font-weight: 700;
@@ -431,7 +431,7 @@
     .btn-plan-outline { border: 1.5px solid #E2E8F0; color: var(--indigo); }
     .btn-plan-outline:hover { border-color: var(--indigo); background: #EEF2FF; }
 
-    /* ───────── CTA BANNER ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; CTA BANNER &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .cta-banner {
       background: var(--navy);
       padding: 6rem 5%; text-align: center;
@@ -469,7 +469,7 @@
     }
     .btn-outline-white:hover { border-color: rgba(255,255,255,0.5); color: #fff; background: rgba(255,255,255,0.05); }
 
-    /* ───────── FOOTER ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; FOOTER &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     footer {
       background: #040810;
       border-top: 1px solid rgba(255,255,255,0.06);
@@ -481,10 +481,8 @@
     }
     .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
     .footer-brand-icon {
-      width: 30px; height: 30px; border-radius: 7px;
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.85rem; color: #fff; font-weight: 900;
+      width: 32px; height: 32px; border-radius: 7px;
+      object-fit: contain;
     }
     .footer-brand span { font-size: 1rem; font-weight: 800; color: #fff; }
     .footer-brand span em { color: var(--indigo); font-style: normal; }
@@ -505,7 +503,7 @@
       display: flex; align-items: center; gap: 5px;
     }
 
-    /* ───────── RESPONSIVE ───────── */
+    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; RESPONSIVE &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     @media (max-width: 900px) {
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
       .hero-visual { display: none; }
@@ -521,26 +519,38 @@
       .footer-inner { grid-template-columns: 1fr; }
       .hero-badge { font-size: 0.72rem; }
     }
-  </style>
+
+    /* Mobile hamburger menu */
+    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; margin: 5px 0; border-radius: 2px; transition: all .3s; }
+    .nav-mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--navy2); padding: 1.5rem 5%; gap: 1rem; z-index: 999; border-top: 1px solid rgba(255,255,255,0.08); }
+    @media (max-width: 600px) {
+      .nav-hamburger { display: block; }
+    }
+    </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
+<!-- &#9472;&#9472; NAV &#9472;&#9472; -->
 <nav>
   <a href="/" class="nav-logo">
-    <div class="nav-logo-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
+    <img src="apple-touch-icon.png" alt="Portal RH" class="nav-logo-icon" />
     <span>Portal<em>RH</em></span>
   </a>
-  <div class="nav-links">
-    <a href="#modulos">Módulos</a>
-    <a href="#como-funciona">Cómo funciona</a>
-    <a href="#precios">Precios</a>
+  <button class="nav-hamburger" id="navHamburger" aria-label="Men&#250;" onclick="var m=document.getElementById('navMenu');m.classList.toggle('nav-mobile-open')">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-links" id="navMenu">
+    <a href="#modulos" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">M&#243;dulos</a>
+    <a href="#como-funciona" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">C&#243;mo funciona</a>
+    <a href="soluciones.html">Soluciones</a>
+    <a href="#precios" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">Precios</a>
     <a href="contacto.html">Contacto</a>
-    <a href="#precios" class="btn-nav">Solicitar demo</a>
+    <a href="#precios" class="btn-nav" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">Solicitar demo</a>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
+<!-- &#9472;&#9472; HERO &#9472;&#9472; -->
 <section class="hero">
   <div class="glow-1"></div>
   <div class="glow-2"></div>
@@ -550,13 +560,13 @@
     <div class="hero-text">
       <div class="hero-badge">
         <span></span>
-        Sistema de RH en la Nube · República Dominicana
+        Sistema de RH en la Nube &#183; Rep&#250;blica Dominicana
       </div>
       <h1>Gestiona tu equipo<br/><span class="grad">de forma inteligente</span></h1>
-      <p>Portal RH centraliza asistencia, vacaciones, nómina, capacitación y desempeño en una sola plataforma. Menos papeleo, más control, más tiempo para lo que importa.</p>
+      <p>Portal RH centraliza asistencia, vacaciones, n&#243;mina, capacitaci&#243;n y desempe&#241;o en una sola plataforma. Menos papeleo, m&#225;s control, m&#225;s tiempo para lo que importa.</p>
       <div class="hero-cta">
         <a href="contacto.html" class="btn-primary">Solicitar demo gratuita</a>
-        <a href="#modulos" class="btn-ghost">Ver módulos →</a>
+        <a href="#modulos" class="btn-ghost">Ver m&#243;dulos &#8594;</a>
       </div>
       <div class="trust-row">
         <div class="trust-item">
@@ -566,7 +576,7 @@
         <div class="trust-sep"></div>
         <div class="trust-item">
           <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-          Encriptación SSL
+          Encriptaci&#243;n SSL
         </div>
         <div class="trust-sep"></div>
         <div class="trust-item">
@@ -592,7 +602,7 @@
           <div class="dash-tabs">
             <div class="dash-tab active">Dashboard</div>
             <div class="dash-tab">Empleados</div>
-            <div class="dash-tab">Nómina</div>
+            <div class="dash-tab">N&#243;mina</div>
           </div>
           <div style="font-size:0.65rem;color:#4B5E8A;font-weight:600">Marzo 2026</div>
         </div>
@@ -601,12 +611,12 @@
             <div class="stat-card">
               <div class="stat-label">Equipo activo</div>
               <div class="stat-value">142</div>
-              <div class="stat-sub">↑ +4 este mes</div>
+              <div class="stat-sub">&#8593; +4 este mes</div>
             </div>
             <div class="stat-card">
               <div class="stat-label">Masa salarial</div>
-              <div class="stat-value" style="font-size:1.1rem">RD$284k</div>
-              <div class="stat-sub">↑ listo a pagar</div>
+              <div class="stat-value" style="font-size:1.1rem">$284k</div>
+              <div class="stat-sub">&#8593; listo a pagar</div>
             </div>
             <div class="stat-card">
               <div class="stat-label">Asistencia hoy</div>
@@ -642,24 +652,24 @@
           <div class="dash-list">
             <div class="list-item">
               <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
-              <div class="list-info"><div class="list-name">Juan Martínez</div><div class="list-role">Gerente · Ventas</div></div>
+              <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div><div class="list-role">Gerente &#183; Ventas</div></div>
               <div class="list-badge badge-green">Activo</div>
             </div>
             <div class="list-item">
               <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
-              <div class="list-info"><div class="list-name">Ana Pérez</div><div class="list-role">Analista · RRHH</div></div>
+              <div class="list-info"><div class="list-name">Ana P&#233;rez</div><div class="list-role">Analista &#183; RRHH</div></div>
               <div class="list-badge badge-amber">Vacaciones</div>
             </div>
             <div class="list-item">
               <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
-              <div class="list-info"><div class="list-name">María López</div><div class="list-role">Contadora · Finanzas</div></div>
-              <div class="list-badge badge-blue">Nómina OK</div>
+              <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div><div class="list-role">Contadora &#183; Finanzas</div></div>
+              <div class="list-badge badge-blue">N&#243;mina OK</div>
             </div>
           </div>
         </div>
       </div>
       <div class="float-badge">
-        <div class="float-badge-icon">🔒</div>
+        <div class="float-badge-icon">&#128274;</div>
         <div class="float-badge-text">Datos encriptados<br/><span>Cumple Ley 172-13</span></div>
       </div>
     </div>
@@ -667,103 +677,103 @@
   </div>
 </section>
 
-<!-- ── TRUST BAR ── -->
+<!-- &#9472;&#9472; TRUST BAR &#9472;&#9472; -->
 <div class="trust-bar">
-  <div class="trust-pill"><span class="trust-pill-icon">🔐</span>Cifrado TLS 1.3 <span class="check">✓</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">🇩🇴</span>Ley 172-13 Privacidad <span class="check">✓</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">☁️</span>Hospedado en la nube <span class="check">✓</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">💾</span>Respaldo automático diario <span class="check">✓</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">🛡️</span>Acceso por roles y permisos <span class="check">✓</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">⚡</span>99.9% disponibilidad <span class="check">✓</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">&#128272;</span>Cifrado TLS 1.3 <span class="check">&#10003;</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">&#127465;&#127476;</span>Ley 172-13 Privacidad <span class="check">&#10003;</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">&#9729;&#65039;</span>Hospedado en la nube <span class="check">&#10003;</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">&#128190;</span>Respaldo autom&#225;tico diario <span class="check">&#10003;</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">&#128737;&#65039;</span>Acceso por roles y permisos <span class="check">&#10003;</span></div>
+  <div class="trust-pill"><span class="trust-pill-icon">&#9889;</span>99.9% disponibilidad <span class="check">&#10003;</span></div>
 </div>
 
-<!-- ── STATS ── -->
+<!-- &#9472;&#9472; STATS &#9472;&#9472; -->
 <section class="stats-section">
   <div class="stats-inner">
-    <div class="stats-label">Portal RH en números</div>
-    <h2 class="stats-title">Una plataforma en la que las<br/><span class="grad">empresas dominicanas confían</span></h2>
+    <div class="stats-label">Portal RH en n&#250;meros</div>
+    <h2 class="stats-title">Una plataforma en la que las<br/><span class="grad">empresas dominicanas conf&#237;an</span></h2>
     <div class="stats-grid">
       <div class="stat-box">
         <div class="stat-box-value">12<span class="unit">+</span></div>
-        <div class="stat-box-label">Módulos integrados</div>
+        <div class="stat-box-label">M&#243;dulos integrados</div>
       </div>
       <div class="stat-box">
         <div class="stat-box-value">100<span class="unit">%</span></div>
-        <div class="stat-box-label">En la nube · Sin instalación</div>
+        <div class="stat-box-label">En la nube &#183; Sin instalaci&#243;n</div>
       </div>
       <div class="stat-box">
         <div class="stat-box-value">24<span class="unit">h</span></div>
-        <div class="stat-box-label">Soporte técnico disponible</div>
+        <div class="stat-box-label">Soporte t&#233;cnico disponible</div>
       </div>
       <div class="stat-box">
         <div class="stat-box-value">0<span class="unit">$</span></div>
-        <div class="stat-box-label">Costo de implementación</div>
+        <div class="stat-box-label">Costo de implementaci&#243;n</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FEATURES ── -->
+<!-- &#9472;&#9472; FEATURES &#9472;&#9472; -->
 <section id="modulos">
   <div class="section-center">
-    <div class="section-tag">Módulos</div>
+    <div class="section-tag">M&#243;dulos</div>
     <h2 class="section-title">Todo lo que tu equipo de<br/><span>Recursos Humanos necesita</span></h2>
-    <p class="section-sub">Cada módulo está diseñado para simplificar el trabajo diario de RH — sin hojas de cálculo, sin papeles, sin complicaciones.</p>
+    <p class="section-sub">Cada m&#243;dulo est&#225; dise&#241;ado para simplificar el trabajo diario de RH &#8212; sin hojas de c&#225;lculo, sin papeles, sin complicaciones.</p>
   </div>
   <div class="features-grid">
     <div class="feature-card">
-      <div class="feature-icon">👥</div>
-      <h3>Gestión de empleados</h3>
+      <div class="feature-icon">&#128101;</div>
+      <h3>Gesti&#243;n de empleados</h3>
       <p>Expediente digital completo: datos personales, documentos, historial, contratos y accesos desde un solo lugar.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📅</div>
+      <div class="feature-icon">&#128197;</div>
       <h3>Control de asistencia</h3>
       <p>Registra entradas, salidas, ausencias y tardanzas. Genera reportes con un clic. Cumple con la Ley 16-92.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🌴</div>
-      <h3>Gestión de vacaciones</h3>
-      <p>Flujo completo: solicitud, aprobación y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
+      <div class="feature-icon">&#127796;</div>
+      <h3>Gesti&#243;n de vacaciones</h3>
+      <p>Flujo completo: solicitud, aprobaci&#243;n y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">💰</div>
-      <h3>Nómina</h3>
-      <p>Cálculo automático de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
+      <div class="feature-icon">&#128176;</div>
+      <h3>N&#243;mina</h3>
+      <p>C&#225;lculo autom&#225;tico de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📈</div>
-      <h3>Evaluación de desempeño</h3>
-      <p>Evaluaciones 360°, metas y retroalimentación. Identifica talento y toma decisiones con datos.</p>
+      <div class="feature-icon">&#128200;</div>
+      <h3>Evaluaci&#243;n de desempe&#241;o</h3>
+      <p>Evaluaciones 360&#176;, metas y retroalimentaci&#243;n. Identifica talento y toma decisiones con datos.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🎓</div>
-      <h3>Capacitación</h3>
+      <div class="feature-icon">&#127891;</div>
+      <h3>Capacitaci&#243;n</h3>
       <p>Asigna cursos, rastrea avances y certifica a tu equipo. Todo en la plataforma sin herramientas externas.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">🏆</div>
+      <div class="feature-icon">&#127942;</div>
       <h3>Reconocimientos</h3>
-      <p>Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempeño y más.</p>
+      <p>Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempe&#241;o y m&#225;s.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📋</div>
+      <div class="feature-icon">&#128203;</div>
       <h3>Reclutamiento</h3>
       <p>Publica vacantes, gestiona candidatos y formaliza contrataciones sin salir de la plataforma.</p>
     </div>
     <div class="feature-card">
-      <div class="feature-icon">📱</div>
+      <div class="feature-icon">&#128241;</div>
       <h3>Portal del empleado</h3>
       <p>Cada colaborador tiene su propio acceso para ver recibos, solicitar vacaciones y actualizar sus datos.</p>
     </div>
   </div>
 </section>
 
-<!-- ── HOW IT WORKS ── -->
+<!-- &#9472;&#9472; HOW IT WORKS &#9472;&#9472; -->
 <section id="como-funciona">
   <div class="section-center">
-    <div class="section-tag">Cómo funciona</div>
-    <h2 class="section-title" style="color:#fff">En marcha en <span>menos de un día</span></h2>
+    <div class="section-tag">C&#243;mo funciona</div>
+    <h2 class="section-title" style="color:#fff">En marcha en <span>menos de un d&#237;a</span></h2>
     <p class="section-sub">Sin servidores, sin instalaciones, sin IT. Solo acceso inmediato desde cualquier dispositivo.</p>
   </div>
   <div class="steps">
@@ -775,7 +785,7 @@
     <div class="step">
       <div class="step-num">2</div>
       <h3>Importas tus empleados</h3>
-      <p>Sube tu lista de empleados desde Excel o regístralos uno a uno. Nosotros te guiamos.</p>
+      <p>Sube tu lista de empleados desde Excel o reg&#237;stralos uno a uno. Nosotros te guiamos.</p>
     </div>
     <div class="step">
       <div class="step-num">3</div>
@@ -784,84 +794,84 @@
     </div>
     <div class="step">
       <div class="step-num">4</div>
-      <h3>Tú tienes el control</h3>
-      <p>Dashboard en tiempo real, reportes automáticos y alertas. Todo lo que necesitas en un solo lugar.</p>
+      <h3>T&#250; tienes el control</h3>
+      <p>Dashboard en tiempo real, reportes autom&#225;ticos y alertas. Todo lo que necesitas en un solo lugar.</p>
     </div>
   </div>
 </section>
 
-<!-- ── SECURITY ── -->
+<!-- &#9472;&#9472; SECURITY &#9472;&#9472; -->
 <section class="security-section">
   <div class="security-inner">
     <div class="security-visual">
-      <div class="sec-title">🔒 Seguridad de nivel empresarial</div>
+      <div class="sec-title">&#128274; Seguridad de nivel empresarial</div>
       <div class="sec-items">
         <div class="sec-item">
-          <div class="sec-item-icon">🔐</div>
+          <div class="sec-item-icon">&#128272;</div>
           <div class="sec-item-text">
             <div class="sec-item-title">Cifrado de extremo a extremo</div>
-            <div class="sec-item-desc">TLS 1.3 en tránsito · AES-256 en reposo</div>
+            <div class="sec-item-desc">TLS 1.3 en tr&#225;nsito &#183; AES-256 en reposo</div>
           </div>
-          <div class="sec-item-check">✓</div>
+          <div class="sec-item-check">&#10003;</div>
         </div>
         <div class="sec-item">
-          <div class="sec-item-icon">🇩🇴</div>
+          <div class="sec-item-icon">&#127465;&#127476;</div>
           <div class="sec-item-text">
             <div class="sec-item-title">Cumplimiento Ley 172-13</div>
-            <div class="sec-item-desc">Ley de Protección de Datos Personales de RD</div>
+            <div class="sec-item-desc">Ley de Protecci&#243;n de Datos Personales de RD</div>
           </div>
-          <div class="sec-item-check">✓</div>
+          <div class="sec-item-check">&#10003;</div>
         </div>
         <div class="sec-item">
-          <div class="sec-item-icon">👤</div>
+          <div class="sec-item-icon">&#128100;</div>
           <div class="sec-item-text">
             <div class="sec-item-title">Control de acceso por roles</div>
-            <div class="sec-item-desc">Admin · Gerente · Empleado — cada uno ve solo lo que le corresponde</div>
+            <div class="sec-item-desc">Admin &#183; Gerente &#183; Empleado &#8212; cada uno ve solo lo que le corresponde</div>
           </div>
-          <div class="sec-item-check">✓</div>
+          <div class="sec-item-check">&#10003;</div>
         </div>
         <div class="sec-item">
-          <div class="sec-item-icon">💾</div>
+          <div class="sec-item-icon">&#128190;</div>
           <div class="sec-item-text">
-            <div class="sec-item-title">Respaldo automático diario</div>
-            <div class="sec-item-desc">Copias de seguridad en múltiples ubicaciones en la nube</div>
+            <div class="sec-item-title">Respaldo autom&#225;tico diario</div>
+            <div class="sec-item-desc">Copias de seguridad en m&#250;ltiples ubicaciones en la nube</div>
           </div>
-          <div class="sec-item-check">✓</div>
+          <div class="sec-item-check">&#10003;</div>
         </div>
         <div class="sec-item">
-          <div class="sec-item-icon">📊</div>
+          <div class="sec-item-icon">&#128202;</div>
           <div class="sec-item-text">
-            <div class="sec-item-title">Registro de auditoría completo</div>
-            <div class="sec-item-desc">Cada cambio queda registrado: quién, cuándo y qué modificó</div>
+            <div class="sec-item-title">Registro de auditor&#237;a completo</div>
+            <div class="sec-item-desc">Cada cambio queda registrado: qui&#233;n, cu&#225;ndo y qu&#233; modific&#243;</div>
           </div>
-          <div class="sec-item-check">✓</div>
+          <div class="sec-item-check">&#10003;</div>
         </div>
       </div>
     </div>
     <div class="security-text">
       <div class="section-tag">Seguridad & Privacidad</div>
       <h2>Tus datos de RH<br/><span>siempre protegidos</span></h2>
-      <p>La información de tus empleados es lo más sensible que maneja tu empresa. Construimos Portal RH con seguridad como prioridad, no como añadido.</p>
+      <p>La informaci&#243;n de tus empleados es lo m&#225;s sensible que maneja tu empresa. Construimos Portal RH con seguridad como prioridad, no como a&#241;adido.</p>
       <div class="security-checks">
         <div class="sec-check">
-          <div class="sec-check-icon">✓</div>
+          <div class="sec-check-icon">&#10003;</div>
           <div>
             <h4>Datos almacenados en la nube segura</h4>
             <p>Infraestructura redundante con 99.9% de disponibilidad garantizada.</p>
           </div>
         </div>
         <div class="sec-check">
-          <div class="sec-check-icon">✓</div>
+          <div class="sec-check-icon">&#10003;</div>
           <div>
             <h4>Sin acceso de terceros a tus datos</h4>
-            <p>Tu información es tuya. No la vendemos ni la compartimos con nadie.</p>
+            <p>Tu informaci&#243;n es tuya. No la vendemos ni la compartimos con nadie.</p>
           </div>
         </div>
         <div class="sec-check">
-          <div class="sec-check-icon">✓</div>
+          <div class="sec-check-icon">&#10003;</div>
           <div>
             <h4>Exporta o elimina tus datos cuando quieras</h4>
-            <p>Control total sobre tu información en todo momento.</p>
+            <p>Control total sobre tu informaci&#243;n en todo momento.</p>
           </div>
         </div>
       </div>
@@ -869,88 +879,88 @@
   </div>
 </section>
 
-<!-- ── PRICING ── -->
+<!-- &#9472;&#9472; PRICING &#9472;&#9472; -->
 <section id="precios">
   <div class="section-center">
     <div class="section-tag">Precios</div>
-    <h2 class="section-title">Planes para cada<br/><span>tamaño de empresa</span></h2>
-    <p class="section-sub">Sin contratos de un año. Sin costos ocultos. Comienza con el plan que necesitas hoy.</p>
+    <h2 class="section-title">Planes para cada<br/><span>tama&#241;o de empresa</span></h2>
+    <p class="section-sub">Sin contratos de un a&#241;o. Sin costos ocultos. Comienza con el plan que necesitas hoy.</p>
   </div>
   <div class="pricing-grid">
     <div class="pricing-card">
       <h3>Starter</h3>
-      <div class="price-desc-top">Empresas pequeñas que arrancan</div>
-      <div class="price">RD$3,500<span>/mes</span></div>
-      <div class="price-sub">Hasta 25 empleados · 1 admin</div>
+      <div class="price-desc-top">Empresas peque&#241;as que arrancan</div>
+      <div class="price">$49<span>/mes</span></div>
+      <div class="price-sub">Hasta 15 empleados &#183; 1 admin</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
-        <li>Gestión de empleados</li>
+        <li>Gesti&#243;n de empleados</li>
         <li>Control de asistencia</li>
         <li>Vacaciones y permisos</li>
         <li>Portal del empleado</li>
         <li>Soporte por correo</li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-outline">Comenzar gratis →</a>
+      <a href="contacto.html" class="btn-plan btn-plan-outline">Comenzar gratis &#8594;</a>
     </div>
     <div class="pricing-card popular">
-      <div class="popular-badge">⭐ Más popular</div>
+      <div class="popular-badge">&#11088; M&#225;s popular</div>
       <h3>Business</h3>
-      <div class="price-desc-top">El favorito de las PyMEs en RD</div>
-      <div class="price">RD$7,500<span>/mes</span></div>
-      <div class="price-sub">Hasta 100 empleados · 5 admins</div>
+      <div class="price-desc-top">El favorito de las PyMEs</div>
+      <div class="price">$119<span>/mes</span></div>
+      <div class="price-sub">Hasta 50 empleados &#183; 5 admins</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Starter</li>
-        <li>Nómina automatizada</li>
-        <li>Evaluación de desempeño</li>
-        <li>Capacitación y cursos</li>
+        <li>N&#243;mina automatizada</li>
+        <li>Evaluaci&#243;n de desempe&#241;o</li>
+        <li>Capacitaci&#243;n y cursos</li>
         <li>Reclutamiento</li>
         <li>Reconocimientos</li>
         <li>Soporte prioritario</li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-primary">Solicitar demo →</a>
+      <a href="contacto.html" class="btn-plan btn-plan-primary">Solicitar demo &#8594;</a>
     </div>
     <div class="pricing-card">
       <h3>Pro</h3>
       <div class="price-desc-top">Para empresas en crecimiento</div>
-      <div class="price">RD$14,000<span>/mes</span></div>
-      <div class="price-sub">Hasta 300 empleados · admins ilimitados</div>
+      <div class="price">$249<span>/mes</span></div>
+      <div class="price-sub">Hasta 150 empleados &#183; admins ilimitados</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Business</li>
         <li>Organigrama avanzado</li>
         <li>Reportes personalizados</li>
-        <li>Importación masiva</li>
+        <li>Importaci&#243;n masiva</li>
         <li>API access</li>
         <li>Gestor de cuenta dedicado</li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-outline">Contactar ventas →</a>
+      <a href="contacto.html" class="btn-plan btn-plan-outline">Contactar ventas &#8594;</a>
     </div>
     <div class="pricing-card">
       <h3>Enterprise</h3>
       <div class="price-desc-top">Grandes organizaciones</div>
       <div class="price" style="font-size:1.8rem;letter-spacing:-0.5px">A medida</div>
-      <div class="price-sub">Empleados ilimitados · SLA garantizado</div>
+      <div class="price-sub">Empleados ilimitados &#183; SLA garantizado</div>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Pro</li>
         <li>Onboarding personalizado</li>
-        <li>Integración con sistemas existentes</li>
+        <li>Integraci&#243;n con sistemas existentes</li>
         <li>SLA 99.9% garantizado</li>
-        <li>Capacitación al equipo</li>
+        <li>Capacitaci&#243;n al equipo</li>
         <li>Soporte 24/7</li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-outline">Hablar con ventas →</a>
+      <a href="contacto.html" class="btn-plan btn-plan-outline">Hablar con ventas &#8594;</a>
     </div>
   </div>
 </section>
 
-<!-- ── CTA ── -->
+<!-- &#9472;&#9472; CTA &#9472;&#9472; -->
 <section class="cta-banner">
   <div class="cta-banner-glow"></div>
   <div class="cta-banner-inner">
-    <h2>¿Listo para modernizar<br/>tu <span class="grad">gestión de RH</span>?</h2>
-    <p>Únete a las empresas dominicanas que ya usan Portal RH para gestionar su equipo con tecnología de vanguardia.</p>
+    <h2>&#191;Listo para modernizar<br/>tu <span class="grad">gesti&#243;n de RH</span>?</h2>
+    <p>&#218;nete a las empresas dominicanas que ya usan Portal RH para gestionar su equipo con tecnolog&#237;a de vanguardia.</p>
     <div class="cta-group">
       <a href="contacto.html" class="btn-white">Solicitar demo gratuita</a>
       <a href="contacto.html" class="btn-outline-white">Hablar con un asesor</a>
@@ -958,27 +968,28 @@
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
+<!-- &#9472;&#9472; FOOTER &#9472;&#9472; -->
 <footer>
   <div class="footer-inner">
     <div>
       <div class="footer-brand">
-        <div class="footer-brand-icon">P<em style="color:#A5B4FC;font-style:normal">R</em></div>
+        <img src="apple-touch-icon.png" alt="Portal RH" class="footer-brand-icon" />
         <span>Portal<em>RH</em></span>
       </div>
-      <p class="footer-desc">Sistema de Recursos Humanos en la nube para empresas dominicanas. Moderno, seguro y fácil de usar.</p>
+      <p class="footer-desc">Sistema de Recursos Humanos en la nube para empresas dominicanas. Moderno, seguro y f&#225;cil de usar.</p>
     </div>
     <div class="footer-col">
       <h4>Producto</h4>
-      <a href="#modulos">Módulos</a>
-      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#modulos">M&#243;dulos</a>
+      <a href="#como-funciona">C&#243;mo funciona</a>
+      <a href="soluciones.html">Soluciones</a>
       <a href="#precios">Precios</a>
       <a href="contacto.html">Demo gratuita</a>
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
       <a href="privacidad.html">Privacidad</a>
-      <a href="terminos.html">Términos de uso</a>
+      <a href="terminos.html">T&#233;rminos de uso</a>
       <a href="seguridad.html">Seguridad</a>
     </div>
     <div class="footer-col">
@@ -989,11 +1000,11 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2026 Portal RH. Todos los derechos reservados. Hecho en República Dominicana 🇩🇴</p>
+    <p>&#169; 2026 Portal RH. Todos los derechos reservados. Hecho en Rep&#250;blica Dominicana &#127465;&#127476;</p>
     <div class="footer-badges">
-      <div class="footer-badge">🔒 SSL</div>
-      <div class="footer-badge">🇩🇴 Ley 172-13</div>
-      <div class="footer-badge">☁️ 99.9% uptime</div>
+      <div class="footer-badge">&#128274; SSL</div>
+      <div class="footer-badge">&#127465;&#127476; Ley 172-13</div>
+      <div class="footer-badge">&#9729;&#65039; 99.9% uptime</div>
     </div>
   </div>
 </footer>
