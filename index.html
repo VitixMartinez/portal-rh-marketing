@@ -194,24 +194,34 @@
     .stat-value { font-size: 1.5rem; font-weight: 800; color: #fff; }
     .stat-sub { font-size: 0.6rem; color: #4ADE80; margin-top: 3px; font-weight: 600; }
     .stat-sub.warn { color: #FBBF24; }
-    .dash-chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
-    .dash-chart {
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px;
-    }
-    .chart-title { font-size: 0.65rem; font-weight: 600; color: #4B5E8A; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .bars { display: flex; align-items: flex-end; gap: 4px; height: 52px; }
-    .bar { flex:1; border-radius: 3px 3px 0 0; background: rgba(99,102,241,0.3); }
-    .bar.hi { background: linear-gradient(to top, var(--blue), var(--indigo)); }
-    .pie-row { display: flex; align-items: center; gap: 10px; }
-    .pie-circle {
-      width: 52px; height: 52px; border-radius: 50%;
-      background: conic-gradient(#4ADE80 0% 72%, #60A5FA 72% 90%, rgba(255,255,255,0.1) 90%);
-      flex-shrink: 0;
-    }
-    .pie-legend { display: flex; flex-direction: column; gap: 4px; }
-    .pie-item { display: flex; align-items: center; gap: 5px; font-size: 0.6rem; color: var(--gray); }
-    .pie-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+    /* ── ROTATING SCREENS ── */
+    .dash-screens { position: relative; overflow: hidden; height: 218px; }
+    .dash-screen { position: absolute; inset: 0; opacity: 0; transition: opacity 0.45s ease; pointer-events: none; }
+    .dash-screen.active { opacity: 1; pointer-events: auto; }
+    .dash-table { width: 100%; border-collapse: collapse; }
+    .dash-table th { font-size: 0.58rem; color: #4B5E8A; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; padding: 0 4px 6px 0; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .dash-table td { font-size: 0.65rem; color: #CBD5E1; padding: 5px 4px 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
+    .dash-toolbar { display: flex; align-items: center; gap: 6px; margin-bottom: 9px; }
+    .dash-search-bar { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 4px 8px; font-size: 0.62rem; color: #64748B; }
+    .dash-btn-xs { background: #2563EB; color: #fff; font-size: 0.61rem; font-weight: 700; border: none; border-radius: 5px; padding: 4px 9px; cursor: default; white-space: nowrap; }
+    .dash-mini-stats { display: flex; gap: 6px; margin-bottom: 9px; }
+    .mini-stat { flex:1; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:7px; padding:7px 8px; }
+    .mini-stat-v { font-size: 1rem; font-weight: 800; color: #fff; line-height:1; }
+    .mini-stat-v.g { color: #4ADE80; } .mini-stat-v.r { color: #F87171; } .mini-stat-v.a { color: #FBBF24; }
+    .mini-stat-l { font-size: 0.56rem; color: #4B5E8A; margin-top: 2px; }
+    .att-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .att-time { font-size: 0.62rem; color: #60A5FA; font-weight: 600; min-width: 36px; }
+    .att-time.out { color: #F87171; }
+    .vac-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+    .vac-info { flex:1; }
+    .vac-name { font-size: 0.67rem; font-weight: 600; color: #E2E8F0; }
+    .vac-dates { font-size: 0.57rem; color: #4B5E8A; margin-top:2px; }
+    .nomina-foot { font-size:0.62rem; color:#4B5E8A; padding-top:7px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.06); }
+    .nomina-total { font-weight:700; color:#4ADE80; }
+    .dash-nav { display:flex; justify-content:center; gap:5px; padding:8px 0 12px; }
+    .dash-dot { width:5px; height:5px; border-radius:99px; background:rgba(255,255,255,0.15); cursor:pointer; transition:all .3s; }
+    .dash-dot.active { background:#6366F1; width:16px; }
+    .av-sm { width:22px; height:22px; border-radius:6px; font-size:0.54rem; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; flex-shrink:0; }
     .dash-list { display: flex; flex-direction: column; gap: 7px; }
     .list-item {
       display: flex; align-items: center; gap: 10px;
@@ -310,6 +320,7 @@
       background: #fff; border: 1px solid #E2E8F0; border-radius: 18px;
       padding: 2rem; transition: all .25s;
       position: relative; overflow: hidden;
+      text-decoration: none; display: block; cursor: pointer; color: inherit;
     }
     .feature-card::before {
       content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
@@ -607,66 +618,196 @@
           <div style="font-size:0.65rem;color:#4B5E8A;font-weight:600">Marzo 2026</div>
         </div>
         <div class="dash-body">
-          <div class="dash-stats">
-            <div class="stat-card">
-              <div class="stat-label">Equipo activo</div>
-              <div class="stat-value">142</div>
-              <div class="stat-sub">&#8593; +4 este mes</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Masa salarial</div>
-              <div class="stat-value" style="font-size:1.1rem">$284k</div>
-              <div class="stat-sub">&#8593; listo a pagar</div>
-            </div>
-            <div class="stat-card">
-              <div class="stat-label">Asistencia hoy</div>
-              <div class="stat-value">96<span style="font-size:.75rem;color:#4B5E8A">%</span></div>
-              <div class="stat-sub warn">3 ausentes</div>
-            </div>
-          </div>
-          <div class="dash-chart-row">
-            <div class="dash-chart">
-              <div class="chart-title">Asistencia mensual</div>
-              <div class="bars">
-                <div class="bar" style="height:55%"></div>
-                <div class="bar" style="height:70%"></div>
-                <div class="bar" style="height:60%"></div>
-                <div class="bar hi" style="height:85%"></div>
-                <div class="bar hi" style="height:90%"></div>
-                <div class="bar" style="height:75%"></div>
-                <div class="bar hi" style="height:95%"></div>
+          <div class="dash-screens">
+
+            <!-- Screen 0: Dashboard principal -->
+            <div class="dash-screen active" id="dscreen-0">
+              <div class="dash-stats">
+                <div class="stat-card">
+                  <div class="stat-label">Equipo activo</div>
+                  <div class="stat-value">142</div>
+                  <div class="stat-sub">&#8593; +4 este mes</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Masa salarial</div>
+                  <div class="stat-value" style="font-size:1.1rem">$284k</div>
+                  <div class="stat-sub">&#8593; listo a pagar</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-label">Asistencia hoy</div>
+                  <div class="stat-value">96<span style="font-size:.7rem;color:#4B5E8A">%</span></div>
+                  <div class="stat-sub warn">3 ausentes</div>
+                </div>
               </div>
-            </div>
-            <div class="dash-chart">
-              <div class="chart-title">Estado del equipo</div>
-              <div class="pie-row">
-                <div class="pie-circle"></div>
-                <div class="pie-legend">
-                  <div class="pie-item"><div class="pie-dot" style="background:#4ADE80"></div>Activo (72%)</div>
-                  <div class="pie-item"><div class="pie-dot" style="background:#60A5FA"></div>Vacaciones (18%)</div>
-                  <div class="pie-item"><div class="pie-dot" style="background:rgba(255,255,255,.15)"></div>Otros (10%)</div>
+              <div class="dash-list">
+                <div class="list-item">
+                  <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
+                  <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div><div class="list-role">Gerente &#183; Ventas</div></div>
+                  <div class="list-badge badge-green">Activo</div>
+                </div>
+                <div class="list-item">
+                  <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
+                  <div class="list-info"><div class="list-name">Ana P&#233;rez</div><div class="list-role">Analista &#183; RRHH</div></div>
+                  <div class="list-badge badge-amber">Vacaciones</div>
+                </div>
+                <div class="list-item">
+                  <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
+                  <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div><div class="list-role">Contadora &#183; Finanzas</div></div>
+                  <div class="list-badge badge-blue">N&#243;mina OK</div>
                 </div>
               </div>
             </div>
+
+            <!-- Screen 1: Gesti&#243;n de Empleados -->
+            <div class="dash-screen" id="dscreen-1">
+              <div class="dash-toolbar">
+                <div class="dash-search-bar">&#128269; Buscar empleado...</div>
+                <div class="dash-btn-xs">+ Nuevo empleado</div>
+              </div>
+              <table class="dash-table">
+                <thead><tr><th>Empleado</th><th>Cargo</th><th>Depto.</th><th>Estado</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>Juan Mart&#237;nez</div></td>
+                    <td>Gerente</td><td>Ventas</td>
+                    <td><div class="list-badge badge-green">Activo</div></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>Ana P&#233;rez</div></td>
+                    <td>Analista RH</td><td>RRHH</td>
+                    <td><div class="list-badge badge-amber">Vacaciones</div></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>Mar&#237;a L&#243;pez</div></td>
+                    <td>Contadora</td><td>Finanzas</td>
+                    <td><div class="list-badge badge-blue">Activa</div></td>
+                  </tr>
+                  <tr>
+                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">CR</div>Carlos Reyes</div></td>
+                    <td>Dev. Frontend</td><td>Tecnolog&#237;a</td>
+                    <td><div class="list-badge badge-green">Activo</div></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div style="font-size:0.57rem;color:#4B5E8A;margin-top:7px">142 empleados &#183; P&#225;gina 1 de 10</div>
+            </div>
+
+            <!-- Screen 2: N&#243;mina -->
+            <div class="dash-screen" id="dscreen-2">
+              <div class="dash-toolbar">
+                <div style="font-size:0.67rem;font-weight:700;color:#E2E8F0">N&#243;mina &#183; Abril 2026</div>
+                <div style="font-size:0.58rem;color:#FBBF24;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);border-radius:5px;padding:3px 7px">En preparaci&#243;n</div>
+                <div class="dash-btn-xs" style="margin-left:auto">Procesar &#8594;</div>
+              </div>
+              <table class="dash-table">
+                <thead><tr><th>Empleado</th><th>Salario</th><th>TSS</th><th>ISR</th><th>Neto</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td>Juan Mart&#237;nez</td><td>$45,000</td>
+                    <td><span style="color:#F87171">-$3,825</span></td>
+                    <td><span style="color:#F87171">-$2,100</span></td>
+                    <td><span style="color:#4ADE80">$39,075</span></td>
+                  </tr>
+                  <tr>
+                    <td>Ana P&#233;rez</td><td>$32,000</td>
+                    <td><span style="color:#F87171">-$2,720</span></td>
+                    <td><span style="color:#F87171">-$980</span></td>
+                    <td><span style="color:#4ADE80">$28,300</span></td>
+                  </tr>
+                  <tr>
+                    <td>Mar&#237;a L&#243;pez</td><td>$38,500</td>
+                    <td><span style="color:#F87171">-$3,272</span></td>
+                    <td><span style="color:#F87171">-$1,540</span></td>
+                    <td><span style="color:#4ADE80">$33,688</span></td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="nomina-foot">
+                <span>12 empleados incluidos</span>
+                <span class="nomina-total">Total neto: $284,400</span>
+              </div>
+            </div>
+
+            <!-- Screen 3: Asistencia -->
+            <div class="dash-screen" id="dscreen-3">
+              <div style="font-size:0.65rem;font-weight:700;color:#E2E8F0;margin-bottom:8px">Hoy &#183; Viernes 4 Abril 2026</div>
+              <div class="dash-mini-stats">
+                <div class="mini-stat"><div class="mini-stat-v g">38</div><div class="mini-stat-l">Presentes</div></div>
+                <div class="mini-stat"><div class="mini-stat-v r">3</div><div class="mini-stat-l">Ausentes</div></div>
+                <div class="mini-stat"><div class="mini-stat-v a">5</div><div class="mini-stat-l">Tardanzas</div></div>
+                <div class="mini-stat"><div class="mini-stat-v" style="font-size:.85rem">96%</div><div class="mini-stat-l">Asistencia</div></div>
+              </div>
+              <div class="att-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
+                <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div></div>
+                <div class="att-time">08:02</div>
+                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
+                <div class="att-time out">&#8212;</div>
+                <div class="list-badge badge-green">Presente</div>
+              </div>
+              <div class="att-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
+                <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div></div>
+                <div class="att-time">08:47</div>
+                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
+                <div class="att-time out">&#8212;</div>
+                <div class="list-badge badge-amber">Tardanza</div>
+              </div>
+              <div class="att-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">CR</div>
+                <div class="list-info"><div class="list-name">Carlos Reyes</div></div>
+                <div class="att-time" style="color:#4B5E8A">&#8212;</div>
+                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
+                <div class="att-time out" style="color:#4B5E8A">&#8212;</div>
+                <div class="list-badge" style="background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.2)">Ausente</div>
+              </div>
+            </div>
+
+            <!-- Screen 4: Vacaciones -->
+            <div class="dash-screen" id="dscreen-4">
+              <div class="dash-toolbar">
+                <div style="font-size:0.67rem;font-weight:700;color:#E2E8F0">Solicitudes de vacaciones</div>
+                <div class="list-badge badge-amber" style="font-size:0.58rem">3 pendientes</div>
+              </div>
+              <div class="vac-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);width:26px;height:26px;border-radius:7px">CG</div>
+                <div class="vac-info">
+                  <div class="vac-name">Carlos Garc&#237;a &#183; 7 d&#237;as</div>
+                  <div class="vac-dates">15 Abr &#8212; 22 Abr 2026</div>
+                </div>
+                <div class="list-badge badge-amber">Pendiente</div>
+              </div>
+              <div class="vac-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669);width:26px;height:26px;border-radius:7px">LS</div>
+                <div class="vac-info">
+                  <div class="vac-name">Laura Soto &#183; 5 d&#237;as</div>
+                  <div class="vac-dates">1 May &#8212; 5 May 2026</div>
+                </div>
+                <div class="list-badge badge-green">Aprobada &#10003;</div>
+              </div>
+              <div class="vac-row">
+                <div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444);width:26px;height:26px;border-radius:7px">PR</div>
+                <div class="vac-info">
+                  <div class="vac-name">Pedro Ruiz &#183; 1 d&#237;a</div>
+                  <div class="vac-dates">10 Abr 2026</div>
+                </div>
+                <div class="list-badge" style="background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.2)">Rechazada</div>
+              </div>
+              <div style="font-size:0.57rem;color:#4B5E8A;margin-top:7px">Promedio disponible: 11.4 d&#237;as por empleado</div>
+            </div>
+
+          </div><!-- /dash-screens -->
+
+          <!-- Navigation dots -->
+          <div class="dash-nav">
+            <div class="dash-dot active" onclick="goToScreen(0)"></div>
+            <div class="dash-dot" onclick="goToScreen(1)"></div>
+            <div class="dash-dot" onclick="goToScreen(2)"></div>
+            <div class="dash-dot" onclick="goToScreen(3)"></div>
+            <div class="dash-dot" onclick="goToScreen(4)"></div>
           </div>
-          <div class="dash-list">
-            <div class="list-item">
-              <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
-              <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div><div class="list-role">Gerente &#183; Ventas</div></div>
-              <div class="list-badge badge-green">Activo</div>
-            </div>
-            <div class="list-item">
-              <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
-              <div class="list-info"><div class="list-name">Ana P&#233;rez</div><div class="list-role">Analista &#183; RRHH</div></div>
-              <div class="list-badge badge-amber">Vacaciones</div>
-            </div>
-            <div class="list-item">
-              <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
-              <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div><div class="list-role">Contadora &#183; Finanzas</div></div>
-              <div class="list-badge badge-blue">N&#243;mina OK</div>
-            </div>
-          </div>
-        </div>
+
+        </div><!-- /dash-body -->
       </div>
       <div class="float-badge">
         <div class="float-badge-icon">&#128274;</div>
@@ -721,51 +862,51 @@
     <p class="section-sub">Cada m&#243;dulo est&#225; dise&#241;ado para simplificar el trabajo diario de RH &#8212; sin hojas de c&#225;lculo, sin papeles, sin complicaciones.</p>
   </div>
   <div class="features-grid">
-    <div class="feature-card">
+    <a class="feature-card" href="soluciones.html#gestion-empleados">
       <div class="feature-icon">&#128101;</div>
       <h3>Gesti&#243;n de empleados</h3>
       <p>Expediente digital completo: datos personales, documentos, historial, contratos y accesos desde un solo lugar.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#asistencia">
       <div class="feature-icon">&#128197;</div>
       <h3>Control de asistencia</h3>
       <p>Registra entradas, salidas, ausencias y tardanzas. Genera reportes con un clic. Cumple con la Ley 16-92.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#vacaciones">
       <div class="feature-icon">&#127796;</div>
       <h3>Gesti&#243;n de vacaciones</h3>
       <p>Flujo completo: solicitud, aprobaci&#243;n y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#nomina">
       <div class="feature-icon">&#128176;</div>
       <h3>N&#243;mina</h3>
       <p>C&#225;lculo autom&#225;tico de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#evaluacion">
       <div class="feature-icon">&#128200;</div>
       <h3>Evaluaci&#243;n de desempe&#241;o</h3>
       <p>Evaluaciones 360&#176;, metas y retroalimentaci&#243;n. Identifica talento y toma decisiones con datos.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#capacitacion">
       <div class="feature-icon">&#127891;</div>
       <h3>Capacitaci&#243;n</h3>
       <p>Asigna cursos, rastrea avances y certifica a tu equipo. Todo en la plataforma sin herramientas externas.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#reconocimientos">
       <div class="feature-icon">&#127942;</div>
       <h3>Reconocimientos</h3>
       <p>Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempe&#241;o y m&#225;s.</p>
-    </div>
-    <div class="feature-card">
+    </a>
+    <a class="feature-card" href="soluciones.html#reclutamiento">
       <div class="feature-icon">&#128203;</div>
-      <h3>Reclutamiento</h3>
-      <p>Publica vacantes, gestiona candidatos y formaliza contrataciones sin salir de la plataforma.</p>
-    </div>
-    <div class="feature-card">
+      <h3>Vacantes Internas y Externas</h3>
+      <p>Publica vacantes dentro y fuera de tu organizaci&#243;n. Gestiona candidatos y formaliza contrataciones.</p>
+    </a>
+    <a class="feature-card" href="soluciones.html#gestion-empleados">
       <div class="feature-icon">&#128241;</div>
       <h3>Portal del empleado</h3>
       <p>Cada colaborador tiene su propio acceso para ver recibos, solicitar vacaciones y actualizar sus datos.</p>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -956,6 +1097,346 @@
 </section>
 
 <!-- &#9472;&#9472; CTA &#9472;&#9472; -->
+
+<!-- ── PORTAL FLEET ── -->
+<style>
+  #portal-fleet {
+    background: linear-gradient(180deg, #060B18 0%, #080d24 50%, #060B18 100%);
+    padding: 6rem 5%;
+    position: relative;
+    overflow: hidden;
+  }
+  #portal-fleet::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: radial-gradient(rgba(99,102,241,0.1) 1px, transparent 1px);
+    background-size: 32px 32px;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 40%, black 30%, transparent 100%);
+    pointer-events: none;
+  }
+  .fleet-glow-r {
+    position: absolute; top: -5%; right: -5%;
+    width: 550px; height: 550px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .fleet-glow-l {
+    position: absolute; bottom: 0; left: -5%;
+    width: 400px; height: 400px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .fleet-inner {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 5rem; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .fleet-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(6,182,212,0.1); border: 1px solid rgba(6,182,212,0.3);
+    color: #67e8f9; font-size: 0.75rem; font-weight: 700;
+    padding: 5px 14px; border-radius: 99px; margin-bottom: 1.25rem;
+    letter-spacing: 0.5px; text-transform: uppercase;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-title {
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    font-weight: 900; color: #fff;
+    line-height: 1.13; letter-spacing: -1px;
+    margin-bottom: 1rem;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-title span {
+    background: linear-gradient(135deg, #67e8f9, #818cf8);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .fleet-desc {
+    font-size: 1rem; color: #94A3B8; line-height: 1.75; margin-bottom: 2rem;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-features {
+    list-style: none; display: flex; flex-direction: column; gap: 0.9rem;
+    margin-bottom: 2.2rem;
+  }
+  .fleet-features li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.925rem; color: #CBD5E1; line-height: 1.55;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-fi {
+    flex-shrink: 0; width: 24px; height: 24px; border-radius: 6px;
+    background: rgba(99,102,241,0.15); border: 1px solid rgba(99,102,241,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; margin-top: 1px;
+  }
+  .fleet-price-box {
+    display: flex; align-items: center; gap: 16px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
+    padding: 14px 20px; border-radius: 14px;
+    margin-bottom: 1.75rem;
+  }
+  .fleet-price-num {
+    font-size: 2rem; font-weight: 900; color: #fff;
+    font-family: 'Inter', system-ui, sans-serif; line-height: 1;
+  }
+  .fleet-price-unit {
+    font-size: 0.78rem; color: #67e8f9; line-height: 1.4;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-price-sep {
+    width: 1px; height: 36px; background: rgba(255,255,255,0.1);
+  }
+  .fleet-price-info {
+    font-size: 0.78rem; color: #94A3B8; line-height: 1.5;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-cta-row {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-fleet {
+    background: linear-gradient(135deg, #06B6D4 0%, #6366F1 100%);
+    color: #fff; padding: 0.8rem 1.8rem; border-radius: 10px;
+    font-size: 0.925rem; font-weight: 700; text-decoration: none;
+    transition: opacity .2s, transform .15s;
+    box-shadow: 0 0 28px rgba(6,182,212,0.25);
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .btn-fleet:hover { opacity: 0.88; transform: translateY(-2px); }
+  .btn-fleet-ghost {
+    color: #64748B; font-size: 0.875rem; font-weight: 500;
+    text-decoration: none; transition: color .2s;
+    display: inline-flex; align-items: center; gap: 5px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .btn-fleet-ghost:hover { color: #67e8f9; }
+
+  /* mockup card */
+  .fleet-card {
+    background: #0D1526; border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 18px; overflow: hidden;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(99,102,241,0.12),
+                inset 0 1px 0 rgba(255,255,255,0.05);
+  }
+  .fleet-card-bar {
+    background: rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 12px 16px; display: flex; align-items: center; gap: 10px;
+  }
+  .fcd { display: flex; gap: 5px; }
+  .fcd span { width: 10px; height: 10px; border-radius: 50%; }
+  .fleet-card-ttl {
+    flex: 1; text-align: center; font-size: 0.72rem; font-weight: 600;
+    color: #64748B; font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-card-body { padding: 14px; }
+
+  /* stats mini row */
+  .fc-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+  .fc-stat {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px; padding: 10px; text-align: center;
+  }
+  .fc-stat-v { font-size: 1.25rem; font-weight: 800; line-height: 1; font-family: 'Inter', system-ui, sans-serif; }
+  .fc-stat-l { font-size: 0.62rem; color: #475569; margin-top: 2px; font-family: 'Inter', system-ui, sans-serif; }
+
+  /* asset rows */
+  .fc-assets { display: flex; flex-direction: column; gap: 6px; }
+  .fc-asset {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 8px; padding: 8px 11px;
+  }
+  .fc-asset-icon { font-size: 15px; flex-shrink: 0; }
+  .fc-asset-info { flex: 1; }
+  .fc-asset-name { font-size: 0.78rem; font-weight: 700; color: #E2E8F0; font-family: 'Inter', system-ui, sans-serif; }
+  .fc-asset-sub { font-size: 0.67rem; color: #475569; font-family: 'Inter', system-ui, sans-serif; }
+  .fc-badge {
+    font-size: 0.64rem; font-weight: 700; padding: 3px 8px;
+    border-radius: 6px; font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fc-b-activo    { background: rgba(16,185,129,0.15); color: #34D399; }
+  .fc-b-mant      { background: rgba(245,158,11,0.15);  color: #FCD34D; }
+  .fc-b-checkin   { background: rgba(99,102,241,0.15);  color: #A5B4FC; }
+
+  /* alert row */
+  .fc-alert {
+    margin-top: 10px; background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.2); border-radius: 8px;
+    padding: 8px 12px; display: flex; align-items: center; gap: 8px;
+  }
+  .fc-alert-dot { width: 6px; height: 6px; border-radius: 50%; background: #FCD34D; flex-shrink: 0; }
+  .fc-alert-txt { font-size: 0.7rem; color: #FCD34D; font-family: 'Inter', system-ui, sans-serif; }
+
+  /* bottom stats */
+  .fleet-bottom {
+    max-width: 1200px; margin: 3.5rem auto 0;
+    display: grid; grid-template-columns: repeat(3,1fr); gap: 1.25rem;
+    position: relative; z-index: 1;
+  }
+  .fleet-bottom-card {
+    background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px; padding: 1.4rem 1.5rem;
+    transition: border-color .25s;
+  }
+  .fleet-bottom-card:hover { border-color: rgba(6,182,212,0.25); }
+  .fleet-bottom-card .fbc-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+  .fleet-bottom-card h4 {
+    font-size: 0.875rem; font-weight: 700; color: #fff; margin-bottom: 4px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-bottom-card p {
+    font-size: 0.78rem; color: #475569; line-height: 1.55;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  @media (max-width: 900px) {
+    .fleet-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .fleet-bottom { grid-template-columns: 1fr; gap: 1rem; }
+  }
+</style>
+
+<section id="portal-fleet">
+  <div class="fleet-glow-r"></div>
+  <div class="fleet-glow-l"></div>
+  <div class="fleet-inner">
+
+    <!-- LEFT -->
+    <div>
+      <div class="fleet-tag">&#128664; Nuevo &#8212; Portal Fleet</div>
+      <h2 class="fleet-title">Gestiona tu flota<br/>sin <span>papeles ni excusas</span></h2>
+      <p class="fleet-desc">
+        Portal Fleet es nuestro m&#243;dulo de control de activos y veh&#237;culos. Registra cada veh&#237;culo, asigna conductores, documenta accidentes y programa mantenimientos &#8212; todo integrado con tu equipo de RH.
+      </p>
+      <ul class="fleet-features">
+        <li>
+          <span class="fleet-fi">&#128203;</span>
+          <span><strong style="color:#fff">Ficha t&#233;cnica completa</strong> &#8212; Marca, modelo, a&#241;o, placa, chasis y odómetro por cada activo.</span>
+        </li>
+        <li>
+          <span class="fleet-fi">&#9989;</span>
+          <span><strong style="color:#fff">Check-in / Check-out con checklist</strong> &#8212; Aceite, llantas, frenos, luces&#8230; verificado antes de cada uso con fotos.</span>
+        </li>
+        <li>
+          <span class="fleet-fi">&#128101;</span>
+          <span><strong style="color:#fff">Historial de uso por empleado</strong> &#8212; Saber qui&#233;n us&#243; qu&#233; veh&#237;culo, cu&#225;ndo y para qu&#233;.</span>
+        </li>
+        <li>
+          <span class="fleet-fi">&#128295;</span>
+          <span><strong style="color:#fff">Mantenimiento preventivo y correctivo</strong> &#8212; Programa servicios por fecha o por km; alertas autom&#225;ticas por email.</span>
+        </li>
+        <li>
+          <span class="fleet-fi">&#128680;</span>
+          <span><strong style="color:#fff">Reportes de accidentes</strong> &#8212; Documenta terceros, lesiones, da&#241;os, n&#250;mero de parte policial y revisi&#243;n interna.</span>
+        </li>
+      </ul>
+      <div class="fleet-price-box">
+        <div>
+          <div class="fleet-price-num">$12</div>
+          <div class="fleet-price-unit">por veh&#237;culo / mes</div>
+        </div>
+        <div class="fleet-price-sep"></div>
+        <div class="fleet-price-info">
+          Plan Pro desde <strong style="color:#fff">$19</strong> &middot; hasta 50 activos<br/>
+          Empresas grandes: precio a medida
+        </div>
+      </div>
+      <div class="fleet-cta-row">
+        <a href="/flotilla" class="btn-fleet">Ver Portal Fleet &#8594;</a>
+        <a href="contacto.html" class="btn-fleet-ghost">Solicitar demo &#10132;</a>
+      </div>
+    </div>
+
+    <!-- RIGHT: mockup -->
+    <div>
+      <div class="fleet-card">
+        <div class="fleet-card-bar">
+          <div class="fcd">
+            <span style="background:#FF5F57"></span>
+            <span style="background:#FEBC2E"></span>
+            <span style="background:#28C840"></span>
+          </div>
+          <div class="fleet-card-ttl">Portal Fleet &#8212; Panel de activos</div>
+        </div>
+        <div class="fleet-card-body">
+          <div class="fc-stats">
+            <div class="fc-stat">
+              <div class="fc-stat-v" style="color:#34D399;">18</div>
+              <div class="fc-stat-l">Activos</div>
+            </div>
+            <div class="fc-stat">
+              <div class="fc-stat-v" style="color:#FCD34D;">3</div>
+              <div class="fc-stat-l">Mantenimiento</div>
+            </div>
+            <div class="fc-stat">
+              <div class="fc-stat-v" style="color:#A5B4FC;">7</div>
+              <div class="fc-stat-l">En uso ahora</div>
+            </div>
+          </div>
+          <div class="fc-assets">
+            <div class="fc-asset">
+              <div class="fc-asset-icon">&#128665;</div>
+              <div class="fc-asset-info">
+                <div class="fc-asset-name">Toyota Hilux &mdash; A-123456</div>
+                <div class="fc-asset-sub">Juan P&#233;rez &middot; Check-in 08:14 AM</div>
+              </div>
+              <span class="fc-badge fc-b-checkin">En uso</span>
+            </div>
+            <div class="fc-asset">
+              <div class="fc-asset-icon">&#128663;</div>
+              <div class="fc-asset-info">
+                <div class="fc-asset-name">Honda CR-V &mdash; B-789012</div>
+                <div class="fc-asset-sub">Disponible &middot; &#250;ltimo: ayer</div>
+              </div>
+              <span class="fc-badge fc-b-activo">Activo</span>
+            </div>
+            <div class="fc-asset">
+              <div class="fc-asset-icon">&#128665;</div>
+              <div class="fc-asset-info">
+                <div class="fc-asset-name">Ford F-150 &mdash; C-345678</div>
+                <div class="fc-asset-sub">Taller Mec&#225;nico Central</div>
+              </div>
+              <span class="fc-badge fc-b-mant">Mantenimiento</span>
+            </div>
+            <div class="fc-asset">
+              <div class="fc-asset-icon">&#128664;</div>
+              <div class="fc-asset-info">
+                <div class="fc-asset-name">Nissan Frontier &mdash; D-901234</div>
+                <div class="fc-asset-sub">Mar&#237;a L&#243;pez &middot; Ruta Sur</div>
+              </div>
+              <span class="fc-badge fc-b-checkin">En uso</span>
+            </div>
+          </div>
+          <div class="fc-alert">
+            <div class="fc-alert-dot"></div>
+            <div class="fc-alert-txt">&#9888; Ford F-150 tiene mantenimiento en 3 d&#237;as &mdash; Email enviado al taller</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- bottom cards -->
+  <div class="fleet-bottom">
+    <div class="fleet-bottom-card">
+      <div class="fbc-icon">&#9989;</div>
+      <h4>Checklist antes de cada salida</h4>
+      <p>Aceite, agua, llantas, frenos, luces, documentos&#8230; verificado y guardado con fotos antes de cada uso.</p>
+    </div>
+    <div class="fleet-bottom-card">
+      <div class="fbc-icon">&#128680;</div>
+      <h4>Accidentes documentados al instante</h4>
+      <p>Registro completo: da&#241;os, terceros, lesiones, parte policial. Email autom&#225;tico a seguros y gerencia.</p>
+    </div>
+    <div class="fleet-bottom-card">
+      <div class="fbc-icon">&#128295;</div>
+      <h4>Alertas de mantenimiento autom&#225;ticas</h4>
+      <p>El sistema avisa por email al mec&#225;nico y al gerente cuando un veh&#237;culo est&#225; pr&#243;ximo a su servicio.</p>
+    </div>
+  </div>
+</section>
+
+
 <section class="cta-banner">
   <div class="cta-banner-glow"></div>
   <div class="cta-banner-inner">
@@ -1009,5 +1490,36 @@
   </div>
 </footer>
 
+
+<script>
+(function(){
+  var total = 5;
+  var tabSets = [
+    ['Dashboard','Empleados','N\u00f3mina'],
+    ['Empleados','Asistencia','Vacaciones'],
+    ['N\u00f3mina','Historial','Reportes'],
+    ['Asistencia','Justificaciones','Reportes'],
+    ['Vacaciones','Permisos','Calendario']
+  ];
+  var cur = 0;
+  var timer;
+
+  function go(n){
+    document.getElementById('dscreen-'+cur).classList.remove('active');
+    document.querySelectorAll('.dash-dot')[cur].classList.remove('active');
+    cur = ((n % total) + total) % total;
+    document.getElementById('dscreen-'+cur).classList.add('active');
+    document.querySelectorAll('.dash-dot')[cur].classList.add('active');
+    var tabs = document.querySelectorAll('.dash-tab');
+    tabSets[cur].forEach(function(lbl,i){ if(tabs[i]) tabs[i].textContent = lbl; });
+    tabs.forEach(function(t,i){ t.classList.toggle('active', i===0); });
+    clearInterval(timer);
+    timer = setInterval(function(){ go(cur+1); }, 4500);
+  }
+
+  window.goToScreen = go;
+  timer = setInterval(function(){ go(1); }, 4500);
+})();
+</script>
 </body>
 </html>
