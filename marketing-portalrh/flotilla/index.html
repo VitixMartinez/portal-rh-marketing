@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal Fleet — Gestión de Flotilla Inteligente</title>
-  <meta name="description" content="La plataforma más fácil para gestionar vehículos, conductores, mantenimiento y accidentes. Desde $12/vehículo/mes." />
+  <meta name="description" content="Portal Fleet: gestiona vehículos, conductores, mantenimiento y accidentes sin papeles. Planes desde $49/mes para toda tu flota." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
@@ -311,6 +311,72 @@
     .plan-features li[data-en] { display: none; }
     body.lang-en .plan-features li[data-es] { display: none; }
     body.lang-en .plan-features li[data-en] { display: flex; }
+    /* Modal list items */
+    .feat-modal-list li[data-en] { display: none; }
+    body.lang-en .feat-modal-list li[data-es] { display: none; }
+    body.lang-en .feat-modal-list li[data-en] { display: flex; }
+    /* Modal detail paragraphs */
+    .feat-modal-detail[data-en] { display: none; }
+    body.lang-en .feat-modal-detail[data-es] { display: none; }
+    body.lang-en .feat-modal-detail[data-en] { display: block; }
+
+    /* ── FEATURE MODALS ── */
+    .feat-card {
+      cursor: pointer;
+    }
+    .feat-card:hover {
+      border-color: rgba(100,116,139,0.8);
+      transform: translateY(-2px);
+      transition: border-color .2s, transform .2s;
+    }
+    .feat-card-arrow {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 16px; padding-top: 14px;
+      border-top: 1px solid rgba(51,65,85,0.5);
+    }
+    .feat-card-arrow span { font-size: 12px; font-weight: 600; color: var(--blue-light); }
+    .feat-card-arrow svg { color: var(--blue-light); }
+    /* overlay */
+    .feat-overlay {
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .feat-overlay.open { display: flex; }
+    .feat-modal {
+      background: #1e293b; border: 1px solid rgba(51,65,85,0.8);
+      border-radius: 24px; max-width: 640px; width: 100%;
+      max-height: 85vh; overflow-y: auto;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .feat-modal-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding: 28px 28px 20px; border-bottom: 1px solid rgba(51,65,85,0.5);
+      gap: 16px; position: sticky; top: 0; background: #1e293b; z-index: 1;
+      border-radius: 24px 24px 0 0;
+    }
+    .feat-modal-close {
+      background: rgba(51,65,85,0.6); border: 1px solid rgba(51,65,85,0.8);
+      color: var(--muted); border-radius: 8px; width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; flex-shrink: 0; font-size: 18px; line-height: 1;
+      transition: background .2s;
+    }
+    .feat-modal-close:hover { background: var(--bg3); color: var(--text); }
+    .feat-modal-body { padding: 24px 28px 32px; }
+    .feat-modal-detail { font-size: 15px; color: #cbd5e1; line-height: 1.75; margin-bottom: 20px; }
+    .feat-modal-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .feat-modal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #94a3b8; line-height: 1.55; }
+    .feat-modal-list li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+    .feat-modal-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--blue-dark); color: white; font-weight: 700;
+      padding: 12px 24px; border-radius: 10px; font-size: 14px;
+      transition: background .2s; text-decoration: none;
+    }
+    .feat-modal-cta:hover { background: var(--blue); }
+
   </style>
 </head>
 <body>
@@ -333,10 +399,10 @@
     </div>
     <div class="nav-right">
       <button class="btn-lang" onclick="toggleLang()" id="langBtn">EN</button>
-      <a href="https://portal-hr.com/login" class="btn-login" data-es>Iniciar sesión</a>
-      <a href="https://portal-hr.com/login" class="btn-login" data-en>Sign in</a>
-      <a href="https://portal-hr.com/login" class="btn-primary">
-        <span data-es>Empezar gratis</span><span data-en>Get started free</span>
+
+
+      <a href="https://portal-hr.com/contacto" class="btn-primary">
+        <span data-es>Solicitar demo</span><span data-en>Request demo</span>
         <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
       </a>
     </div>
@@ -365,143 +431,415 @@
       <span data-en>Portal Fleet is the easiest platform to manage vehicles, drivers, maintenance and accident reports — from any device, anywhere.</span>
     </p>
     <div class="hero-ctas">
-      <a href="https://portal-hr.com/login" class="btn-hero-primary">
-        <span data-es>Empezar gratis 14 días</span><span data-en>Start free for 14 days</span>
+      <a href="https://portal-hr.com/contacto" class="btn-hero-primary">
+        <span data-es>Solicitar demo gratis</span><span data-en>Request free demo</span>
         <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
       </a>
-      <a href="#how" class="btn-hero-secondary">
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:#60a5fa"><path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <span data-es>Ver demo</span><span data-en>Watch demo</span>
+      <a href="#features" class="btn-hero-secondary">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:#60a5fa"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+        <span data-es>Ver funciones</span><span data-en>See features</span>
       </a>
     </div>
-    <p class="hero-note" data-es>Sin tarjeta de crédito · Cancela cuando quieras</p>
-    <p class="hero-note" data-en>No credit card required · Cancel anytime</p>
+    <p class="hero-note" data-es>Sin compromisos · Te contactamos en menos de 24 horas</p>
+    <p class="hero-note" data-en>No commitments · We'll reach out within 24 hours</p>
 
     <!-- Dashboard SVG mockup -->
-    <div class="dashboard-wrap">
+    <!-- CSS for slider -->
+    <style>
+      .slider-wrap {
+        position: relative; max-width: 900px; margin: 0 auto;
+        border-radius: 16px; overflow: hidden;
+        border: 1px solid rgba(51,65,85,0.7);
+        box-shadow: 0 0 0 1px rgba(99,102,241,0.12), 0 32px 80px rgba(0,0,0,0.5);
+      }
+      .slider-bar {
+        background: #1e293b; border-bottom: 1px solid rgba(51,65,85,0.6);
+        padding: 0 16px; height: 44px;
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .slider-dots-top { display: flex; gap: 6px; }
+      .slider-dots-top span { width: 10px; height: 10px; border-radius: 50%; }
+      .slider-screen-label {
+        font-size: 12px; font-weight: 600; color: #64748b;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+      .slider-tabs {
+        display: flex; gap: 4px;
+      }
+      .slider-tab {
+        font-size: 11px; font-weight: 600; color: #64748b;
+        padding: 4px 10px; border-radius: 6px; cursor: pointer;
+        transition: all .2s; border: 1px solid transparent;
+        font-family: 'Inter', system-ui, sans-serif;
+      }
+      .slider-tab.active { color: #93c5fd; background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.25); }
+      .slider-viewport { background: #0f172a; overflow: hidden; }
+      .slider-track { display: flex; transition: transform .45s cubic-bezier(.4,0,.2,1); }
+      .slider-slide { min-width: 100%; }
+      .slide-body { padding: 20px; font-family: 'Inter', system-ui, sans-serif; }
+
+      /* KPI row */
+      .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 16px; }
+      .kpi-card {
+        background: #1e293b; border: 1px solid rgba(51,65,85,0.6);
+        border-radius: 10px; padding: 12px 14px;
+      }
+      .kpi-label { font-size: 11px; color: #64748b; margin-bottom: 4px; }
+      .kpi-value { font-size: 22px; font-weight: 900; line-height: 1; }
+      .kpi-sub { font-size: 10px; color: #475569; margin-top: 3px; }
+
+      /* Vehicle table */
+      .veh-table { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; overflow: hidden; }
+      .veh-table-head {
+        display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+        padding: 10px 14px; background: #0f172a;
+        border-bottom: 1px solid rgba(51,65,85,0.5);
+      }
+      .veh-th { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .05em; }
+      .veh-row {
+        display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
+        padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.3);
+        align-items: center; transition: background .15s;
+      }
+      .veh-row:last-child { border-bottom: none; }
+      .veh-row:hover { background: rgba(51,65,85,0.2); }
+      .veh-name { font-size: 13px; font-weight: 700; color: #e2e8f0; }
+      .veh-plate { font-size: 11px; color: #64748b; margin-top: 1px; }
+      .veh-driver { font-size: 12px; color: #94a3b8; }
+      .veh-km { font-size: 12px; color: #94a3b8; }
+      .veh-date { font-size: 11px; color: #64748b; }
+      .veh-badge {
+        font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
+        display: inline-flex; align-items: center; gap: 4px; width: fit-content;
+      }
+      .b-activo  { background: rgba(16,185,129,0.15); color: #34d399; }
+      .b-uso     { background: rgba(59,130,246,0.15);  color: #60a5fa; }
+      .b-mant    { background: rgba(245,158,11,0.15);  color: #fbbf24; }
+      .b-inactivo{ background: rgba(100,116,139,0.15); color: #94a3b8; }
+
+      /* Slide 2: Check-in */
+      .ci-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+      .ci-car-icon {
+        width: 42px; height: 42px; background: rgba(59,130,246,0.12);
+        border: 1px solid rgba(59,130,246,0.25); border-radius: 10px;
+        display: flex; align-items: center; justify-content: center; font-size: 18px;
+      }
+      .ci-car-name { font-size: 15px; font-weight: 700; color: #e2e8f0; }
+      .ci-car-sub { font-size: 12px; color: #64748b; }
+      .ci-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .ci-section { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; padding: 14px; }
+      .ci-section-title { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
+      .ci-checklist { display: flex; flex-direction: column; gap: 7px; }
+      .ci-check-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+      .ci-check-box {
+        width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+        display: flex; align-items: center; justify-content: center; font-size: 9px;
+      }
+      .ci-ok   { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
+      .ci-warn { background: rgba(245,158,11,0.2);  border: 1px solid #f59e0b; color: #f59e0b; }
+      .ci-pend { background: rgba(51,65,85,0.5); border: 1px solid #334155; color: #475569; }
+      .ci-text-ok   { color: #cbd5e1; }
+      .ci-text-warn { color: #fbbf24; }
+      .ci-text-pend { color: #475569; }
+      .ci-odo-box { display: flex; flex-direction: column; gap: 8px; }
+      .ci-odo-label { font-size: 11px; color: #64748b; }
+      .ci-odo-val { font-size: 20px; font-weight: 900; color: #e2e8f0; }
+      .ci-purpose { background: rgba(51,65,85,0.3); border-radius: 6px; padding: 8px 10px; font-size: 12px; color: #94a3b8; margin-top: 8px; }
+      .ci-driver-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+      .ci-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #60a5fa; flex-shrink: 0; }
+      .ci-driver-name { font-size: 12px; font-weight: 600; color: #e2e8f0; }
+
+      /* Slide 3: Maintenance */
+      .maint-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+      .maint-title { font-size: 14px; font-weight: 700; color: #e2e8f0; }
+      .maint-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+      .maint-list { display: flex; flex-direction: column; gap: 8px; }
+      .maint-card { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; padding: 12px 14px; }
+      .maint-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+      .maint-veh { font-size: 13px; font-weight: 700; color: #e2e8f0; }
+      .maint-type { font-size: 11px; color: #64748b; margin-top: 1px; }
+      .maint-due { font-size: 11px; color: #94a3b8; margin-top: 4px; display: flex; align-items: center; gap: 5px; }
+      .maint-due-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+      .maint-status-section { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; }
+      .maint-status-head { padding: 12px 14px; border-bottom: 1px solid rgba(51,65,85,0.4); font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .05em; }
+      .maint-status-row {
+        padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.3);
+        display: flex; align-items: center; justify-content: space-between;
+      }
+      .maint-status-row:last-child { border-bottom: none; }
+      .maint-status-name { font-size: 12px; color: #cbd5e1; }
+      .maint-status-val { font-size: 11px; font-weight: 700; }
+
+      /* Slider nav dots */
+      .slider-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
+      .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(51,65,85,0.8); cursor: pointer; transition: all .2s; border: none; }
+      .slider-dot.active { background: #3b82f6; width: 22px; border-radius: 4px; }
+    </style>
+
+    <div class="dashboard-wrap" style="max-width:900px; margin:0 auto;">
       <div class="dashboard-glow"></div>
-      <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg">
-        <rect width="900" height="520" rx="14" fill="#0f172a"/>
-        <!-- Sidebar -->
-        <rect width="190" height="520" fill="#1e293b"/>
-        <rect x="14" y="18" width="28" height="28" rx="7" fill="#2563eb"/>
-        <rect x="50" y="23" width="70" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="50" y="35" width="45" height="5" rx="2" fill="#475569"/>
-        <rect x="8" y="80" width="174" height="32" rx="7" fill="rgba(59,130,246,0.12)"/>
-        <rect x="20" y="89" width="12" height="12" rx="3" fill="#3b82f6"/>
-        <rect x="40" y="92" width="55" height="7" rx="3" fill="#93c5fd"/>
-        <rect x="8" y="120" width="174" height="32" rx="7"/>
-        <rect x="20" y="129" width="12" height="12" rx="3" fill="#475569"/>
-        <rect x="40" y="132" width="65" height="7" rx="3" fill="#64748b"/>
-        <rect x="8" y="160" width="174" height="32" rx="7"/>
-        <rect x="20" y="169" width="12" height="12" rx="3" fill="#475569"/>
-        <rect x="40" y="172" width="50" height="7" rx="3" fill="#64748b"/>
-        <rect x="8" y="200" width="174" height="32" rx="7"/>
-        <rect x="20" y="209" width="12" height="12" rx="3" fill="#475569"/>
-        <rect x="40" y="212" width="70" height="7" rx="3" fill="#64748b"/>
-        <rect x="8" y="240" width="174" height="32" rx="7"/>
-        <rect x="20" y="249" width="12" height="12" rx="3" fill="#475569"/>
-        <rect x="40" y="252" width="60" height="7" rx="3" fill="#64748b"/>
-        <!-- Header -->
-        <rect x="190" y="0" width="710" height="52" fill="#1e293b"/>
-        <rect x="210" y="18" width="110" height="14" rx="4" fill="#f1f5f9"/>
-        <circle cx="860" cy="26" r="14" fill="#3b82f6"/>
-        <rect x="847" y="22" width="26" height="8" rx="3" fill="#bfdbfe"/>
-        <!-- KPI cards -->
-        <rect x="210" y="70" width="148" height="82" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <rect x="224" y="82" width="55" height="6" rx="3" fill="#64748b"/>
-        <rect x="224" y="96" width="44" height="24" rx="4" fill="rgba(59,130,246,0.15)"/>
-        <rect x="232" y="102" width="28" height="12" rx="3" fill="#3b82f6"/>
-        <rect x="224" y="132" width="70" height="6" rx="3" fill="#475569"/>
-        <rect x="368" y="70" width="148" height="82" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <rect x="382" y="82" width="60" height="6" rx="3" fill="#64748b"/>
-        <rect x="382" y="96" width="40" height="24" rx="4" fill="rgba(16,185,129,0.15)"/>
-        <rect x="390" y="102" width="24" height="12" rx="3" fill="#10b981"/>
-        <rect x="382" y="132" width="80" height="6" rx="3" fill="#475569"/>
-        <rect x="526" y="70" width="148" height="82" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <rect x="540" y="82" width="70" height="6" rx="3" fill="#64748b"/>
-        <rect x="540" y="96" width="40" height="24" rx="4" fill="rgba(245,158,11,0.15)"/>
-        <rect x="548" y="102" width="24" height="12" rx="3" fill="#f59e0b"/>
-        <rect x="540" y="132" width="65" height="6" rx="3" fill="#475569"/>
-        <rect x="684" y="70" width="148" height="82" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <rect x="698" y="82" width="55" height="6" rx="3" fill="#64748b"/>
-        <rect x="698" y="96" width="40" height="24" rx="4" fill="rgba(239,68,68,0.15)"/>
-        <rect x="706" y="102" width="24" height="12" rx="3" fill="#ef4444"/>
-        <rect x="698" y="132" width="75" height="6" rx="3" fill="#475569"/>
-        <!-- Table -->
-        <rect x="210" y="166" width="470" height="320" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <rect x="226" y="182" width="90" height="8" rx="3" fill="#f1f5f9"/>
-        <rect x="226" y="228" width="438" height="26" rx="5" fill="#0f172a"/>
-        <rect x="238" y="236" width="55" height="7" rx="3" fill="#64748b"/>
-        <rect x="340" y="236" width="60" height="7" rx="3" fill="#64748b"/>
-        <rect x="460" y="236" width="45" height="7" rx="3" fill="#64748b"/>
-        <rect x="560" y="236" width="40" height="7" rx="3" fill="#64748b"/>
-        <!-- rows -->
-        <rect x="226" y="264" width="70" height="8" rx="3" fill="#cbd5e1"/>
-        <rect x="340" y="264" width="55" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="460" y="261" width="54" height="14" rx="6" fill="rgba(16,185,129,0.15)"/>
-        <rect x="472" y="265" width="30" height="6" rx="3" fill="#10b981"/>
-        <rect x="560" y="264" width="40" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="226" y="296" width="65" height="8" rx="3" fill="#cbd5e1"/>
-        <rect x="340" y="296" width="60" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="460" y="293" width="54" height="14" rx="6" fill="rgba(59,130,246,0.15)"/>
-        <rect x="472" y="297" width="30" height="6" rx="3" fill="#3b82f6"/>
-        <rect x="560" y="296" width="40" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="226" y="328" width="75" height="8" rx="3" fill="#cbd5e1"/>
-        <rect x="340" y="328" width="50" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="460" y="325" width="54" height="14" rx="6" fill="rgba(245,158,11,0.15)"/>
-        <rect x="472" y="329" width="30" height="6" rx="3" fill="#f59e0b"/>
-        <rect x="560" y="328" width="40" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="226" y="360" width="60" height="8" rx="3" fill="#cbd5e1"/>
-        <rect x="340" y="360" width="65" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="460" y="357" width="54" height="14" rx="6" fill="rgba(16,185,129,0.15)"/>
-        <rect x="472" y="361" width="30" height="6" rx="3" fill="#10b981"/>
-        <rect x="560" y="360" width="40" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="226" y="392" width="80" height="8" rx="3" fill="#cbd5e1"/>
-        <rect x="340" y="392" width="55" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="460" y="389" width="54" height="14" rx="6" fill="rgba(239,68,68,0.15)"/>
-        <rect x="472" y="393" width="30" height="6" rx="3" fill="#ef4444"/>
-        <rect x="560" y="392" width="40" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="226" y="424" width="68" height="8" rx="3" fill="#cbd5e1"/>
-        <rect x="340" y="424" width="58" height="8" rx="3" fill="#94a3b8"/>
-        <rect x="460" y="421" width="54" height="14" rx="6" fill="rgba(59,130,246,0.15)"/>
-        <rect x="472" y="425" width="30" height="6" rx="3" fill="#3b82f6"/>
-        <rect x="560" y="424" width="40" height="8" rx="3" fill="#94a3b8"/>
-        <!-- Side panel -->
-        <rect x="695" y="166" width="168" height="320" rx="10" fill="#1e293b" stroke="#334155" stroke-width="1"/>
-        <rect x="711" y="182" width="80" height="8" rx="3" fill="#f1f5f9"/>
-        <rect x="711" y="212" width="136" height="38" rx="7" fill="#0f172a"/>
-        <rect x="721" y="222" width="8" height="8" rx="4" fill="#f59e0b"/>
-        <rect x="737" y="220" width="60" height="7" rx="3" fill="#e2e8f0"/>
-        <rect x="737" y="231" width="45" height="5" rx="2" fill="#64748b"/>
-        <rect x="711" y="256" width="136" height="38" rx="7" fill="#0f172a"/>
-        <rect x="721" y="266" width="8" height="8" rx="4" fill="#f59e0b"/>
-        <rect x="737" y="264" width="55" height="7" rx="3" fill="#e2e8f0"/>
-        <rect x="737" y="275" width="50" height="5" rx="2" fill="#64748b"/>
-        <rect x="711" y="300" width="136" height="38" rx="7" fill="#0f172a"/>
-        <rect x="721" y="310" width="8" height="8" rx="4" fill="#ef4444"/>
-        <rect x="737" y="308" width="65" height="7" rx="3" fill="#e2e8f0"/>
-        <rect x="737" y="319" width="40" height="5" rx="2" fill="#64748b"/>
-        <rect x="711" y="344" width="136" height="38" rx="7" fill="#0f172a"/>
-        <rect x="721" y="354" width="8" height="8" rx="4" fill="#3b82f6"/>
-        <rect x="737" y="352" width="70" height="7" rx="3" fill="#e2e8f0"/>
-        <rect x="737" y="363" width="48" height="5" rx="2" fill="#64748b"/>
-        <rect x="711" y="388" width="136" height="38" rx="7" fill="#0f172a"/>
-        <rect x="721" y="398" width="8" height="8" rx="4" fill="#3b82f6"/>
-        <rect x="737" y="396" width="62" height="7" rx="3" fill="#e2e8f0"/>
-        <rect x="737" y="407" width="52" height="5" rx="2" fill="#64748b"/>
-      </svg>
-    </div>
+      <div class="slider-wrap">
+        <!-- Top bar -->
+        <div class="slider-bar">
+          <div class="slider-dots-top">
+            <span style="background:#FF5F57"></span>
+            <span style="background:#FEBC2E"></span>
+            <span style="background:#28C840"></span>
+          </div>
+          <div class="slider-tabs">
+            <div class="slider-tab active" onclick="goSlide(0)" id="stab0">Panel de activos</div>
+            <div class="slider-tab" onclick="goSlide(1)" id="stab1">Check-in</div>
+            <div class="slider-tab" onclick="goSlide(2)" id="stab2">Mantenimiento</div>
+          </div>
+          <div style="width:60px"></div>
+        </div>
+
+        <div class="slider-viewport">
+          <div class="slider-track" id="sliderTrack">
+
+            <!-- SLIDE 1: Fleet overview -->
+            <div class="slider-slide">
+              <div class="slide-body">
+                <div class="kpi-row">
+                  <div class="kpi-card">
+                    <div class="kpi-label">Total activos</div>
+                    <div class="kpi-value" style="color:#e2e8f0">18</div>
+                    <div class="kpi-sub">vehículos y equipos</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-label">Activos disponibles</div>
+                    <div class="kpi-value" style="color:#34d399">11</div>
+                    <div class="kpi-sub">listos para usar</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-label">En uso ahora</div>
+                    <div class="kpi-value" style="color:#60a5fa">4</div>
+                    <div class="kpi-sub">con check-in activo</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-label">En mantenimiento</div>
+                    <div class="kpi-value" style="color:#fbbf24">3</div>
+                    <div class="kpi-sub">en taller o servicio</div>
+                  </div>
+                </div>
+                <div class="veh-table">
+                  <div class="veh-table-head">
+                    <div class="veh-th">Vehículo</div>
+                    <div class="veh-th">Conductor</div>
+                    <div class="veh-th">Estado</div>
+                    <div class="veh-th">Odómetro</div>
+                    <div class="veh-th">Últ. actividad</div>
+                  </div>
+                  <div class="veh-row">
+                    <div><div class="veh-name">Toyota Hilux</div><div class="veh-plate">A-123456 · 2022</div></div>
+                    <div class="veh-driver">Juan Pérez</div>
+                    <div><span class="veh-badge b-uso">● En uso</span></div>
+                    <div class="veh-km">87,412 km</div>
+                    <div class="veh-date">Hoy, 8:14 AM</div>
+                  </div>
+                  <div class="veh-row">
+                    <div><div class="veh-name">Honda CR-V</div><div class="veh-plate">B-789012 · 2021</div></div>
+                    <div class="veh-driver">—</div>
+                    <div><span class="veh-badge b-activo">● Activo</span></div>
+                    <div class="veh-km">54,230 km</div>
+                    <div class="veh-date">Ayer, 5:32 PM</div>
+                  </div>
+                  <div class="veh-row">
+                    <div><div class="veh-name">Ford F-150</div><div class="veh-plate">C-345678 · 2020</div></div>
+                    <div class="veh-driver">Taller Mecánico</div>
+                    <div><span class="veh-badge b-mant">⚙ Mantenimiento</span></div>
+                    <div class="veh-km">112,800 km</div>
+                    <div class="veh-date">Hace 2 días</div>
+                  </div>
+                  <div class="veh-row">
+                    <div><div class="veh-name">Nissan Frontier</div><div class="veh-plate">D-901234 · 2023</div></div>
+                    <div class="veh-driver">María López</div>
+                    <div><span class="veh-badge b-uso">● En uso</span></div>
+                    <div class="veh-km">23,145 km</div>
+                    <div class="veh-date">Hoy, 9:02 AM</div>
+                  </div>
+                  <div class="veh-row">
+                    <div><div class="veh-name">Hyundai Tucson</div><div class="veh-plate">E-567890 · 2022</div></div>
+                    <div class="veh-driver">—</div>
+                    <div><span class="veh-badge b-activo">● Activo</span></div>
+                    <div class="veh-km">41,670 km</div>
+                    <div class="veh-date">Hace 3 días</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: Check-in -->
+            <div class="slider-slide">
+              <div class="slide-body">
+                <div class="ci-header">
+                  <div class="ci-car-icon">🚗</div>
+                  <div>
+                    <div class="ci-car-name">Toyota Hilux — A-123456</div>
+                    <div class="ci-car-sub">Check-in iniciado · Hoy 8:14 AM · Juan Pérez</div>
+                  </div>
+                  <span class="veh-badge b-uso" style="margin-left:auto">● En uso</span>
+                </div>
+                <div class="ci-cols">
+                  <div class="ci-section">
+                    <div class="ci-section-title">Checklist pre-uso</div>
+                    <div class="ci-checklist">
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Aceite del motor</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Nivel de agua</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Llantas</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Frenos</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Luces</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-warn">!</div>
+                        <span class="ci-text-warn">Limpiabrisas — desgastado</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Documentos al día</span>
+                      </div>
+                      <div class="ci-check-item">
+                        <div class="ci-check-box ci-ok">✓</div>
+                        <span class="ci-text-ok">Extintor</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:12px;">
+                    <div class="ci-section">
+                      <div class="ci-section-title">Odómetro de salida</div>
+                      <div class="ci-odo-box">
+                        <div class="ci-odo-val">87,412 km</div>
+                        <div class="ci-odo-label">Registrado automáticamente</div>
+                      </div>
+                    </div>
+                    <div class="ci-section">
+                      <div class="ci-section-title">Propósito del viaje</div>
+                      <div class="ci-purpose">"Entrega de materiales — Zona Norte, cliente Constructora Díaz"</div>
+                      <div class="ci-driver-row">
+                        <div class="ci-avatar">JP</div>
+                        <div>
+                          <div class="ci-driver-name">Juan Pérez</div>
+                          <div style="font-size:10px; color:#475569">Conductor asignado</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: Maintenance -->
+            <div class="slider-slide">
+              <div class="slide-body">
+                <div class="maint-header">
+                  <div class="maint-title">Mantenimiento y alertas</div>
+                  <span class="veh-badge b-mant">3 pendientes</span>
+                </div>
+                <div class="maint-cols">
+                  <div class="maint-list">
+                    <div class="maint-card" style="border-color:rgba(245,158,11,0.3)">
+                      <div class="maint-card-top">
+                        <div>
+                          <div class="maint-veh">Ford F-150 · C-345678</div>
+                          <div class="maint-type">Cambio de aceite y filtros</div>
+                        </div>
+                        <span class="veh-badge b-mant">Próximo</span>
+                      </div>
+                      <div class="maint-due"><div class="maint-due-dot" style="background:#fbbf24"></div>Vence: 10 Abr 2026 · en 4 días</div>
+                      <div class="maint-due" style="margin-top:2px"><div class="maint-due-dot" style="background:#fbbf24"></div>Taller Mecánico Central · $3,200</div>
+                    </div>
+                    <div class="maint-card">
+                      <div class="maint-card-top">
+                        <div>
+                          <div class="maint-veh">Toyota Hilux · A-123456</div>
+                          <div class="maint-type">Revisión de frenos</div>
+                        </div>
+                        <span class="veh-badge b-uso">Programado</span>
+                      </div>
+                      <div class="maint-due"><div class="maint-due-dot" style="background:#60a5fa"></div>Vence: 20 Abr 2026 · en 14 días</div>
+                    </div>
+                    <div class="maint-card">
+                      <div class="maint-card-top">
+                        <div>
+                          <div class="maint-veh">Nissan Frontier · D-901234</div>
+                          <div class="maint-type">Alineación y balanceo</div>
+                        </div>
+                        <span class="veh-badge b-activo">Completado</span>
+                      </div>
+                      <div class="maint-due"><div class="maint-due-dot" style="background:#34d399"></div>Completado: 1 Abr 2026 · $1,800</div>
+                    </div>
+                  </div>
+                  <div class="maint-status-section">
+                    <div class="maint-status-head">Alertas enviadas hoy</div>
+                    <div class="maint-status-row">
+                      <div>
+                        <div class="maint-status-name">Ford F-150 — mantenimiento</div>
+                        <div style="font-size:10px; color:#475569">→ mecanico@taller.com</div>
+                      </div>
+                      <div class="maint-status-val" style="color:#34d399">✓ Enviado</div>
+                    </div>
+                    <div class="maint-status-row">
+                      <div>
+                        <div class="maint-status-name">Ford F-150 — mantenimiento</div>
+                        <div style="font-size:10px; color:#475569">→ gerencia@empresa.com</div>
+                      </div>
+                      <div class="maint-status-val" style="color:#34d399">✓ Enviado</div>
+                    </div>
+                    <div class="maint-status-head" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:2px">Últimos accidentes</div>
+                    <div class="maint-status-row">
+                      <div>
+                        <div class="maint-status-name">Honda CR-V · B-789012</div>
+                        <div style="font-size:10px; color:#475569">Golpe leve — estacionamiento</div>
+                      </div>
+                      <span class="veh-badge b-activo">Resuelto</span>
+                    </div>
+                    <div class="maint-status-row">
+                      <div>
+                        <div class="maint-status-name">Toyota Hilux · A-123456</div>
+                        <div style="font-size:10px; color:#475569">Rayón puerta lateral</div>
+                      </div>
+                      <span class="veh-badge b-mant">Revisión</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /slider-track -->
+        </div><!-- /slider-viewport -->
+      </div><!-- /slider-wrap -->
+
+      <!-- Nav dots -->
+      <div class="slider-nav">
+        <button class="slider-dot active" onclick="goSlide(0)" id="sdot0"></button>
+        <button class="slider-dot" onclick="goSlide(1)" id="sdot1"></button>
+        <button class="slider-dot" onclick="goSlide(2)" id="sdot2"></button>
+      </div>
+    </div>    </div>
   </div>
 </section>
 
 <!-- ── STATS ──────────────────────────────────────────────────────────── -->
 <div class="stats">
   <div class="stats-inner">
-    <div><div class="stat-val">10,000+</div><div class="stat-lbl" data-es>Vehículos gestionados</div><div class="stat-lbl" data-en>Vehicles managed</div></div>
-    <div><div class="stat-val">500+</div><div class="stat-lbl" data-es>Empresas activas</div><div class="stat-lbl" data-en>Active companies</div></div>
+    <div><div class="stat-val">0</div><div class="stat-lbl" data-es>Hojas de Excel para reemplazar</div><div class="stat-lbl" data-en>Spreadsheets to replace</div></div>
+    <div><div class="stat-val">100%</div><div class="stat-lbl" data-es>Digital desde el celular</div><div class="stat-lbl" data-en>Mobile-first digital</div></div>
     <div><div class="stat-val">99.9%</div><div class="stat-lbl" data-es>Uptime garantizado</div><div class="stat-lbl" data-en>Guaranteed uptime</div></div>
-    <div><div class="stat-val">24/7</div><div class="stat-lbl" data-es>Soporte al cliente</div><div class="stat-lbl" data-en>Customer support</div></div>
+    <div><div class="stat-val">24/7</div><div class="stat-lbl" data-es>Soporte por email y WhatsApp</div><div class="stat-lbl" data-en>Email & WhatsApp support</div></div>
   </div>
 </div>
 
@@ -515,61 +853,318 @@
       <p class="section-sub" data-en>A complete platform that replaces spreadsheets, phone calls and paper.</p>
     </div>
     <div class="features-grid">
-      <div class="feat-card">
+
+      <!-- CARD 1: Check-in / Check-out -->
+      <div class="feat-card" onclick="openFeatModal('checkin')">
         <div class="feat-icon" style="color:#60a5fa">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
         <div class="feat-title" data-es>Check-in / Check-out digital</div>
         <div class="feat-title" data-en>Digital Check-in / Check-out</div>
-        <p class="feat-desc" data-es>Los conductores registran su uso del vehículo desde el celular. Fotos opcionales, firma digital y registro automático de kilometraje.</p>
-        <p class="feat-desc" data-en>Drivers log vehicle usage from their phone. Optional photos, digital signature and automatic mileage tracking.</p>
+        <p class="feat-desc" data-es>Los conductores registran el uso del vehículo desde el celular. Checklist pre-uso, fotos y odómetro automático.</p>
+        <p class="feat-desc" data-en>Drivers log vehicle usage from their phone. Pre-use checklist, photos and automatic odometer tracking.</p>
+        <div class="feat-card-arrow">
+          <span data-es>Ver más</span><span data-en>Learn more</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
       </div>
-      <div class="feat-card">
+
+      <!-- CARD 2: Alertas de mantenimiento -->
+      <div class="feat-card" onclick="openFeatModal('mantenimiento')">
         <div class="feat-icon" style="color:#fbbf24">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
         </div>
         <div class="feat-title" data-es>Alertas de mantenimiento</div>
         <div class="feat-title" data-en>Maintenance Alerts</div>
-        <p class="feat-desc" data-es>Recibe notificaciones por email cuando un vehículo está próximo a su fecha de servicio o límite de kilómetros. Nunca más un mantenimiento olvidado.</p>
-        <p class="feat-desc" data-en>Get email notifications when a vehicle is due for service or approaching its mileage limit. Never miss maintenance again.</p>
+        <p class="feat-desc" data-es>El sistema avisa automáticamente al mecánico y al gerente cuando un vehículo está próximo a su servicio.</p>
+        <p class="feat-desc" data-en>The system automatically notifies mechanics and managers when a vehicle is due for service.</p>
+        <div class="feat-card-arrow">
+          <span data-es>Ver más</span><span data-en>Learn more</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
       </div>
-      <div class="feat-card">
+
+      <!-- CARD 3: Reportes de accidentes -->
+      <div class="feat-card" onclick="openFeatModal('accidentes')">
         <div class="feat-icon" style="color:#f87171">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
         </div>
         <div class="feat-title" data-es>Reportes de accidentes</div>
         <div class="feat-title" data-en>Accident Reports</div>
-        <p class="feat-desc" data-es>Protocolo digital completo: fotos, lesiones, terceros, reporte policial. Todo centralizado y con historial permanente.</p>
-        <p class="feat-desc" data-en>Full digital protocol: photos, injuries, third parties, police report. Everything centralized with a permanent history.</p>
+        <p class="feat-desc" data-es>Protocolo digital completo: fotos, lesiones, terceros, reporte policial. Todo centralizado con historial permanente.</p>
+        <p class="feat-desc" data-en>Full digital protocol: photos, injuries, third parties, police report. All centralized with permanent history.</p>
+        <div class="feat-card-arrow">
+          <span data-es>Ver más</span><span data-en>Learn more</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
       </div>
-      <div class="feat-card">
+
+      <!-- CARD 4: Panel de control -->
+      <div class="feat-card" onclick="openFeatModal('panel')">
         <div class="feat-icon" style="color:#34d399">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         </div>
         <div class="feat-title" data-es>Panel de control en tiempo real</div>
         <div class="feat-title" data-en>Real-time Dashboard</div>
-        <p class="feat-desc" data-es>Ve qué vehículos están en uso, quién los maneja y cuándo regresan. Información en tiempo real desde cualquier pantalla.</p>
-        <p class="feat-desc" data-en>See which vehicles are in use, who's driving and when they return. Real-time info from any screen.</p>
+        <p class="feat-desc" data-es>Ve qué vehículos están en uso, quién los maneja y cuándo regresan. Información actualizada desde cualquier pantalla.</p>
+        <p class="feat-desc" data-en>See which vehicles are in use, who's driving and when they return. Live info from any device.</p>
+        <div class="feat-card-arrow">
+          <span data-es>Ver más</span><span data-en>Learn more</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
       </div>
-      <div class="feat-card">
-        <div class="feat-icon" style="color:#c084fc">
+
+      <!-- CARD 5: Gestión de mantenimiento -->
+      <div class="feat-card" onclick="openFeatModal('historial')">
+        <div class="feat-icon" style="color:#a78bfa">
           <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         </div>
         <div class="feat-title" data-es>Gestión de mantenimiento</div>
         <div class="feat-title" data-en>Maintenance Management</div>
         <p class="feat-desc" data-es>Historial completo de servicios por vehículo: tipo, costo, proveedor, observaciones y próxima fecha programada.</p>
-        <p class="feat-desc" data-en>Complete service history per vehicle: service type, cost, provider, remarks and next scheduled date.</p>
+        <p class="feat-desc" data-en>Full service history per vehicle: type, cost, provider, notes and next scheduled date.</p>
+        <div class="feat-card-arrow">
+          <span data-es>Ver más</span><span data-en>Learn more</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
       </div>
-      <div class="feat-card">
+
+      <!-- CARD 6: Contactos de emergencia -->
+      <div class="feat-card" onclick="openFeatModal('contactos')">
         <div class="feat-icon" style="color:#38bdf8">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
         </div>
         <div class="feat-title" data-es>Contactos de emergencia</div>
         <div class="feat-title" data-en>Emergency Contacts</div>
         <p class="feat-desc" data-es>Directorio de mecánicos, seguros y proveedores con alertas automáticas. Cada persona recibe solo las notificaciones que le corresponden.</p>
-        <p class="feat-desc" data-en>Directory of mechanics, insurance and vendors with automatic alerts. Each contact only gets the notifications they need.</p>
+        <p class="feat-desc" data-en>Directory of mechanics, insurers and providers with auto-alerts. Each person only gets relevant notifications.</p>
+        <div class="feat-card-arrow">
+          <span data-es>Ver más</span><span data-en>Learn more</span>
+          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── FEATURE MODALS ─────────────────────────────────────────────────── -->
+
+    <!-- Modal: Check-in / Check-out -->
+    <div class="feat-overlay" id="modal-checkin" onclick="closeFeatModal(event,this)">
+      <div class="feat-modal">
+        <div class="feat-modal-header">
+          <div>
+            <div class="feat-icon" style="color:#60a5fa; margin-bottom:10px">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </div>
+            <div class="feat-title" data-es>Check-in / Check-out digital</div>
+            <div class="feat-title" data-en>Digital Check-in / Check-out</div>
+          </div>
+          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-checkin'))">✕</button>
+        </div>
+        <div class="feat-modal-body">
+          <p class="feat-modal-detail" data-es>Cada vez que un conductor toma o devuelve un vehículo, lo registra en Portal Fleet desde su celular en segundos. Sin papeles, sin llamadas, sin Excel.</p>
+          <p class="feat-modal-detail" data-en>Every time a driver takes or returns a vehicle, they log it in Portal Fleet from their phone in seconds. No paperwork, no calls, no spreadsheets.</p>
+          <ul class="feat-modal-list">
+            <li data-es>Checklist pre-uso: aceite, agua, llantas, frenos, luces, limpiabrisas, extintor y documentos</li>
+            <li data-en>Pre-use checklist: oil, water, tires, brakes, lights, wipers, extinguisher and documents</li>
+            <li data-es>Registro del odómetro al salir y al regresar (km recorridos automáticos)</li>
+            <li data-en>Odometer reading on departure and return (automatic km tracking)</li>
+            <li data-es>Fotos del estado del vehículo antes y después del uso</li>
+            <li data-en>Photos of vehicle condition before and after use</li>
+            <li data-es>Nota de propósito del viaje y observaciones al regreso</li>
+            <li data-en>Trip purpose note and return observations</li>
+            <li data-es>Asignación del conductor vinculada a su perfil de empleado</li>
+            <li data-en>Driver assignment linked to their employee profile</li>
+          </ul>
+          <a href="https://portal-hr.com/contacto" class="feat-modal-cta">
+            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- Modal: Alertas de mantenimiento -->
+    <div class="feat-overlay" id="modal-mantenimiento" onclick="closeFeatModal(event,this)">
+      <div class="feat-modal">
+        <div class="feat-modal-header">
+          <div>
+            <div class="feat-icon" style="color:#fbbf24; margin-bottom:10px">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            </div>
+            <div class="feat-title" data-es>Alertas de mantenimiento</div>
+            <div class="feat-title" data-en>Maintenance Alerts</div>
+          </div>
+          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-mantenimiento'))">✕</button>
+        </div>
+        <div class="feat-modal-body">
+          <p class="feat-modal-detail" data-es>El sistema monitorea la fecha del próximo servicio y el odómetro de cada vehículo. Cuando se acerca el límite, envía emails automáticos a los contactos que configuraste.</p>
+          <p class="feat-modal-detail" data-en>The system monitors the next service date and odometer of each vehicle. When approaching the limit, it automatically emails your configured contacts.</p>
+          <ul class="feat-modal-list">
+            <li data-es>Alerta automática a 7 días del vencimiento o a 500 km del límite</li>
+            <li data-en>Automatic alert 7 days before due date or 500 km before limit</li>
+            <li data-es>Mantenimiento preventivo y correctivo por separado</li>
+            <li data-en>Separate preventive and corrective maintenance tracking</li>
+            <li data-es>Registro del costo, proveedor y observaciones por cada servicio</li>
+            <li data-en>Cost, provider and notes logged for each service</li>
+            <li data-es>Historial completo de mantenimiento por vehículo</li>
+            <li data-en>Full maintenance history per vehicle</li>
+            <li data-es>Notificaciones a mecánicos, talleres y gerentes por email</li>
+            <li data-en>Notifications to mechanics, shops and managers by email</li>
+          </ul>
+          <a href="https://portal-hr.com/contacto" class="feat-modal-cta">
+            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Accidentes -->
+    <div class="feat-overlay" id="modal-accidentes" onclick="closeFeatModal(event,this)">
+      <div class="feat-modal">
+        <div class="feat-modal-header">
+          <div>
+            <div class="feat-icon" style="color:#f87171; margin-bottom:10px">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            </div>
+            <div class="feat-title" data-es>Reportes de accidentes</div>
+            <div class="feat-title" data-en>Accident Reports</div>
+          </div>
+          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-accidentes'))">✕</button>
+        </div>
+        <div class="feat-modal-body">
+          <p class="feat-modal-detail" data-es>Cuando ocurre un accidente, el conductor documenta todo desde el teléfono. El sistema notifica automáticamente a gerencia, seguros y contactos configurados.</p>
+          <p class="feat-modal-detail" data-en>When an accident happens, the driver documents everything from their phone. The system automatically notifies management, insurers and configured contacts.</p>
+          <ul class="feat-modal-list">
+            <li data-es>Descripción del accidente con fecha, hora y ubicación</li>
+            <li data-en>Accident description with date, time and location</li>
+            <li data-es>Datos de terceros: nombre, vehículo, seguro y contacto</li>
+            <li data-en>Third-party info: name, vehicle, insurance and contact</li>
+            <li data-es>Registro de lesiones y número de parte policial</li>
+            <li data-en>Injury records and police report number</li>
+            <li data-es>Estimación de daños y estado de resolución</li>
+            <li data-en>Damage estimate and resolution status</li>
+            <li data-es>Email automático al asegurador y a gerencia al momento del registro</li>
+            <li data-en>Automatic email to insurer and management upon registration</li>
+            <li data-es>Revisión interna: ¿fue prevenible? ¿requiere capacitación?</li>
+            <li data-en>Internal review: was it preventable? Does it require retraining?</li>
+          </ul>
+          <a href="https://portal-hr.com/contacto" class="feat-modal-cta">
+            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Panel -->
+    <div class="feat-overlay" id="modal-panel" onclick="closeFeatModal(event,this)">
+      <div class="feat-modal">
+        <div class="feat-modal-header">
+          <div>
+            <div class="feat-icon" style="color:#34d399; margin-bottom:10px">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div class="feat-title" data-es>Panel de control en tiempo real</div>
+            <div class="feat-title" data-en>Real-time Dashboard</div>
+          </div>
+          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-panel'))">✕</button>
+        </div>
+        <div class="feat-modal-body">
+          <p class="feat-modal-detail" data-es>El panel central te muestra de un vistazo el estado de toda tu flota: quién tiene qué vehículo, qué activos están en mantenimiento y qué alertas están pendientes.</p>
+          <p class="feat-modal-detail" data-en>The central dashboard gives you an at-a-glance view of your entire fleet: who has which vehicle, which assets are in maintenance, and which alerts are pending.</p>
+          <ul class="feat-modal-list">
+            <li data-es>Estado de cada activo: Activo, En uso, En mantenimiento, Inactivo</li>
+            <li data-en>Status of each asset: Active, In use, In maintenance, Inactive</li>
+            <li data-es>Filtros por tipo: vehículo, equipo, herramienta</li>
+            <li data-en>Filters by type: vehicle, equipment, tool</li>
+            <li data-es>Historial de uso por activo y por empleado</li>
+            <li data-en>Usage history by asset and by employee</li>
+            <li data-es>Indicadores de km recorridos y tiempo en uso</li>
+            <li data-en>Indicators of km driven and time in use</li>
+            <li data-es>Accesible desde computadora, tablet o celular</li>
+            <li data-en>Accessible from computer, tablet or phone</li>
+          </ul>
+          <a href="https://portal-hr.com/contacto" class="feat-modal-cta">
+            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Historial mantenimiento -->
+    <div class="feat-overlay" id="modal-historial" onclick="closeFeatModal(event,this)">
+      <div class="feat-modal">
+        <div class="feat-modal-header">
+          <div>
+            <div class="feat-icon" style="color:#a78bfa; margin-bottom:10px">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <div class="feat-title" data-es>Gestión de mantenimiento</div>
+            <div class="feat-title" data-en>Maintenance Management</div>
+          </div>
+          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-historial'))">✕</button>
+        </div>
+        <div class="feat-modal-body">
+          <p class="feat-modal-detail" data-es>Registra cada servicio realizado a tus vehículos: desde un cambio de aceite hasta una reparación mayor. Todo queda guardado con costo, proveedor y fecha.</p>
+          <p class="feat-modal-detail" data-en>Log every service performed on your vehicles: from an oil change to a major repair. Everything is saved with cost, provider and date.</p>
+          <ul class="feat-modal-list">
+            <li data-es>Mantenimiento preventivo (programado) y correctivo (por falla)</li>
+            <li data-en>Preventive (scheduled) and corrective (breakdown) maintenance</li>
+            <li data-es>Estado por servicio: Pendiente, En proceso, Completado</li>
+            <li data-en>Status per service: Pending, In progress, Completed</li>
+            <li data-es>Costo total, proveedor o taller, y observaciones</li>
+            <li data-en>Total cost, provider or shop, and observations</li>
+            <li data-es>Próxima fecha de servicio y próximo km programado</li>
+            <li data-en>Next service date and next scheduled km</li>
+            <li data-es>Historial acumulado por cada activo de la flota</li>
+            <li data-en>Cumulative history per fleet asset</li>
+          </ul>
+          <a href="https://portal-hr.com/contacto" class="feat-modal-cta">
+            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Contactos -->
+    <div class="feat-overlay" id="modal-contactos" onclick="closeFeatModal(event,this)">
+      <div class="feat-modal">
+        <div class="feat-modal-header">
+          <div>
+            <div class="feat-icon" style="color:#38bdf8; margin-bottom:10px">
+              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            </div>
+            <div class="feat-title" data-es>Contactos de emergencia</div>
+            <div class="feat-title" data-en>Emergency Contacts</div>
+          </div>
+          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-contactos'))">✕</button>
+        </div>
+        <div class="feat-modal-body">
+          <p class="feat-modal-detail" data-es>Mantén un directorio de todos los contactos clave de tu flota: mecánicos, talleres, compañías de seguros, gerentes y proveedores. Cada uno recibe solo las alertas que le corresponden.</p>
+          <p class="feat-modal-detail" data-en>Keep a directory of all key fleet contacts: mechanics, shops, insurance companies, managers and suppliers. Each one only receives the alerts relevant to them.</p>
+          <ul class="feat-modal-list">
+            <li data-es>Roles: Mecánico, Taller, Gerente de flotilla, Seguros/Siniestros</li>
+            <li data-en>Roles: Mechanic, Shop, Fleet manager, Insurance/Claims</li>
+            <li data-es>Alerta de mantenimiento: avisa cuando un vehículo necesita servicio</li>
+            <li data-en>Maintenance alert: notifies when a vehicle needs service</li>
+            <li data-es>Alerta de accidentes: recibe copia de cada reporte registrado</li>
+            <li data-en>Accident alert: receives a copy of each registered report</li>
+            <li data-es>Cada contacto configura qué tipo de alerta desea recibir</li>
+            <li data-en>Each contact configures which alert type they want to receive</li>
+            <li data-es>Notificaciones por email automáticas sin intervención manual</li>
+            <li data-en>Automatic email notifications with no manual intervention</li>
+          </ul>
+          <a href="https://portal-hr.com/contacto" class="feat-modal-cta">
+            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>    </div>
   </div>
 </section>
 
@@ -659,78 +1254,84 @@
     <div class="section-header">
       <h2 data-es>Precios transparentes, sin sorpresas</h2>
       <h2 data-en>Transparent pricing, no surprises</h2>
-      <p class="section-sub" data-es>Paga solo por lo que usas. Sin contratos anuales obligatorios.</p>
-      <p class="section-sub" data-en>Pay only for what you use. No mandatory annual contracts.</p>
+      <p class="section-sub" data-es>Un precio fijo por el tamaño de tu flota. Sin cobros por vehículo, sin letra pequeña.</p>
+      <p class="section-sub" data-en>A flat price based on your fleet size. No per-vehicle charges, no fine print.</p>
     </div>
     <div class="billing-toggle">
-      <span class="toggle-label active" id="monthlyLabel" data-es onclick="setBilling('monthly')">Mensual</span>
-      <span class="toggle-label active" id="monthlyLabelEn" data-en onclick="setBilling('monthly')" style="display:none">Monthly</span>
-      <button class="toggle-switch" onclick="toggleBilling()" id="billingToggle">
-        <span class="toggle-thumb" id="toggleThumb"></span>
+      <span class="toggle-label active" id="lbl-monthly" data-es>Mensual</span>
+      <span class="toggle-label active" id="lbl-monthly-en" data-en>Monthly</span>
+      <button class="toggle-switch" onclick="toggleBilling()" id="billingBtn" aria-label="Toggle billing">
+        <div class="toggle-thumb" id="billingThumb"></div>
       </button>
-      <span class="toggle-label" id="annualLabel" data-es onclick="setBilling('annual')">Anual</span>
-      <span class="toggle-label" id="annualLabelEn" data-en onclick="setBilling('annual')" style="display:none">Annual</span>
-      <span class="save-badge">-20%</span>
+      <span class="toggle-label" id="lbl-annual" data-es>Anual</span>
+      <span class="toggle-label" id="lbl-annual-en" data-en>Annual</span>
+      <span class="save-badge" data-es>Ahorra 20%</span>
+      <span class="save-badge" data-en>Save 20%</span>
     </div>
     <div class="plans-grid">
-      <!-- Basic -->
+
+      <!-- STARTER -->
       <div class="plan-card">
-        <div class="plan-name" data-es>Básico</div>
-        <div class="plan-name" data-en>Basic</div>
+        <div class="plan-name" data-es>Starter</div>
+        <div class="plan-name" data-en>Starter</div>
         <div class="plan-price">
-          <div class="plan-price-num" id="price1">$12</div>
-          <div class="plan-price-per" data-es>/ vehículo / mes</div>
-          <div class="plan-price-per" data-en>/ vehicle / month</div>
+          <div class="plan-price-num" id="price1">$49</div>
+          <div class="plan-price-per" data-es>/ mes</div>
+          <div class="plan-price-per" data-en>/ month</div>
         </div>
-        <div class="plan-desc" data-es>Ideal para flotas pequeñas que empiezan a digitalizarse.</div>
-        <div class="plan-desc" data-en>Ideal for small fleets starting to go digital.</div>
+        <div class="plan-desc" data-es>Para flotas pequeñas que quieren digitalizarse hoy mismo.</div>
+        <div class="plan-desc" data-en>For small fleets that want to go digital today.</div>
         <ul class="plan-features">
-          <li data-es><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Hasta 10 vehículos</li>
-          <li data-en><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Up to 10 vehicles</li>
-          <li data-es><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Check-in / Check-out</li>
-          <li data-en><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Check-in / Check-out</li>
-          <li data-es><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Historial de uso</li>
-          <li data-en><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Usage history</li>
-          <li data-es><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Reportes básicos</li>
-          <li data-en><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Basic reports</li>
-          <li data-es><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Soporte por email</li>
-          <li data-en><svg class="check" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Email support</li>
+          <li data-es><span class="check">✓</span> Hasta 10 vehículos o activos</li>
+          <li data-en><span class="check">✓</span> Up to 10 vehicles or assets</li>
+          <li data-es><span class="check">✓</span> Check-in / Check-out con checklist</li>
+          <li data-en><span class="check">✓</span> Check-in / Check-out with checklist</li>
+          <li data-es><span class="check">✓</span> Historial de uso por empleado</li>
+          <li data-en><span class="check">✓</span> Usage history per employee</li>
+          <li data-es><span class="check">✓</span> Alertas de mantenimiento por email</li>
+          <li data-en><span class="check">✓</span> Maintenance alerts by email</li>
+          <li data-es><span class="check">✓</span> Reportes de accidentes</li>
+          <li data-en><span class="check">✓</span> Accident reports</li>
+          <li data-es><span class="check">✓</span> Soporte por email</li>
+          <li data-en><span class="check">✓</span> Email support</li>
         </ul>
-        <a href="https://portal-hr.com/login" class="btn-plan btn-plan-outline" data-es>Empezar gratis</a>
-        <a href="https://portal-hr.com/login" class="btn-plan btn-plan-outline" data-en>Start free</a>
+        <a href="https://portal-hr.com/contacto" class="btn-plan btn-plan-outline" data-es>Solicitar demo</a>
+        <a href="https://portal-hr.com/contacto" class="btn-plan btn-plan-outline" data-en>Request demo</a>
       </div>
-      <!-- Pro -->
+
+      <!-- PRO (featured) -->
       <div class="plan-card featured">
         <div class="plan-badge" data-es>Más popular</div>
-        <div class="plan-badge" data-en style="display:none">Most popular</div>
+        <div class="plan-badge" data-en>Most popular</div>
         <div class="plan-name">Pro</div>
         <div class="plan-price">
-          <div class="plan-price-num" id="price2">$19</div>
-          <div class="plan-price-per" data-es>/ vehículo / mes</div>
-          <div class="plan-price-per" data-en>/ vehicle / month</div>
+          <div class="plan-price-num" id="price2">$99</div>
+          <div class="plan-price-per" data-es>/ mes</div>
+          <div class="plan-price-per" data-en>/ month</div>
         </div>
-        <div class="plan-desc" data-es>Para flotas en crecimiento que necesitan control total.</div>
-        <div class="plan-desc" data-en>For growing fleets that need full control.</div>
+        <div class="plan-desc" data-es>Para empresas con flotas medianas que necesitan control completo.</div>
+        <div class="plan-desc" data-en>For companies with mid-size fleets that need full control.</div>
         <ul class="plan-features">
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Vehículos ilimitados</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Unlimited vehicles</li>
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Todo lo del plan Básico</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Everything in Basic</li>
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Alertas de mantenimiento</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Maintenance alerts</li>
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Reportes de accidentes</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Accident reports</li>
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Contactos y alertas automáticas</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Contacts & automatic alerts</li>
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Fotos y documentos</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Photos & file attachments</li>
-          <li data-es><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Soporte prioritario</li>
-          <li data-en><svg class="check-blue" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Priority support</li>
+          <li data-es><span class="check-blue">✓</span> Hasta 30 vehículos o activos</li>
+          <li data-en><span class="check-blue">✓</span> Up to 30 vehicles or assets</li>
+          <li data-es><span class="check-blue">✓</span> Todo lo del plan Starter</li>
+          <li data-en><span class="check-blue">✓</span> Everything in Starter</li>
+          <li data-es><span class="check-blue">✓</span> Fotos y documentos adjuntos</li>
+          <li data-en><span class="check-blue">✓</span> Photos and attached documents</li>
+          <li data-es><span class="check-blue">✓</span> Contactos de flotilla ilimitados</li>
+          <li data-en><span class="check-blue">✓</span> Unlimited fleet contacts</li>
+          <li data-es><span class="check-blue">✓</span> Reportes de accidentes avanzados</li>
+          <li data-en><span class="check-blue">✓</span> Advanced accident reports</li>
+          <li data-es><span class="check-blue">✓</span> Integración con módulo de RH</li>
+          <li data-en><span class="check-blue">✓</span> HR module integration</li>
+          <li data-es><span class="check-blue">✓</span> Soporte prioritario por WhatsApp</li>
+          <li data-en><span class="check-blue">✓</span> Priority WhatsApp support</li>
         </ul>
-        <a href="https://portal-hr.com/login" class="btn-plan btn-plan-blue" data-es>Empezar gratis</a>
-        <a href="https://portal-hr.com/login" class="btn-plan btn-plan-blue" data-en>Start free</a>
+        <a href="https://portal-hr.com/contacto" class="btn-plan btn-plan-blue" data-es>Solicitar demo</a>
+        <a href="https://portal-hr.com/contacto" class="btn-plan btn-plan-blue" data-en>Request demo</a>
       </div>
-      <!-- Enterprise -->
+
+      <!-- ENTERPRISE -->
       <div class="plan-card">
         <div class="plan-name" data-es>Empresarial</div>
         <div class="plan-name" data-en>Enterprise</div>
@@ -738,23 +1339,24 @@
           <div class="plan-price-num" data-es>A medida</div>
           <div class="plan-price-num" data-en>Custom</div>
         </div>
-        <div class="plan-desc" data-es>Para grandes flotas con necesidades específicas.</div>
-        <div class="plan-desc" data-en>For large fleets with specific needs.</div>
+        <div class="plan-desc" data-es>Para flotas de más de 30 vehículos o con necesidades específicas.</div>
+        <div class="plan-desc" data-en>For fleets with more than 30 vehicles or specific requirements.</div>
         <ul class="plan-features">
-          <li data-es><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Todo lo del plan Pro</li>
-          <li data-en><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Everything in Pro</li>
-          <li data-es><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Integración con RR.HH.</li>
-          <li data-en><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>HR system integration</li>
-          <li data-es><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>API y webhooks</li>
-          <li data-en><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>API & webhooks</li>
-          <li data-es><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>SLA garantizado</li>
-          <li data-en><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Guaranteed SLA</li>
-          <li data-es><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Gerente de cuenta dedicado</li>
-          <li data-en><svg class="check-violet" width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>Dedicated account manager</li>
+          <li data-es><span class="check-violet">✓</span> Vehículos ilimitados</li>
+          <li data-en><span class="check-violet">✓</span> Unlimited vehicles</li>
+          <li data-es><span class="check-violet">✓</span> Todo lo del plan Pro</li>
+          <li data-en><span class="check-violet">✓</span> Everything in Pro</li>
+          <li data-es><span class="check-violet">✓</span> API y webhooks personalizados</li>
+          <li data-en><span class="check-violet">✓</span> Custom API and webhooks</li>
+          <li data-es><span class="check-violet">✓</span> SLA garantizado por contrato</li>
+          <li data-en><span class="check-violet">✓</span> SLA guaranteed by contract</li>
+          <li data-es><span class="check-violet">✓</span> Gerente de cuenta dedicado</li>
+          <li data-en><span class="check-violet">✓</span> Dedicated account manager</li>
         </ul>
-        <a href="mailto:sales@portal-hr.com" class="btn-plan btn-plan-outline" data-es>Hablar con ventas</a>
-        <a href="mailto:sales@portal-hr.com" class="btn-plan btn-plan-outline" data-en>Talk to sales</a>
+        <a href="mailto:hola@portal-hr.com" class="btn-plan btn-plan-outline" data-es>Hablar con ventas</a>
+        <a href="mailto:hola@portal-hr.com" class="btn-plan btn-plan-outline" data-en>Talk to sales</a>
       </div>
+
     </div>
   </div>
 </section>
@@ -826,8 +1428,8 @@
     <div class="cta-card">
       <h2 data-es>¿Listo para tomar el control de tu flota?</h2>
       <h2 data-en>Ready to take control of your fleet?</h2>
-      <p data-es>14 días gratis, sin tarjeta de crédito. Cancela cuando quieras.</p>
-      <p data-en>14 days free, no credit card required. Cancel anytime.</p>
+      <p data-es>Sin compromisos. Te contactamos en menos de 24 horas.</p>
+      <p data-en>No commitments. We'll get back to you within 24 hours.</p>
       <div class="cta-btns">
         <a href="https://portal-hr.com/login" class="btn-cta-primary">
           <span data-es>Empezar ahora — es gratis</span><span data-en>Start now — it's free</span>
@@ -882,7 +1484,7 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   let isAnnual = false;
-  const prices = { monthly: [12, 19], annual: [10, 15] };
+  const prices = { monthly: [49, 99], annual: [39, 79] };
 
   function updatePrices() {
     const p = isAnnual ? prices.annual : prices.monthly;
@@ -892,17 +1494,17 @@
 
   function toggleBilling() {
     isAnnual = !isAnnual;
-    document.getElementById('toggleThumb').className = 'toggle-thumb' + (isAnnual ? ' annual' : '');
-    document.getElementById('monthlyLabel').className = 'toggle-label' + (isAnnual ? '' : ' active');
-    document.getElementById('annualLabel').className = 'toggle-label' + (isAnnual ? ' active' : '');
-    document.getElementById('monthlyLabelEn').className = 'toggle-label' + (isAnnual ? '' : ' active');
-    document.getElementById('annualLabelEn').className = 'toggle-label' + (isAnnual ? ' active' : '');
+    document.getElementById('billingThumb').className = 'toggle-thumb' + (isAnnual ? ' annual' : '');
+    document.getElementById('lbl-monthly').className = 'toggle-label' + (isAnnual ? '' : ' active');
+    document.getElementById('lbl-annual').className = 'toggle-label' + (isAnnual ? ' active' : '');
+    document.getElementById('lbl-monthly-en').className = 'toggle-label' + (isAnnual ? '' : ' active');
+    document.getElementById('lbl-annual-en').className = 'toggle-label' + (isAnnual ? ' active' : '');
     updatePrices();
   }
 
   function setBilling(type) {
     isAnnual = type === 'annual';
-    document.getElementById('toggleThumb').className = 'toggle-thumb' + (isAnnual ? ' annual' : '');
+    document.getElementById('billingThumb').className = 'toggle-thumb' + (isAnnual ? ' annual' : '');
     updatePrices();
   }
 
@@ -917,6 +1519,46 @@
       el.style.display = el.hasAttribute('data-en') === isEnglish ? 'block' : (el.hasAttribute('data-es') === !isEnglish ? 'block' : 'none');
     });
   }
+
+
+  // ── Slider ──────────────────────────────────────────────────────────────
+  var sliderCur = 0;
+  var sliderTotal = 3;
+  var sliderTimer;
+
+  function goSlide(n) {
+    sliderCur = n;
+    document.getElementById('sliderTrack').style.transform = 'translateX(-' + (n * 100) + '%)';
+    for (var i = 0; i < sliderTotal; i++) {
+      document.getElementById('sdot' + i).className = 'slider-dot' + (i === n ? ' active' : '');
+      var tab = document.getElementById('stab' + i);
+      if (tab) tab.className = 'slider-tab' + (i === n ? ' active' : '');
+    }
+    clearInterval(sliderTimer);
+    sliderTimer = setInterval(function() { goSlide((sliderCur + 1) % sliderTotal); }, 5000);
+  }
+
+  sliderTimer = setInterval(function() { goSlide((sliderCur + 1) % sliderTotal); }, 5000);
+
+  // Feature modals
+  function openFeatModal(id) {
+    document.getElementById('modal-' + id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeFeatModal(event, overlay) {
+    if (!event || event.target === overlay) {
+      overlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.feat-overlay.open').forEach(function(el) {
+        el.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    }
+  });
 </script>
 </body>
 </html>
