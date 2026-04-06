@@ -319,6 +319,12 @@
     .feat-modal-detail[data-en] { display: none; }
     body.lang-en .feat-modal-detail[data-es] { display: none; }
     body.lang-en .feat-modal-detail[data-en] { display: block; }
+    /* Footer & nav links */
+    .footer-col a[data-en], .footer-col h4[data-en], .nav-links a[data-en] { display: none; }
+    body.lang-en .footer-col a[data-es], body.lang-en .footer-col h4[data-es], body.lang-en .nav-links a[data-es] { display: none; }
+    body.lang-en .footer-col a[data-en] { display: block; }
+    body.lang-en .footer-col h4[data-en] { display: block; }
+    body.lang-en .nav-links a[data-en] { display: inline; }
 
     /* ── FEATURE MODALS ── */
     .feat-card {
@@ -384,12 +390,8 @@
 <!-- ── NAV ──────────────────────────────────────────────────────────── -->
 <nav>
   <div class="nav-inner">
-    <a href="#" class="logo">
-      <div class="logo-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:white">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zM16 17a2 2 0 100 4 2 2 0 000-4zM3 5h2l2 8h10l2-6H7"/>
-        </svg>
-      </div>
+    <a href="https://www.portal-hr.com/flotilla" class="logo">
+      <img src="../apple-touch-icon.png" alt="Portal Fleet" style="width:34px;height:34px;border-radius:8px;object-fit:contain;flex-shrink:0;">
       <span class="logo-text">Portal <span>Fleet</span></span>
     </a>
     <div class="nav-links">
@@ -1431,11 +1433,11 @@
       <p data-es>Sin compromisos. Te contactamos en menos de 24 horas.</p>
       <p data-en>No commitments. We'll get back to you within 24 hours.</p>
       <div class="cta-btns">
-        <a href="https://portal-hr.com/login" class="btn-cta-primary">
-          <span data-es>Empezar ahora — es gratis</span><span data-en>Start now — it's free</span>
+        <a href="https://www.portal-hr.com/contacto.html" class="btn-cta-primary">
+          <span data-es>Solicitar demo gratis</span><span data-en>Request free demo</span>
           <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
         </a>
-        <a href="mailto:sales@portal-hr.com" class="btn-cta-secondary">
+        <a href="mailto:hola@portal-hr.com" class="btn-cta-secondary">
           <span data-es>Hablar con un experto</span><span data-en>Talk to an expert</span>
         </a>
       </div>
@@ -1448,12 +1450,8 @@
   <div class="footer-inner">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="#" class="logo">
-          <div class="logo-icon">
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" style="color:white;width:18px;height:18px">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M8 17a2 2 0 100 4 2 2 0 000-4zM16 17a2 2 0 100 4 2 2 0 000-4zM3 5h2l2 8h10l2-6H7"/>
-            </svg>
-          </div>
+        <a href="https://www.portal-hr.com/flotilla" class="logo">
+          <img src="../apple-touch-icon.png" alt="Portal Fleet" style="width:34px;height:34px;border-radius:8px;object-fit:contain;flex-shrink:0;">
           <span class="logo-text">Portal <span>Fleet</span></span>
         </a>
         <p data-es>La forma más inteligente de gestionar tu flota.</p>
@@ -1468,9 +1466,9 @@
         </div>
         <div class="footer-col">
           <h4>Legal</h4>
-          <a href="#" data-es>Privacidad</a><a href="#" data-en>Privacy</a>
-          <a href="#" data-es>Términos</a><a href="#" data-en>Terms</a>
-          <a href="mailto:sales@portal-hr.com">sales@portal-hr.com</a>
+          <a href="https://www.portal-hr.com/privacidad.html" data-es>Privacidad</a><a href="https://www.portal-hr.com/privacidad.html" data-en>Privacy</a>
+          <a href="https://www.portal-hr.com/terminos.html" data-es>Términos de uso</a><a href="https://www.portal-hr.com/terminos.html" data-en>Terms of use</a>
+          <a href="mailto:hola@portal-hr.com">hola@portal-hr.com</a>
         </div>
       </div>
     </div>
