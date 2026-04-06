@@ -589,9 +589,15 @@
             <span style="background:#28C840"></span>
           </div>
           <div class="slider-tabs">
-            <div class="slider-tab active" onclick="goSlide(0)" id="stab0">Panel de activos</div>
-            <div class="slider-tab" onclick="goSlide(1)" id="stab1">Check-in</div>
-            <div class="slider-tab" onclick="goSlide(2)" id="stab2">Mantenimiento</div>
+            <div class="slider-tab active" onclick="goSlide(0)" id="stab0">
+              <span data-es>Panel de activos</span><span data-en>Asset Panel</span>
+            </div>
+            <div class="slider-tab" onclick="goSlide(1)" id="stab1">
+              <span data-es>Check-in</span><span data-en>Check-in</span>
+            </div>
+            <div class="slider-tab" onclick="goSlide(2)" id="stab2">
+              <span data-es>Mantenimiento</span><span data-en>Maintenance</span>
+            </div>
           </div>
           <div style="width:60px"></div>
         </div>
@@ -604,68 +610,68 @@
               <div class="slide-body">
                 <div class="kpi-row">
                   <div class="kpi-card">
-                    <div class="kpi-label">Total activos</div>
+                    <div class="kpi-label"><span data-es>Total activos</span><span data-en>Total assets</span></div>
                     <div class="kpi-value" style="color:#e2e8f0">18</div>
-                    <div class="kpi-sub">vehículos y equipos</div>
+                    <div class="kpi-sub"><span data-es>vehículos y equipos</span><span data-en>vehicles & equipment</span></div>
                   </div>
                   <div class="kpi-card">
-                    <div class="kpi-label">Activos disponibles</div>
+                    <div class="kpi-label"><span data-es>Activos disponibles</span><span data-en>Available assets</span></div>
                     <div class="kpi-value" style="color:#34d399">11</div>
-                    <div class="kpi-sub">listos para usar</div>
+                    <div class="kpi-sub"><span data-es>listos para usar</span><span data-en>ready to use</span></div>
                   </div>
                   <div class="kpi-card">
-                    <div class="kpi-label">En uso ahora</div>
+                    <div class="kpi-label"><span data-es>En uso ahora</span><span data-en>Currently in use</span></div>
                     <div class="kpi-value" style="color:#60a5fa">4</div>
-                    <div class="kpi-sub">con check-in activo</div>
+                    <div class="kpi-sub"><span data-es>con check-in activo</span><span data-en>with active check-in</span></div>
                   </div>
                   <div class="kpi-card">
-                    <div class="kpi-label">En mantenimiento</div>
+                    <div class="kpi-label"><span data-es>En mantenimiento</span><span data-en>In maintenance</span></div>
                     <div class="kpi-value" style="color:#fbbf24">3</div>
-                    <div class="kpi-sub">en taller o servicio</div>
+                    <div class="kpi-sub"><span data-es>en taller o servicio</span><span data-en>at shop or service</span></div>
                   </div>
                 </div>
                 <div class="veh-table">
                   <div class="veh-table-head">
-                    <div class="veh-th">Vehículo</div>
-                    <div class="veh-th">Conductor</div>
-                    <div class="veh-th">Estado</div>
-                    <div class="veh-th">Odómetro</div>
-                    <div class="veh-th">Últ. actividad</div>
+                    <div class="veh-th"><span data-es>Vehículo</span><span data-en>Vehicle</span></div>
+                    <div class="veh-th"><span data-es>Conductor</span><span data-en>Driver</span></div>
+                    <div class="veh-th"><span data-es>Estado</span><span data-en>Status</span></div>
+                    <div class="veh-th"><span data-es>Odómetro</span><span data-en>Odometer</span></div>
+                    <div class="veh-th"><span data-es>Últ. actividad</span><span data-en>Last activity</span></div>
                   </div>
                   <div class="veh-row">
                     <div><div class="veh-name">Toyota Hilux</div><div class="veh-plate">A-123456 · 2022</div></div>
                     <div class="veh-driver">Juan Pérez</div>
-                    <div><span class="veh-badge b-uso">● En uso</span></div>
+                    <div><span class="veh-badge b-uso">● <span data-es>En uso</span><span data-en>In use</span></span></div>
                     <div class="veh-km">87,412 km</div>
-                    <div class="veh-date">Hoy, 8:14 AM</div>
+                    <div class="veh-date"><span data-es>Hoy, 8:14 AM</span><span data-en>Today, 8:14 AM</span></div>
                   </div>
                   <div class="veh-row">
                     <div><div class="veh-name">Honda CR-V</div><div class="veh-plate">B-789012 · 2021</div></div>
                     <div class="veh-driver">—</div>
-                    <div><span class="veh-badge b-activo">● Activo</span></div>
+                    <div><span class="veh-badge b-activo">● <span data-es>Activo</span><span data-en>Available</span></span></div>
                     <div class="veh-km">54,230 km</div>
-                    <div class="veh-date">Ayer, 5:32 PM</div>
+                    <div class="veh-date"><span data-es>Ayer, 5:32 PM</span><span data-en>Yesterday, 5:32 PM</span></div>
                   </div>
                   <div class="veh-row">
                     <div><div class="veh-name">Ford F-150</div><div class="veh-plate">C-345678 · 2020</div></div>
-                    <div class="veh-driver">Taller Mecánico</div>
-                    <div><span class="veh-badge b-mant">⚙ Mantenimiento</span></div>
+                    <div class="veh-driver"><span data-es>Taller Mecánico</span><span data-en>Auto Shop</span></div>
+                    <div><span class="veh-badge b-mant">⚙ <span data-es>Mantenimiento</span><span data-en>Maintenance</span></span></div>
                     <div class="veh-km">112,800 km</div>
-                    <div class="veh-date">Hace 2 días</div>
+                    <div class="veh-date"><span data-es>Hace 2 días</span><span data-en>2 days ago</span></div>
                   </div>
                   <div class="veh-row">
                     <div><div class="veh-name">Nissan Frontier</div><div class="veh-plate">D-901234 · 2023</div></div>
                     <div class="veh-driver">María López</div>
-                    <div><span class="veh-badge b-uso">● En uso</span></div>
+                    <div><span class="veh-badge b-uso">● <span data-es>En uso</span><span data-en>In use</span></span></div>
                     <div class="veh-km">23,145 km</div>
-                    <div class="veh-date">Hoy, 9:02 AM</div>
+                    <div class="veh-date"><span data-es>Hoy, 9:02 AM</span><span data-en>Today, 9:02 AM</span></div>
                   </div>
                   <div class="veh-row">
                     <div><div class="veh-name">Hyundai Tucson</div><div class="veh-plate">E-567890 · 2022</div></div>
                     <div class="veh-driver">—</div>
-                    <div><span class="veh-badge b-activo">● Activo</span></div>
+                    <div><span class="veh-badge b-activo">● <span data-es>Activo</span><span data-en>Available</span></span></div>
                     <div class="veh-km">41,670 km</div>
-                    <div class="veh-date">Hace 3 días</div>
+                    <div class="veh-date"><span data-es>Hace 3 días</span><span data-en>3 days ago</span></div>
                   </div>
                 </div>
               </div>
@@ -678,64 +684,70 @@
                   <div class="ci-car-icon">🚗</div>
                   <div>
                     <div class="ci-car-name">Toyota Hilux — A-123456</div>
-                    <div class="ci-car-sub">Check-in iniciado · Hoy 8:14 AM · Juan Pérez</div>
+                    <div class="ci-car-sub">
+                      <span data-es>Check-in iniciado · Hoy 8:14 AM · Juan Pérez</span>
+                      <span data-en>Check-in started · Today 8:14 AM · Juan Pérez</span>
+                    </div>
                   </div>
-                  <span class="veh-badge b-uso" style="margin-left:auto">● En uso</span>
+                  <span class="veh-badge b-uso" style="margin-left:auto">● <span data-es>En uso</span><span data-en>In use</span></span>
                 </div>
                 <div class="ci-cols">
                   <div class="ci-section">
-                    <div class="ci-section-title">Checklist pre-uso</div>
+                    <div class="ci-section-title"><span data-es>Checklist pre-uso</span><span data-en>Pre-use checklist</span></div>
                     <div class="ci-checklist">
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Aceite del motor</span>
+                        <span class="ci-text-ok"><span data-es>Aceite del motor</span><span data-en>Engine oil</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Nivel de agua</span>
+                        <span class="ci-text-ok"><span data-es>Nivel de agua</span><span data-en>Coolant level</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Llantas</span>
+                        <span class="ci-text-ok"><span data-es>Llantas</span><span data-en>Tires</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Frenos</span>
+                        <span class="ci-text-ok"><span data-es>Frenos</span><span data-en>Brakes</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Luces</span>
+                        <span class="ci-text-ok"><span data-es>Luces</span><span data-en>Lights</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-warn">!</div>
-                        <span class="ci-text-warn">Limpiabrisas — desgastado</span>
+                        <span class="ci-text-warn"><span data-es>Limpiabrisas — desgastado</span><span data-en>Wipers — worn out</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Documentos al día</span>
+                        <span class="ci-text-ok"><span data-es>Documentos al día</span><span data-en>Documents up to date</span></span>
                       </div>
                       <div class="ci-check-item">
                         <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok">Extintor</span>
+                        <span class="ci-text-ok"><span data-es>Extintor</span><span data-en>Fire extinguisher</span></span>
                       </div>
                     </div>
                   </div>
                   <div style="display:flex; flex-direction:column; gap:12px;">
                     <div class="ci-section">
-                      <div class="ci-section-title">Odómetro de salida</div>
+                      <div class="ci-section-title"><span data-es>Odómetro de salida</span><span data-en>Departure odometer</span></div>
                       <div class="ci-odo-box">
                         <div class="ci-odo-val">87,412 km</div>
-                        <div class="ci-odo-label">Registrado automáticamente</div>
+                        <div class="ci-odo-label"><span data-es>Registrado automáticamente</span><span data-en>Automatically recorded</span></div>
                       </div>
                     </div>
                     <div class="ci-section">
-                      <div class="ci-section-title">Propósito del viaje</div>
-                      <div class="ci-purpose">"Entrega de materiales — Zona Norte, cliente Constructora Díaz"</div>
+                      <div class="ci-section-title"><span data-es>Propósito del viaje</span><span data-en>Trip purpose</span></div>
+                      <div class="ci-purpose">
+                        <span data-es>"Entrega de materiales — Zona Norte, cliente Constructora Díaz"</span>
+                        <span data-en>"Material delivery — North Zone, client Constructora Díaz"</span>
+                      </div>
                       <div class="ci-driver-row">
                         <div class="ci-avatar">JP</div>
                         <div>
                           <div class="ci-driver-name">Juan Pérez</div>
-                          <div style="font-size:10px; color:#475569">Conductor asignado</div>
+                          <div style="font-size:10px; color:#475569"><span data-es>Conductor asignado</span><span data-en>Assigned driver</span></div>
                         </div>
                       </div>
                     </div>
@@ -748,8 +760,8 @@
             <div class="slider-slide">
               <div class="slide-body">
                 <div class="maint-header">
-                  <div class="maint-title">Mantenimiento y alertas</div>
-                  <span class="veh-badge b-mant">3 pendientes</span>
+                  <div class="maint-title"><span data-es>Mantenimiento y alertas</span><span data-en>Maintenance & alerts</span></div>
+                  <span class="veh-badge b-mant"><span data-es>3 pendientes</span><span data-en>3 pending</span></span>
                 </div>
                 <div class="maint-cols">
                   <div class="maint-list">
@@ -757,64 +769,64 @@
                       <div class="maint-card-top">
                         <div>
                           <div class="maint-veh">Ford F-150 · C-345678</div>
-                          <div class="maint-type">Cambio de aceite y filtros</div>
+                          <div class="maint-type"><span data-es>Cambio de aceite y filtros</span><span data-en>Oil and filter change</span></div>
                         </div>
-                        <span class="veh-badge b-mant">Próximo</span>
+                        <span class="veh-badge b-mant"><span data-es>Próximo</span><span data-en>Upcoming</span></span>
                       </div>
-                      <div class="maint-due"><div class="maint-due-dot" style="background:#fbbf24"></div>Vence: 10 Abr 2026 · en 4 días</div>
-                      <div class="maint-due" style="margin-top:2px"><div class="maint-due-dot" style="background:#fbbf24"></div>Taller Mecánico Central · $3,200</div>
+                      <div class="maint-due"><div class="maint-due-dot" style="background:#fbbf24"></div><span data-es>Vence: 10 Abr 2026 · en 4 días</span><span data-en>Due: Apr 10, 2026 · in 4 days</span></div>
+                      <div class="maint-due" style="margin-top:2px"><div class="maint-due-dot" style="background:#fbbf24"></div><span data-es>Taller Mecánico Central · $3,200</span><span data-en>Central Auto Shop · $3,200</span></div>
                     </div>
                     <div class="maint-card">
                       <div class="maint-card-top">
                         <div>
                           <div class="maint-veh">Toyota Hilux · A-123456</div>
-                          <div class="maint-type">Revisión de frenos</div>
+                          <div class="maint-type"><span data-es>Revisión de frenos</span><span data-en>Brake inspection</span></div>
                         </div>
-                        <span class="veh-badge b-uso">Programado</span>
+                        <span class="veh-badge b-uso"><span data-es>Programado</span><span data-en>Scheduled</span></span>
                       </div>
-                      <div class="maint-due"><div class="maint-due-dot" style="background:#60a5fa"></div>Vence: 20 Abr 2026 · en 14 días</div>
+                      <div class="maint-due"><div class="maint-due-dot" style="background:#60a5fa"></div><span data-es>Vence: 20 Abr 2026 · en 14 días</span><span data-en>Due: Apr 20, 2026 · in 14 days</span></div>
                     </div>
                     <div class="maint-card">
                       <div class="maint-card-top">
                         <div>
                           <div class="maint-veh">Nissan Frontier · D-901234</div>
-                          <div class="maint-type">Alineación y balanceo</div>
+                          <div class="maint-type"><span data-es>Alineación y balanceo</span><span data-en>Wheel alignment & balancing</span></div>
                         </div>
-                        <span class="veh-badge b-activo">Completado</span>
+                        <span class="veh-badge b-activo"><span data-es>Completado</span><span data-en>Completed</span></span>
                       </div>
-                      <div class="maint-due"><div class="maint-due-dot" style="background:#34d399"></div>Completado: 1 Abr 2026 · $1,800</div>
+                      <div class="maint-due"><div class="maint-due-dot" style="background:#34d399"></div><span data-es>Completado: 1 Abr 2026 · $1,800</span><span data-en>Completed: Apr 1, 2026 · $1,800</span></div>
                     </div>
                   </div>
                   <div class="maint-status-section">
-                    <div class="maint-status-head">Alertas enviadas hoy</div>
+                    <div class="maint-status-head"><span data-es>Alertas enviadas hoy</span><span data-en>Alerts sent today</span></div>
                     <div class="maint-status-row">
                       <div>
-                        <div class="maint-status-name">Ford F-150 — mantenimiento</div>
+                        <div class="maint-status-name"><span data-es>Ford F-150 — mantenimiento</span><span data-en>Ford F-150 — maintenance</span></div>
                         <div style="font-size:10px; color:#475569">→ mecanico@taller.com</div>
                       </div>
-                      <div class="maint-status-val" style="color:#34d399">✓ Enviado</div>
+                      <div class="maint-status-val" style="color:#34d399">✓ <span data-es>Enviado</span><span data-en>Sent</span></div>
                     </div>
                     <div class="maint-status-row">
                       <div>
-                        <div class="maint-status-name">Ford F-150 — mantenimiento</div>
+                        <div class="maint-status-name"><span data-es>Ford F-150 — mantenimiento</span><span data-en>Ford F-150 — maintenance</span></div>
                         <div style="font-size:10px; color:#475569">→ gerencia@empresa.com</div>
                       </div>
-                      <div class="maint-status-val" style="color:#34d399">✓ Enviado</div>
+                      <div class="maint-status-val" style="color:#34d399">✓ <span data-es>Enviado</span><span data-en>Sent</span></div>
                     </div>
-                    <div class="maint-status-head" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:2px">Últimos accidentes</div>
+                    <div class="maint-status-head" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:2px"><span data-es>Últimos accidentes</span><span data-en>Recent incidents</span></div>
                     <div class="maint-status-row">
                       <div>
                         <div class="maint-status-name">Honda CR-V · B-789012</div>
-                        <div style="font-size:10px; color:#475569">Golpe leve — estacionamiento</div>
+                        <div style="font-size:10px; color:#475569"><span data-es>Golpe leve — estacionamiento</span><span data-en>Minor dent — parking lot</span></div>
                       </div>
-                      <span class="veh-badge b-activo">Resuelto</span>
+                      <span class="veh-badge b-activo"><span data-es>Resuelto</span><span data-en>Resolved</span></span>
                     </div>
                     <div class="maint-status-row">
                       <div>
                         <div class="maint-status-name">Toyota Hilux · A-123456</div>
-                        <div style="font-size:10px; color:#475569">Rayón puerta lateral</div>
+                        <div style="font-size:10px; color:#475569"><span data-es>Rayón puerta lateral</span><span data-en>Side door scratch</span></div>
                       </div>
-                      <span class="veh-badge b-mant">Revisión</span>
+                      <span class="veh-badge b-mant"><span data-es>Revisión</span><span data-en>Review</span></span>
                     </div>
                   </div>
                 </div>
@@ -824,6 +836,7 @@
           </div><!-- /slider-track -->
         </div><!-- /slider-viewport -->
       </div><!-- /slider-wrap -->
+
 
       <!-- Nav dots -->
       <div class="slider-nav">
