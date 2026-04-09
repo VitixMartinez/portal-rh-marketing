@@ -3,1573 +3,984 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal Fleet — Gestión de Flotilla Inteligente</title>
-  <meta name="description" content="Portal Fleet: gestiona vehículos, conductores, mantenimiento y accidentes sin papeles. Planes desde $49/mes para toda tu flota." />
+  <title>Portal RH Flotilla — Control total de tu flota vehicular</title>
+  <meta name="description" content="Gestiona tu flota vehicular desde una sola plataforma. Check-in/out de conductores, mantenimientos, incidencias y kilómetros en tiempo real." />
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1A4FAA" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --blue: #3b82f6; --blue-dark: #2563eb; --blue-light: #60a5fa;
-      --bg: #0f172a; --bg2: #1e293b; --bg3: #334155;
-      --text: #f1f5f9; --muted: #94a3b8; --subtle: #64748b;
-      --green: #10b981; --amber: #f59e0b; --red: #ef4444; --violet: #8b5cf6;
+      --blue-dark:   #1A4FAA;
+      --blue-mid:    #2563EB;
+      --blue-light:  #4A9FD4;
+      --teal:        #0EA5E9;
+      --teal-dark:   #0369A1;
+      --gray-dark:   #4B5563;
+      --gray-mid:    #6B7280;
+      --gray-light:  #F3F4F6;
+      --white:       #FFFFFF;
     }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
-    a { text-decoration: none; color: inherit; }
-    img { max-width: 100%; }
+    body { font-family: 'Inter', sans-serif; color: #111827; background: #fff; }
 
-    /* ── NAV ── */
-    nav {
-      position: sticky; top: 0; z-index: 50;
-      background: rgba(15,23,42,0.85); backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(51,65,85,0.6);
-    }
-    .nav-inner {
-      max-width: 1200px; margin: 0 auto; padding: 0 24px;
-      display: flex; align-items: center; justify-content: space-between; height: 64px;
-    }
-    .logo { display: flex; align-items: center; gap: 10px; }
-    .logo-icon {
-      width: 32px; height: 32px; background: var(--blue-dark); border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .logo-icon svg { width: 18px; height: 18px; color: white; }
-    .logo-text { font-size: 18px; font-weight: 800; }
-    .logo-text span { color: var(--blue-light); }
-    .nav-links { display: flex; gap: 28px; }
-    .nav-links a { font-size: 14px; color: var(--muted); transition: color .2s; }
-    .nav-links a:hover { color: var(--text); }
-    .nav-right { display: flex; align-items: center; gap: 12px; }
-    .btn-lang {
-      background: rgba(30,41,59,0.8); border: 1px solid var(--bg3);
-      color: var(--muted); border-radius: 999px; padding: 6px 14px;
-      font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s;
-    }
-    .btn-lang:hover { background: var(--bg3); }
-    .btn-login { font-size: 14px; color: var(--muted); transition: color .2s; }
-    .btn-login:hover { color: var(--text); }
-    .btn-primary {
-      background: var(--blue-dark); color: white; font-weight: 700;
-      padding: 10px 20px; border-radius: 10px; font-size: 14px;
-      transition: background .2s, transform .15s; display: inline-flex; align-items: center; gap: 6px;
-      box-shadow: 0 4px 20px rgba(37,99,235,0.35);
-    }
-    .btn-primary:hover { background: var(--blue); transform: translateY(-1px); }
-
-    /* ── HERO ── */
-    .hero {
-      position: relative; padding: 80px 24px 60px; overflow: hidden; text-align: center;
-    }
-    .hero-glow {
-      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 400px; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-inner { max-width: 900px; margin: 0 auto; position: relative; }
-    .badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3);
-      color: #93c5fd; padding: 6px 16px; border-radius: 999px;
-      font-size: 13px; font-weight: 600; margin-bottom: 24px;
-    }
-    .badge-dot {
-      width: 6px; height: 6px; background: #60a5fa; border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-    h1 { font-size: clamp(40px, 7vw, 72px); font-weight: 900; line-height: 1.05; margin-bottom: 24px; }
-    .h1-white { color: var(--text); }
-    .h1-blue { background: linear-gradient(135deg, #60a5fa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .h1-dim { color: #94a3b8; }
-    .hero-sub { font-size: 18px; color: var(--muted); max-width: 640px; margin: 0 auto 40px; }
-    .hero-ctas { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px; }
-    .btn-hero-primary {
-      background: var(--blue-dark); color: white; font-weight: 700; font-size: 16px;
-      padding: 16px 32px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px;
-      box-shadow: 0 8px 30px rgba(37,99,235,0.4); transition: all .2s;
-    }
-    .btn-hero-primary:hover { background: var(--blue); transform: translateY(-2px); box-shadow: 0 12px 40px rgba(59,130,246,0.4); }
-    .btn-hero-secondary {
-      background: rgba(30,41,59,0.8); border: 1px solid var(--bg3);
-      color: #e2e8f0; font-weight: 600; font-size: 16px;
-      padding: 16px 32px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px;
-      transition: all .2s;
-    }
-    .btn-hero-secondary:hover { background: rgba(51,65,85,0.8); transform: translateY(-2px); }
-    .hero-note { font-size: 13px; color: var(--subtle); margin-bottom: 60px; }
-    .dashboard-wrap {
-      max-width: 900px; margin: 0 auto; position: relative;
-    }
-    .dashboard-glow {
-      position: absolute; inset: -16px; border-radius: 24px;
-      background: linear-gradient(180deg, rgba(59,130,246,0.18) 0%, transparent 60%);
-      filter: blur(20px); pointer-events: none;
-    }
-    .dashboard-wrap svg { width: 100%; border-radius: 16px; display: block; }
-
-    /* ── STATS ── */
-    .stats {
-      border-top: 1px solid rgba(51,65,85,0.5); border-bottom: 1px solid rgba(51,65,85,0.5);
-      background: rgba(30,41,59,0.3); padding: 48px 24px;
-    }
-    .stats-inner { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(4,1fr); gap: 32px; text-align: center; }
-    .stat-val { font-size: 40px; font-weight: 900; color: var(--text); }
-    .stat-lbl { font-size: 13px; color: var(--muted); margin-top: 4px; }
-
-    /* ── SECTION ── */
-    section { padding: 80px 24px; }
-    .section-inner { max-width: 1200px; margin: 0 auto; }
-    .section-header { text-align: center; margin-bottom: 56px; }
-    h2 { font-size: clamp(28px, 4vw, 44px); font-weight: 900; color: var(--text); }
-    .section-sub { font-size: 18px; color: var(--muted); max-width: 600px; margin: 16px auto 0; }
-
-    /* ── FEATURES ── */
-    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-    .feat-card {
-      background: rgba(30,41,59,0.5); border: 1px solid rgba(51,65,85,0.6);
-      border-radius: 16px; padding: 28px; transition: border-color .2s;
-    }
-    .feat-card:hover { border-color: rgba(100,116,139,0.8); }
-    .feat-icon {
-      width: 48px; height: 48px; border-radius: 12px; background: rgba(30,41,59,0.8);
-      display: flex; align-items: center; justify-content: center; margin-bottom: 16px;
-    }
-    .feat-icon svg { width: 22px; height: 22px; }
-    .feat-title { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
-    .feat-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
-
-    /* ── HOW ── */
-    .how-bg { background: rgba(30,41,59,0.2); }
-    .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
-    .how-steps { display: flex; flex-direction: column; gap: 36px; }
-    .how-step { display: flex; gap: 20px; }
-    .how-num {
-      flex-shrink: 0; width: 48px; height: 48px; border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; font-weight: 900; color: white;
-    }
-    .how-step-body h3 { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 6px; padding-top: 8px; }
-    .how-step-body p { font-size: 15px; color: var(--muted); line-height: 1.7; }
-    .phone-wrap { display: flex; justify-content: center; position: relative; }
-    .phone-wrap::before {
-      content: ''; position: absolute; inset: -32px; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(59,130,246,0.12) 0%, transparent 70%);
-    }
-    .phone-wrap svg { width: 200px; border-radius: 28px; border: 4px solid var(--bg3); position: relative; }
-
-    /* ── PRICING ── */
-    .billing-toggle { display: flex; align-items: center; justify-content: center; gap: 16px; margin: 32px 0; }
-    .toggle-label { font-size: 15px; font-weight: 600; color: var(--subtle); cursor: pointer; transition: color .2s; }
-    .toggle-label.active { color: var(--text); }
-    .toggle-switch {
-      position: relative; width: 44px; height: 24px;
-      background: var(--blue-dark); border-radius: 999px; cursor: pointer; border: none;
-      transition: background .2s;
-    }
-    .toggle-thumb {
-      position: absolute; top: 4px; left: 4px; width: 16px; height: 16px;
-      background: white; border-radius: 50%; transition: transform .2s;
-    }
-    .toggle-thumb.annual { transform: translateX(20px); }
-    .save-badge {
-      background: rgba(16,185,129,0.2); color: #34d399; border-radius: 999px;
-      padding: 2px 10px; font-size: 12px; font-weight: 700;
-    }
-    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
-    .plan-card {
-      background: rgba(30,41,59,0.6); border: 1px solid rgba(51,65,85,0.6);
-      border-radius: 20px; padding: 32px; display: flex; flex-direction: column;
-      position: relative;
-    }
-    .plan-card.featured {
-      border-color: rgba(59,130,246,0.5);
-      background: linear-gradient(160deg, rgba(30,58,138,0.4) 0%, rgba(30,41,59,0.8) 100%);
-      box-shadow: 0 0 40px rgba(59,130,246,0.15);
-    }
-    .plan-badge {
-      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-      background: var(--blue-dark); color: white; font-size: 12px; font-weight: 700;
-      padding: 4px 16px; border-radius: 999px; white-space: nowrap;
-    }
-    .plan-name { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
-    .plan-card.featured .plan-name { color: var(--blue-light); }
-    .plan-price { margin: 16px 0 4px; display: flex; align-items: flex-end; gap: 6px; }
-    .plan-price-num { font-size: 52px; font-weight: 900; line-height: 1; color: var(--text); }
-    .plan-price-per { font-size: 13px; color: var(--muted); padding-bottom: 10px; }
-    .plan-desc { font-size: 14px; color: var(--muted); margin-bottom: 24px; }
-    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 12px; flex: 1; margin-bottom: 28px; }
-    .plan-features li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #cbd5e1; }
-    .check { color: var(--green); flex-shrink: 0; }
-    .check-blue { color: var(--blue-light); flex-shrink: 0; }
-    .check-violet { color: #a78bfa; flex-shrink: 0; }
-    .btn-plan {
-      display: block; text-align: center; padding: 14px; border-radius: 12px;
-      font-size: 14px; font-weight: 700; transition: all .2s; border: none; cursor: pointer;
-    }
-    .btn-plan-outline {
-      background: rgba(51,65,85,0.6); border: 1px solid var(--bg3); color: var(--text);
-    }
-    .btn-plan-outline:hover { background: var(--bg3); }
-    .btn-plan-blue {
-      background: var(--blue-dark); color: white;
-      box-shadow: 0 4px 20px rgba(37,99,235,0.3);
-    }
-    .btn-plan-blue:hover { background: var(--blue); }
-
-    /* ── COMPARE ── */
-    .compare-bg { background: rgba(30,41,59,0.2); }
-    .compare-table { width: 100%; border-radius: 16px; overflow: hidden; border: 1px solid rgba(51,65,85,0.6); }
-    .compare-table th, .compare-table td { padding: 14px 20px; font-size: 14px; }
-    .compare-table thead tr { background: rgba(15,23,42,0.8); border-bottom: 1px solid rgba(51,65,85,0.5); }
-    .compare-table th { font-weight: 600; color: var(--muted); text-align: center; }
-    .compare-table th:first-child { text-align: left; }
-    .compare-table tbody tr { border-bottom: 1px solid rgba(51,65,85,0.3); transition: background .15s; }
-    .compare-table tbody tr:last-child { border-bottom: none; }
-    .compare-table tbody tr:hover { background: rgba(51,65,85,0.15); }
-    .compare-table td { color: #cbd5e1; text-align: center; }
-    .compare-table td:first-child { text-align: left; }
-    .compare-us-th {
-      display: inline-flex; align-items: center; gap: 6px;
-      background: rgba(59,130,246,0.15); border: 1px solid rgba(59,130,246,0.3);
-      color: #93c5fd; padding: 6px 14px; border-radius: 8px; font-weight: 700;
-    }
-    .star { background: rgba(59,130,246,0.3); color: #60a5fa; border-radius: 999px; padding: 1px 6px; font-size: 10px; }
-    .check-cell { color: var(--green); font-size: 18px; }
-    .x-cell { color: var(--bg3); font-size: 18px; }
-    .price-us { color: var(--green); font-weight: 700; }
-    .compare-note { font-size: 12px; color: var(--subtle); padding: 12px 20px; border-top: 1px solid rgba(51,65,85,0.4); }
-
-    /* ── CTA FINAL ── */
-    .cta-card {
-      max-width: 800px; margin: 0 auto; text-align: center;
-      background: linear-gradient(135deg, rgba(30,58,138,0.4) 0%, rgba(30,41,59,0.9) 100%);
-      border: 1px solid rgba(59,130,246,0.2); border-radius: 28px; padding: 64px 40px;
-      position: relative; overflow: hidden;
-    }
-    .cta-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(59,130,246,0.08) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .cta-card h2 { font-size: clamp(28px, 4vw, 42px); font-weight: 900; margin-bottom: 16px; position: relative; }
-    .cta-card p { font-size: 18px; color: var(--muted); margin-bottom: 40px; position: relative; }
-    .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; position: relative; }
-    .btn-cta-primary {
-      background: var(--blue-dark); color: white; font-weight: 700; font-size: 16px;
-      padding: 16px 32px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px;
-      box-shadow: 0 8px 30px rgba(37,99,235,0.4); transition: all .2s;
-    }
-    .btn-cta-primary:hover { background: var(--blue); transform: translateY(-2px); }
-    .btn-cta-secondary {
-      background: rgba(30,41,59,0.8); border: 1px solid var(--bg3); color: #e2e8f0;
-      font-weight: 600; font-size: 16px; padding: 16px 32px; border-radius: 12px; transition: all .2s;
-    }
-    .btn-cta-secondary:hover { background: var(--bg3); transform: translateY(-2px); }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid rgba(51,65,85,0.5);
-      padding: 48px 24px 32px;
-    }
-    .footer-inner { max-width: 1200px; margin: 0 auto; }
-    .footer-top { display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; }
-    .footer-brand p { font-size: 13px; color: var(--subtle); max-width: 220px; margin-top: 12px; }
-    .footer-links-group { display: flex; gap: 48px; }
-    .footer-col h4 { font-size: 14px; font-weight: 700; color: #cbd5e1; margin-bottom: 12px; }
-    .footer-col a { display: block; font-size: 14px; color: var(--subtle); margin-bottom: 8px; transition: color .2s; }
-    .footer-col a:hover { color: var(--text); }
-    .footer-bottom { border-top: 1px solid rgba(51,65,85,0.4); padding-top: 20px; text-align: center; font-size: 12px; color: rgba(100,116,139,0.8); }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .stats-inner { grid-template-columns: repeat(2,1fr); }
-      .how-grid { grid-template-columns: 1fr; }
-      .phone-wrap { display: none; }
-      .plans-grid { grid-template-columns: 1fr; }
-      .compare-table th:nth-child(n+3), .compare-table td:nth-child(n+3) { display: none; }
-      .footer-links-group { gap: 24px; }
-    }
-    @media (max-width: 480px) {
-      .hero { padding: 60px 16px 40px; }
-      .hero-ctas { flex-direction: column; align-items: stretch; }
-      .btn-hero-primary, .btn-hero-secondary { justify-content: center; }
-    }
-
-    /* ── LANG HIDDEN ── */
+    /* ── BILINGUAL ── */
     [data-en] { display: none; }
     body.lang-en [data-es] { display: none; }
     body.lang-en [data-en] { display: inline; }
-    .feat-desc[data-en], .how-step-body p[data-en], .plan-desc[data-en] { display: none; }
-    body.lang-en .feat-desc[data-es], body.lang-en .how-step-body p[data-es],
-    body.lang-en .plan-desc[data-es] { display: none; }
-    body.lang-en .feat-desc[data-en], body.lang-en .how-step-body p[data-en],
-    body.lang-en .plan-desc[data-en] { display: block; }
-    .plan-features li[data-en] { display: none; }
-    body.lang-en .plan-features li[data-es] { display: none; }
-    body.lang-en .plan-features li[data-en] { display: flex; }
-    /* Modal list items */
-    .feat-modal-list li[data-en] { display: none; }
-    body.lang-en .feat-modal-list li[data-es] { display: none; }
-    body.lang-en .feat-modal-list li[data-en] { display: flex; }
-    /* Modal detail paragraphs */
-    .feat-modal-detail[data-en] { display: none; }
-    body.lang-en .feat-modal-detail[data-es] { display: none; }
-    body.lang-en .feat-modal-detail[data-en] { display: block; }
-    /* Footer & nav links */
-    .footer-col a[data-en], .footer-col h4[data-en], .nav-links a[data-en] { display: none; }
-    body.lang-en .footer-col a[data-es], body.lang-en .footer-col h4[data-es], body.lang-en .nav-links a[data-es] { display: none; }
-    body.lang-en .footer-col a[data-en] { display: block; }
-    body.lang-en .footer-col h4[data-en] { display: block; }
-    body.lang-en .nav-links a[data-en] { display: inline; }
+    body.lang-en [data-en].block { display: block; }
+    body.lang-en [data-en].flex  { display: flex; }
 
-    /* ── FEATURE MODALS ── */
-    .feat-card {
-      cursor: pointer;
-    }
-    .feat-card:hover {
-      border-color: rgba(100,116,139,0.8);
-      transform: translateY(-2px);
-      transition: border-color .2s, transform .2s;
-    }
-    .feat-card-arrow {
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      margin-top: 16px; padding-top: 14px;
-      border-top: 1px solid rgba(51,65,85,0.5);
+      padding: 0 5%; height: 72px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #E5E7EB;
     }
-    .feat-card-arrow span { font-size: 12px; font-weight: 600; color: var(--blue-light); }
-    .feat-card-arrow svg { color: var(--blue-light); }
-    /* overlay */
-    .feat-overlay {
-      display: none; position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
-      align-items: center; justify-content: center; padding: 20px;
+    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .nav-logo-icon {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .feat-overlay.open { display: flex; }
-    .feat-modal {
-      background: #1e293b; border: 1px solid rgba(51,65,85,0.8);
-      border-radius: 24px; max-width: 640px; width: 100%;
-      max-height: 85vh; overflow-y: auto;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-      position: relative;
+    .nav-logo-icon svg { width: 20px; height: 20px; color: #fff; }
+    .nav-logo-text { display: flex; flex-direction: column; gap: 1px; }
+    .nav-logo-name { font-size: 1rem; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.3px; line-height: 1; }
+    .nav-logo-sub  { font-size: 0.65rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 1px; }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+    .nav-links a { text-decoration: none; font-size: 0.9rem; font-weight: 500; color: var(--gray-dark); transition: color .2s; }
+    .nav-links a:hover { color: var(--blue-mid); }
+    .nav-back { font-size: 0.85rem; font-weight: 500; color: var(--gray-mid); text-decoration: none; display: flex; align-items: center; gap: 5px; transition: color .2s; }
+    .nav-back:hover { color: var(--blue-mid); }
+    .btn-demo {
+      background: var(--blue-mid); color: #fff;
+      padding: 0.5rem 1.2rem; border-radius: 8px;
+      font-size: 0.875rem; font-weight: 600; text-decoration: none;
+      transition: background .2s, transform .1s; white-space: nowrap;
     }
-    .feat-modal-header {
-      display: flex; align-items: flex-start; justify-content: space-between;
-      padding: 28px 28px 20px; border-bottom: 1px solid rgba(51,65,85,0.5);
-      gap: 16px; position: sticky; top: 0; background: #1e293b; z-index: 1;
-      border-radius: 24px 24px 0 0;
+    .btn-demo:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .lang-btn {
+      background: none; border: 1.5px solid #E5E7EB; color: #6B7280;
+      padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: all .2s; letter-spacing: 0.5px;
     }
-    .feat-modal-close {
-      background: rgba(51,65,85,0.6); border: 1px solid rgba(51,65,85,0.8);
-      color: var(--muted); border-radius: 8px; width: 32px; height: 32px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; flex-shrink: 0; font-size: 18px; line-height: 1;
-      transition: background .2s;
-    }
-    .feat-modal-close:hover { background: var(--bg3); color: var(--text); }
-    .feat-modal-body { padding: 24px 28px 32px; }
-    .feat-modal-detail { font-size: 15px; color: #cbd5e1; line-height: 1.75; margin-bottom: 20px; }
-    .feat-modal-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-    .feat-modal-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #94a3b8; line-height: 1.55; }
-    .feat-modal-list li::before { content: "✓"; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
-    .feat-modal-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: var(--blue-dark); color: white; font-weight: 700;
-      padding: 12px 24px; border-radius: 10px; font-size: 14px;
-      transition: background .2s; text-decoration: none;
-    }
-    .feat-modal-cta:hover { background: var(--blue); }
+    .lang-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
 
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; background: none;
+      border: none; cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #374151; border-radius: 2px; transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; top: 72px; z-index: 99;
+      background: #fff; padding: 2rem 6%;
+      flex-direction: column; gap: 0;
+      border-top: 1px solid #F3F4F6;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; font-size: 1.1rem; font-weight: 600;
+      color: #374151; padding: 1rem 0;
+      border-bottom: 1px solid #F3F4F6; transition: color .2s;
+    }
+    .mobile-menu a:hover { color: var(--blue-mid); }
+    .mobile-menu .mobile-cta {
+      margin-top: 1.5rem; background: var(--blue-mid); color: #fff;
+      text-align: center; border-radius: 12px; padding: 1rem;
+      border: none; font-size: 1rem; font-weight: 700;
+    }
+    .mobile-lang { display: flex; gap: 1rem; margin-top: 1rem; }
+    .mobile-lang button {
+      flex: 1; padding: 0.7rem; border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: all .2s;
+    }
+    .mobile-lang .ml-es { background: #EFF6FF; color: var(--blue-mid); border: 1.5px solid #BFDBFE; }
+    .mobile-lang .ml-en { background: #F8FAFC; color: #6B7280; border: 1.5px solid #E5E7EB; }
+    body.lang-en .mobile-lang .ml-es { background: #F8FAFC; color: #6B7280; border-color: #E5E7EB; }
+    body.lang-en .mobile-lang .ml-en { background: #EFF6FF; color: var(--blue-mid); border-color: #BFDBFE; }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; gap: 3rem;
+      padding: 6rem 5% 5rem;
+      background: linear-gradient(135deg, #F0F9FF 0%, #E0F2FE 50%, #EFF6FF 100%);
+      min-height: 85vh;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #fff; border: 1.5px solid #BAE6FD; color: var(--teal-dark);
+      font-size: 0.8rem; font-weight: 700; padding: 5px 14px; border-radius: 20px;
+      margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 0.8px;
+    }
+    .hero-tag svg { width: 14px; height: 14px; }
+    .hero-text h1 {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; line-height: 1.15;
+      color: #0F172A; margin-bottom: 1.25rem;
+    }
+    .hero-text h1 span { color: var(--teal); }
+    .hero-text p {
+      font-size: 1.1rem; color: var(--gray-mid);
+      line-height: 1.7; margin-bottom: 2rem; max-width: 480px;
+    }
+    .hero-cta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--blue-mid); color: #fff;
+      padding: 0.9rem 2rem; border-radius: 10px;
+      font-size: 1rem; font-weight: 700; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
+      transition: all .2s;
+    }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); }
+    .btn-secondary {
+      color: var(--blue-mid); font-weight: 600; font-size: 1rem;
+      text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap .2s;
+    }
+    .btn-secondary:hover { gap: 10px; }
+    .hero-badges { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.85); border: 1px solid #E0F2FE;
+      color: #374151; font-size: 0.78rem; font-weight: 600;
+      padding: 5px 12px; border-radius: 20px;
+    }
+    .hero-badge svg { width: 13px; height: 13px; color: var(--teal); }
+
+    /* Fleet mock UI */
+    .hero-visual { display: flex; justify-content: center; align-items: center; }
+    .fleet-mockup {
+      background: #fff; border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      padding: 0; width: 100%; max-width: 340px;
+      border: 1px solid #E5E7EB; overflow: hidden;
+    }
+    .mock-phone-bar {
+      background: var(--blue-dark); padding: 12px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .mock-phone-bar span { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.9); }
+    .mock-phone-bar .mock-time { font-size: 0.8rem; font-weight: 700; color: #fff; }
+    .mock-app-header {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      padding: 18px 18px 22px;
+    }
+    .mock-app-header .mock-greeting { font-size: 0.7rem; color: rgba(255,255,255,0.7); font-weight: 500; margin-bottom: 2px; }
+    .mock-app-header .mock-name { font-size: 1.1rem; font-weight: 800; color: #fff; }
+    .mock-app-header .mock-vehicle-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.15); border-radius: 20px;
+      padding: 4px 12px; margin-top: 10px;
+      font-size: 0.72rem; font-weight: 600; color: rgba(255,255,255,0.9);
+    }
+    .mock-body { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+    .mock-status-card {
+      border-radius: 14px; padding: 16px;
+      background: linear-gradient(135deg, #ECFDF5, #D1FAE5);
+      border: 1px solid #A7F3D0;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .mock-status-icon {
+      width: 40px; height: 40px; border-radius: 12px;
+      background: #10B981; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .mock-status-icon svg { width: 20px; height: 20px; color: #fff; }
+    .mock-status-text .mock-status-label { font-size: 0.65rem; font-weight: 700; color: #065F46; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mock-status-text .mock-status-value { font-size: 1rem; font-weight: 800; color: #065F46; }
+    .mock-status-text .mock-status-sub { font-size: 0.65rem; color: #059669; margin-top: 2px; }
+    .mock-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .mock-action-btn {
+      border-radius: 12px; padding: 12px 10px; border: 1.5px solid #E5E7EB;
+      display: flex; flex-direction: column; align-items: center; gap: 5px;
+      background: #F8FAFC; text-align: center;
+    }
+    .mock-action-btn .mock-action-icon {
+      width: 32px; height: 32px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .mock-action-btn .mock-action-label { font-size: 0.65rem; font-weight: 700; color: #374151; }
+    .mock-action-btn.checkout .mock-action-icon { background: #FEF3C7; }
+    .mock-action-btn.checkout .mock-action-icon svg { color: #D97706; width: 16px; height: 16px; }
+    .mock-action-btn.reporte .mock-action-icon { background: #FEE2E2; }
+    .mock-action-btn.reporte .mock-action-icon svg { color: #DC2626; width: 16px; height: 16px; }
+    .mock-action-btn.mant .mock-action-icon { background: #EDE9FE; }
+    .mock-action-btn.mant .mock-action-icon svg { color: #7C3AED; width: 16px; height: 16px; }
+    .mock-action-btn.km .mock-action-icon { background: #ECFDF5; }
+    .mock-action-btn.km .mock-action-icon svg { color: #059669; width: 16px; height: 16px; }
+    .mock-hist-label { font-size: 0.7rem; font-weight: 700; color: #6B7280; text-transform: uppercase; letter-spacing: 0.5px; }
+    .mock-hist-item {
+      display: flex; align-items: center; gap: 10px;
+      background: #F8FAFC; border-radius: 10px; padding: 10px 12px;
+      border: 1px solid #F3F4F6;
+    }
+    .mock-hist-dot { width: 8px; height: 8px; border-radius: 50%; background: #10B981; flex-shrink: 0; }
+    .mock-hist-dot.ended { background: #6B7280; }
+    .mock-hist-info { flex: 1; }
+    .mock-hist-date { font-size: 0.65rem; font-weight: 600; color: #374151; }
+    .mock-hist-km   { font-size: 0.6rem; color: #9CA3AF; }
+    .mock-bottom-nav {
+      display: flex; border-top: 1px solid #F3F4F6; padding: 8px 0 4px;
+    }
+    .mock-nav-item {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px;
+      font-size: 0.55rem; font-weight: 600; color: #9CA3AF; padding: 4px 0;
+    }
+    .mock-nav-item.active { color: var(--blue-mid); }
+    .mock-nav-item svg { width: 18px; height: 18px; }
+
+    /* ── SECTION BASE ── */
+    section { padding: 5rem 5%; }
+    .section-tag {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--teal-dark);
+      background: #E0F2FE; padding: 4px 12px; border-radius: 20px; margin-bottom: 1rem;
+    }
+    h2.section-title { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; color: #0F172A; line-height: 1.2; margin-bottom: 1rem; }
+    h2.section-title span { color: var(--teal); }
+    p.section-sub { font-size: 1.05rem; color: var(--gray-mid); max-width: 560px; line-height: 1.7; margin-bottom: 3rem; }
+
+    /* ── FEATURES ── */
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+    .feat-card {
+      background: #fff; border-radius: 16px; padding: 1.75rem;
+      border: 1.5px solid #E5E7EB; transition: all .25s;
+    }
+    .feat-card:hover { border-color: var(--blue-light); box-shadow: 0 8px 30px rgba(14,165,233,0.1); transform: translateY(-3px); }
+    .feat-icon {
+      width: 48px; height: 48px; border-radius: 14px; margin-bottom: 1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .feat-icon svg { width: 24px; height: 24px; }
+    .feat-card h3 { font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem; }
+    .feat-card p { font-size: 0.875rem; color: var(--gray-mid); line-height: 1.65; }
+
+    /* ── HOW IT WORKS ── */
+    .steps-fleet { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; position: relative; }
+    .step-fleet {
+      text-align: center; padding: 2rem 1.5rem;
+      background: #F8FAFC; border-radius: 18px; border: 1.5px solid #E5E7EB;
+      position: relative; transition: all .25s;
+    }
+    .step-fleet:hover { border-color: var(--teal); box-shadow: 0 8px 30px rgba(14,165,233,0.1); }
+    .step-num {
+      width: 44px; height: 44px; border-radius: 12px;
+      background: linear-gradient(135deg, var(--teal), var(--blue-mid));
+      color: #fff; font-size: 1.1rem; font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .step-fleet h3 { font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem; }
+    .step-fleet p { font-size: 0.875rem; color: var(--gray-mid); line-height: 1.6; }
+
+    /* ── DRIVER APP SECTION ── */
+    .driver-section {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+      color: #fff;
+    }
+    .driver-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .driver-text .section-tag { background: rgba(255,255,255,0.1); color: #7DD3FC; }
+    .driver-text h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; line-height: 1.2; margin-bottom: 1rem; }
+    .driver-text h2 span { color: var(--teal); }
+    .driver-text p { font-size: 1rem; color: #94A3B8; line-height: 1.7; margin-bottom: 2rem; max-width: 480px; }
+    .driver-features { display: flex; flex-direction: column; gap: 1rem; }
+    .driver-feat {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: rgba(255,255,255,0.05); border-radius: 12px; padding: 14px 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .driver-feat-icon {
+      width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .driver-feat-icon svg { width: 18px; height: 18px; color: #fff; }
+    .driver-feat-text h4 { font-size: 0.9rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .driver-feat-text p { font-size: 0.8rem; color: #94A3B8; }
+    .phones-mockup { display: flex; justify-content: center; align-items: flex-end; gap: -20px; }
+    .phone-card {
+      background: #fff; border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.4);
+      width: 220px; overflow: hidden;
+      border: 1px solid #E5E7EB;
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      background: linear-gradient(135deg, var(--blue-dark), var(--blue-mid));
+      padding: 4rem 5%;
+    }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+    .stat-item .stat-number { font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; color: #fff; line-height: 1; }
+    .stat-item .stat-label  { font-size: 0.875rem; color: rgba(255,255,255,0.7); margin-top: 0.5rem; }
+
+    /* ── ADMIN PANEL ── */
+    .admin-section { background: #F8FAFC; }
+    .admin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .admin-visual { order: -1; }
+    .admin-dashboard {
+      background: #fff; border-radius: 16px; border: 1.5px solid #E5E7EB;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.08); overflow: hidden;
+    }
+    .admin-dash-header {
+      background: var(--blue-dark); padding: 14px 18px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .admin-dash-header .dash-dots { display: flex; gap: 5px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
+    .dot.r { background: #FC5C65; } .dot.y { background: #FED330; } .dot.g { background: #26de81; }
+    .admin-dash-header span { font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.8); margin-left: 4px; }
+    .admin-dash-body { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+    .admin-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .admin-stat {
+      background: #F8FAFC; border-radius: 10px; padding: 12px;
+      border: 1px solid #E5E7EB; text-align: center;
+    }
+    .admin-stat .num { font-size: 1.4rem; font-weight: 900; color: #0F172A; }
+    .admin-stat .lbl { font-size: 0.65rem; color: #9CA3AF; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+    .admin-table-head {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      background: #F3F4F6; border-radius: 8px; padding: 8px 12px;
+      font-size: 0.65rem; font-weight: 700; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .admin-table-row {
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      padding: 10px 12px; border-bottom: 1px solid #F3F4F6;
+      align-items: center;
+    }
+    .admin-table-row:last-child { border-bottom: none; }
+    .admin-vehicle-name { font-size: 0.78rem; font-weight: 600; color: #374151; }
+    .admin-vehicle-plate { font-size: 0.65rem; color: #9CA3AF; }
+    .admin-cell { font-size: 0.72rem; color: #374151; }
+    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; }
+    .sd-green { background: #10B981; } .sd-gray { background: #9CA3AF; } .sd-amber { background: #F59E0B; }
+
+    /* ── CTA ── */
+    .cta-section {
+      background: linear-gradient(135deg, var(--teal-dark), var(--blue-dark));
+      text-align: center; padding: 5rem 5%;
+    }
+    .cta-section h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; color: #fff; margin-bottom: 1rem; }
+    .cta-section p { font-size: 1.05rem; color: rgba(255,255,255,0.75); max-width: 520px; margin: 0 auto 2.5rem; line-height: 1.7; }
+    .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-white { background: #fff; color: var(--blue-mid); padding: 0.9rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: all .2s; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-outline-white { border: 2px solid rgba(255,255,255,0.7); color: #fff; padding: 0.9rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all .2s; }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
+
+    /* ── FOOTER ── */
+    footer { background: #0F172A; color: #94A3B8; padding: 4rem 5% 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { font-size: 0.875rem; line-height: 1.7; max-width: 280px; margin-top: 0.75rem; }
+    .footer-col h4 { font-size: 0.8rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    .footer-col a { display: block; font-size: 0.875rem; color: #94A3B8; text-decoration: none; margin-bottom: 0.5rem; transition: color .2s; }
+    .footer-col a:hover { color: #fff; }
+    .footer-bottom { border-top: 1px solid #1E293B; padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-bottom p { font-size: 0.8rem; }
+    .footer-logo-name { font-size: 1.25rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; }
+    .footer-logo-name em { color: #4A9FD4; font-style: normal; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-back  { display: none; }
+      .hamburger { display: flex; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding: 3.5rem 5% 3rem; }
+      .hero-visual { display: none; }
+      .driver-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .admin-grid  { grid-template-columns: 1fr; gap: 2.5rem; }
+      .admin-visual { order: 0; }
+      .stats-grid  { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 640px) {
+      section { padding: 3.5rem 5%; }
+      .features-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .steps-fleet   { grid-template-columns: 1fr; gap: 1.5rem; }
+      .stats-grid    { grid-template-columns: 1fr 1fr; }
+      .footer-grid   { grid-template-columns: 1fr; gap: 2rem; }
+      .cta-btns .btn-white, .cta-btns .btn-outline-white { width: 100%; text-align: center; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+      .btn-primary { width: 100%; text-align: center; }
+    }
+    @media (max-width: 480px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .admin-stat-row { grid-template-columns: 1fr 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
 
-<!-- ── NAV ──────────────────────────────────────────────────────────── -->
+<!-- NAV -->
 <nav>
-  <div class="nav-inner">
-    <a href="https://www.portal-hr.com/flotilla" class="logo">
-      <img src="../apple-touch-icon.png" alt="Portal Fleet" style="width:34px;height:34px;border-radius:8px;object-fit:contain;flex-shrink:0;">
-      <span class="logo-text">Portal <span>Fleet</span></span>
-    </a>
+  <a href="/flotilla/" class="nav-logo" aria-label="Portal RH Flotilla">
+    <div class="nav-logo-icon">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 17H3a2 2 0 01-2-2v-4a2 2 0 012-2h2l2.5-5h9L18 9h2a2 2 0 012 2v4a2 2 0 01-2 2h-2"/>
+        <circle cx="7.5" cy="17.5" r="2.5"/>
+        <circle cx="16.5" cy="17.5" r="2.5"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">Portal RH</span>
+      <span class="nav-logo-sub">Flotilla</span>
+    </div>
+  </a>
+  <div class="nav-right">
     <div class="nav-links">
-      <a href="#features" data-es>Producto</a><a href="#features" data-en>Product</a>
-      <a href="#pricing" data-es>Precios</a><a href="#pricing" data-en>Pricing</a>
-      <a href="#how" data-es>Cómo funciona</a><a href="#how" data-en>How it works</a>
+      <a href="/flotilla/#funciones"><span data-es>Funciones</span><span data-en>Features</span></a>
+      <a href="/flotilla/#como-funciona"><span data-es>Cómo funciona</span><span data-en>How it works</span></a>
+      <a href="/flotilla/#conductores"><span data-es>Para conductores</span><span data-en>For drivers</span></a>
+      <a href="/"><span data-es>← Portal RH</span><span data-en>← Portal RH</span></a>
+      <a href="#contacto" class="btn-demo"><span data-es>Solicitar demo</span><span data-en>Request demo</span></a>
     </div>
-    <div class="nav-right">
-      <button class="btn-lang" onclick="toggleLang()" id="langBtn">EN</button>
-
-
-      <a href="../contacto.html" class="btn-primary">
-        <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-      </a>
-    </div>
+    <button class="lang-btn" id="langBtn" onclick="toggleLang()">EN</button>
+    <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
-<!-- ── HERO ──────────────────────────────────────────────────────────── -->
-<section class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-inner">
-    <div class="badge">
-      <span class="badge-dot"></span>
-      <span data-es>Nuevo · Gestión de Flotilla</span>
-      <span data-en>New · Fleet Management</span>
-    </div>
-    <h1>
-      <span class="h1-white" data-es>Controla tu flota.<br></span>
-      <span class="h1-white" data-en>Control your fleet.<br></span>
-      <span class="h1-blue" data-es>Reduce costos.</span>
-      <span class="h1-blue" data-en>Reduce costs.</span><br>
-      <span class="h1-dim" data-es>Sin complicaciones.</span>
-      <span class="h1-dim" data-en>Zero hassle.</span>
-    </h1>
-    <p class="hero-sub">
-      <span data-es>Portal Fleet es la plataforma más fácil de usar para gestionar vehículos, conductores, mantenimiento y accidentes — desde cualquier dispositivo.</span>
-      <span data-en>Portal Fleet is the easiest platform to manage vehicles, drivers, maintenance and accident reports — from any device, anywhere.</span>
-    </p>
-    <div class="hero-ctas">
-      <a href="../contacto.html" class="btn-hero-primary">
-        <span data-es>Solicitar demo gratis</span><span data-en>Request free demo</span>
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-      </a>
-      <a href="#features" class="btn-hero-secondary">
-        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="color:#60a5fa"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
-        <span data-es>Ver funciones</span><span data-en>See features</span>
-      </a>
-    </div>
-    <p class="hero-note" data-es>Sin compromisos · Te contactamos en menos de 24 horas</p>
-    <p class="hero-note" data-en>No commitments · We'll reach out within 24 hours</p>
-
-    <!-- Dashboard SVG mockup -->
-    <!-- CSS for slider -->
-    <style>
-      .slider-wrap {
-        position: relative; max-width: 900px; margin: 0 auto;
-        border-radius: 16px; overflow: hidden;
-        border: 1px solid rgba(51,65,85,0.7);
-        box-shadow: 0 0 0 1px rgba(99,102,241,0.12), 0 32px 80px rgba(0,0,0,0.5);
-      }
-      .slider-bar {
-        background: #1e293b; border-bottom: 1px solid rgba(51,65,85,0.6);
-        padding: 0 16px; height: 44px;
-        display: flex; align-items: center; justify-content: space-between;
-      }
-      .slider-dots-top { display: flex; gap: 6px; }
-      .slider-dots-top span { width: 10px; height: 10px; border-radius: 50%; }
-      .slider-screen-label {
-        font-size: 12px; font-weight: 600; color: #64748b;
-        font-family: 'Inter', system-ui, sans-serif;
-      }
-      .slider-tabs {
-        display: flex; gap: 4px;
-      }
-      .slider-tab {
-        font-size: 11px; font-weight: 600; color: #64748b;
-        padding: 4px 10px; border-radius: 6px; cursor: pointer;
-        transition: all .2s; border: 1px solid transparent;
-        font-family: 'Inter', system-ui, sans-serif;
-      }
-      .slider-tab.active { color: #93c5fd; background: rgba(59,130,246,0.1); border-color: rgba(59,130,246,0.25); }
-      .slider-viewport { background: #0f172a; overflow: hidden; }
-      .slider-track { display: flex; transition: transform .45s cubic-bezier(.4,0,.2,1); }
-      .slider-slide { min-width: 100%; }
-      .slide-body { padding: 20px; font-family: 'Inter', system-ui, sans-serif; }
-
-      /* KPI row */
-      .kpi-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; margin-bottom: 16px; }
-      .kpi-card {
-        background: #1e293b; border: 1px solid rgba(51,65,85,0.6);
-        border-radius: 10px; padding: 12px 14px;
-      }
-      .kpi-label { font-size: 11px; color: #64748b; margin-bottom: 4px; }
-      .kpi-value { font-size: 22px; font-weight: 900; line-height: 1; }
-      .kpi-sub { font-size: 10px; color: #475569; margin-top: 3px; }
-
-      /* Vehicle table */
-      .veh-table { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; overflow: hidden; }
-      .veh-table-head {
-        display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
-        padding: 10px 14px; background: #0f172a;
-        border-bottom: 1px solid rgba(51,65,85,0.5);
-      }
-      .veh-th { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: .05em; }
-      .veh-row {
-        display: grid; grid-template-columns: 2fr 1.5fr 1fr 1fr 1fr;
-        padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.3);
-        align-items: center; transition: background .15s;
-      }
-      .veh-row:last-child { border-bottom: none; }
-      .veh-row:hover { background: rgba(51,65,85,0.2); }
-      .veh-name { font-size: 13px; font-weight: 700; color: #e2e8f0; }
-      .veh-plate { font-size: 11px; color: #64748b; margin-top: 1px; }
-      .veh-driver { font-size: 12px; color: #94a3b8; }
-      .veh-km { font-size: 12px; color: #94a3b8; }
-      .veh-date { font-size: 11px; color: #64748b; }
-      .veh-badge {
-        font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 6px;
-        display: inline-flex; align-items: center; gap: 4px; width: fit-content;
-      }
-      .b-activo  { background: rgba(16,185,129,0.15); color: #34d399; }
-      .b-uso     { background: rgba(59,130,246,0.15);  color: #60a5fa; }
-      .b-mant    { background: rgba(245,158,11,0.15);  color: #fbbf24; }
-      .b-inactivo{ background: rgba(100,116,139,0.15); color: #94a3b8; }
-
-      /* Slide 2: Check-in */
-      .ci-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-      .ci-car-icon {
-        width: 42px; height: 42px; background: rgba(59,130,246,0.12);
-        border: 1px solid rgba(59,130,246,0.25); border-radius: 10px;
-        display: flex; align-items: center; justify-content: center; font-size: 18px;
-      }
-      .ci-car-name { font-size: 15px; font-weight: 700; color: #e2e8f0; }
-      .ci-car-sub { font-size: 12px; color: #64748b; }
-      .ci-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-      .ci-section { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; padding: 14px; }
-      .ci-section-title { font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .05em; margin-bottom: 10px; }
-      .ci-checklist { display: flex; flex-direction: column; gap: 7px; }
-      .ci-check-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-      .ci-check-box {
-        width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
-        display: flex; align-items: center; justify-content: center; font-size: 9px;
-      }
-      .ci-ok   { background: rgba(16,185,129,0.2); border: 1px solid #10b981; color: #10b981; }
-      .ci-warn { background: rgba(245,158,11,0.2);  border: 1px solid #f59e0b; color: #f59e0b; }
-      .ci-pend { background: rgba(51,65,85,0.5); border: 1px solid #334155; color: #475569; }
-      .ci-text-ok   { color: #cbd5e1; }
-      .ci-text-warn { color: #fbbf24; }
-      .ci-text-pend { color: #475569; }
-      .ci-odo-box { display: flex; flex-direction: column; gap: 8px; }
-      .ci-odo-label { font-size: 11px; color: #64748b; }
-      .ci-odo-val { font-size: 20px; font-weight: 900; color: #e2e8f0; }
-      .ci-purpose { background: rgba(51,65,85,0.3); border-radius: 6px; padding: 8px 10px; font-size: 12px; color: #94a3b8; margin-top: 8px; }
-      .ci-driver-row { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
-      .ci-avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(59,130,246,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #60a5fa; flex-shrink: 0; }
-      .ci-driver-name { font-size: 12px; font-weight: 600; color: #e2e8f0; }
-
-      /* Slide 3: Maintenance */
-      .maint-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-      .maint-title { font-size: 14px; font-weight: 700; color: #e2e8f0; }
-      .maint-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-      .maint-list { display: flex; flex-direction: column; gap: 8px; }
-      .maint-card { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; padding: 12px 14px; }
-      .maint-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-      .maint-veh { font-size: 13px; font-weight: 700; color: #e2e8f0; }
-      .maint-type { font-size: 11px; color: #64748b; margin-top: 1px; }
-      .maint-due { font-size: 11px; color: #94a3b8; margin-top: 4px; display: flex; align-items: center; gap: 5px; }
-      .maint-due-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-      .maint-status-section { background: #1e293b; border: 1px solid rgba(51,65,85,0.5); border-radius: 10px; }
-      .maint-status-head { padding: 12px 14px; border-bottom: 1px solid rgba(51,65,85,0.4); font-size: 11px; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: .05em; }
-      .maint-status-row {
-        padding: 10px 14px; border-bottom: 1px solid rgba(51,65,85,0.3);
-        display: flex; align-items: center; justify-content: space-between;
-      }
-      .maint-status-row:last-child { border-bottom: none; }
-      .maint-status-name { font-size: 12px; color: #cbd5e1; }
-      .maint-status-val { font-size: 11px; font-weight: 700; }
-
-      /* Slider nav dots */
-      .slider-nav { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 16px; }
-      .slider-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(51,65,85,0.8); cursor: pointer; transition: all .2s; border: none; }
-      .slider-dot.active { background: #3b82f6; width: 22px; border-radius: 4px; }
-    </style>
-
-    <div class="dashboard-wrap" style="max-width:900px; margin:0 auto;">
-      <div class="dashboard-glow"></div>
-      <div class="slider-wrap">
-        <!-- Top bar -->
-        <div class="slider-bar">
-          <div class="slider-dots-top">
-            <span style="background:#FF5F57"></span>
-            <span style="background:#FEBC2E"></span>
-            <span style="background:#28C840"></span>
-          </div>
-          <div class="slider-tabs">
-            <div class="slider-tab active" onclick="goSlide(0)" id="stab0">
-              <span data-es>Panel de activos</span><span data-en>Asset Panel</span>
-            </div>
-            <div class="slider-tab" onclick="goSlide(1)" id="stab1">
-              <span data-es>Check-in</span><span data-en>Check-in</span>
-            </div>
-            <div class="slider-tab" onclick="goSlide(2)" id="stab2">
-              <span data-es>Mantenimiento</span><span data-en>Maintenance</span>
-            </div>
-          </div>
-          <div style="width:60px"></div>
-        </div>
-
-        <div class="slider-viewport">
-          <div class="slider-track" id="sliderTrack">
-
-            <!-- SLIDE 1: Fleet overview -->
-            <div class="slider-slide">
-              <div class="slide-body">
-                <div class="kpi-row">
-                  <div class="kpi-card">
-                    <div class="kpi-label"><span data-es>Total activos</span><span data-en>Total assets</span></div>
-                    <div class="kpi-value" style="color:#e2e8f0">18</div>
-                    <div class="kpi-sub"><span data-es>vehículos y equipos</span><span data-en>vehicles & equipment</span></div>
-                  </div>
-                  <div class="kpi-card">
-                    <div class="kpi-label"><span data-es>Activos disponibles</span><span data-en>Available assets</span></div>
-                    <div class="kpi-value" style="color:#34d399">11</div>
-                    <div class="kpi-sub"><span data-es>listos para usar</span><span data-en>ready to use</span></div>
-                  </div>
-                  <div class="kpi-card">
-                    <div class="kpi-label"><span data-es>En uso ahora</span><span data-en>Currently in use</span></div>
-                    <div class="kpi-value" style="color:#60a5fa">4</div>
-                    <div class="kpi-sub"><span data-es>con check-in activo</span><span data-en>with active check-in</span></div>
-                  </div>
-                  <div class="kpi-card">
-                    <div class="kpi-label"><span data-es>En mantenimiento</span><span data-en>In maintenance</span></div>
-                    <div class="kpi-value" style="color:#fbbf24">3</div>
-                    <div class="kpi-sub"><span data-es>en taller o servicio</span><span data-en>at shop or service</span></div>
-                  </div>
-                </div>
-                <div class="veh-table">
-                  <div class="veh-table-head">
-                    <div class="veh-th"><span data-es>Vehículo</span><span data-en>Vehicle</span></div>
-                    <div class="veh-th"><span data-es>Conductor</span><span data-en>Driver</span></div>
-                    <div class="veh-th"><span data-es>Estado</span><span data-en>Status</span></div>
-                    <div class="veh-th"><span data-es>Odómetro</span><span data-en>Odometer</span></div>
-                    <div class="veh-th"><span data-es>Últ. actividad</span><span data-en>Last activity</span></div>
-                  </div>
-                  <div class="veh-row">
-                    <div><div class="veh-name">Toyota Hilux</div><div class="veh-plate">A-123456 · 2022</div></div>
-                    <div class="veh-driver">Juan Pérez</div>
-                    <div><span class="veh-badge b-uso">● <span data-es>En uso</span><span data-en>In use</span></span></div>
-                    <div class="veh-km">87,412 km</div>
-                    <div class="veh-date"><span data-es>Hoy, 8:14 AM</span><span data-en>Today, 8:14 AM</span></div>
-                  </div>
-                  <div class="veh-row">
-                    <div><div class="veh-name">Honda CR-V</div><div class="veh-plate">B-789012 · 2021</div></div>
-                    <div class="veh-driver">—</div>
-                    <div><span class="veh-badge b-activo">● <span data-es>Activo</span><span data-en>Available</span></span></div>
-                    <div class="veh-km">54,230 km</div>
-                    <div class="veh-date"><span data-es>Ayer, 5:32 PM</span><span data-en>Yesterday, 5:32 PM</span></div>
-                  </div>
-                  <div class="veh-row">
-                    <div><div class="veh-name">Ford F-150</div><div class="veh-plate">C-345678 · 2020</div></div>
-                    <div class="veh-driver"><span data-es>Taller Mecánico</span><span data-en>Auto Shop</span></div>
-                    <div><span class="veh-badge b-mant">⚙ <span data-es>Mantenimiento</span><span data-en>Maintenance</span></span></div>
-                    <div class="veh-km">112,800 km</div>
-                    <div class="veh-date"><span data-es>Hace 2 días</span><span data-en>2 days ago</span></div>
-                  </div>
-                  <div class="veh-row">
-                    <div><div class="veh-name">Nissan Frontier</div><div class="veh-plate">D-901234 · 2023</div></div>
-                    <div class="veh-driver">María López</div>
-                    <div><span class="veh-badge b-uso">● <span data-es>En uso</span><span data-en>In use</span></span></div>
-                    <div class="veh-km">23,145 km</div>
-                    <div class="veh-date"><span data-es>Hoy, 9:02 AM</span><span data-en>Today, 9:02 AM</span></div>
-                  </div>
-                  <div class="veh-row">
-                    <div><div class="veh-name">Hyundai Tucson</div><div class="veh-plate">E-567890 · 2022</div></div>
-                    <div class="veh-driver">—</div>
-                    <div><span class="veh-badge b-activo">● <span data-es>Activo</span><span data-en>Available</span></span></div>
-                    <div class="veh-km">41,670 km</div>
-                    <div class="veh-date"><span data-es>Hace 3 días</span><span data-en>3 days ago</span></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SLIDE 2: Check-in -->
-            <div class="slider-slide">
-              <div class="slide-body">
-                <div class="ci-header">
-                  <div class="ci-car-icon">🚗</div>
-                  <div>
-                    <div class="ci-car-name">Toyota Hilux — A-123456</div>
-                    <div class="ci-car-sub">
-                      <span data-es>Check-in iniciado · Hoy 8:14 AM · Juan Pérez</span>
-                      <span data-en>Check-in started · Today 8:14 AM · Juan Pérez</span>
-                    </div>
-                  </div>
-                  <span class="veh-badge b-uso" style="margin-left:auto">● <span data-es>En uso</span><span data-en>In use</span></span>
-                </div>
-                <div class="ci-cols">
-                  <div class="ci-section">
-                    <div class="ci-section-title"><span data-es>Checklist pre-uso</span><span data-en>Pre-use checklist</span></div>
-                    <div class="ci-checklist">
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Aceite del motor</span><span data-en>Engine oil</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Nivel de agua</span><span data-en>Coolant level</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Llantas</span><span data-en>Tires</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Frenos</span><span data-en>Brakes</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Luces</span><span data-en>Lights</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-warn">!</div>
-                        <span class="ci-text-warn"><span data-es>Limpiabrisas — desgastado</span><span data-en>Wipers — worn out</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Documentos al día</span><span data-en>Documents up to date</span></span>
-                      </div>
-                      <div class="ci-check-item">
-                        <div class="ci-check-box ci-ok">✓</div>
-                        <span class="ci-text-ok"><span data-es>Extintor</span><span data-en>Fire extinguisher</span></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div style="display:flex; flex-direction:column; gap:12px;">
-                    <div class="ci-section">
-                      <div class="ci-section-title"><span data-es>Odómetro de salida</span><span data-en>Departure odometer</span></div>
-                      <div class="ci-odo-box">
-                        <div class="ci-odo-val">87,412 km</div>
-                        <div class="ci-odo-label"><span data-es>Registrado automáticamente</span><span data-en>Automatically recorded</span></div>
-                      </div>
-                    </div>
-                    <div class="ci-section">
-                      <div class="ci-section-title"><span data-es>Propósito del viaje</span><span data-en>Trip purpose</span></div>
-                      <div class="ci-purpose">
-                        <span data-es>"Entrega de materiales — Zona Norte, cliente Constructora Díaz"</span>
-                        <span data-en>"Material delivery — North Zone, client Constructora Díaz"</span>
-                      </div>
-                      <div class="ci-driver-row">
-                        <div class="ci-avatar">JP</div>
-                        <div>
-                          <div class="ci-driver-name">Juan Pérez</div>
-                          <div style="font-size:10px; color:#475569"><span data-es>Conductor asignado</span><span data-en>Assigned driver</span></div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- SLIDE 3: Maintenance -->
-            <div class="slider-slide">
-              <div class="slide-body">
-                <div class="maint-header">
-                  <div class="maint-title"><span data-es>Mantenimiento y alertas</span><span data-en>Maintenance & alerts</span></div>
-                  <span class="veh-badge b-mant"><span data-es>3 pendientes</span><span data-en>3 pending</span></span>
-                </div>
-                <div class="maint-cols">
-                  <div class="maint-list">
-                    <div class="maint-card" style="border-color:rgba(245,158,11,0.3)">
-                      <div class="maint-card-top">
-                        <div>
-                          <div class="maint-veh">Ford F-150 · C-345678</div>
-                          <div class="maint-type"><span data-es>Cambio de aceite y filtros</span><span data-en>Oil and filter change</span></div>
-                        </div>
-                        <span class="veh-badge b-mant"><span data-es>Próximo</span><span data-en>Upcoming</span></span>
-                      </div>
-                      <div class="maint-due"><div class="maint-due-dot" style="background:#fbbf24"></div><span data-es>Vence: 10 Abr 2026 · en 4 días</span><span data-en>Due: Apr 10, 2026 · in 4 days</span></div>
-                      <div class="maint-due" style="margin-top:2px"><div class="maint-due-dot" style="background:#fbbf24"></div><span data-es>Taller Mecánico Central · $3,200</span><span data-en>Central Auto Shop · $3,200</span></div>
-                    </div>
-                    <div class="maint-card">
-                      <div class="maint-card-top">
-                        <div>
-                          <div class="maint-veh">Toyota Hilux · A-123456</div>
-                          <div class="maint-type"><span data-es>Revisión de frenos</span><span data-en>Brake inspection</span></div>
-                        </div>
-                        <span class="veh-badge b-uso"><span data-es>Programado</span><span data-en>Scheduled</span></span>
-                      </div>
-                      <div class="maint-due"><div class="maint-due-dot" style="background:#60a5fa"></div><span data-es>Vence: 20 Abr 2026 · en 14 días</span><span data-en>Due: Apr 20, 2026 · in 14 days</span></div>
-                    </div>
-                    <div class="maint-card">
-                      <div class="maint-card-top">
-                        <div>
-                          <div class="maint-veh">Nissan Frontier · D-901234</div>
-                          <div class="maint-type"><span data-es>Alineación y balanceo</span><span data-en>Wheel alignment & balancing</span></div>
-                        </div>
-                        <span class="veh-badge b-activo"><span data-es>Completado</span><span data-en>Completed</span></span>
-                      </div>
-                      <div class="maint-due"><div class="maint-due-dot" style="background:#34d399"></div><span data-es>Completado: 1 Abr 2026 · $1,800</span><span data-en>Completed: Apr 1, 2026 · $1,800</span></div>
-                    </div>
-                  </div>
-                  <div class="maint-status-section">
-                    <div class="maint-status-head"><span data-es>Alertas enviadas hoy</span><span data-en>Alerts sent today</span></div>
-                    <div class="maint-status-row">
-                      <div>
-                        <div class="maint-status-name"><span data-es>Ford F-150 — mantenimiento</span><span data-en>Ford F-150 — maintenance</span></div>
-                        <div style="font-size:10px; color:#475569">→ mecanico@taller.com</div>
-                      </div>
-                      <div class="maint-status-val" style="color:#34d399">✓ <span data-es>Enviado</span><span data-en>Sent</span></div>
-                    </div>
-                    <div class="maint-status-row">
-                      <div>
-                        <div class="maint-status-name"><span data-es>Ford F-150 — mantenimiento</span><span data-en>Ford F-150 — maintenance</span></div>
-                        <div style="font-size:10px; color:#475569">→ gerencia@empresa.com</div>
-                      </div>
-                      <div class="maint-status-val" style="color:#34d399">✓ <span data-es>Enviado</span><span data-en>Sent</span></div>
-                    </div>
-                    <div class="maint-status-head" style="border-top:1px solid rgba(51,65,85,0.4); margin-top:2px"><span data-es>Últimos accidentes</span><span data-en>Recent incidents</span></div>
-                    <div class="maint-status-row">
-                      <div>
-                        <div class="maint-status-name">Honda CR-V · B-789012</div>
-                        <div style="font-size:10px; color:#475569"><span data-es>Golpe leve — estacionamiento</span><span data-en>Minor dent — parking lot</span></div>
-                      </div>
-                      <span class="veh-badge b-activo"><span data-es>Resuelto</span><span data-en>Resolved</span></span>
-                    </div>
-                    <div class="maint-status-row">
-                      <div>
-                        <div class="maint-status-name">Toyota Hilux · A-123456</div>
-                        <div style="font-size:10px; color:#475569"><span data-es>Rayón puerta lateral</span><span data-en>Side door scratch</span></div>
-                      </div>
-                      <span class="veh-badge b-mant"><span data-es>Revisión</span><span data-en>Review</span></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div><!-- /slider-track -->
-        </div><!-- /slider-viewport -->
-      </div><!-- /slider-wrap -->
-
-
-      <!-- Nav dots -->
-      <div class="slider-nav">
-        <button class="slider-dot active" onclick="goSlide(0)" id="sdot0"></button>
-        <button class="slider-dot" onclick="goSlide(1)" id="sdot1"></button>
-        <button class="slider-dot" onclick="goSlide(2)" id="sdot2"></button>
-      </div>
-    </div>    </div>
-  </div>
-</section>
-
-<!-- ── STATS ──────────────────────────────────────────────────────────── -->
-<div class="stats">
-  <div class="stats-inner">
-    <div><div class="stat-val">0</div><div class="stat-lbl" data-es>Hojas de Excel para reemplazar</div><div class="stat-lbl" data-en>Spreadsheets to replace</div></div>
-    <div><div class="stat-val">100%</div><div class="stat-lbl" data-es>Digital desde el celular</div><div class="stat-lbl" data-en>Mobile-first digital</div></div>
-    <div><div class="stat-val">99.9%</div><div class="stat-lbl" data-es>Uptime garantizado</div><div class="stat-lbl" data-en>Guaranteed uptime</div></div>
-    <div><div class="stat-val">24/7</div><div class="stat-lbl" data-es>Soporte por email y WhatsApp</div><div class="stat-lbl" data-en>Email & WhatsApp support</div></div>
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="/flotilla/#funciones"      onclick="closeMenu()"><span data-es>Funciones</span><span data-en>Features</span></a>
+  <a href="/flotilla/#como-funciona"  onclick="closeMenu()"><span data-es>Cómo funciona</span><span data-en>How it works</span></a>
+  <a href="/flotilla/#conductores"    onclick="closeMenu()"><span data-es>Para conductores</span><span data-en>For drivers</span></a>
+  <a href="/"                         onclick="closeMenu()"><span data-es>← Volver a Portal RH</span><span data-en>← Back to Portal RH</span></a>
+  <a href="#contacto" class="mobile-cta" onclick="closeMenu()"><span data-es>Solicitar demo</span><span data-en>Request demo</span></a>
+  <div class="mobile-lang">
+    <button class="ml-es" onclick="setLang('es'); closeMenu()">Español</button>
+    <button class="ml-en" onclick="setLang('en'); closeMenu()">English</button>
   </div>
 </div>
 
-<!-- ── FEATURES ──────────────────────────────────────────────────────── -->
-<section id="features">
-  <div class="section-inner">
-    <div class="section-header">
-      <h2 data-es>Todo lo que necesitas para gestionar tu flota</h2>
-      <h2 data-en>Everything you need to run your fleet</h2>
-      <p class="section-sub" data-es>Una plataforma completa que reemplaza hojas de cálculo, llamadas telefónicas y papel.</p>
-      <p class="section-sub" data-en>A complete platform that replaces spreadsheets, phone calls and paper.</p>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-tag">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M5 17H3a2 2 0 01-2-2v-4a2 2 0 012-2h2l2.5-5h9L18 9h2a2 2 0 012 2v4a2 2 0 01-2 2h-2"/>
+        <circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>
+      </svg>
+      <span data-es>Módulo de Flotilla</span><span data-en>Fleet Module</span>
     </div>
-    <div class="features-grid">
-
-      <!-- CARD 1: Check-in / Check-out -->
-      <div class="feat-card" onclick="openFeatModal('checkin')">
-        <div class="feat-icon" style="color:#60a5fa">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        </div>
-        <div class="feat-title" data-es>Check-in / Check-out digital</div>
-        <div class="feat-title" data-en>Digital Check-in / Check-out</div>
-        <p class="feat-desc" data-es>Los conductores registran el uso del vehículo desde el celular. Checklist pre-uso, fotos y odómetro automático.</p>
-        <p class="feat-desc" data-en>Drivers log vehicle usage from their phone. Pre-use checklist, photos and automatic odometer tracking.</p>
-        <div class="feat-card-arrow">
-          <span data-es>Ver más</span><span data-en>Learn more</span>
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </div>
-
-      <!-- CARD 2: Alertas de mantenimiento -->
-      <div class="feat-card" onclick="openFeatModal('mantenimiento')">
-        <div class="feat-icon" style="color:#fbbf24">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-        </div>
-        <div class="feat-title" data-es>Alertas de mantenimiento</div>
-        <div class="feat-title" data-en>Maintenance Alerts</div>
-        <p class="feat-desc" data-es>El sistema avisa automáticamente al mecánico y al gerente cuando un vehículo está próximo a su servicio.</p>
-        <p class="feat-desc" data-en>The system automatically notifies mechanics and managers when a vehicle is due for service.</p>
-        <div class="feat-card-arrow">
-          <span data-es>Ver más</span><span data-en>Learn more</span>
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </div>
-
-      <!-- CARD 3: Reportes de accidentes -->
-      <div class="feat-card" onclick="openFeatModal('accidentes')">
-        <div class="feat-icon" style="color:#f87171">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        </div>
-        <div class="feat-title" data-es>Reportes de accidentes</div>
-        <div class="feat-title" data-en>Accident Reports</div>
-        <p class="feat-desc" data-es>Protocolo digital completo: fotos, lesiones, terceros, reporte policial. Todo centralizado con historial permanente.</p>
-        <p class="feat-desc" data-en>Full digital protocol: photos, injuries, third parties, police report. All centralized with permanent history.</p>
-        <div class="feat-card-arrow">
-          <span data-es>Ver más</span><span data-en>Learn more</span>
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </div>
-
-      <!-- CARD 4: Panel de control -->
-      <div class="feat-card" onclick="openFeatModal('panel')">
-        <div class="feat-icon" style="color:#34d399">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        </div>
-        <div class="feat-title" data-es>Panel de control en tiempo real</div>
-        <div class="feat-title" data-en>Real-time Dashboard</div>
-        <p class="feat-desc" data-es>Ve qué vehículos están en uso, quién los maneja y cuándo regresan. Información actualizada desde cualquier pantalla.</p>
-        <p class="feat-desc" data-en>See which vehicles are in use, who's driving and when they return. Live info from any device.</p>
-        <div class="feat-card-arrow">
-          <span data-es>Ver más</span><span data-en>Learn more</span>
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </div>
-
-      <!-- CARD 5: Gestión de mantenimiento -->
-      <div class="feat-card" onclick="openFeatModal('historial')">
-        <div class="feat-icon" style="color:#a78bfa">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        </div>
-        <div class="feat-title" data-es>Gestión de mantenimiento</div>
-        <div class="feat-title" data-en>Maintenance Management</div>
-        <p class="feat-desc" data-es>Historial completo de servicios por vehículo: tipo, costo, proveedor, observaciones y próxima fecha programada.</p>
-        <p class="feat-desc" data-en>Full service history per vehicle: type, cost, provider, notes and next scheduled date.</p>
-        <div class="feat-card-arrow">
-          <span data-es>Ver más</span><span data-en>Learn more</span>
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </div>
-
-      <!-- CARD 6: Contactos de emergencia -->
-      <div class="feat-card" onclick="openFeatModal('contactos')">
-        <div class="feat-icon" style="color:#38bdf8">
-          <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-        </div>
-        <div class="feat-title" data-es>Contactos de emergencia</div>
-        <div class="feat-title" data-en>Emergency Contacts</div>
-        <p class="feat-desc" data-es>Directorio de mecánicos, seguros y proveedores con alertas automáticas. Cada persona recibe solo las notificaciones que le corresponden.</p>
-        <p class="feat-desc" data-en>Directory of mechanics, insurers and providers with auto-alerts. Each person only gets relevant notifications.</p>
-        <div class="feat-card-arrow">
-          <span data-es>Ver más</span><span data-en>Learn more</span>
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </div>
-      </div>
-
+    <h1>
+      <span data-es>Control total de tu <span>flota vehicular</span></span>
+      <span data-en>Total control of your <span>vehicle fleet</span></span>
+    </h1>
+    <p>
+      <span data-es>Asigna vehículos, rastrea kilómetros, programa mantenimientos y da a tus conductores una app mobile para check-in/out y reporte de incidencias — todo integrado a tu Portal RH.</span>
+      <span data-en>Assign vehicles, track mileage, schedule maintenance, and give your drivers a mobile app for check-in/out and incident reporting — all integrated with your Portal RH.</span>
+    </p>
+    <div class="hero-cta">
+      <a href="#contacto" class="btn-primary"><span data-es>Solicitar demo gratuita</span><span data-en>Request free demo</span></a>
+      <a href="#funciones" class="btn-secondary"><span data-es>Ver funciones →</span><span data-en>See features →</span></a>
     </div>
+    <div class="hero-badges">
+      <span class="hero-badge">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+        <span data-es>App mobile para choferes</span><span data-en>Mobile app for drivers</span>
+      </span>
+      <span class="hero-badge">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span data-es>Check-in/out en tiempo real</span><span data-en>Real-time check-in/out</span>
+      </span>
+      <span class="hero-badge">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2"><path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        <span data-es>Integrado con RH</span><span data-en>Integrated with HR</span>
+      </span>
+    </div>
+  </div>
 
-    <!-- ── FEATURE MODALS ─────────────────────────────────────────────────── -->
-
-    <!-- Modal: Check-in / Check-out -->
-    <div class="feat-overlay" id="modal-checkin" onclick="closeFeatModal(event,this)">
-      <div class="feat-modal">
-        <div class="feat-modal-header">
-          <div>
-            <div class="feat-icon" style="color:#60a5fa; margin-bottom:10px">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            </div>
-            <div class="feat-title" data-es>Check-in / Check-out digital</div>
-            <div class="feat-title" data-en>Digital Check-in / Check-out</div>
+  <!-- Fleet Mock UI -->
+  <div class="hero-visual">
+    <div class="fleet-mockup">
+      <div class="mock-phone-bar">
+        <span>Portal RH Flotilla</span>
+        <span class="mock-time">9:41</span>
+      </div>
+      <div class="mock-app-header">
+        <div class="mock-greeting"><span data-es>Buenos días,</span><span data-en>Good morning,</span></div>
+        <div class="mock-name">Carlos Reyes</div>
+        <div class="mock-vehicle-chip">
+          <svg style="width:12px;height:12px;color:rgba(255,255,255,0.8)" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M5 17H3a2 2 0 01-2-2v-4a2 2 0 012-2h2l2.5-5h9L18 9h2a2 2 0 012 2v4a2 2 0 01-2 2h-2"/>
+            <circle cx="7.5" cy="17.5" r="2.5"/><circle cx="16.5" cy="17.5" r="2.5"/>
+          </svg>
+          Ford Transit · ABC-123
+        </div>
+      </div>
+      <div class="mock-body">
+        <div class="mock-status-card">
+          <div class="mock-status-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
           </div>
-          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-checkin'))">✕</button>
+          <div class="mock-status-text">
+            <div class="mock-status-label"><span data-es>Estado</span><span data-en>Status</span></div>
+            <div class="mock-status-value"><span data-es>En uso</span><span data-en>In use</span></div>
+            <div class="mock-status-sub"><span data-es>Desde las 8:15 am · 47 km</span><span data-en>Since 8:15 am · 47 km</span></div>
+          </div>
         </div>
-        <div class="feat-modal-body">
-          <p class="feat-modal-detail" data-es>Cada vez que un conductor toma o devuelve un vehículo, lo registra en Portal Fleet desde su celular en segundos. Sin papeles, sin llamadas, sin Excel.</p>
-          <p class="feat-modal-detail" data-en>Every time a driver takes or returns a vehicle, they log it in Portal Fleet from their phone in seconds. No paperwork, no calls, no spreadsheets.</p>
-          <ul class="feat-modal-list">
-            <li data-es>Checklist pre-uso: aceite, agua, llantas, frenos, luces, limpiabrisas, extintor y documentos</li>
-            <li data-en>Pre-use checklist: oil, water, tires, brakes, lights, wipers, extinguisher and documents</li>
-            <li data-es>Registro del odómetro al salir y al regresar (km recorridos automáticos)</li>
-            <li data-en>Odometer reading on departure and return (automatic km tracking)</li>
-            <li data-es>Fotos del estado del vehículo antes y después del uso</li>
-            <li data-en>Photos of vehicle condition before and after use</li>
-            <li data-es>Nota de propósito del viaje y observaciones al regreso</li>
-            <li data-en>Trip purpose note and return observations</li>
-            <li data-es>Asignación del conductor vinculada a su perfil de empleado</li>
-            <li data-en>Driver assignment linked to their employee profile</li>
-          </ul>
-          <a href="../contacto.html" class="feat-modal-cta">
-            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-          </a>
+        <div class="mock-actions">
+          <div class="mock-action-btn checkout">
+            <div class="mock-action-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 16l4-4m0 0l-4-4m4 4H7"/></svg>
+            </div>
+            <div class="mock-action-label"><span data-es>Check-Out</span><span data-en>Check-Out</span></div>
+          </div>
+          <div class="mock-action-btn reporte">
+            <div class="mock-action-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+            </div>
+            <div class="mock-action-label"><span data-es>Reportar</span><span data-en>Report</span></div>
+          </div>
+          <div class="mock-action-btn mant">
+            <div class="mock-action-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div class="mock-action-label"><span data-es>Servicio</span><span data-en>Service</span></div>
+          </div>
+          <div class="mock-action-btn km">
+            <div class="mock-action-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            </div>
+            <div class="mock-action-label"><span data-es>Historial</span><span data-en>History</span></div>
+          </div>
+        </div>
+        <div class="mock-hist-label"><span data-es>Recientes</span><span data-en>Recent</span></div>
+        <div class="mock-hist-item">
+          <div class="mock-hist-dot"></div>
+          <div class="mock-hist-info">
+            <div class="mock-hist-date"><span data-es>Hoy · Ford Transit</span><span data-en>Today · Ford Transit</span></div>
+            <div class="mock-hist-km">8:15 am — <span data-es>en curso</span><span data-en>ongoing</span> · 47 km</div>
+          </div>
+        </div>
+        <div class="mock-hist-item">
+          <div class="mock-hist-dot ended"></div>
+          <div class="mock-hist-info">
+            <div class="mock-hist-date"><span data-es>Ayer · Ford Transit</span><span data-en>Yesterday · Ford Transit</span></div>
+            <div class="mock-hist-km">7:00 am — 5:45 pm · 112 km</div>
+          </div>
+        </div>
+      </div>
+      <div class="mock-bottom-nav">
+        <div class="mock-nav-item active">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+          <span data-es>Inicio</span><span data-en>Home</span>
+        </div>
+        <div class="mock-nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          <span data-es>Historial</span><span data-en>History</span>
+        </div>
+        <div class="mock-nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>
+          <span data-es>Reportar</span><span data-en>Report</span>
+        </div>
+        <div class="mock-nav-item">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/></svg>
+          <span data-es>Servicio</span><span data-en>Service</span>
         </div>
       </div>
     </div>
-
-    <!-- Modal: Alertas de mantenimiento -->
-    <div class="feat-overlay" id="modal-mantenimiento" onclick="closeFeatModal(event,this)">
-      <div class="feat-modal">
-        <div class="feat-modal-header">
-          <div>
-            <div class="feat-icon" style="color:#fbbf24; margin-bottom:10px">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-            </div>
-            <div class="feat-title" data-es>Alertas de mantenimiento</div>
-            <div class="feat-title" data-en>Maintenance Alerts</div>
-          </div>
-          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-mantenimiento'))">✕</button>
-        </div>
-        <div class="feat-modal-body">
-          <p class="feat-modal-detail" data-es>El sistema monitorea la fecha del próximo servicio y el odómetro de cada vehículo. Cuando se acerca el límite, envía emails automáticos a los contactos que configuraste.</p>
-          <p class="feat-modal-detail" data-en>The system monitors the next service date and odometer of each vehicle. When approaching the limit, it automatically emails your configured contacts.</p>
-          <ul class="feat-modal-list">
-            <li data-es>Alerta automática a 7 días del vencimiento o a 500 km del límite</li>
-            <li data-en>Automatic alert 7 days before due date or 500 km before limit</li>
-            <li data-es>Mantenimiento preventivo y correctivo por separado</li>
-            <li data-en>Separate preventive and corrective maintenance tracking</li>
-            <li data-es>Registro del costo, proveedor y observaciones por cada servicio</li>
-            <li data-en>Cost, provider and notes logged for each service</li>
-            <li data-es>Historial completo de mantenimiento por vehículo</li>
-            <li data-en>Full maintenance history per vehicle</li>
-            <li data-es>Notificaciones a mecánicos, talleres y gerentes por email</li>
-            <li data-en>Notifications to mechanics, shops and managers by email</li>
-          </ul>
-          <a href="../contacto.html" class="feat-modal-cta">
-            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal: Accidentes -->
-    <div class="feat-overlay" id="modal-accidentes" onclick="closeFeatModal(event,this)">
-      <div class="feat-modal">
-        <div class="feat-modal-header">
-          <div>
-            <div class="feat-icon" style="color:#f87171; margin-bottom:10px">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <div class="feat-title" data-es>Reportes de accidentes</div>
-            <div class="feat-title" data-en>Accident Reports</div>
-          </div>
-          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-accidentes'))">✕</button>
-        </div>
-        <div class="feat-modal-body">
-          <p class="feat-modal-detail" data-es>Cuando ocurre un accidente, el conductor documenta todo desde el teléfono. El sistema notifica automáticamente a gerencia, seguros y contactos configurados.</p>
-          <p class="feat-modal-detail" data-en>When an accident happens, the driver documents everything from their phone. The system automatically notifies management, insurers and configured contacts.</p>
-          <ul class="feat-modal-list">
-            <li data-es>Descripción del accidente con fecha, hora y ubicación</li>
-            <li data-en>Accident description with date, time and location</li>
-            <li data-es>Datos de terceros: nombre, vehículo, seguro y contacto</li>
-            <li data-en>Third-party info: name, vehicle, insurance and contact</li>
-            <li data-es>Registro de lesiones y número de parte policial</li>
-            <li data-en>Injury records and police report number</li>
-            <li data-es>Estimación de daños y estado de resolución</li>
-            <li data-en>Damage estimate and resolution status</li>
-            <li data-es>Email automático al asegurador y a gerencia al momento del registro</li>
-            <li data-en>Automatic email to insurer and management upon registration</li>
-            <li data-es>Revisión interna: ¿fue prevenible? ¿requiere capacitación?</li>
-            <li data-en>Internal review: was it preventable? Does it require retraining?</li>
-          </ul>
-          <a href="../contacto.html" class="feat-modal-cta">
-            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal: Panel -->
-    <div class="feat-overlay" id="modal-panel" onclick="closeFeatModal(event,this)">
-      <div class="feat-modal">
-        <div class="feat-modal-header">
-          <div>
-            <div class="feat-icon" style="color:#34d399; margin-bottom:10px">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-            </div>
-            <div class="feat-title" data-es>Panel de control en tiempo real</div>
-            <div class="feat-title" data-en>Real-time Dashboard</div>
-          </div>
-          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-panel'))">✕</button>
-        </div>
-        <div class="feat-modal-body">
-          <p class="feat-modal-detail" data-es>El panel central te muestra de un vistazo el estado de toda tu flota: quién tiene qué vehículo, qué activos están en mantenimiento y qué alertas están pendientes.</p>
-          <p class="feat-modal-detail" data-en>The central dashboard gives you an at-a-glance view of your entire fleet: who has which vehicle, which assets are in maintenance, and which alerts are pending.</p>
-          <ul class="feat-modal-list">
-            <li data-es>Estado de cada activo: Activo, En uso, En mantenimiento, Inactivo</li>
-            <li data-en>Status of each asset: Active, In use, In maintenance, Inactive</li>
-            <li data-es>Filtros por tipo: vehículo, equipo, herramienta</li>
-            <li data-en>Filters by type: vehicle, equipment, tool</li>
-            <li data-es>Historial de uso por activo y por empleado</li>
-            <li data-en>Usage history by asset and by employee</li>
-            <li data-es>Indicadores de km recorridos y tiempo en uso</li>
-            <li data-en>Indicators of km driven and time in use</li>
-            <li data-es>Accesible desde computadora, tablet o celular</li>
-            <li data-en>Accessible from computer, tablet or phone</li>
-          </ul>
-          <a href="../contacto.html" class="feat-modal-cta">
-            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal: Historial mantenimiento -->
-    <div class="feat-overlay" id="modal-historial" onclick="closeFeatModal(event,this)">
-      <div class="feat-modal">
-        <div class="feat-modal-header">
-          <div>
-            <div class="feat-icon" style="color:#a78bfa; margin-bottom:10px">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-            </div>
-            <div class="feat-title" data-es>Gestión de mantenimiento</div>
-            <div class="feat-title" data-en>Maintenance Management</div>
-          </div>
-          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-historial'))">✕</button>
-        </div>
-        <div class="feat-modal-body">
-          <p class="feat-modal-detail" data-es>Registra cada servicio realizado a tus vehículos: desde un cambio de aceite hasta una reparación mayor. Todo queda guardado con costo, proveedor y fecha.</p>
-          <p class="feat-modal-detail" data-en>Log every service performed on your vehicles: from an oil change to a major repair. Everything is saved with cost, provider and date.</p>
-          <ul class="feat-modal-list">
-            <li data-es>Mantenimiento preventivo (programado) y correctivo (por falla)</li>
-            <li data-en>Preventive (scheduled) and corrective (breakdown) maintenance</li>
-            <li data-es>Estado por servicio: Pendiente, En proceso, Completado</li>
-            <li data-en>Status per service: Pending, In progress, Completed</li>
-            <li data-es>Costo total, proveedor o taller, y observaciones</li>
-            <li data-en>Total cost, provider or shop, and observations</li>
-            <li data-es>Próxima fecha de servicio y próximo km programado</li>
-            <li data-en>Next service date and next scheduled km</li>
-            <li data-es>Historial acumulado por cada activo de la flota</li>
-            <li data-en>Cumulative history per fleet asset</li>
-          </ul>
-          <a href="../contacto.html" class="feat-modal-cta">
-            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal: Contactos -->
-    <div class="feat-overlay" id="modal-contactos" onclick="closeFeatModal(event,this)">
-      <div class="feat-modal">
-        <div class="feat-modal-header">
-          <div>
-            <div class="feat-icon" style="color:#38bdf8; margin-bottom:10px">
-              <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-            </div>
-            <div class="feat-title" data-es>Contactos de emergencia</div>
-            <div class="feat-title" data-en>Emergency Contacts</div>
-          </div>
-          <button class="feat-modal-close" onclick="closeFeatModal(null,document.getElementById('modal-contactos'))">✕</button>
-        </div>
-        <div class="feat-modal-body">
-          <p class="feat-modal-detail" data-es>Mantén un directorio de todos los contactos clave de tu flota: mecánicos, talleres, compañías de seguros, gerentes y proveedores. Cada uno recibe solo las alertas que le corresponden.</p>
-          <p class="feat-modal-detail" data-en>Keep a directory of all key fleet contacts: mechanics, shops, insurance companies, managers and suppliers. Each one only receives the alerts relevant to them.</p>
-          <ul class="feat-modal-list">
-            <li data-es>Roles: Mecánico, Taller, Gerente de flotilla, Seguros/Siniestros</li>
-            <li data-en>Roles: Mechanic, Shop, Fleet manager, Insurance/Claims</li>
-            <li data-es>Alerta de mantenimiento: avisa cuando un vehículo necesita servicio</li>
-            <li data-en>Maintenance alert: notifies when a vehicle needs service</li>
-            <li data-es>Alerta de accidentes: recibe copia de cada reporte registrado</li>
-            <li data-en>Accident alert: receives a copy of each registered report</li>
-            <li data-es>Cada contacto configura qué tipo de alerta desea recibir</li>
-            <li data-en>Each contact configures which alert type they want to receive</li>
-            <li data-es>Notificaciones por email automáticas sin intervención manual</li>
-            <li data-en>Automatic email notifications with no manual intervention</li>
-          </ul>
-          <a href="../contacto.html" class="feat-modal-cta">
-            <span data-es>Solicitar demo</span><span data-en>Request demo</span>
-            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-          </a>
-        </div>
-      </div>
-    </div>    </div>
   </div>
 </section>
 
-<!-- ── HOW IT WORKS ───────────────────────────────────────────────────── -->
-<section id="how" class="how-bg">
-  <div class="section-inner">
-    <div class="section-header">
-      <h2 data-es>Así de simple es empezar</h2>
-      <h2 data-en>Getting started is this simple</h2>
-      <p class="section-sub" data-es>En menos de 10 minutos tienes tu flota organizada.</p>
-      <p class="section-sub" data-en>In less than 10 minutes, your fleet is organized.</p>
+<!-- STATS -->
+<div class="stats-strip">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">100%</div>
+      <div class="stat-label"><span data-es>Control sobre tu flota</span><span data-en>Control over your fleet</span></div>
     </div>
-    <div class="how-grid">
-      <div class="how-steps">
-        <div class="how-step">
-          <div class="how-num" style="background:#2563eb">1</div>
-          <div class="how-step-body">
-            <h3 data-es>Registra tus vehículos</h3>
-            <h3 data-en>Add your vehicles</h3>
-            <p data-es>Agrega tu flota con placa, modelo, año y fotos. Importación masiva disponible.</p>
-            <p data-en>Register your fleet with plate, model, year and photos. Bulk import available.</p>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-num" style="background:#4f46e5">2</div>
-          <div class="how-step-body">
-            <h3 data-es>Invita a tus conductores</h3>
-            <h3 data-en>Invite your drivers</h3>
-            <p data-es>Los conductores acceden con su email. Sin apps que instalar, funciona en cualquier celular.</p>
-            <p data-en>Drivers access with their email. No app to install — works on any phone.</p>
-          </div>
-        </div>
-        <div class="how-step">
-          <div class="how-num" style="background:#7c3aed">3</div>
-          <div class="how-step-body">
-            <h3 data-es>Gestiona desde el panel</h3>
-            <h3 data-en>Manage from the dashboard</h3>
-            <p data-es>Monitorea todo desde un dashboard limpio. Recibe alertas en tu email automáticamente.</p>
-            <p data-en>Monitor everything from a clean dashboard. Receive alerts in your email automatically.</p>
-          </div>
-        </div>
-      </div>
-      <div class="phone-wrap">
-        <!-- Phone mockup SVG -->
-        <svg viewBox="0 0 300 560" xmlns="http://www.w3.org/2000/svg">
-          <rect width="300" height="560" rx="18" fill="#0f172a"/>
-          <rect x="14" y="32" width="272" height="48" rx="10" fill="#1e293b"/>
-          <rect x="28" y="44" width="100" height="10" rx="4" fill="#f1f5f9"/>
-          <rect x="28" y="58" width="65" height="7" rx="3" fill="#475569"/>
-          <rect x="240" y="40" width="34" height="34" rx="8" fill="rgba(59,130,246,0.2)"/>
-          <rect x="249" y="49" width="16" height="16" rx="4" fill="#3b82f6"/>
-          <rect x="14" y="96" width="272" height="96" rx="10" fill="#1e293b"/>
-          <rect x="28" y="112" width="52" height="52" rx="9" fill="rgba(30,64,175,0.3)"/>
-          <rect x="36" y="120" width="36" height="36" rx="6" fill="#3b82f6"/>
-          <rect x="92" y="116" width="90" height="10" rx="4" fill="#f1f5f9"/>
-          <rect x="92" y="132" width="65" height="7" rx="3" fill="#64748b"/>
-          <rect x="92" y="148" width="50" height="14" rx="6" fill="rgba(16,185,129,0.2)"/>
-          <rect x="100" y="153" width="34" height="6" rx="3" fill="#10b981"/>
-          <rect x="14" y="208" width="272" height="40" rx="9" fill="#1e293b"/>
-          <rect x="28" y="220" width="55" height="7" rx="3" fill="#64748b"/>
-          <rect x="28" y="232" width="130" height="8" rx="4" fill="#f1f5f9"/>
-          <rect x="14" y="256" width="272" height="40" rx="9" fill="#1e293b"/>
-          <rect x="28" y="268" width="70" height="7" rx="3" fill="#64748b"/>
-          <rect x="28" y="280" width="100" height="8" rx="4" fill="#f1f5f9"/>
-          <rect x="14" y="308" width="130" height="90" rx="9" fill="#1e293b"/>
-          <rect x="30" y="330" width="98" height="46" rx="7" fill="#334155"/>
-          <rect x="62" y="342" width="24" height="20" rx="5" fill="#475569"/>
-          <rect x="156" y="308" width="130" height="90" rx="9" fill="#1e293b"/>
-          <rect x="168" y="322" width="106" height="64" rx="7" fill="#1a3a5c"/>
-          <rect x="14" y="412" width="272" height="48" rx="11" fill="#2563eb"/>
-          <rect x="90" y="428" width="120" height="14" rx="6" fill="white"/>
-          <rect x="0" y="520" width="300" height="40" fill="#1e293b"/>
-          <rect x="38" y="528" width="22" height="22" rx="5" fill="#334155"/>
-          <rect x="110" y="528" width="22" height="22" rx="5" fill="rgba(59,130,246,0.25)"/>
-          <rect x="114" y="532" width="14" height="14" rx="3" fill="#3b82f6"/>
-          <rect x="182" y="528" width="22" height="22" rx="5" fill="#334155"/>
-          <rect x="254" y="528" width="22" height="22" rx="5" fill="#334155"/>
+    <div class="stat-item">
+      <div class="stat-number">0</div>
+      <div class="stat-label"><span data-es>Papel o Excel necesarios</span><span data-en>Paper or Excel needed</span></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">⚡ PWA</div>
+      <div class="stat-label"><span data-es>App mobile sin descargas</span><span data-en>Mobile app, no download</span></div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">1</div>
+      <div class="stat-label"><span data-es>Plataforma: Flotilla + RH</span><span data-en>Platform: Fleet + HR</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="funciones">
+  <div class="section-tag"><span data-es>Funciones</span><span data-en>Features</span></div>
+  <h2 class="section-title">
+    <span data-es>Todo lo que necesitas para <span>gestionar tu flotilla</span></span>
+    <span data-en>Everything you need to <span>manage your fleet</span></span>
+  </h2>
+  <p class="section-sub">
+    <span data-es>Desde la asignación del vehículo hasta el historial de mantenimiento, tienes visibilidad completa desde el panel de administración.</span>
+    <span data-en>From vehicle assignment to maintenance history, you have full visibility from the admin panel.</span>
+  </p>
+  <div class="features-grid">
+
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#EFF6FF">
+        <svg fill="none" stroke="#2563EB" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/>
         </svg>
       </div>
+      <h3><span data-es>Check-in / Check-out</span><span data-en>Check-in / Check-out</span></h3>
+      <p><span data-es>Los conductores registran la salida y regreso del vehículo desde su celular, con odómetro y notas. El admin lo ve todo en tiempo real.</span>
+         <span data-en>Drivers log vehicle departure and return from their phone, with odometer and notes. The admin sees everything in real time.</span></p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FEF3C7">
+        <svg fill="none" stroke="#D97706" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+        </svg>
+      </div>
+      <h3><span data-es>Reporte de incidencias</span><span data-en>Incident reporting</span></h3>
+      <p><span data-es>Golpes, rayones, problemas mecánicos — el chofer los reporta al instante con descripción y severidad (Leve, Moderado, Grave).</span>
+         <span data-en>Dents, scratches, mechanical issues — the driver reports them instantly with description and severity (Minor, Moderate, Severe).</span></p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#EDE9FE">
+        <svg fill="none" stroke="#7C3AED" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><circle cx="12" cy="12" r="3"/>
+        </svg>
+      </div>
+      <h3><span data-es>Mantenimientos programados</span><span data-en>Scheduled maintenance</span></h3>
+      <p><span data-es>Registra y consulta los servicios próximos de cada vehículo. Los conductores ven alertas de servicio directamente en su app.</span>
+         <span data-en>Log and view upcoming services for each vehicle. Drivers see service alerts directly in their app.</span></p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#ECFDF5">
+        <svg fill="none" stroke="#059669" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+        </svg>
+      </div>
+      <h3><span data-es>Control de kilómetros</span><span data-en>Mileage tracking</span></h3>
+      <p><span data-es>Registra el odómetro en cada check-in y check-out. Calcula automáticamente los kilómetros recorridos por viaje y acumulados.</span>
+         <span data-en>Log the odometer on each check-in and check-out. Automatically calculates miles per trip and cumulative totals.</span></p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#FFF1F2">
+        <svg fill="none" stroke="#E11D48" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+        </svg>
+      </div>
+      <h3><span data-es>Asignación de vehículos</span><span data-en>Vehicle assignment</span></h3>
+      <p><span data-es>Asigna vehículos a empleados o mantén unidades de uso libre. El historial de quién usó qué vehículo queda siempre registrado.</span>
+         <span data-en>Assign vehicles to employees or keep units for general use. The history of who used which vehicle is always recorded.</span></p>
+    </div>
+
+    <div class="feat-card">
+      <div class="feat-icon" style="background:#F0F9FF">
+        <svg fill="none" stroke="#0EA5E9" viewBox="0 0 24 24" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+        </svg>
+      </div>
+      <h3><span data-es>Reportes y estadísticas</span><span data-en>Reports &amp; analytics</span></h3>
+      <p><span data-es>Ve el historial completo de uso por vehículo o por conductor. Exporta datos para costos, seguros o auditorías internas.</span>
+         <span data-en>View complete usage history by vehicle or driver. Export data for cost analysis, insurance, or internal audits.</span></p>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="como-funciona" style="background:#F8FAFC">
+  <div class="section-tag"><span data-es>Cómo funciona</span><span data-en>How it works</span></div>
+  <h2 class="section-title">
+    <span data-es>Del registro al reporte, <span>en minutos</span></span>
+    <span data-en>From sign-out to report, <span>in minutes</span></span>
+  </h2>
+  <p class="section-sub">
+    <span data-es>El flujo está diseñado para que los conductores lo usen sin entrenamiento y los administradores tengan visibilidad total.</span>
+    <span data-en>The flow is designed so drivers can use it without training and admins have full visibility.</span>
+  </p>
+  <div class="steps-fleet">
+    <div class="step-fleet">
+      <div class="step-num">1</div>
+      <h3><span data-es>Admin registra los vehículos</span><span data-en>Admin registers vehicles</span></h3>
+      <p><span data-es>Agrega la flota con placa, marca, modelo y capacidad. Asigna conductores o deja los vehículos disponibles para cualquier empleado.</span>
+         <span data-en>Add the fleet with plate, make, model and capacity. Assign drivers or leave vehicles available for any employee.</span></p>
+    </div>
+    <div class="step-fleet">
+      <div class="step-num">2</div>
+      <h3><span data-es>El chofer hace Check-In</span><span data-en>Driver does Check-In</span></h3>
+      <p><span data-es>Desde su celular entra a su portal de empleado, abre la app de flotilla, selecciona el vehículo, registra el odómetro y el propósito del viaje.</span>
+         <span data-en>From their phone, they log into their employee portal, open the fleet app, select the vehicle, log the odometer and trip purpose.</span></p>
+    </div>
+    <div class="step-fleet">
+      <div class="step-num">3</div>
+      <h3><span data-es>Viaje en curso</span><span data-en>Trip in progress</span></h3>
+      <p><span data-es>Si hay algún problema en ruta — daño, accidente o falla mecánica — el chofer lo reporta en el momento con descripción y nivel de severidad.</span>
+         <span data-en>If there's any issue en route — damage, accident, or mechanical failure — the driver reports it on the spot with description and severity level.</span></p>
+    </div>
+    <div class="step-fleet">
+      <div class="step-num">4</div>
+      <h3><span data-es>Check-Out al regresar</span><span data-en>Check-Out on return</span></h3>
+      <p><span data-es>Al devolver el vehículo registra el odómetro final. El sistema calcula automáticamente los kilómetros del viaje y cierra el uso.</span>
+         <span data-en>On vehicle return, they log the final odometer. The system automatically calculates trip mileage and closes the usage record.</span></p>
+    </div>
+    <div class="step-fleet">
+      <div class="step-num">5</div>
+      <h3><span data-es>Admin tiene visibilidad total</span><span data-en>Admin has full visibility</span></h3>
+      <p><span data-es>Desde el panel de administración ve en tiempo real qué vehículos están en uso, por quién, cuántos km llevan e incidencias reportadas.</span>
+         <span data-en>From the admin panel, see in real time which vehicles are in use, by whom, how many km so far, and any reported incidents.</span></p>
     </div>
   </div>
 </section>
 
-<!-- ── PRICING ───────────────────────────────────────────────────────── -->
-<section id="pricing">
-  <div class="section-inner">
-    <div class="section-header">
-      <h2 data-es>Precios transparentes, sin sorpresas</h2>
-      <h2 data-en>Transparent pricing, no surprises</h2>
-      <p class="section-sub" data-es>Un precio fijo por el tamaño de tu flota. Sin cobros por vehículo, sin letra pequeña.</p>
-      <p class="section-sub" data-en>A flat price based on your fleet size. No per-vehicle charges, no fine print.</p>
-    </div>
-    <div class="billing-toggle">
-      <span class="toggle-label active" id="lbl-monthly" data-es>Mensual</span>
-      <span class="toggle-label active" id="lbl-monthly-en" data-en>Monthly</span>
-      <button class="toggle-switch" onclick="toggleBilling()" id="billingBtn" aria-label="Toggle billing">
-        <div class="toggle-thumb" id="billingThumb"></div>
-      </button>
-      <span class="toggle-label" id="lbl-annual" data-es>Anual</span>
-      <span class="toggle-label" id="lbl-annual-en" data-en>Annual</span>
-      <span class="save-badge" data-es>Ahorra 20%</span>
-      <span class="save-badge" data-en>Save 20%</span>
-    </div>
-    <div class="plans-grid">
-
-      <!-- STARTER -->
-      <div class="plan-card">
-        <div class="plan-name" data-es>Starter</div>
-        <div class="plan-name" data-en>Starter</div>
-        <div class="plan-price">
-          <div class="plan-price-num" id="price1">$49</div>
-          <div class="plan-price-per" data-es>/ mes</div>
-          <div class="plan-price-per" data-en>/ month</div>
+<!-- DRIVER APP SECTION -->
+<section id="conductores" class="driver-section">
+  <div class="driver-grid">
+    <div class="driver-text">
+      <div class="section-tag">
+        <svg style="width:14px;height:14px" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+        </svg>
+        <span data-es>App para conductores</span><span data-en>Driver app</span>
+      </div>
+      <h2>
+        <span data-es>Tu flota en el <span>bolsillo del chofer</span></span>
+        <span data-en>Your fleet in the <span>driver's pocket</span></span>
+      </h2>
+      <p>
+        <span data-es>Los conductores ya tienen cuenta de empleado en Portal RH. La app de flotilla se activa automáticamente — no necesitan descargar nada. Solo entran a su portal desde el celular.</span>
+        <span data-en>Drivers already have an employee account in Portal RH. The fleet app activates automatically — they don't need to download anything. Just log into their portal from their phone.</span>
+      </p>
+      <div class="driver-features">
+        <div class="driver-feat">
+          <div class="driver-feat-icon" style="background:rgba(16,185,129,0.2)">
+            <svg fill="none" stroke="#6EE7B7" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M11 16l-4-4m0 0l4-4m-4 4h14"/>
+            </svg>
+          </div>
+          <div class="driver-feat-text">
+            <h4><span data-es>Sin instalación</span><span data-en>No installation needed</span></h4>
+            <p><span data-es>Es una PWA que funciona directo desde el navegador del celular. Sin App Store, sin Play Store.</span>
+               <span data-en>It's a PWA that runs directly from the phone's browser. No App Store, no Play Store.</span></p>
+          </div>
         </div>
-        <div class="plan-desc" data-es>Para flotas pequeñas que quieren digitalizarse hoy mismo.</div>
-        <div class="plan-desc" data-en>For small fleets that want to go digital today.</div>
-        <ul class="plan-features">
-          <li data-es><span class="check">✓</span> Hasta 10 vehículos o activos</li>
-          <li data-en><span class="check">✓</span> Up to 10 vehicles or assets</li>
-          <li data-es><span class="check">✓</span> Check-in / Check-out con checklist</li>
-          <li data-en><span class="check">✓</span> Check-in / Check-out with checklist</li>
-          <li data-es><span class="check">✓</span> Historial de uso por empleado</li>
-          <li data-en><span class="check">✓</span> Usage history per employee</li>
-          <li data-es><span class="check">✓</span> Alertas de mantenimiento por email</li>
-          <li data-en><span class="check">✓</span> Maintenance alerts by email</li>
-          <li data-es><span class="check">✓</span> Reportes de accidentes</li>
-          <li data-en><span class="check">✓</span> Accident reports</li>
-          <li data-es><span class="check">✓</span> Soporte por email</li>
-          <li data-en><span class="check">✓</span> Email support</li>
-        </ul>
-        <a href="../contacto.html" class="btn-plan btn-plan-outline" data-es>Solicitar demo</a>
-        <a href="../contacto.html" class="btn-plan btn-plan-outline" data-en>Request demo</a>
-      </div>
-
-      <!-- PRO (featured) -->
-      <div class="plan-card featured">
-        <div class="plan-badge" data-es>Más popular</div>
-        <div class="plan-badge" data-en>Most popular</div>
-        <div class="plan-name">Pro</div>
-        <div class="plan-price">
-          <div class="plan-price-num" id="price2">$99</div>
-          <div class="plan-price-per" data-es>/ mes</div>
-          <div class="plan-price-per" data-en>/ month</div>
+        <div class="driver-feat">
+          <div class="driver-feat-icon" style="background:rgba(14,165,233,0.2)">
+            <svg fill="none" stroke="#7DD3FC" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <div class="driver-feat-text">
+            <h4><span data-es>Diseñado para mobile</span><span data-en>Designed for mobile</span></h4>
+            <p><span data-es>La interfaz del chofer es full mobile: botones grandes, pantallas claras, flujo en un clic.</span>
+               <span data-en>The driver interface is fully mobile: large buttons, clear screens, one-tap flow.</span></p>
+          </div>
         </div>
-        <div class="plan-desc" data-es>Para empresas con flotas medianas que necesitan control completo.</div>
-        <div class="plan-desc" data-en>For companies with mid-size fleets that need full control.</div>
-        <ul class="plan-features">
-          <li data-es><span class="check-blue">✓</span> Hasta 30 vehículos o activos</li>
-          <li data-en><span class="check-blue">✓</span> Up to 30 vehicles or assets</li>
-          <li data-es><span class="check-blue">✓</span> Todo lo del plan Starter</li>
-          <li data-en><span class="check-blue">✓</span> Everything in Starter</li>
-          <li data-es><span class="check-blue">✓</span> Fotos y documentos adjuntos</li>
-          <li data-en><span class="check-blue">✓</span> Photos and attached documents</li>
-          <li data-es><span class="check-blue">✓</span> Contactos de flotilla ilimitados</li>
-          <li data-en><span class="check-blue">✓</span> Unlimited fleet contacts</li>
-          <li data-es><span class="check-blue">✓</span> Reportes de accidentes avanzados</li>
-          <li data-en><span class="check-blue">✓</span> Advanced accident reports</li>
-          <li data-es><span class="check-blue">✓</span> Integración con módulo de RH</li>
-          <li data-en><span class="check-blue">✓</span> HR module integration</li>
-          <li data-es><span class="check-blue">✓</span> Soporte prioritario por WhatsApp</li>
-          <li data-en><span class="check-blue">✓</span> Priority WhatsApp support</li>
-        </ul>
-        <a href="../contacto.html" class="btn-plan btn-plan-blue" data-es>Solicitar demo</a>
-        <a href="../contacto.html" class="btn-plan btn-plan-blue" data-en>Request demo</a>
-      </div>
-
-      <!-- ENTERPRISE -->
-      <div class="plan-card">
-        <div class="plan-name" data-es>Empresarial</div>
-        <div class="plan-name" data-en>Enterprise</div>
-        <div class="plan-price">
-          <div class="plan-price-num" data-es>A medida</div>
-          <div class="plan-price-num" data-en>Custom</div>
+        <div class="driver-feat">
+          <div class="driver-feat-icon" style="background:rgba(167,139,250,0.2)">
+            <svg fill="none" stroke="#C4B5FD" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <div class="driver-feat-text">
+            <h4><span data-es>Misma cuenta, misma sesión</span><span data-en>Same account, same session</span></h4>
+            <p><span data-es>El conductor usa las mismas credenciales de empleado. Sin contraseñas adicionales ni usuarios separados.</span>
+               <span data-en>The driver uses the same employee credentials. No extra passwords or separate users.</span></p>
+          </div>
         </div>
-        <div class="plan-desc" data-es>Para flotas de más de 30 vehículos o con necesidades específicas.</div>
-        <div class="plan-desc" data-en>For fleets with more than 30 vehicles or specific requirements.</div>
-        <ul class="plan-features">
-          <li data-es><span class="check-violet">✓</span> Vehículos ilimitados</li>
-          <li data-en><span class="check-violet">✓</span> Unlimited vehicles</li>
-          <li data-es><span class="check-violet">✓</span> Todo lo del plan Pro</li>
-          <li data-en><span class="check-violet">✓</span> Everything in Pro</li>
-          <li data-es><span class="check-violet">✓</span> API y webhooks personalizados</li>
-          <li data-en><span class="check-violet">✓</span> Custom API and webhooks</li>
-          <li data-es><span class="check-violet">✓</span> SLA garantizado por contrato</li>
-          <li data-en><span class="check-violet">✓</span> SLA guaranteed by contract</li>
-          <li data-es><span class="check-violet">✓</span> Gerente de cuenta dedicado</li>
-          <li data-en><span class="check-violet">✓</span> Dedicated account manager</li>
-        </ul>
-        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-es>Hablar con ventas</a>
-        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-en>Talk to sales</a>
+        <div class="driver-feat">
+          <div class="driver-feat-icon" style="background:rgba(245,158,11,0.2)">
+            <svg fill="none" stroke="#FCD34D" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+            </svg>
+          </div>
+          <div class="driver-feat-text">
+            <h4><span data-es>Alertas de mantenimiento</span><span data-en>Maintenance alerts</span></h4>
+            <p><span data-es>El conductor ve los servicios programados de su vehículo y recibe alertas antes de que venzan.</span>
+               <span data-en>The driver sees scheduled services for their vehicle and gets alerts before they're due.</span></p>
+          </div>
+        </div>
       </div>
-
     </div>
-  </div>
-</section>
 
-<!-- ── COMPARE ───────────────────────────────────────────────────────── -->
-<section class="compare-bg">
-  <div class="section-inner">
-    <div class="section-header">
-      <h2 data-es>¿Por qué Portal Fleet?</h2>
-      <h2 data-en>Why Portal Fleet?</h2>
-      <p class="section-sub" data-es>Comparado con los líderes del mercado.</p>
-      <p class="section-sub" data-en>Compared to leading market competitors.</p>
-    </div>
-    <table class="compare-table">
-      <thead>
-        <tr>
-          <th style="text-align:left" data-es>Característica</th>
-          <th style="text-align:left" data-en>Feature</th>
-          <th><span class="compare-us-th">Portal Fleet <span class="star">★</span></span></th>
-          <th>Samsara</th>
-          <th>Fleetio</th>
-          <th>Verizon Connect</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td data-es>Precio por vehículo/mes</td>
-          <td data-en>Price per vehicle/month</td>
-          <td class="price-us">Desde $12</td>
-          <td>$33–$60</td>
-          <td>$4–$10*</td>
-          <td>$40–$60</td>
-        </tr>
-        <tr>
-          <td data-es>Sin contrato anual obligatorio</td>
-          <td data-en>No mandatory annual contract</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Integración nativa con RR.HH.</td>
-          <td data-en>Native HR system integration</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Interfaz en español</td>
-          <td data-en>Spanish interface</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Soporte local Latinoamérica</td>
-          <td data-en>Latin America local support</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Sin hardware requerido</td>
-          <td data-en>No hardware required</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="check-cell">✓</td><td class="x-cell">✗</td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="compare-note" data-es>* Fleetio cobra por funciones adicionales y tiene mínimo de 5 vehículos.</div>
-    <div class="compare-note" data-en>* Fleetio charges extra for add-ons and requires a 5-vehicle minimum.</div>
-  </div>
-</section>
-
-<!-- ── CTA ──────────────────────────────────────────────────────────── -->
-<section>
-  <div class="section-inner">
-    <div class="cta-card">
-      <h2 data-es>¿Listo para tomar el control de tu flota?</h2>
-      <h2 data-en>Ready to take control of your fleet?</h2>
-      <p data-es>Sin compromisos. Te contactamos en menos de 24 horas.</p>
-      <p data-en>No commitments. We'll get back to you within 24 hours.</p>
-      <div class="cta-btns">
-        <a href="../contacto.html" class="btn-cta-primary">
-          <span data-es>Solicitar demo gratis</span><span data-en>Request free demo</span>
-          <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
-        </a>
-        <a href="mailto:info@portal-hr.com" class="btn-cta-secondary">
-          <span data-es>Hablar con un experto</span><span data-en>Talk to an expert</span>
-        </a>
+    <!-- Admin panel mockup -->
+    <div class="admin-visual" style="order:0">
+      <div class="admin-dashboard">
+        <div class="admin-dash-header">
+          <div class="dash-dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+          <span><span data-es>Panel Admin — Flotilla</span><span data-en>Admin Panel — Fleet</span></span>
+        </div>
+        <div class="admin-dash-body">
+          <div class="admin-stat-row">
+            <div class="admin-stat">
+              <div class="num">12</div>
+              <div class="lbl"><span data-es>Vehículos</span><span data-en>Vehicles</span></div>
+            </div>
+            <div class="admin-stat">
+              <div class="num" style="color:#10B981">7</div>
+              <div class="lbl"><span data-es>En uso</span><span data-en>In use</span></div>
+            </div>
+            <div class="admin-stat">
+              <div class="num" style="color:#F59E0B">3</div>
+              <div class="lbl"><span data-es>Mantenimiento</span><span data-en>Service due</span></div>
+            </div>
+          </div>
+          <div class="admin-table-head">
+            <span><span data-es>Vehículo</span><span data-en>Vehicle</span></span>
+            <span><span data-es>Chofer</span><span data-en>Driver</span></span>
+            <span>KM</span>
+            <span><span data-es>Estado</span><span data-en>Status</span></span>
+          </div>
+          <div class="admin-table-row">
+            <div>
+              <div class="admin-vehicle-name">Ford Transit</div>
+              <div class="admin-vehicle-plate">ABC-123</div>
+            </div>
+            <div class="admin-cell">C. Reyes</div>
+            <div class="admin-cell">47 km</div>
+            <div class="admin-cell"><span class="status-dot sd-green"></span><span data-es>En uso</span><span data-en>In use</span></div>
+          </div>
+          <div class="admin-table-row">
+            <div>
+              <div class="admin-vehicle-name">Toyota Hilux</div>
+              <div class="admin-vehicle-plate">XYZ-456</div>
+            </div>
+            <div class="admin-cell">M. López</div>
+            <div class="admin-cell">12 km</div>
+            <div class="admin-cell"><span class="status-dot sd-green"></span><span data-es>En uso</span><span data-en>In use</span></div>
+          </div>
+          <div class="admin-table-row">
+            <div>
+              <div class="admin-vehicle-name">Nissan NV200</div>
+              <div class="admin-vehicle-plate">DEF-789</div>
+            </div>
+            <div class="admin-cell">—</div>
+            <div class="admin-cell">—</div>
+            <div class="admin-cell"><span class="status-dot sd-amber"></span><span data-es>Servicio</span><span data-en>Service</span></div>
+          </div>
+          <div class="admin-table-row">
+            <div>
+              <div class="admin-vehicle-name">Chevrolet Express</div>
+              <div class="admin-vehicle-plate">GHI-012</div>
+            </div>
+            <div class="admin-cell">—</div>
+            <div class="admin-cell">—</div>
+            <div class="admin-cell"><span class="status-dot sd-gray"></span><span data-es>Disponible</span><span data-en>Available</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── FOOTER ────────────────────────────────────────────────────────── -->
+<!-- CTA SECTION -->
+<section id="contacto" class="cta-section">
+  <h2>
+    <span data-es>¿Listo para tomar control de tu flotilla?</span>
+    <span data-en>Ready to take control of your fleet?</span>
+  </h2>
+  <p>
+    <span data-es>Agenda una demo y te mostramos cómo Portal RH Flotilla funciona con tu equipo de conductores en menos de una hora.</span>
+    <span data-en>Schedule a demo and we'll show you how Portal RH Fleet works with your driver team in under an hour.</span>
+  </p>
+  <div class="cta-btns">
+    <a href="https://app.portal-hr.com/register" class="btn-white">
+      <span data-es>Solicitar demo gratuita</span><span data-en>Request free demo</span>
+    </a>
+    <a href="/" class="btn-outline-white">
+      <span data-es>← Ver Portal RH completo</span><span data-en>← See full Portal RH</span>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div class="footer-brand">
-        <a href="https://www.portal-hr.com/flotilla" class="logo">
-          <img src="../apple-touch-icon.png" alt="Portal Fleet" style="width:34px;height:34px;border-radius:8px;object-fit:contain;flex-shrink:0;">
-          <span class="logo-text">Portal <span>Fleet</span></span>
-        </a>
-        <p data-es>La forma más inteligente de gestionar tu flota.</p>
-        <p data-en>The smartest way to manage your fleet.</p>
-      </div>
-      <div class="footer-links-group">
-        <div class="footer-col">
-          <h4 data-es>Producto</h4><h4 data-en>Product</h4>
-          <a href="#features" data-es>Características</a><a href="#features" data-en>Features</a>
-          <a href="#pricing" data-es>Precios</a><a href="#pricing" data-en>Pricing</a>
-          <a href="#how" data-es>Cómo funciona</a><a href="#how" data-en>How it works</a>
-        </div>
-        <div class="footer-col">
-          <h4>Legal</h4>
-          <a href="https://www.portal-hr.com/privacidad.html" data-es>Privacidad</a><a href="https://www.portal-hr.com/privacidad.html" data-en>Privacy</a>
-          <a href="https://www.portal-hr.com/terminos.html" data-es>Términos de uso</a><a href="https://www.portal-hr.com/terminos.html" data-en>Terms of use</a>
-          <a href="mailto:info@portal-hr.com">info@portal-hr.com</a>
-        </div>
-      </div>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo-name">Portal <em>RH</em> · Flotilla</div>
+      <p><span data-es>La solución de flotilla vehicular integrada a tu plataforma de Recursos Humanos. Todo en un solo lugar.</span>
+         <span data-en>The vehicle fleet solution integrated with your Human Resources platform. Everything in one place.</span></p>
     </div>
-    <div class="footer-bottom">
-      © <span id="year"></span> Portal Fleet · <span data-es>Todos los derechos reservados.</span><span data-en>All rights reserved.</span>
+    <div class="footer-col">
+      <h4><span data-es>Flotilla</span><span data-en>Fleet</span></h4>
+      <a href="#funciones"><span data-es>Funciones</span><span data-en>Features</span></a>
+      <a href="#como-funciona"><span data-es>Cómo funciona</span><span data-en>How it works</span></a>
+      <a href="#conductores"><span data-es>Para conductores</span><span data-en>For drivers</span></a>
     </div>
+    <div class="footer-col">
+      <h4>Portal RH</h4>
+      <a href="/"><span data-es>Inicio</span><span data-en>Home</span></a>
+      <a href="/#modulos"><span data-es>Módulos</span><span data-en>Modules</span></a>
+      <a href="/#precios"><span data-es>Precios</span><span data-en>Pricing</span></a>
+      <a href="/#contacto"><span data-es>Contacto</span><span data-en>Contact</span></a>
+    </div>
+    <div class="footer-col">
+      <h4><span data-es>Legal</span><span data-en>Legal</span></h4>
+      <a href="/privacidad"><span data-es>Privacidad</span><span data-en>Privacy</span></a>
+      <a href="/terminos"><span data-es>Términos</span><span data-en>Terms</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Portal RH. <span data-es>Todos los derechos reservados.</span><span data-en>All rights reserved.</span></p>
+    <p><span data-es>Hecho con ♥ en México</span><span data-en>Made with ♥ in Mexico</span></p>
   </div>
 </footer>
 
 <script>
-  document.getElementById('year').textContent = new Date().getFullYear();
-
-  let isAnnual = false;
-  const prices = { monthly: [49, 99], annual: [39, 79] };
-
-  function updatePrices() {
-    const p = isAnnual ? prices.annual : prices.monthly;
-    document.getElementById('price1').textContent = '$' + p[0];
-    document.getElementById('price2').textContent = '$' + p[1];
+  /* ── LANGUAGE ── */
+  function setLang(lang) {
+    if (lang === 'en') {
+      document.body.classList.add('lang-en');
+      document.getElementById('langBtn').textContent = 'ES';
+    } else {
+      document.body.classList.remove('lang-en');
+      document.getElementById('langBtn').textContent = 'EN';
+    }
+    localStorage.setItem('prh_lang', lang);
   }
-
-  function toggleBilling() {
-    isAnnual = !isAnnual;
-    document.getElementById('billingThumb').className = 'toggle-thumb' + (isAnnual ? ' annual' : '');
-    document.getElementById('lbl-monthly').className = 'toggle-label' + (isAnnual ? '' : ' active');
-    document.getElementById('lbl-annual').className = 'toggle-label' + (isAnnual ? ' active' : '');
-    document.getElementById('lbl-monthly-en').className = 'toggle-label' + (isAnnual ? '' : ' active');
-    document.getElementById('lbl-annual-en').className = 'toggle-label' + (isAnnual ? ' active' : '');
-    updatePrices();
-  }
-
-  function setBilling(type) {
-    isAnnual = type === 'annual';
-    document.getElementById('billingThumb').className = 'toggle-thumb' + (isAnnual ? ' annual' : '');
-    updatePrices();
-  }
-
-  let isEnglish = false;
   function toggleLang() {
-    isEnglish = !isEnglish;
-    document.body.className = isEnglish ? 'lang-en' : '';
-    document.getElementById('langBtn').textContent = isEnglish ? 'ES' : 'EN';
-    document.documentElement.lang = isEnglish ? 'en' : 'es';
-    // Fix plan badge visibility
-    document.querySelectorAll('.plan-badge').forEach(el => {
-      el.style.display = el.hasAttribute('data-en') === isEnglish ? 'block' : (el.hasAttribute('data-es') === !isEnglish ? 'block' : 'none');
-    });
+    const isEn = document.body.classList.contains('lang-en');
+    setLang(isEn ? 'es' : 'en');
   }
+  (function() { const saved = localStorage.getItem('prh_lang'); if (saved === 'en') setLang('en'); })();
 
-
-  // ── Slider ──────────────────────────────────────────────────────────────
-  var sliderCur = 0;
-  var sliderTotal = 3;
-  var sliderTimer;
-
-  function goSlide(n) {
-    sliderCur = n;
-    document.getElementById('sliderTrack').style.transform = 'translateX(-' + (n * 100) + '%)';
-    for (var i = 0; i < sliderTotal; i++) {
-      document.getElementById('sdot' + i).className = 'slider-dot' + (i === n ? ' active' : '');
-      var tab = document.getElementById('stab' + i);
-      if (tab) tab.className = 'slider-tab' + (i === n ? ' active' : '');
-    }
-    clearInterval(sliderTimer);
-    sliderTimer = setInterval(function() { goSlide((sliderCur + 1) % sliderTotal); }, 5000);
+  /* ── MOBILE MENU ── */
+  function toggleMenu() {
+    const btn  = document.getElementById('hamburgerBtn');
+    const menu = document.getElementById('mobileMenu');
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
   }
-
-  sliderTimer = setInterval(function() { goSlide((sliderCur + 1) % sliderTotal); }, 5000);
-
-  // Feature modals
-  function openFeatModal(id) {
-    document.getElementById('modal-' + id).classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function closeMenu() {
+    document.getElementById('hamburgerBtn').classList.remove('open');
+    document.getElementById('mobileMenu').classList.remove('open');
   }
-  function closeFeatModal(event, overlay) {
-    if (!event || event.target === overlay) {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.feat-overlay.open').forEach(function(el) {
-        el.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    }
-  });
+  /* Close menu on scroll */
+  window.addEventListener('scroll', function() {
+    if (document.getElementById('mobileMenu').classList.contains('open')) closeMenu();
+  }, { passive: true });
 </script>
+
 </body>
 </html>
