@@ -3,1183 +3,902 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal RH &#8212; Sistema de Recursos Humanos en la Nube</title>
-  <meta name="description" content="Portal RH centraliza asistencia, vacaciones, n&#243;mina, capacitaci&#243;n y desempe&#241;o en una plataforma moderna y segura. Hecho para empresas dominicanas." />
+  <title>Portal RH — Toda la gestión de tu gente en un solo lugar</title>
+  <meta name="description" content="Portal RH es el sistema de recursos humanos en la nube que centraliza asistencia, vacaciones, capacitación, desempeño y más. Hecho para empresas que quieren crecer sin perder el control." />
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#1A4FAA" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Portal RH" />
+  <link rel="icon" type="image/png" href="/icons/icon-192x192.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="icon" href="apple-touch-icon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --navy:    #060B18;
-      --navy2:   #0D1526;
-      --navy3:   #111E35;
-      --blue:    #2563EB;
-      --indigo:  #6366F1;
-      --violet:  #8B5CF6;
-      --cyan:    #06B6D4;
-      --white:   #FFFFFF;
-      --gray:    #94A3B8;
-      --border:  rgba(255,255,255,0.08);
-      --glass:   rgba(255,255,255,0.04);
+      --blue-dark:  #1A4FAA;
+      --blue-mid:   #2563EB;
+      --blue-light: #4A9FD4;
+      --gray-dark:  #4B5563;
+      --gray-mid:   #6B7280;
+      --gray-light: #F3F4F6;
+      --white:      #FFFFFF;
     }
     html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; color: #0F172A; background: #fff; overflow-x: hidden; }
+    body { font-family: 'Inter', sans-serif; color: #111827; background: #fff; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; NAV &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
+    /* ── BILINGUAL ── */
+    [data-en] { display: none; }
+    body.lang-en [data-es] { display: none; }
+    body.lang-en [data-en] { display: inline; }
+    body.lang-en [data-en].block { display: block; }
+    body.lang-en [data-en].flex  { display: flex; }
+
+    /* ── NAV ── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      position: sticky; top: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 68px;
-      background: rgba(6,11,24,0.85);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      transition: background .3s;
+      padding: 0 5%; height: 72px;
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #E5E7EB;
     }
     .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo-icon {
-      width: 36px; height: 36px; border-radius: 8px;
-      object-fit: contain;
-    }
-    .nav-logo span { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-    .nav-logo span em { color: var(--indigo); font-style: normal; }
-    .nav-links { display: flex; align-items: center; gap: 2rem; }
-    .nav-links a { text-decoration: none; font-size: 0.875rem; font-weight: 500; color: var(--gray); transition: color .2s; }
-    .nav-links a:hover { color: #fff; }
-    .btn-nav {
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px;
+    .nav-logo span { font-size: 1.5rem; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.5px; }
+    .nav-logo span em { color: var(--gray-dark); font-style: normal; }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
+    .nav-links { display: flex; align-items: center; gap: 1.75rem; }
+    .nav-links a { text-decoration: none; font-size: 0.9rem; font-weight: 500; color: var(--gray-dark); transition: color .2s; }
+    .nav-links a:hover { color: var(--blue-mid); }
+    .btn-demo {
+      background: var(--blue-mid); color: #fff;
+      padding: 0.5rem 1.2rem; border-radius: 8px;
       font-size: 0.875rem; font-weight: 600; text-decoration: none;
-      transition: opacity .2s, transform .15s;
-      box-shadow: 0 0 20px rgba(99,102,241,0.35);
+      transition: background .2s, transform .1s; white-space: nowrap;
     }
-    .btn-nav:hover { opacity: 0.9; transform: translateY(-1px); }
+    .btn-demo:hover { background: var(--blue-dark); transform: translateY(-1px); }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; HERO &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
+    /* Language toggle */
+    .lang-btn {
+      background: none; border: 1.5px solid #E5E7EB; color: #6B7280;
+      padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; transition: all .2s; letter-spacing: 0.5px;
+    }
+    .lang-btn:hover { border-color: var(--blue-mid); color: var(--blue-mid); }
+
+    /* Hamburger */
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px; background: none;
+      border: none; cursor: pointer; padding: 6px;
+    }
+    .hamburger span {
+      display: block; width: 22px; height: 2px;
+      background: #374151; border-radius: 2px; transition: all .3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile menu overlay */
+    .mobile-menu {
+      display: none; position: fixed; inset: 0; top: 72px; z-index: 99;
+      background: #fff; padding: 2rem 6%;
+      flex-direction: column; gap: 0;
+      border-top: 1px solid #F3F4F6;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      text-decoration: none; font-size: 1.1rem; font-weight: 600;
+      color: #374151; padding: 1rem 0;
+      border-bottom: 1px solid #F3F4F6;
+      transition: color .2s;
+    }
+    .mobile-menu a:hover { color: var(--blue-mid); }
+    .mobile-menu .mobile-cta {
+      margin-top: 1.5rem; background: var(--blue-mid); color: #fff;
+      text-align: center; border-radius: 12px; padding: 1rem;
+      border: none; font-size: 1rem; font-weight: 700;
+    }
+    .mobile-lang {
+      display: flex; gap: 1rem; margin-top: 1rem;
+    }
+    .mobile-lang button {
+      flex: 1; padding: 0.7rem; border-radius: 10px; font-size: 0.9rem; font-weight: 700;
+      cursor: pointer; transition: all .2s;
+    }
+    .mobile-lang .ml-es { background: #EFF6FF; color: var(--blue-mid); border: 1.5px solid #BFDBFE; }
+    .mobile-lang .ml-en { background: #F8FAFC; color: #6B7280; border: 1.5px solid #E5E7EB; }
+    body.lang-en .mobile-lang .ml-es { background: #F8FAFC; color: #6B7280; border-color: #E5E7EB; }
+    body.lang-en .mobile-lang .ml-en { background: #EFF6FF; color: var(--blue-mid); border-color: #BFDBFE; }
+
+    /* ── HERO ── */
     .hero {
-      min-height: 100vh;
-      background: var(--navy);
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 100px 5% 80px;
-      position: relative; overflow: hidden;
-    }
-    /* Dot grid background */
-    .hero::before {
-      content: "";
-      position: absolute; inset: 0;
-      background-image: radial-gradient(rgba(99,102,241,0.18) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 40%, transparent 100%);
-    }
-    /* Glow orbs */
-    .glow-1 {
-      position: absolute; top: 10%; left: 15%;
-      width: 500px; height: 500px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .glow-2 {
-      position: absolute; bottom: 5%; right: 10%;
-      width: 400px; height: 400px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(37,99,235,0.15) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-inner {
-      position: relative; z-index: 1;
       display: grid; grid-template-columns: 1fr 1fr;
-      align-items: center; gap: 5rem; width: 100%; max-width: 1200px;
+      align-items: center; gap: 3rem;
+      padding: 6rem 5% 5rem;
+      background: linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 50%, #F8FAFC 100%);
+      min-height: 85vh;
     }
-    /* Badge */
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(99,102,241,0.12); border: 1px solid rgba(99,102,241,0.3);
-      color: #A5B4FC; font-size: 0.78rem; font-weight: 600;
-      padding: 6px 14px; border-radius: 99px; margin-bottom: 1.5rem;
-      letter-spacing: 0.3px;
+    .hero-brand-lockup { display: flex; align-items: center; gap: 14px; margin-bottom: 1.5rem; }
+    .hero-brand-text { display: flex; flex-direction: column; gap: 2px; }
+    .hero-brand-name { font-size: 2rem; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.5px; line-height: 1; }
+    .hero-brand-name em { color: var(--gray-dark); font-style: normal; }
+    .hero-brand-tag {
+      font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1.5px; color: var(--blue-mid);
+      background: #EFF6FF; padding: 3px 10px; border-radius: 20px;
+      display: inline-block; width: fit-content;
     }
-    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--indigo); animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
-
     .hero-text h1 {
-      font-size: clamp(2.4rem, 4vw, 3.8rem);
-      font-weight: 900; line-height: 1.1;
-      color: #fff; margin-bottom: 1.5rem;
-      letter-spacing: -1px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; line-height: 1.15;
+      color: #0F172A; margin-bottom: 1.25rem;
     }
-    .hero-text h1 .grad {
-      background: linear-gradient(135deg, #60A5FA, #A78BFA, #818CF8);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
+    .hero-text h1 span { color: var(--blue-mid); }
     .hero-text p {
-      font-size: 1.1rem; color: var(--gray); line-height: 1.75;
-      margin-bottom: 2.5rem; max-width: 460px;
+      font-size: 1.1rem; color: var(--gray-mid);
+      line-height: 1.7; margin-bottom: 2rem; max-width: 480px;
     }
-    .hero-cta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 3rem; }
+    .hero-cta { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
     .btn-primary {
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      color: #fff; padding: 0.9rem 2rem; border-radius: 10px;
+      background: var(--blue-mid); color: #fff;
+      padding: 0.9rem 2rem; border-radius: 10px;
       font-size: 1rem; font-weight: 700; text-decoration: none;
-      box-shadow: 0 0 30px rgba(99,102,241,0.4), 0 4px 14px rgba(37,99,235,0.35);
-      transition: all .2s; position: relative; overflow: hidden;
-    }
-    .btn-primary::after {
-      content: ""; position: absolute; inset: 0;
-      background: linear-gradient(135deg, transparent, rgba(255,255,255,0.1));
-      transition: opacity .2s; opacity: 0;
-    }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 45px rgba(99,102,241,0.55), 0 8px 20px rgba(37,99,235,0.4); }
-    .btn-primary:hover::after { opacity: 1; }
-    .btn-ghost {
-      color: var(--gray); font-weight: 600; font-size: 1rem;
-      text-decoration: none; display: flex; align-items: center; gap: 7px;
-      border: 1px solid var(--border); padding: 0.9rem 1.5rem; border-radius: 10px;
+      box-shadow: 0 4px 14px rgba(37,99,235,0.4);
       transition: all .2s;
     }
-    .btn-ghost:hover { color: #fff; border-color: rgba(255,255,255,0.2); background: var(--glass); }
+    .btn-primary:hover { background: var(--blue-dark); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,99,235,0.45); }
+    .btn-secondary {
+      color: var(--blue-mid); font-weight: 600; font-size: 1rem;
+      text-decoration: none; display: flex; align-items: center; gap: 6px; transition: gap .2s;
+    }
+    .btn-secondary:hover { gap: 10px; }
 
-    /* Trust badges row */
-    .trust-row {
-      display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap;
-    }
-    .trust-item {
-      display: flex; align-items: center; gap: 6px;
-      color: #64748B; font-size: 0.78rem; font-weight: 500;
-    }
-    .trust-item svg { color: #4ADE80; flex-shrink: 0; }
-    .trust-sep { width: 1px; height: 14px; background: var(--border); }
-
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; HERO DASHBOARD VISUAL &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    .hero-visual { position: relative; }
-    .dash-glow {
-      position: absolute; top: -40px; left: -40px; right: -40px; bottom: -40px;
-      background: radial-gradient(ellipse at center, rgba(99,102,241,0.2) 0%, transparent 70%);
-      pointer-events: none;
-    }
+    .hero-visual { display: flex; justify-content: center; align-items: center; }
     .hero-dashboard {
-      position: relative;
-      background: rgba(13,21,38,0.9);
-      border: 1px solid rgba(99,102,241,0.25);
-      border-radius: 20px;
-      padding: 0;
-      overflow: hidden;
-      box-shadow: 0 0 60px rgba(99,102,241,0.2), 0 30px 80px rgba(0,0,0,0.5);
-      backdrop-filter: blur(20px);
+      background: #fff; border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      padding: 24px; width: 100%; max-width: 480px;
+      border: 1px solid #E5E7EB;
     }
-    .dash-topbar {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 14px 20px;
-      background: rgba(255,255,255,0.03);
-      border-bottom: 1px solid var(--border);
-    }
-    .dash-dots { display: flex; gap: 6px; }
-    .dot { width: 11px; height: 11px; border-radius: 50%; }
+    .dash-header { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid #F3F4F6; }
+    .dash-dots { display: flex; gap: 5px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; }
     .dot.r { background: #FC5C65; } .dot.y { background: #FED330; } .dot.g { background: #26de81; }
-    .dash-tabs { display: flex; gap: 0; }
-    .dash-tab {
-      font-size: 0.7rem; font-weight: 600; color: var(--gray);
-      padding: 5px 12px; border-radius: 6px; cursor: default;
-    }
-    .dash-tab.active { background: rgba(99,102,241,0.2); color: #A5B4FC; }
-    .dash-body { padding: 18px; }
-    .dash-stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 14px; }
-    .stat-card {
-      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px;
-    }
-    .stat-label { font-size: 0.6rem; font-weight: 600; color: #4B5E8A; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
-    .stat-value { font-size: 1.5rem; font-weight: 800; color: #fff; }
-    .stat-sub { font-size: 0.6rem; color: #4ADE80; margin-top: 3px; font-weight: 600; }
-    .stat-sub.warn { color: #FBBF24; }
-    /* ── ROTATING SCREENS ── */
-    .dash-screens { position: relative; overflow: hidden; height: 218px; }
-    .dash-screen { position: absolute; inset: 0; opacity: 0; transition: opacity 0.45s ease; pointer-events: none; }
-    .dash-screen.active { opacity: 1; pointer-events: auto; }
-    .dash-table { width: 100%; border-collapse: collapse; }
-    .dash-table th { font-size: 0.58rem; color: #4B5E8A; font-weight: 600; text-transform: uppercase; letter-spacing: 0.4px; padding: 0 4px 6px 0; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .dash-table td { font-size: 0.65rem; color: #CBD5E1; padding: 5px 4px 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle; }
-    .dash-toolbar { display: flex; align-items: center; gap: 6px; margin-bottom: 9px; }
-    .dash-search-bar { flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 5px; padding: 4px 8px; font-size: 0.62rem; color: #64748B; }
-    .dash-btn-xs { background: #2563EB; color: #fff; font-size: 0.61rem; font-weight: 700; border: none; border-radius: 5px; padding: 4px 9px; cursor: default; white-space: nowrap; }
-    .dash-mini-stats { display: flex; gap: 6px; margin-bottom: 9px; }
-    .mini-stat { flex:1; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:7px; padding:7px 8px; }
-    .mini-stat-v { font-size: 1rem; font-weight: 800; color: #fff; line-height:1; }
-    .mini-stat-v.g { color: #4ADE80; } .mini-stat-v.r { color: #F87171; } .mini-stat-v.a { color: #FBBF24; }
-    .mini-stat-l { font-size: 0.56rem; color: #4B5E8A; margin-top: 2px; }
-    .att-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .att-time { font-size: 0.62rem; color: #60A5FA; font-weight: 600; min-width: 36px; }
-    .att-time.out { color: #F87171; }
-    .vac-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
-    .vac-info { flex:1; }
-    .vac-name { font-size: 0.67rem; font-weight: 600; color: #E2E8F0; }
-    .vac-dates { font-size: 0.57rem; color: #4B5E8A; margin-top:2px; }
-    .nomina-foot { font-size:0.62rem; color:#4B5E8A; padding-top:7px; display:flex; justify-content:space-between; align-items:center; border-top:1px solid rgba(255,255,255,0.06); }
-    .nomina-total { font-weight:700; color:#4ADE80; }
-    .dash-nav { display:flex; justify-content:center; gap:5px; padding:8px 0 12px; }
-    .dash-dot { width:5px; height:5px; border-radius:99px; background:rgba(255,255,255,0.15); cursor:pointer; transition:all .3s; }
-    .dash-dot.active { background:#6366F1; width:16px; }
-    .av-sm { width:22px; height:22px; border-radius:6px; font-size:0.54rem; display:flex; align-items:center; justify-content:center; font-weight:700; color:#fff; flex-shrink:0; }
-    .dash-list { display: flex; flex-direction: column; gap: 7px; }
-    .list-item {
-      display: flex; align-items: center; gap: 10px;
-      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
-      border-radius: 10px; padding: 10px 12px;
-    }
-    .list-avatar {
-      width: 28px; height: 28px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.62rem; font-weight: 700; color: #fff; flex-shrink: 0;
-    }
+    .dash-title { font-size: 0.75rem; font-weight: 600; color: #9CA3AF; }
+    .dash-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+    .stat-card { background: #F8FAFC; border-radius: 10px; padding: 14px 12px; border: 1px solid #E5E7EB; }
+    .stat-label { font-size: 0.65rem; font-weight: 600; color: #9CA3AF; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .stat-value { font-size: 1.4rem; font-weight: 800; color: #0F172A; }
+    .stat-sub { font-size: 0.65rem; color: #6B7280; margin-top: 2px; }
+    .stat-up { color: #10B981; font-weight: 600; }
+    .dash-chart { background: #F8FAFC; border-radius: 10px; padding: 14px; border: 1px solid #E5E7EB; margin-bottom: 14px; }
+    .chart-label { font-size: 0.7rem; font-weight: 600; color: #6B7280; margin-bottom: 10px; }
+    .bars { display: flex; align-items: flex-end; gap: 6px; height: 60px; }
+    .bar { flex: 1; border-radius: 4px 4px 0 0; background: var(--blue-light); opacity: 0.7; }
+    .bar.active { background: var(--blue-mid); opacity: 1; }
+    .dash-list { display: flex; flex-direction: column; gap: 8px; }
+    .list-item { display: flex; align-items: center; gap: 10px; background: #F8FAFC; border-radius: 8px; padding: 10px 12px; border: 1px solid #E5E7EB; }
+    .list-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.65rem; font-weight: 700; color: #fff; flex-shrink: 0; }
     .list-info { flex: 1; }
-    .list-name { font-size: 0.72rem; font-weight: 600; color: #E2E8F0; }
-    .list-role { font-size: 0.62rem; color: #4B5E8A; }
-    .list-badge { font-size: 0.58rem; font-weight: 700; padding: 3px 8px; border-radius: 99px; }
-    .badge-green { background: rgba(74,222,128,0.15); color: #4ADE80; border: 1px solid rgba(74,222,128,0.2); }
-    .badge-blue  { background: rgba(96,165,250,0.15); color: #60A5FA; border: 1px solid rgba(96,165,250,0.2); }
-    .badge-amber { background: rgba(251,191,36,0.15); color: #FBBF24; border: 1px solid rgba(251,191,36,0.2); }
+    .list-name { font-size: 0.75rem; font-weight: 600; color: #374151; }
+    .list-role { font-size: 0.65rem; color: #9CA3AF; }
+    .list-badge { font-size: 0.6rem; font-weight: 600; padding: 2px 7px; border-radius: 20px; }
+    .badge-green { background: #D1FAE5; color: #065F46; }
+    .badge-blue  { background: #DBEAFE; color: #1E40AF; }
+    .badge-amber { background: #FEF3C7; color: #92400E; }
 
-    /* Floating badge on dashboard */
-    .float-badge {
-      position: absolute; bottom: -20px; left: -20px;
-      background: rgba(13,21,38,0.95); border: 1px solid rgba(74,222,128,0.3);
-      border-radius: 14px; padding: 12px 16px;
-      display: flex; align-items: center; gap: 10px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    }
-    .float-badge-icon { font-size: 1.4rem; }
-    .float-badge-text { font-size: 0.72rem; color: #E2E8F0; font-weight: 600; }
-    .float-badge-text span { color: #4ADE80; }
+    /* ── LOGOS BAR ── */
+    .logos-bar { padding: 2.75rem 5%; background: #fff; border-bottom: 1px solid #F3F4F6; text-align: center; }
+    .logos-bar p { font-size: 0.8rem; color: #9CA3AF; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2rem; }
+    .logos-row { display: flex; align-items: center; justify-content: center; gap: 4rem; flex-wrap: wrap; }
+    .client-logo { display: flex; align-items: center; opacity: 0.85; transition: opacity .2s; }
+    .client-logo:hover { opacity: 1; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; TRUST BAR &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    .trust-bar {
-      background: var(--navy2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 1.1rem 5%;
-      display: flex; align-items: center; justify-content: center;
-      gap: 3rem; flex-wrap: wrap;
-    }
-    .trust-pill {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 0.8rem; font-weight: 600; color: var(--gray);
-      white-space: nowrap;
-    }
-    .trust-pill-icon { font-size: 1rem; }
-    .trust-pill .check { color: #4ADE80; font-size: 0.75rem; }
-
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; STATS &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    .stats-section {
-      background: var(--navy);
-      padding: 5rem 5%;
-      position: relative; overflow: hidden;
-    }
-    .stats-section::before {
-      content: "";
-      position: absolute; inset: 0;
-      background-image: radial-gradient(rgba(99,102,241,0.08) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    .stats-inner { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; text-align: center; }
-    .stats-label { font-size: 0.78rem; font-weight: 700; color: var(--indigo); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1rem; }
-    .stats-title { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; color: #fff; margin-bottom: 3rem; line-height: 1.2; }
-    .stats-title .grad { background: linear-gradient(135deg, #60A5FA, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-    .stat-box {
-      background: var(--glass); border: 1px solid var(--border);
-      border-radius: 18px; padding: 2rem 1.5rem; text-align: center;
-      transition: border-color .25s, box-shadow .25s;
-    }
-    .stat-box:hover { border-color: rgba(99,102,241,0.4); box-shadow: 0 0 30px rgba(99,102,241,0.15); }
-    .stat-box-value { font-size: 2.8rem; font-weight: 900; color: #fff; line-height: 1; margin-bottom: 0.5rem; letter-spacing: -1px; }
-    .stat-box-value .unit { font-size: 1.5rem; color: var(--indigo); }
-    .stat-box-label { font-size: 0.83rem; color: var(--gray); font-weight: 500; }
-
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; FEATURES &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    #modulos { background: #F8FAFC; padding: 5rem 5%; }
-    .section-center { text-align: center; max-width: 640px; margin: 0 auto 3.5rem; }
+    /* ── SECTION DEFAULTS ── */
+    section { padding: 5rem 5%; }
     .section-tag {
-      display: inline-block; font-size: 0.72rem; font-weight: 700;
-      color: var(--indigo); background: #EEF2FF; border: 1px solid #C7D2FE;
-      padding: 5px 14px; border-radius: 99px; letter-spacing: 1px;
+      display: inline-block; font-size: 0.75rem; font-weight: 700;
+      color: var(--blue-mid); background: #EFF6FF;
+      padding: 4px 12px; border-radius: 20px; letter-spacing: 1px;
       text-transform: uppercase; margin-bottom: 1rem;
     }
-    h2.section-title {
-      font-size: clamp(1.75rem, 3vw, 2.4rem);
-      font-weight: 800; color: #0F172A; line-height: 1.2; margin-bottom: 1rem;
-    }
-    h2.section-title span { background: linear-gradient(135deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    p.section-sub { font-size: 1.02rem; color: #64748B; line-height: 1.75; }
-    .features-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-      gap: 1.5rem; max-width: 1200px; margin: 0 auto;
-    }
-    .feature-card {
-      background: #fff; border: 1px solid #E2E8F0; border-radius: 18px;
-      padding: 2rem; transition: all .25s;
-      position: relative; overflow: hidden;
-      text-decoration: none; display: block; cursor: pointer; color: inherit;
-    }
-    .feature-card::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, var(--blue), var(--indigo));
-      opacity: 0; transition: opacity .25s;
-    }
-    .feature-card:hover { border-color: #C7D2FE; box-shadow: 0 12px 40px rgba(99,102,241,0.1); transform: translateY(-4px); }
-    .feature-card:hover::before { opacity: 1; }
-    .feature-icon {
-      width: 52px; height: 52px; border-radius: 14px;
-      background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; margin-bottom: 1.25rem;
-    }
+    h2.section-title { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 800; color: #0F172A; line-height: 1.2; margin-bottom: 1rem; }
+    h2.section-title span { color: var(--blue-mid); }
+    p.section-sub { font-size: 1.05rem; color: var(--gray-mid); max-width: 560px; line-height: 1.7; margin-bottom: 3rem; }
+
+    /* ── FEATURES ── */
+    #modulos { background: #fff; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+    .feature-card { background: #F8FAFC; border: 1px solid #E5E7EB; border-radius: 16px; padding: 2rem; transition: all .25s; }
+    .feature-card:hover { border-color: var(--blue-light); box-shadow: 0 8px 30px rgba(37,99,235,0.1); transform: translateY(-4px); }
+    .feature-icon { width: 52px; height: 52px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
     .feature-card h3 { font-size: 1.05rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem; }
-    .feature-card p  { font-size: 0.875rem; color: #64748B; line-height: 1.65; }
+    .feature-card p  { font-size: 0.9rem; color: var(--gray-mid); line-height: 1.6; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; HOW IT WORKS &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    #como-funciona { background: var(--navy); padding: 5rem 5%; position: relative; overflow: hidden; }
-    #como-funciona::before {
-      content: ""; position: absolute; inset: 0;
-      background-image: radial-gradient(rgba(99,102,241,0.1) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    #como-funciona .section-center { position: relative; z-index: 1; }
-    #como-funciona .section-tag { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.3); color: #A5B4FC; }
-    #como-funciona h2.section-title { color: #fff; }
-    #como-funciona p.section-sub { color: var(--gray); }
-    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2.5rem; position: relative; z-index: 1; max-width: 1000px; margin: 0 auto; }
+    /* ── HOW IT WORKS ── */
+    #como-funciona { background: #F8FAFC; }
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
     .step { text-align: center; }
-    .step-num {
-      width: 60px; height: 60px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      color: #fff; font-size: 1.3rem; font-weight: 800;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1.25rem;
-      box-shadow: 0 0 30px rgba(99,102,241,0.4);
-    }
-    .step h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
-    .step p  { font-size: 0.875rem; color: var(--gray); line-height: 1.65; }
+    .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--blue-mid); color: #fff; font-size: 1.25rem; font-weight: 800; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; }
+    .step h3 { font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.4rem; }
+    .step p  { font-size: 0.875rem; color: var(--gray-mid); line-height: 1.6; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; SECURITY SECTION &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    .security-section {
-      background: #fff; padding: 5rem 5%;
-      border-top: 1px solid #E2E8F0;
-    }
-    .security-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
-    .security-visual {
-      background: linear-gradient(135deg, var(--navy2) 0%, #1A2744 100%);
-      border: 1px solid rgba(99,102,241,0.25);
-      border-radius: 24px; padding: 2.5rem;
-      position: relative; overflow: hidden;
-    }
-    .security-visual::before {
-      content: ""; position: absolute; top: -60px; right: -60px;
-      width: 200px; height: 200px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(99,102,241,0.3) 0%, transparent 70%);
-    }
-    .sec-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 1.5rem; }
-    .sec-items { display: flex; flex-direction: column; gap: 0.85rem; }
-    .sec-item {
-      display: flex; align-items: center; gap: 12px;
-      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-      border-radius: 12px; padding: 14px 16px;
-    }
-    .sec-item-icon { font-size: 1.3rem; }
-    .sec-item-text { flex: 1; }
-    .sec-item-title { font-size: 0.82rem; font-weight: 600; color: #E2E8F0; margin-bottom: 2px; }
-    .sec-item-desc { font-size: 0.73rem; color: #4B5E8A; }
-    .sec-item-check { color: #4ADE80; font-size: 1rem; font-weight: 700; }
-    .security-text { }
-    .security-text h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); font-weight: 800; color: #0F172A; margin-bottom: 1rem; line-height: 1.2; }
-    .security-text h2 span { background: linear-gradient(135deg, var(--blue), var(--indigo)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .security-text p { font-size: 1rem; color: #64748B; line-height: 1.75; margin-bottom: 2rem; }
-    .security-checks { display: flex; flex-direction: column; gap: 0.85rem; }
-    .sec-check { display: flex; align-items: flex-start; gap: 10px; }
-    .sec-check-icon { width: 22px; height: 22px; border-radius: 50%; background: #EEF2FF; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--indigo); font-weight: 800; flex-shrink: 0; margin-top: 2px; }
-    .sec-check h4 { font-size: 0.92rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; }
-    .sec-check p { font-size: 0.83rem; color: #64748B; line-height: 1.6; }
+    /* ── BENEFITS ── */
+    #beneficios { background: #fff; }
+    .benefits-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .benefits-list { display: flex; flex-direction: column; gap: 1.25rem; }
+    .benefit-item { display: flex; align-items: flex-start; gap: 1rem; }
+    .benefit-check { width: 28px; height: 28px; border-radius: 50%; background: #DBEAFE; color: var(--blue-mid); display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .benefit-item h4 { font-size: 0.95rem; font-weight: 700; color: #0F172A; margin-bottom: 3px; }
+    .benefit-item p  { font-size: 0.875rem; color: var(--gray-mid); line-height: 1.6; }
+    .benefits-visual { background: linear-gradient(135deg, #1A4FAA 0%, #2563EB 100%); border-radius: 20px; padding: 2.5rem; color: #fff; }
+    .benefits-visual h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 1.5rem; }
+    .metrics { display: flex; flex-direction: column; gap: 1rem; }
+    .metric { background: rgba(255,255,255,0.12); border-radius: 12px; padding: 1rem 1.25rem; }
+    .metric-label { font-size: 0.75rem; font-weight: 500; opacity: 0.8; margin-bottom: 4px; }
+    .metric-value { font-size: 1.8rem; font-weight: 900; }
+    .metric-bar { height: 6px; background: rgba(255,255,255,0.2); border-radius: 3px; margin-top: 8px; overflow: hidden; }
+    .metric-fill { height: 100%; background: #60A5FA; border-radius: 3px; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; PRICING &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    #precios { background: #F8FAFC; padding: 5rem 5%; }
-    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.25rem; max-width: 1100px; margin: 0 auto; }
-    .pricing-card {
-      background: #fff; border: 1.5px solid #E2E8F0; border-radius: 22px;
-      padding: 2rem; position: relative; transition: all .25s;
-    }
-    .pricing-card:hover { box-shadow: 0 12px 40px rgba(99,102,241,0.1); transform: translateY(-3px); }
-    .pricing-card.popular {
-      border-color: var(--indigo);
-      box-shadow: 0 0 0 1px var(--indigo), 0 20px 60px rgba(99,102,241,0.2);
-      background: linear-gradient(180deg, #FAFAFA 0%, #F5F3FF 100%);
-    }
-    .popular-badge {
-      position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--blue), var(--indigo)); color: #fff;
-      font-size: 0.68rem; font-weight: 700; padding: 4px 14px; border-radius: 99px;
-      white-space: nowrap; letter-spacing: 0.5px;
-    }
-    .pricing-card h3 { font-size: 1.1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.35rem; }
-    .pricing-card .price-desc-top { font-size: 0.8rem; color: #64748B; margin-bottom: 0.75rem; }
-    .pricing-card .price { font-size: 2.8rem; font-weight: 900; color: var(--indigo); margin: 0.75rem 0 0.25rem; letter-spacing: -1px; }
-    .pricing-card .price span { font-size: 1rem; color: #94A3B8; font-weight: 500; letter-spacing: 0; }
-    .pricing-card .price-sub { font-size: 0.78rem; color: #94A3B8; margin-bottom: 1.5rem; }
-    .pricing-divider { height: 1px; background: #E2E8F0; margin-bottom: 1.5rem; }
-    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; margin-bottom: 2rem; }
-    .pricing-features li { display: flex; align-items: center; gap: 8px; font-size: 0.875rem; color: #374151; }
-    .pricing-features li::before { content: "\2713"; color: var(--indigo); font-weight: 800; font-size: 0.8rem; }
-    .btn-plan {
-      display: block; text-align: center; padding: 0.85rem;
-      border-radius: 12px; font-size: 0.9rem; font-weight: 700;
-      text-decoration: none; transition: all .2s;
-    }
-    .btn-plan-primary {
-      background: linear-gradient(135deg, var(--blue), var(--indigo));
-      color: #fff; box-shadow: 0 4px 15px rgba(99,102,241,0.35);
-    }
-    .btn-plan-primary:hover { box-shadow: 0 8px 25px rgba(99,102,241,0.45); transform: translateY(-1px); }
-    .btn-plan-outline { border: 1.5px solid #E2E8F0; color: var(--indigo); }
-    .btn-plan-outline:hover { border-color: var(--indigo); background: #EEF2FF; }
+    /* ── PRICING ── */
+    #precios { background: #F8FAFC; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 1rem; }
+    .pricing-card { background: #fff; border: 1.5px solid #E5E7EB; border-radius: 20px; padding: 2rem; transition: all .25s; }
+    .pricing-card.popular { border-color: var(--blue-mid); box-shadow: 0 10px 40px rgba(37,99,235,0.15); }
+    .popular-badge { display: inline-block; background: var(--blue-mid); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 3px 12px; border-radius: 20px; margin-bottom: 1rem; letter-spacing: 0.5px; }
+    .pricing-card h3 { font-size: 1.1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.25rem; }
+    .pricing-card .price { font-size: 2.5rem; font-weight: 900; color: var(--blue-mid); margin: 1rem 0 0.25rem; }
+    .pricing-card .price span { font-size: 1rem; color: var(--gray-mid); font-weight: 500; }
+    .pricing-card .price-desc { font-size: 0.8rem; color: var(--gray-mid); margin-bottom: 1.5rem; }
+    .pricing-features { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; }
+    .pricing-features li { display: flex; align-items: flex-start; gap: 8px; font-size: 0.875rem; color: #374151; }
+    .pricing-features li::before { content: "✓"; color: var(--blue-mid); font-weight: 700; flex-shrink: 0; }
+    .btn-plan { display: block; text-align: center; padding: 0.8rem; border-radius: 10px; font-size: 0.9rem; font-weight: 700; text-decoration: none; transition: all .2s; }
+    .btn-plan-primary { background: var(--blue-mid); color: #fff; }
+    .btn-plan-primary:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .btn-plan-outline { border: 1.5px solid var(--blue-mid); color: var(--blue-mid); }
+    .btn-plan-outline:hover { background: #EFF6FF; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; CTA BANNER &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    .cta-banner {
-      background: var(--navy);
-      padding: 6rem 5%; text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .cta-banner::before {
-      content: ""; position: absolute; inset: 0;
-      background-image: radial-gradient(rgba(99,102,241,0.15) 1px, transparent 1px);
-      background-size: 28px 28px;
-    }
-    .cta-banner-glow {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
-      width: 600px; height: 300px; border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(99,102,241,0.25) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .cta-banner-inner { position: relative; z-index: 1; max-width: 640px; margin: 0 auto; }
-    .cta-banner h2 { font-size: clamp(1.9rem, 3.5vw, 2.8rem); font-weight: 900; color: #fff; margin-bottom: 1rem; line-height: 1.15; letter-spacing: -0.5px; }
-    .cta-banner h2 .grad { background: linear-gradient(135deg, #60A5FA, #A78BFA); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-    .cta-banner p  { font-size: 1.05rem; color: var(--gray); margin-bottom: 2.5rem; line-height: 1.7; }
+    /* ── CTA BANNER ── */
+    .cta-banner { background: linear-gradient(135deg, #1A4FAA 0%, #2563EB 60%, #3B82F6 100%); padding: 5rem 5%; text-align: center; color: #fff; }
+    .cta-banner h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900; margin-bottom: 1rem; }
+    .cta-banner p  { font-size: 1.1rem; opacity: 0.85; margin-bottom: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto; }
     .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-    .btn-white {
-      background: #fff; color: var(--indigo);
-      padding: 0.9rem 2rem; border-radius: 10px;
-      font-size: 1rem; font-weight: 700; text-decoration: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      transition: all .2s;
-    }
-    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0,0,0,0.25); }
-    .btn-outline-white {
-      border: 1.5px solid rgba(255,255,255,0.2); color: rgba(255,255,255,0.8);
-      padding: 0.9rem 2rem; border-radius: 10px;
-      font-size: 1rem; font-weight: 600; text-decoration: none;
-      transition: all .2s;
-    }
-    .btn-outline-white:hover { border-color: rgba(255,255,255,0.5); color: #fff; background: rgba(255,255,255,0.05); }
+    .btn-white { background: #fff; color: var(--blue-mid); padding: 0.9rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 700; text-decoration: none; box-shadow: 0 4px 14px rgba(0,0,0,0.15); transition: all .2s; }
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .btn-outline-white { border: 2px solid rgba(255,255,255,0.7); color: #fff; padding: 0.9rem 2rem; border-radius: 10px; font-size: 1rem; font-weight: 600; text-decoration: none; transition: all .2s; }
+    .btn-outline-white:hover { background: rgba(255,255,255,0.1); border-color: #fff; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; FOOTER &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
-    footer {
-      background: #040810;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 3rem 5% 2rem; color: var(--gray);
-    }
-    .footer-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem;
-    }
-    .footer-brand { display: flex; align-items: center; gap: 10px; margin-bottom: 0.8rem; }
-    .footer-brand-icon {
-      width: 32px; height: 32px; border-radius: 7px;
-      object-fit: contain;
-    }
-    .footer-brand span { font-size: 1rem; font-weight: 800; color: #fff; }
-    .footer-brand span em { color: var(--indigo); font-style: normal; }
-    .footer-desc { font-size: 0.85rem; line-height: 1.7; max-width: 240px; }
-    .footer-col h4 { font-size: 0.8rem; font-weight: 700; color: #fff; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.5px; }
-    .footer-col a { display: block; font-size: 0.85rem; color: #64748B; text-decoration: none; margin-bottom: 0.5rem; transition: color .2s; }
+    /* ── FOOTER ── */
+    footer { background: #0F172A; color: #94A3B8; padding: 4rem 5% 2rem; }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-brand p { font-size: 0.875rem; line-height: 1.7; max-width: 280px; margin-top: 0.75rem; }
+    .footer-col h4 { font-size: 0.8rem; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+    .footer-col a { display: block; font-size: 0.875rem; color: #94A3B8; text-decoration: none; margin-bottom: 0.5rem; transition: color .2s; }
     .footer-col a:hover { color: #fff; }
-    .footer-bottom {
-      max-width: 1200px; margin: 2rem auto 0;
-      padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06);
-      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-bottom p { font-size: 0.8rem; color: #334155; }
-    .footer-badges { display: flex; gap: 1rem; }
-    .footer-badge {
-      font-size: 0.68rem; font-weight: 600; color: #4B5E8A;
-      border: 1px solid rgba(255,255,255,0.06); padding: 4px 10px; border-radius: 99px;
-      display: flex; align-items: center; gap: 5px;
-    }
+    .footer-bottom { border-top: 1px solid #1E293B; padding-top: 1.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; }
+    .footer-bottom p { font-size: 0.8rem; }
 
-    /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; RESPONSIVE &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
+    /* ── FLEET BANNER ── */
+    .fleet-banner {
+      background: linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%);
+      padding: 3.5rem 5%; display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .fleet-banner-text h3 { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
+    .fleet-banner-text p  { font-size: 0.95rem; color: #94A3B8; }
+    .btn-fleet { background: #4A9FD4; color: #fff; padding: 0.8rem 1.75rem; border-radius: 10px; font-size: 0.95rem; font-weight: 700; text-decoration: none; transition: all .2s; white-space: nowrap; }
+    .btn-fleet:hover { background: #2563EB; transform: translateY(-1px); }
+
+    /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
-      .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero { grid-template-columns: 1fr; padding: 4rem 5% 3rem; min-height: auto; }
       .hero-visual { display: none; }
-      .stats-grid { grid-template-columns: repeat(2,1fr); }
-      .security-inner { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr 1fr; }
-      .trust-bar { gap: 1.5rem; }
-    }
-    @media (max-width: 600px) {
-      nav { padding: 0 4%; }
+      .benefits-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
       .nav-links { display: none; }
-      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 1rem; }
-      .footer-inner { grid-template-columns: 1fr; }
-      .hero-badge { font-size: 0.72rem; }
+      .hamburger { display: flex; }
+      .lang-btn { display: none; }
     }
-
-    /* Mobile hamburger menu */
-    .nav-hamburger { display: none; background: none; border: none; cursor: pointer; padding: 4px; }
-    .nav-hamburger span { display: block; width: 22px; height: 2px; background: #fff; margin: 5px 0; border-radius: 2px; transition: all .3s; }
-    .nav-mobile-open { display: flex !important; flex-direction: column; position: absolute; top: 60px; left: 0; right: 0; background: var(--navy2); padding: 1.5rem 5%; gap: 1rem; z-index: 999; border-top: 1px solid rgba(255,255,255,0.08); }
-    @media (max-width: 600px) {
-      .nav-hamburger { display: block; }
+    @media (max-width: 640px) {
+      nav { padding: 0 4%; height: 64px; }
+      section { padding: 3.5rem 5%; }
+      .logos-bar { padding: 2rem 5%; }
+      .logos-row { gap: 2rem; overflow-x: auto; flex-wrap: nowrap; justify-content: flex-start; padding-bottom: 0.5rem; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-text h1 { font-size: 1.9rem; }
+      .hero-cta { flex-direction: column; align-items: flex-start; }
+      .btn-primary { width: 100%; text-align: center; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; gap: 1.5rem; }
+      .features-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .feature-card { padding: 1.25rem; }
+      .feature-card h3 { font-size: 0.9rem; }
+      .feature-card p  { font-size: 0.8rem; }
+      .cta-group { flex-direction: column; align-items: stretch; }
+      .btn-white, .btn-outline-white { text-align: center; }
+      .fleet-banner { flex-direction: column; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+      .mobile-menu { top: 64px; }
     }
-    </style>
+    @media (max-width: 400px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- &#9472;&#9472; NAV &#9472;&#9472; -->
+<!-- ══ NAV ══════════════════════════════════════════════════════════════════ -->
 <nav>
-  <a href="/" class="nav-logo">
-    <img src="apple-touch-icon.png" alt="Portal RH" class="nav-logo-icon" />
-    <span>Portal<em>RH</em></span>
+  <a href="#" class="nav-logo">
+    <svg width="40" height="47" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z" fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
+      <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
+      <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
+      <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
+      <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+    </svg>
+    <span>Portal <em>RH</em></span>
   </a>
-  <button class="nav-hamburger" id="navHamburger" aria-label="Men&#250;" onclick="var m=document.getElementById('navMenu');m.classList.toggle('nav-mobile-open')">
-    <span></span><span></span><span></span>
-  </button>
-  <div class="nav-links" id="navMenu">
-    <a href="#modulos" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">M&#243;dulos</a>
-    <a href="#como-funciona" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">C&#243;mo funciona</a>
-    <a href="soluciones.html">Soluciones</a>
-    <a href="#precios" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">Precios</a>
-    <a href="contacto.html">Contacto</a>
-    <a href="#precios" class="btn-nav" onclick="document.getElementById('navMenu').classList.remove('nav-mobile-open')">Solicitar demo</a>
+
+  <div class="nav-right">
+    <div class="nav-links">
+      <a href="#modulos"><span data-es>Módulos</span><span data-en>Modules</span></a>
+      <a href="#como-funciona"><span data-es>Cómo funciona</span><span data-en>How it works</span></a>
+      <a href="#precios"><span data-es>Precios</span><span data-en>Pricing</span></a>
+      <a href="#contacto" class="btn-demo"><span data-es>Solicitar demo</span><span data-en>Request demo</span></a>
+    </div>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
 
-<!-- &#9472;&#9472; HERO &#9472;&#9472; -->
-<section class="hero">
-  <div class="glow-1"></div>
-  <div class="glow-2"></div>
-  <div class="hero-inner">
-
-    <!-- Left: text -->
-    <div class="hero-text">
-      <div class="hero-badge">
-        <span></span>
-        Sistema de RH en la Nube &#183; Rep&#250;blica Dominicana
-      </div>
-      <h1>Gestiona tu equipo<br/><span class="grad">de forma inteligente</span></h1>
-      <p>Portal RH centraliza asistencia, vacaciones, n&#243;mina, capacitaci&#243;n y desempe&#241;o en una sola plataforma. Menos papeleo, m&#225;s control, m&#225;s tiempo para lo que importa.</p>
-      <div class="hero-cta">
-        <a href="contacto.html" class="btn-primary">Solicitar demo gratuita</a>
-        <a href="#modulos" class="btn-ghost">Ver m&#243;dulos &#8594;</a>
-      </div>
-      <div class="trust-row">
-        <div class="trust-item">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M10 1l2.39 4.84L18 6.73l-4 3.9.94 5.5L10 13.77 5.06 16.13 6 10.63 2 6.73l5.61-.89L10 1z"/></svg>
-          Ley 172-13 RD
-        </div>
-        <div class="trust-sep"></div>
-        <div class="trust-item">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"/></svg>
-          Encriptaci&#243;n SSL
-        </div>
-        <div class="trust-sep"></div>
-        <div class="trust-item">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"/></svg>
-          Respaldo diario
-        </div>
-        <div class="trust-sep"></div>
-        <div class="trust-item">
-          <svg width="14" height="14" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
-          99.9% uptime
-        </div>
-      </div>
-    </div>
-
-    <!-- Right: dark dashboard mockup -->
-    <div class="hero-visual">
-      <div class="dash-glow"></div>
-      <div class="hero-dashboard">
-        <div class="dash-topbar">
-          <div class="dash-dots">
-            <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
-          </div>
-          <div class="dash-tabs">
-            <div class="dash-tab active">Dashboard</div>
-            <div class="dash-tab">Empleados</div>
-            <div class="dash-tab">N&#243;mina</div>
-          </div>
-          <div style="font-size:0.65rem;color:#4B5E8A;font-weight:600">Marzo 2026</div>
-        </div>
-        <div class="dash-body">
-          <div class="dash-screens">
-
-            <!-- Screen 0: Dashboard principal -->
-            <div class="dash-screen active" id="dscreen-0">
-              <div class="dash-stats">
-                <div class="stat-card">
-                  <div class="stat-label">Equipo activo</div>
-                  <div class="stat-value">142</div>
-                  <div class="stat-sub">&#8593; +4 este mes</div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-label">Masa salarial</div>
-                  <div class="stat-value" style="font-size:1.1rem">$284k</div>
-                  <div class="stat-sub">&#8593; listo a pagar</div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-label">Asistencia hoy</div>
-                  <div class="stat-value">96<span style="font-size:.7rem;color:#4B5E8A">%</span></div>
-                  <div class="stat-sub warn">3 ausentes</div>
-                </div>
-              </div>
-              <div class="dash-list">
-                <div class="list-item">
-                  <div class="list-avatar" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
-                  <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div><div class="list-role">Gerente &#183; Ventas</div></div>
-                  <div class="list-badge badge-green">Activo</div>
-                </div>
-                <div class="list-item">
-                  <div class="list-avatar" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>
-                  <div class="list-info"><div class="list-name">Ana P&#233;rez</div><div class="list-role">Analista &#183; RRHH</div></div>
-                  <div class="list-badge badge-amber">Vacaciones</div>
-                </div>
-                <div class="list-item">
-                  <div class="list-avatar" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
-                  <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div><div class="list-role">Contadora &#183; Finanzas</div></div>
-                  <div class="list-badge badge-blue">N&#243;mina OK</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Screen 1: Gesti&#243;n de Empleados -->
-            <div class="dash-screen" id="dscreen-1">
-              <div class="dash-toolbar">
-                <div class="dash-search-bar">&#128269; Buscar empleado...</div>
-                <div class="dash-btn-xs">+ Nuevo empleado</div>
-              </div>
-              <table class="dash-table">
-                <thead><tr><th>Empleado</th><th>Cargo</th><th>Depto.</th><th>Estado</th></tr></thead>
-                <tbody>
-                  <tr>
-                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>Juan Mart&#237;nez</div></td>
-                    <td>Gerente</td><td>Ventas</td>
-                    <td><div class="list-badge badge-green">Activo</div></td>
-                  </tr>
-                  <tr>
-                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#2563EB,#06B6D4)">AP</div>Ana P&#233;rez</div></td>
-                    <td>Analista RH</td><td>RRHH</td>
-                    <td><div class="list-badge badge-amber">Vacaciones</div></td>
-                  </tr>
-                  <tr>
-                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>Mar&#237;a L&#243;pez</div></td>
-                    <td>Contadora</td><td>Finanzas</td>
-                    <td><div class="list-badge badge-blue">Activa</div></td>
-                  </tr>
-                  <tr>
-                    <td><div style="display:flex;align-items:center;gap:5px"><div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">CR</div>Carlos Reyes</div></td>
-                    <td>Dev. Frontend</td><td>Tecnolog&#237;a</td>
-                    <td><div class="list-badge badge-green">Activo</div></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div style="font-size:0.57rem;color:#4B5E8A;margin-top:7px">142 empleados &#183; P&#225;gina 1 de 10</div>
-            </div>
-
-            <!-- Screen 2: N&#243;mina -->
-            <div class="dash-screen" id="dscreen-2">
-              <div class="dash-toolbar">
-                <div style="font-size:0.67rem;font-weight:700;color:#E2E8F0">N&#243;mina &#183; Abril 2026</div>
-                <div style="font-size:0.58rem;color:#FBBF24;background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);border-radius:5px;padding:3px 7px">En preparaci&#243;n</div>
-                <div class="dash-btn-xs" style="margin-left:auto">Procesar &#8594;</div>
-              </div>
-              <table class="dash-table">
-                <thead><tr><th>Empleado</th><th>Salario</th><th>TSS</th><th>ISR</th><th>Neto</th></tr></thead>
-                <tbody>
-                  <tr>
-                    <td>Juan Mart&#237;nez</td><td>$45,000</td>
-                    <td><span style="color:#F87171">-$3,825</span></td>
-                    <td><span style="color:#F87171">-$2,100</span></td>
-                    <td><span style="color:#4ADE80">$39,075</span></td>
-                  </tr>
-                  <tr>
-                    <td>Ana P&#233;rez</td><td>$32,000</td>
-                    <td><span style="color:#F87171">-$2,720</span></td>
-                    <td><span style="color:#F87171">-$980</span></td>
-                    <td><span style="color:#4ADE80">$28,300</span></td>
-                  </tr>
-                  <tr>
-                    <td>Mar&#237;a L&#243;pez</td><td>$38,500</td>
-                    <td><span style="color:#F87171">-$3,272</span></td>
-                    <td><span style="color:#F87171">-$1,540</span></td>
-                    <td><span style="color:#4ADE80">$33,688</span></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div class="nomina-foot">
-                <span>12 empleados incluidos</span>
-                <span class="nomina-total">Total neto: $284,400</span>
-              </div>
-            </div>
-
-            <!-- Screen 3: Asistencia -->
-            <div class="dash-screen" id="dscreen-3">
-              <div style="font-size:0.65rem;font-weight:700;color:#E2E8F0;margin-bottom:8px">Hoy &#183; Viernes 4 Abril 2026</div>
-              <div class="dash-mini-stats">
-                <div class="mini-stat"><div class="mini-stat-v g">38</div><div class="mini-stat-l">Presentes</div></div>
-                <div class="mini-stat"><div class="mini-stat-v r">3</div><div class="mini-stat-l">Ausentes</div></div>
-                <div class="mini-stat"><div class="mini-stat-v a">5</div><div class="mini-stat-l">Tardanzas</div></div>
-                <div class="mini-stat"><div class="mini-stat-v" style="font-size:.85rem">96%</div><div class="mini-stat-l">Asistencia</div></div>
-              </div>
-              <div class="att-row">
-                <div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6)">JM</div>
-                <div class="list-info"><div class="list-name">Juan Mart&#237;nez</div></div>
-                <div class="att-time">08:02</div>
-                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
-                <div class="att-time out">&#8212;</div>
-                <div class="list-badge badge-green">Presente</div>
-              </div>
-              <div class="att-row">
-                <div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669)">ML</div>
-                <div class="list-info"><div class="list-name">Mar&#237;a L&#243;pez</div></div>
-                <div class="att-time">08:47</div>
-                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
-                <div class="att-time out">&#8212;</div>
-                <div class="list-badge badge-amber">Tardanza</div>
-              </div>
-              <div class="att-row">
-                <div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444)">CR</div>
-                <div class="list-info"><div class="list-name">Carlos Reyes</div></div>
-                <div class="att-time" style="color:#4B5E8A">&#8212;</div>
-                <span style="font-size:0.55rem;color:#4B5E8A">&#8594;</span>
-                <div class="att-time out" style="color:#4B5E8A">&#8212;</div>
-                <div class="list-badge" style="background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.2)">Ausente</div>
-              </div>
-            </div>
-
-            <!-- Screen 4: Vacaciones -->
-            <div class="dash-screen" id="dscreen-4">
-              <div class="dash-toolbar">
-                <div style="font-size:0.67rem;font-weight:700;color:#E2E8F0">Solicitudes de vacaciones</div>
-                <div class="list-badge badge-amber" style="font-size:0.58rem">3 pendientes</div>
-              </div>
-              <div class="vac-row">
-                <div class="av-sm" style="background:linear-gradient(135deg,#6366F1,#8B5CF6);width:26px;height:26px;border-radius:7px">CG</div>
-                <div class="vac-info">
-                  <div class="vac-name">Carlos Garc&#237;a &#183; 7 d&#237;as</div>
-                  <div class="vac-dates">15 Abr &#8212; 22 Abr 2026</div>
-                </div>
-                <div class="list-badge badge-amber">Pendiente</div>
-              </div>
-              <div class="vac-row">
-                <div class="av-sm" style="background:linear-gradient(135deg,#10B981,#059669);width:26px;height:26px;border-radius:7px">LS</div>
-                <div class="vac-info">
-                  <div class="vac-name">Laura Soto &#183; 5 d&#237;as</div>
-                  <div class="vac-dates">1 May &#8212; 5 May 2026</div>
-                </div>
-                <div class="list-badge badge-green">Aprobada &#10003;</div>
-              </div>
-              <div class="vac-row">
-                <div class="av-sm" style="background:linear-gradient(135deg,#F59E0B,#EF4444);width:26px;height:26px;border-radius:7px">PR</div>
-                <div class="vac-info">
-                  <div class="vac-name">Pedro Ruiz &#183; 1 d&#237;a</div>
-                  <div class="vac-dates">10 Abr 2026</div>
-                </div>
-                <div class="list-badge" style="background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.2)">Rechazada</div>
-              </div>
-              <div style="font-size:0.57rem;color:#4B5E8A;margin-top:7px">Promedio disponible: 11.4 d&#237;as por empleado</div>
-            </div>
-
-          </div><!-- /dash-screens -->
-
-          <!-- Navigation dots -->
-          <div class="dash-nav">
-            <div class="dash-dot active" onclick="goToScreen(0)"></div>
-            <div class="dash-dot" onclick="goToScreen(1)"></div>
-            <div class="dash-dot" onclick="goToScreen(2)"></div>
-            <div class="dash-dot" onclick="goToScreen(3)"></div>
-            <div class="dash-dot" onclick="goToScreen(4)"></div>
-          </div>
-
-        </div><!-- /dash-body -->
-      </div>
-      <div class="float-badge">
-        <div class="float-badge-icon">&#128274;</div>
-        <div class="float-badge-text">Datos encriptados<br/><span>Cumple Ley 172-13</span></div>
-      </div>
-    </div>
-
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#modulos" onclick="closeMenu()"><span data-es>Módulos</span><span data-en>Modules</span></a>
+  <a href="#como-funciona" onclick="closeMenu()"><span data-es>Cómo funciona</span><span data-en>How it works</span></a>
+  <a href="#precios" onclick="closeMenu()"><span data-es>Precios</span><span data-en>Pricing</span></a>
+  <a href="/flotilla/" onclick="closeMenu()">Portal Fleet</a>
+  <a href="#contacto" class="mobile-cta" onclick="closeMenu()"><span data-es>Solicitar demo</span><span data-en>Request demo</span></a>
+  <div class="mobile-lang">
+    <button class="ml-es" onclick="setLang('es')">🇩🇴 Español</button>
+    <button class="ml-en" onclick="setLang('en')">🇺🇸 English</button>
   </div>
-</section>
-
-<!-- &#9472;&#9472; TRUST BAR &#9472;&#9472; -->
-<div class="trust-bar">
-  <div class="trust-pill"><span class="trust-pill-icon">&#128272;</span>Cifrado TLS 1.3 <span class="check">&#10003;</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">&#127465;&#127476;</span>Ley 172-13 Privacidad <span class="check">&#10003;</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">&#9729;&#65039;</span>Hospedado en la nube <span class="check">&#10003;</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">&#128190;</span>Respaldo autom&#225;tico diario <span class="check">&#10003;</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">&#128737;&#65039;</span>Acceso por roles y permisos <span class="check">&#10003;</span></div>
-  <div class="trust-pill"><span class="trust-pill-icon">&#9889;</span>99.9% disponibilidad <span class="check">&#10003;</span></div>
 </div>
 
-<!-- &#9472;&#9472; STATS &#9472;&#9472; -->
-<section class="stats-section">
-  <div class="stats-inner">
-    <div class="stats-label">Portal RH en n&#250;meros</div>
-    <h2 class="stats-title">Una plataforma en la que las<br/><span class="grad">empresas dominicanas conf&#237;an</span></h2>
-    <div class="stats-grid">
-      <div class="stat-box">
-        <div class="stat-box-value">12<span class="unit">+</span></div>
-        <div class="stat-box-label">M&#243;dulos integrados</div>
+<!-- ══ HERO ══════════════════════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-brand-lockup">
+      <svg width="52" height="61" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z" fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
+        <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
+        <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
+        <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+        <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
+        <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+      </svg>
+      <div class="hero-brand-text">
+        <span class="hero-brand-name">Portal <em>RH</em></span>
+        <span class="hero-brand-tag"><span data-es>Sistema de RH en la nube</span><span data-en>Cloud HR System</span></span>
       </div>
-      <div class="stat-box">
-        <div class="stat-box-value">100<span class="unit">%</span></div>
-        <div class="stat-box-label">En la nube &#183; Sin instalaci&#243;n</div>
+    </div>
+    <h1>
+      <span data-es>Toda la gestión de tu gente <span>en un solo lugar</span></span>
+      <span data-en>All your people management <span>in one place</span></span>
+    </h1>
+    <p>
+      <span data-es>Portal RH centraliza asistencia, vacaciones, capacitación, desempeño y nómina en una plataforma moderna. Menos papeleo, más tiempo para lo que importa.</span>
+      <span data-en>Portal RH centralizes attendance, vacations, training, performance and payroll in a modern platform. Less paperwork, more time for what matters.</span>
+    </p>
+    <div class="hero-cta">
+      <a href="#contacto" class="btn-primary"><span data-es>Solicitar demo gratuita</span><span data-en>Request free demo</span></a>
+      <a href="#modulos" class="btn-secondary"><span data-es>Ver módulos →</span><span data-en>See modules →</span></a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-dashboard">
+      <div class="dash-header">
+        <div class="dash-dots">
+          <div class="dot r"></div><div class="dot y"></div><div class="dot g"></div>
+        </div>
+        <span class="dash-title">Dashboard — Portal RH</span>
       </div>
-      <div class="stat-box">
-        <div class="stat-box-value">24<span class="unit">h</span></div>
-        <div class="stat-box-label">Soporte t&#233;cnico disponible</div>
+      <div class="dash-stats">
+        <div class="stat-card">
+          <div class="stat-label"><span data-es>Empleados</span><span data-en>Employees</span></div>
+          <div class="stat-value">142</div>
+          <div class="stat-sub stat-up"><span data-es>↑ +8 este mes</span><span data-en>↑ +8 this month</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label"><span data-es>Asistencia hoy</span><span data-en>Today's attendance</span></div>
+          <div class="stat-value">96%</div>
+          <div class="stat-sub"><span data-es>136 presentes</span><span data-en>136 present</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label"><span data-es>Pendientes</span><span data-en>Pending</span></div>
+          <div class="stat-value">7</div>
+          <div class="stat-sub"><span data-es>vacaciones / permisos</span><span data-en>vacation / leaves</span></div>
+        </div>
       </div>
-      <div class="stat-box">
-        <div class="stat-box-value">0<span class="unit">$</span></div>
-        <div class="stat-box-label">Costo de implementaci&#243;n</div>
+      <div class="dash-chart">
+        <div class="chart-label"><span data-es>Asistencia semanal</span><span data-en>Weekly attendance</span></div>
+        <div class="bars">
+          <div class="bar" style="height:70%"></div>
+          <div class="bar" style="height:85%"></div>
+          <div class="bar" style="height:78%"></div>
+          <div class="bar" style="height:92%"></div>
+          <div class="bar active" style="height:96%"></div>
+        </div>
+      </div>
+      <div class="dash-list">
+        <div class="list-item">
+          <div class="list-avatar" style="background:#3B82F6">JM</div>
+          <div class="list-info">
+            <div class="list-name">Juan Martínez</div>
+            <div class="list-role"><span data-es>Gerente de Ventas</span><span data-en>Sales Manager</span></div>
+          </div>
+          <span class="list-badge badge-green"><span data-es>Presente</span><span data-en>Present</span></span>
+        </div>
+        <div class="list-item">
+          <div class="list-avatar" style="background:#8B5CF6">AP</div>
+          <div class="list-info">
+            <div class="list-name">Ana Pérez</div>
+            <div class="list-role"><span data-es>Recursos Humanos</span><span data-en>Human Resources</span></div>
+          </div>
+          <span class="list-badge badge-blue"><span data-es>Remoto</span><span data-en>Remote</span></span>
+        </div>
+        <div class="list-item">
+          <div class="list-avatar" style="background:#F59E0B">CR</div>
+          <div class="list-info">
+            <div class="list-name">Carlos Rodríguez</div>
+            <div class="list-role"><span data-es>Contabilidad</span><span data-en>Accounting</span></div>
+          </div>
+          <span class="list-badge badge-amber"><span data-es>Vacaciones</span><span data-en>Vacation</span></span>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- &#9472;&#9472; FEATURES &#9472;&#9472; -->
-<section id="modulos">
-  <div class="section-center">
-    <div class="section-tag">M&#243;dulos</div>
-    <h2 class="section-title">Todo lo que tu equipo de<br/><span>Recursos Humanos necesita</span></h2>
-    <p class="section-sub">Cada m&#243;dulo est&#225; dise&#241;ado para simplificar el trabajo diario de RH &#8212; sin hojas de c&#225;lculo, sin papeles, sin complicaciones.</p>
+<!-- ══ LOGOS BAR ══════════════════════════════════════════════════════════════ -->
+<div class="logos-bar">
+  <p><span data-es>Empresas que confían en Portal RH</span><span data-en>Companies that trust Portal RH</span></p>
+  <div class="logos-row">
+    <div class="client-logo">
+      <svg viewBox="0 0 460 100" width="260" height="56" aria-label="CompuGrama">
+        <polygon points="102,50 78,8 30,8 6,50 30,92 78,92" fill="#29ABE2"/>
+        <polygon points="6,50 30,8 54,50 30,92" fill="#1877B8"/>
+        <polyline points="30,8 54,50 30,92" fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+        <polygon points="102,50 78,8 30,8 6,50 30,92 78,92" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5"/>
+        <polygon points="97,50 75,13 33,13 11,50 33,87 75,87" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+        <path d="M 55,42 A 20,20 0 1,0 55,70" stroke="rgba(255,255,255,0.90)" stroke-width="8" fill="none" stroke-linecap="round"/>
+        <text x="68" y="65" font-size="40" font-weight="900" fill="white" text-anchor="middle" font-family="Arial Rounded MT Bold,Arial Black,Arial,sans-serif">G</text>
+        <text x="116" y="64" font-size="38" font-weight="800" fill="#132050" font-family="Arial,Helvetica,sans-serif">CompuGrama</text>
+      </svg>
+    </div>
+    <div class="client-logo">
+      <svg viewBox="0 0 520 215" width="220" height="91" aria-label="K&amp;M Destinos">
+        <defs>
+          <radialGradient id="globeBg" cx="38%" cy="32%" r="62%"><stop offset="0%" stop-color="#7ec0ee"/><stop offset="45%" stop-color="#2e7fc1"/><stop offset="100%" stop-color="#0d3d6e"/></radialGradient>
+          <radialGradient id="globeHi" cx="28%" cy="22%" r="42%"><stop offset="0%" stop-color="rgba(255,255,255,0.6)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient>
+        </defs>
+        <text x="10" y="48" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="44" fill="#1a1a1a" letter-spacing="2">K&amp;M</text>
+        <text x="6" y="140" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="116" fill="#1c1c1c">Destin</text>
+        <circle cx="393" cy="90" r="50" fill="url(#globeBg)"/>
+        <path d="M372,60 C377,55 384,55 388,59 L392,64 C396,62 401,61 404,65 C408,69 410,74 407,79 C404,84 400,86 397,88 C393,91 391,95 389,99 C387,103 385,107 383,109 C380,104 378,99 376,95 C373,90 371,84 370,78 C369,71 370,65 372,60 Z" fill="#4a9e3f"/>
+        <path d="M386,111 C390,107 395,106 399,110 C403,115 404,121 402,127 C400,133 396,137 392,139 C389,136 387,130 386,124 C385,118 385,114 386,111 Z" fill="#4a9e3f"/>
+        <ellipse cx="393" cy="90" rx="50" ry="14" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
+        <ellipse cx="393" cy="74" rx="44" ry="10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.7"/>
+        <ellipse cx="393" cy="106" rx="44" ry="10" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.7"/>
+        <path d="M393,40 Q413,90 393,140" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+        <path d="M393,40 Q373,90 393,140" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="0.8"/>
+        <circle cx="393" cy="90" r="50" fill="none" stroke="#a0b8cc" stroke-width="1.2"/>
+        <circle cx="393" cy="90" r="50" fill="url(#globeHi)"/>
+        <text x="446" y="140" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="116" fill="#1c1c1c">s</text>
+        <line x1="6" y1="156" x2="514" y2="156" stroke="#bbbfc4" stroke-width="1.3"/>
+        <text x="260" y="182" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="22" fill="#1c1c1c" letter-spacing="9" font-weight="400">CORPORATE EVENTS</text>
+        <text x="260" y="211" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-style="italic" font-size="36" fill="#1c1c1c" letter-spacing="8">DMC</text>
+      </svg>
+    </div>
   </div>
+</div>
+
+<!-- ══ MÓDULOS ═══════════════════════════════════════════════════════════════ -->
+<section id="modulos">
+  <div class="section-tag"><span data-es>Módulos</span><span data-en>Modules</span></div>
+  <h2 class="section-title">
+    <span data-es>Todo lo que tu equipo de <span>RH necesita</span></span>
+    <span data-en>Everything your <span>HR team needs</span></span>
+  </h2>
+  <p class="section-sub">
+    <span data-es>Desde el primer día del empleado hasta su crecimiento dentro de la empresa, Portal RH lo cubre todo.</span>
+    <span data-en>From an employee's first day to their growth within the company, Portal RH covers it all.</span>
+  </p>
+
   <div class="features-grid">
-    <a class="feature-card" href="soluciones.html#gestion-empleados">
-      <div class="feature-icon">&#128101;</div>
-      <h3>Gesti&#243;n de empleados</h3>
-      <p>Expediente digital completo: datos personales, documentos, historial, contratos y accesos desde un solo lugar.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#asistencia">
-      <div class="feature-icon">&#128197;</div>
-      <h3>Control de asistencia</h3>
-      <p>Registra entradas, salidas, ausencias y tardanzas. Genera reportes con un clic. Cumple con la Ley 16-92.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#vacaciones">
-      <div class="feature-icon">&#127796;</div>
-      <h3>Gesti&#243;n de vacaciones</h3>
-      <p>Flujo completo: solicitud, aprobaci&#243;n y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#nomina">
-      <div class="feature-icon">&#128176;</div>
-      <h3>N&#243;mina</h3>
-      <p>C&#225;lculo autom&#225;tico de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#evaluacion">
-      <div class="feature-icon">&#128200;</div>
-      <h3>Evaluaci&#243;n de desempe&#241;o</h3>
-      <p>Evaluaciones 360&#176;, metas y retroalimentaci&#243;n. Identifica talento y toma decisiones con datos.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#capacitacion">
-      <div class="feature-icon">&#127891;</div>
-      <h3>Capacitaci&#243;n</h3>
-      <p>Asigna cursos, rastrea avances y certifica a tu equipo. Todo en la plataforma sin herramientas externas.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#reconocimientos">
-      <div class="feature-icon">&#127942;</div>
-      <h3>Reconocimientos</h3>
-      <p>Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempe&#241;o y m&#225;s.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#reclutamiento">
-      <div class="feature-icon">&#128203;</div>
-      <h3>Vacantes Internas y Externas</h3>
-      <p>Publica vacantes dentro y fuera de tu organizaci&#243;n. Gestiona candidatos y formaliza contrataciones.</p>
-    </a>
-    <a class="feature-card" href="soluciones.html#gestion-empleados">
-      <div class="feature-icon">&#128241;</div>
-      <h3>Portal del empleado</h3>
-      <p>Cada colaborador tiene su propio acceso para ver recibos, solicitar vacaciones y actualizar sus datos.</p>
-    </a>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#EFF6FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <h3><span data-es>Gestión de Empleados</span><span data-en>Employee Management</span></h3>
+      <p><span data-es>Expedientes digitales completos, historial, documentos, foto y organigrama interactivo. Todo en un solo perfil.</span><span data-en>Complete digital records, history, documents, photo and interactive org chart. All in one profile.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0FFF4">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3><span data-es>Control de Asistencia</span><span data-en>Attendance Tracking</span></h3>
+      <p><span data-es>Registro de entradas y salidas, tardanzas, ausencias y reportes exportables por período o departamento.</span><span data-en>Track check-ins and check-outs, tardiness, absences and exportable reports by period or department.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF7ED">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#EA580C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+      </div>
+      <h3><span data-es>Vacaciones y Permisos</span><span data-en>Vacations & Leave</span></h3>
+      <p><span data-es>Los empleados solicitan desde su portal, los supervisores aprueban con un clic. Balance actualizado en tiempo real.</span><span data-en>Employees request from their portal, supervisors approve with one click. Balance updated in real time.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F5F3FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      </div>
+      <h3><span data-es>Capacitación (LMS)</span><span data-en>Training (LMS)</span></h3>
+      <p><span data-es>Crea cursos, asigna por departamento, evalúa con quizzes y genera certificados de completación automáticos.</span><span data-en>Create courses, assign by department, evaluate with quizzes and auto-generate completion certificates.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FFF1F2">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#E11D48" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </div>
+      <h3><span data-es>Evaluación de Desempeño</span><span data-en>Performance Reviews</span></h3>
+      <p><span data-es>Ciclos de evaluación 360°, metas por empleado, historial de revisiones y planes de mejora.</span><span data-en>360° review cycles, per-employee goals, review history and improvement plans.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0F9FF">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0284C7" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      </div>
+      <h3><span data-es>Préstamos y Beneficios</span><span data-en>Loans & Benefits</span></h3>
+      <p><span data-es>Gestión de préstamos con plan de descuento, seguimiento de cuotas y registro de beneficios por empleado.</span><span data-en>Loan management with discount plan, installment tracking and per-employee benefit records.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#FEFCE8">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#CA8A04" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </div>
+      <h3><span data-es>Comunicaciones</span><span data-en>Communications</span></h3>
+      <p><span data-es>Notificaciones internas, anuncios por empresa y directorio de empleados accesible desde el portal.</span><span data-en>Internal notifications, company announcements and employee directory accessible from the portal.</span></p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon" style="background:#F0FFF4">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <h3><span data-es>Reportes y Analytics</span><span data-en>Reports & Analytics</span></h3>
+      <p><span data-es>Exporta datos a Excel, visualiza tendencias de asistencia, rotación, capacitación y más con un clic.</span><span data-en>Export data to Excel, visualize attendance, turnover, training trends and more with one click.</span></p>
+    </div>
   </div>
 </section>
 
-<!-- &#9472;&#9472; HOW IT WORKS &#9472;&#9472; -->
+<!-- ══ CÓMO FUNCIONA ══════════════════════════════════════════════════════════ -->
 <section id="como-funciona">
-  <div class="section-center">
-    <div class="section-tag">C&#243;mo funciona</div>
-    <h2 class="section-title" style="color:#fff">En marcha en <span>menos de un d&#237;a</span></h2>
-    <p class="section-sub">Sin servidores, sin instalaciones, sin IT. Solo acceso inmediato desde cualquier dispositivo.</p>
-  </div>
+  <div class="section-tag"><span data-es>Proceso</span><span data-en>Process</span></div>
+  <h2 class="section-title">
+    <span data-es>Empieza a usar Portal RH <span>en días, no meses</span></span>
+    <span data-en>Start using Portal RH <span>in days, not months</span></span>
+  </h2>
+  <p class="section-sub">
+    <span data-es>Sin instalaciones complicadas, sin servidores que mantener. Todo en la nube y listo para operar.</span>
+    <span data-en>No complicated installations, no servers to maintain. Everything in the cloud and ready to go.</span>
+  </p>
+
   <div class="steps">
     <div class="step">
       <div class="step-num">1</div>
-      <h3>Creamos tu cuenta</h3>
-      <p>Configuramos tu empresa con tu logo, colores y accesos en minutos. Sin formularios complicados.</p>
+      <h3><span data-es>Contrata tu plan</span><span data-en>Choose your plan</span></h3>
+      <p><span data-es>Elige el plan que se ajusta al tamaño de tu empresa. Sin contratos largos ni costos ocultos.</span><span data-en>Pick the plan that fits your company size. No long contracts or hidden fees.</span></p>
     </div>
     <div class="step">
       <div class="step-num">2</div>
-      <h3>Importas tus empleados</h3>
-      <p>Sube tu lista de empleados desde Excel o reg&#237;stralos uno a uno. Nosotros te guiamos.</p>
+      <h3><span data-es>Configuramos tu empresa</span><span data-en>We set up your company</span></h3>
+      <p><span data-es>Te creamos un subdominio exclusivo y configuramos tus departamentos, políticas y perfiles en 24-48 horas.</span><span data-en>We create your exclusive subdomain and configure your departments, policies and profiles in 24-48 hours.</span></p>
     </div>
     <div class="step">
       <div class="step-num">3</div>
-      <h3>Tu equipo accede</h3>
-      <p>Cada empleado recibe sus credenciales y puede acceder desde cualquier dispositivo de inmediato.</p>
+      <h3><span data-es>Importamos tus empleados</span><span data-en>We import your employees</span></h3>
+      <p><span data-es>Subimos tu plantilla de Excel o CSV y tus empleados tienen acceso desde el primer día.</span><span data-en>We upload your Excel or CSV template and your employees have access from day one.</span></p>
     </div>
     <div class="step">
       <div class="step-num">4</div>
-      <h3>T&#250; tienes el control</h3>
-      <p>Dashboard en tiempo real, reportes autom&#225;ticos y alertas. Todo lo que necesitas en un solo lugar.</p>
+      <h3><span data-es>Empieza a operar</span><span data-en>Start operating</span></h3>
+      <p><span data-es>Tu equipo inicia sesión desde cualquier dispositivo. Nosotros nos encargamos de las actualizaciones y soporte.</span><span data-en>Your team logs in from any device. We handle updates and support.</span></p>
     </div>
   </div>
 </section>
 
-<!-- &#9472;&#9472; SECURITY &#9472;&#9472; -->
-<section class="security-section">
-  <div class="security-inner">
-    <div class="security-visual">
-      <div class="sec-title">&#128274; Seguridad de nivel empresarial</div>
-      <div class="sec-items">
-        <div class="sec-item">
-          <div class="sec-item-icon">&#128272;</div>
-          <div class="sec-item-text">
-            <div class="sec-item-title">Cifrado de extremo a extremo</div>
-            <div class="sec-item-desc">TLS 1.3 en tr&#225;nsito &#183; AES-256 en reposo</div>
+<!-- ══ BENEFICIOS ═════════════════════════════════════════════════════════════ -->
+<section id="beneficios">
+  <div class="benefits-grid">
+    <div>
+      <div class="section-tag"><span data-es>Beneficios</span><span data-en>Benefits</span></div>
+      <h2 class="section-title">
+        <span data-es>¿Por qué elegir <span>Portal RH</span>?</span>
+        <span data-en>Why choose <span>Portal RH</span>?</span>
+      </h2>
+      <div class="benefits-list">
+        <div class="benefit-item">
+          <div class="benefit-check">✓</div>
+          <div>
+            <h4><span data-es>Portal propio para tu empresa</span><span data-en>Your own company portal</span></h4>
+            <p><span data-es>Tu empresa tiene su propio subdominio exclusivo. Tus empleados ven solo lo tuyo, con tu identidad.</span><span data-en>Your company has its own exclusive subdomain. Your employees see only your content, with your branding.</span></p>
           </div>
-          <div class="sec-item-check">&#10003;</div>
         </div>
-        <div class="sec-item">
-          <div class="sec-item-icon">&#127465;&#127476;</div>
-          <div class="sec-item-text">
-            <div class="sec-item-title">Cumplimiento Ley 172-13</div>
-            <div class="sec-item-desc">Ley de Protecci&#243;n de Datos Personales de RD</div>
+        <div class="benefit-item">
+          <div class="benefit-check">✓</div>
+          <div>
+            <h4><span data-es>Acceso desde cualquier dispositivo</span><span data-en>Access from any device</span></h4>
+            <p><span data-es>Web, móvil o tablet. Los empleados pueden consultar sus vacaciones, cursos y recibos desde donde estén.</span><span data-en>Web, mobile or tablet. Employees can check their vacations, courses and pay stubs from anywhere.</span></p>
           </div>
-          <div class="sec-item-check">&#10003;</div>
         </div>
-        <div class="sec-item">
-          <div class="sec-item-icon">&#128100;</div>
-          <div class="sec-item-text">
-            <div class="sec-item-title">Control de acceso por roles</div>
-            <div class="sec-item-desc">Admin &#183; Gerente &#183; Empleado &#8212; cada uno ve solo lo que le corresponde</div>
+        <div class="benefit-item">
+          <div class="benefit-check">✓</div>
+          <div>
+            <h4><span data-es>Cumplimiento legal local</span><span data-en>Local legal compliance</span></h4>
+            <p><span data-es>Diseñado para las normativas laborales de República Dominicana. Feriados, liquidaciones y más.</span><span data-en>Designed for labor regulations in the Dominican Republic. Holidays, settlements and more.</span></p>
           </div>
-          <div class="sec-item-check">&#10003;</div>
         </div>
-        <div class="sec-item">
-          <div class="sec-item-icon">&#128190;</div>
-          <div class="sec-item-text">
-            <div class="sec-item-title">Respaldo autom&#225;tico diario</div>
-            <div class="sec-item-desc">Copias de seguridad en m&#250;ltiples ubicaciones en la nube</div>
+        <div class="benefit-item">
+          <div class="benefit-check">✓</div>
+          <div>
+            <h4><span data-es>Soporte en español, siempre</span><span data-en>Support in Spanish, always</span></h4>
+            <p><span data-es>Equipo local que responde rápido. Sin chatbots en inglés, sin esperar horas en cola.</span><span data-en>Local team that responds fast. No English chatbots, no waiting hours in a queue.</span></p>
           </div>
-          <div class="sec-item-check">&#10003;</div>
         </div>
-        <div class="sec-item">
-          <div class="sec-item-icon">&#128202;</div>
-          <div class="sec-item-text">
-            <div class="sec-item-title">Registro de auditor&#237;a completo</div>
-            <div class="sec-item-desc">Cada cambio queda registrado: qui&#233;n, cu&#225;ndo y qu&#233; modific&#243;</div>
+        <div class="benefit-item">
+          <div class="benefit-check">✓</div>
+          <div>
+            <h4><span data-es>Precio justo para la región</span><span data-en>Fair pricing for the region</span></h4>
+            <p><span data-es>Sin los costos de plataformas internacionales. Pagado en pesos o dólares según prefieras.</span><span data-en>None of the costs of international platforms. Paid in pesos or dollars as you prefer.</span></p>
           </div>
-          <div class="sec-item-check">&#10003;</div>
         </div>
       </div>
     </div>
-    <div class="security-text">
-      <div class="section-tag">Seguridad & Privacidad</div>
-      <h2>Tus datos de RH<br/><span>siempre protegidos</span></h2>
-      <p>La informaci&#243;n de tus empleados es lo m&#225;s sensible que maneja tu empresa. Construimos Portal RH con seguridad como prioridad, no como a&#241;adido.</p>
-      <div class="security-checks">
-        <div class="sec-check">
-          <div class="sec-check-icon">&#10003;</div>
-          <div>
-            <h4>Datos almacenados en la nube segura</h4>
-            <p>Infraestructura redundante con 99.9% de disponibilidad garantizada.</p>
-          </div>
+
+    <div class="benefits-visual">
+      <h3><span data-es>Resultados que nuestros clientes reportan</span><span data-en>Results our clients report</span></h3>
+      <div class="metrics">
+        <div class="metric">
+          <div class="metric-label"><span data-es>Reducción en tiempo administrativo de RH</span><span data-en>Reduction in HR admin time</span></div>
+          <div class="metric-value">-70%</div>
+          <div class="metric-bar"><div class="metric-fill" style="width:70%"></div></div>
         </div>
-        <div class="sec-check">
-          <div class="sec-check-icon">&#10003;</div>
-          <div>
-            <h4>Sin acceso de terceros a tus datos</h4>
-            <p>Tu informaci&#243;n es tuya. No la vendemos ni la compartimos con nadie.</p>
-          </div>
+        <div class="metric">
+          <div class="metric-label"><span data-es>Empleados que usan el portal activamente</span><span data-en>Employees actively using the portal</span></div>
+          <div class="metric-value">92%</div>
+          <div class="metric-bar"><div class="metric-fill" style="width:92%"></div></div>
         </div>
-        <div class="sec-check">
-          <div class="sec-check-icon">&#10003;</div>
-          <div>
-            <h4>Exporta o elimina tus datos cuando quieras</h4>
-            <p>Control total sobre tu informaci&#243;n en todo momento.</p>
-          </div>
+        <div class="metric">
+          <div class="metric-label"><span data-es>Cursos completados en el primer mes</span><span data-en>Courses completed in the first month</span></div>
+          <div class="metric-value">3.4×</div>
+          <div class="metric-bar"><div class="metric-fill" style="width:80%"></div></div>
+        </div>
+        <div class="metric">
+          <div class="metric-label"><span data-es>Satisfacción del cliente (NPS)</span><span data-en>Customer satisfaction (NPS)</span></div>
+          <div class="metric-value">9.1/10</div>
+          <div class="metric-bar"><div class="metric-fill" style="width:91%"></div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- &#9472;&#9472; PRICING &#9472;&#9472; -->
+<!-- ══ PRECIOS ════════════════════════════════════════════════════════════════ -->
 <section id="precios">
-  <div class="section-center">
-    <div class="section-tag">Precios</div>
-    <h2 class="section-title">Planes para cada<br/><span>tama&#241;o de empresa</span></h2>
-    <p class="section-sub">Sin contratos de un a&#241;o. Sin costos ocultos. Comienza con el plan que necesitas hoy.</p>
+  <div style="text-align:center; max-width:600px; margin:0 auto;">
+    <div class="section-tag"><span data-es>Precios</span><span data-en>Pricing</span></div>
+    <h2 class="section-title">
+      <span data-es>Planes claros, <span>sin sorpresas</span></span>
+      <span data-en>Clear plans, <span>no surprises</span></span>
+    </h2>
+    <p class="section-sub" style="margin:0 auto 3rem;">
+      <span data-es>Todos los planes incluyen onboarding, soporte y actualizaciones. Sin costo de instalación.</span>
+      <span data-en>All plans include onboarding, support and updates. No setup fee.</span>
+    </p>
   </div>
+
   <div class="pricing-grid">
     <div class="pricing-card">
       <h3>Starter</h3>
-      <div class="price-desc-top">Empresas peque&#241;as que arrancan</div>
-      <div class="price">$49<span>/mes</span></div>
-      <div class="price-sub">Hasta 15 empleados &#183; 1 admin</div>
-      <div class="pricing-divider"></div>
+      <div class="price">$49<span><span data-es>/mes</span><span data-en>/mo</span></span></div>
+      <div class="price-desc"><span data-es>Hasta 15 empleados</span><span data-en>Up to 15 employees</span></div>
       <ul class="pricing-features">
-        <li>Gesti&#243;n de empleados</li>
-        <li>Control de asistencia</li>
-        <li>Vacaciones y permisos</li>
-        <li>Portal del empleado</li>
-        <li>Soporte por correo</li>
+        <li><span data-es>Gestión de empleados</span><span data-en>Employee management</span></li>
+        <li><span data-es>Asistencia y vacaciones</span><span data-en>Attendance & vacations</span></li>
+        <li><span data-es>Portal del empleado</span><span data-en>Employee portal</span></li>
+        <li><span data-es>Soporte por email</span><span data-en>Email support</span></li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-outline">Comenzar gratis &#8594;</a>
+      <a href="#contacto" class="btn-plan btn-plan-outline"><span data-es>Comenzar</span><span data-en>Get started</span></a>
     </div>
+
     <div class="pricing-card popular">
-      <div class="popular-badge">&#11088; M&#225;s popular</div>
+      <div class="popular-badge"><span data-es>MÁS POPULAR</span><span data-en>MOST POPULAR</span></div>
       <h3>Business</h3>
-      <div class="price-desc-top">El favorito de las PyMEs</div>
-      <div class="price">$119<span>/mes</span></div>
-      <div class="price-sub">Hasta 50 empleados &#183; 5 admins</div>
-      <div class="pricing-divider"></div>
+      <div class="price">$119<span><span data-es>/mes</span><span data-en>/mo</span></span></div>
+      <div class="price-desc"><span data-es>Hasta 50 empleados</span><span data-en>Up to 50 employees</span></div>
       <ul class="pricing-features">
-        <li>Todo lo del plan Starter</li>
-        <li>N&#243;mina automatizada</li>
-        <li>Evaluaci&#243;n de desempe&#241;o</li>
-        <li>Capacitaci&#243;n y cursos</li>
-        <li>Reclutamiento</li>
-        <li>Reconocimientos</li>
-        <li>Soporte prioritario</li>
+        <li><span data-es>Todo lo del Starter</span><span data-en>Everything in Starter</span></li>
+        <li><span data-es>Capacitación (LMS)</span><span data-en>Training (LMS)</span></li>
+        <li><span data-es>Evaluación de desempeño</span><span data-en>Performance reviews</span></li>
+        <li><span data-es>Reclutamiento</span><span data-en>Recruitment</span></li>
+        <li><span data-es>Reportes avanzados</span><span data-en>Advanced reports</span></li>
+        <li><span data-es>Soporte prioritario</span><span data-en>Priority support</span></li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-primary">Solicitar demo &#8594;</a>
+      <a href="#contacto" class="btn-plan btn-plan-primary"><span data-es>Solicitar demo</span><span data-en>Request demo</span></a>
     </div>
+
     <div class="pricing-card">
       <h3>Pro</h3>
-      <div class="price-desc-top">Para empresas en crecimiento</div>
-      <div class="price">$249<span>/mes</span></div>
-      <div class="price-sub">Hasta 150 empleados &#183; admins ilimitados</div>
-      <div class="pricing-divider"></div>
+      <div class="price">$249<span><span data-es>/mes</span><span data-en>/mo</span></span></div>
+      <div class="price-desc"><span data-es>Hasta 150 empleados</span><span data-en>Up to 150 employees</span></div>
       <ul class="pricing-features">
-        <li>Todo lo del plan Business</li>
-        <li>Organigrama avanzado</li>
-        <li>Reportes personalizados</li>
-        <li>Importaci&#243;n masiva</li>
-        <li>API access</li>
-        <li>Gestor de cuenta dedicado</li>
+        <li><span data-es>Todo lo del Business</span><span data-en>Everything in Business</span></li>
+        <li><span data-es>Préstamos y beneficios</span><span data-en>Loans & benefits</span></li>
+        <li><span data-es>Módulo de flotilla</span><span data-en>Fleet module</span></li>
+        <li><span data-es>Nómina digital</span><span data-en>Digital payroll</span></li>
+        <li><span data-es>API e integraciones</span><span data-en>API & integrations</span></li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-outline">Contactar ventas &#8594;</a>
+      <a href="#contacto" class="btn-plan btn-plan-outline"><span data-es>Contáctanos</span><span data-en>Contact us</span></a>
     </div>
-    <div class="pricing-card">
+
+    <div class="pricing-card" style="border-style:dashed; background:#FAFAFA;">
       <h3>Enterprise</h3>
-      <div class="price-desc-top">Grandes organizaciones</div>
-      <div class="price" style="font-size:1.8rem;letter-spacing:-0.5px">A medida</div>
-      <div class="price-sub">Empleados ilimitados &#183; SLA garantizado</div>
-      <div class="pricing-divider"></div>
+      <div class="price" style="font-size:1.8rem;"><span data-es>A medida</span><span data-en>Custom</span></div>
+      <div class="price-desc"><span data-es>Más de 150 empleados</span><span data-en>More than 150 employees</span></div>
       <ul class="pricing-features">
-        <li>Todo lo del plan Pro</li>
-        <li>Onboarding personalizado</li>
-        <li>Integraci&#243;n con sistemas existentes</li>
-        <li>SLA 99.9% garantizado</li>
-        <li>Capacitaci&#243;n al equipo</li>
-        <li>Soporte 24/7</li>
+        <li><span data-es>Todo lo del Pro</span><span data-en>Everything in Pro</span></li>
+        <li><span data-es>Subdominios múltiples</span><span data-en>Multiple subdomains</span></li>
+        <li><span data-es>SSO / Integración AD</span><span data-en>SSO / AD integration</span></li>
+        <li><span data-es>SLA garantizado</span><span data-en>Guaranteed SLA</span></li>
+        <li><span data-es>Onboarding dedicado</span><span data-en>Dedicated onboarding</span></li>
       </ul>
-      <a href="contacto.html" class="btn-plan btn-plan-outline">Hablar con ventas &#8594;</a>
+      <a href="#contacto" class="btn-plan btn-plan-outline"><span data-es>Hablemos</span><span data-en>Let's talk</span></a>
     </div>
   </div>
 </section>
 
-<!-- &#9472;&#9472; CTA &#9472;&#9472; -->
-<section class="cta-banner">
-  <div class="cta-banner-glow"></div>
-  <div class="cta-banner-inner">
-    <h2>&#191;Listo para modernizar<br/>tu <span class="grad">gesti&#243;n de RH</span>?</h2>
-    <p>&#218;nete a las empresas dominicanas que ya usan Portal RH para gestionar su equipo con tecnolog&#237;a de vanguardia.</p>
-    <div class="cta-group">
-      <a href="contacto.html" class="btn-white">Solicitar demo gratuita</a>
-      <a href="contacto.html" class="btn-outline-white">Hablar con un asesor</a>
-    </div>
+<!-- ══ FLEET BANNER ══════════════════════════════════════════════════════════ -->
+<div class="fleet-banner">
+  <div class="fleet-banner-text">
+    <h3><span data-es>¿También gestionas vehículos o activos?</span><span data-en>Also managing vehicles or assets?</span></h3>
+    <p><span data-es>Conoce Portal Fleet — control de flotilla, mantenimiento y choferes en un solo sistema.</span><span data-en>Meet Portal Fleet — fleet control, maintenance and drivers in one system.</span></p>
   </div>
-</section>
+  <a href="/flotilla/" class="btn-fleet">
+    <span data-es>Ver Portal Fleet →</span><span data-en>See Portal Fleet →</span>
+  </a>
+</div>
 
-<!-- &#9472;&#9472; FOOTER &#9472;&#9472; -->
+<!-- ══ CTA BANNER ══════════════════════════════════════════════════════════════ -->
+<div class="cta-banner" id="contacto">
+  <h2>
+    <span data-es>¿Listo para transformar tu gestión de RH?</span>
+    <span data-en>Ready to transform your HR management?</span>
+  </h2>
+  <p>
+    <span data-es>Agenda una demo de 30 minutos y te mostramos cómo Portal RH se adapta a tu empresa.</span>
+    <span data-en>Schedule a 30-minute demo and we'll show you how Portal RH adapts to your company.</span>
+  </p>
+  <div class="cta-group">
+    <a href="mailto:ventas@portal-hr.com" class="btn-white"><span data-es>Contáctanos ahora</span><span data-en>Contact us now</span></a>
+    <a href="https://wa.me/18094000000" class="btn-outline-white">WhatsApp</a>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════════════════════ -->
 <footer>
-  <div class="footer-inner">
-    <div>
-      <div class="footer-brand">
-        <img src="apple-touch-icon.png" alt="Portal RH" class="footer-brand-icon" />
-        <span>Portal<em>RH</em></span>
-      </div>
-      <p class="footer-desc">Sistema de Recursos Humanos en la nube para empresas dominicanas. Moderno, seguro y f&#225;cil de usar.</p>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="nav-logo" style="margin-bottom:.5rem;">
+        <svg width="30" height="35" viewBox="0 0 36 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z" fill="rgba(255,255,255,0.08)" stroke="#4A9FD4" stroke-width="2.5"/>
+          <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
+          <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
+          <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
+          <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        </svg>
+        <span style="font-size:1.1rem;font-weight:800;color:#fff;">Portal <span style="color:#94A3B8;font-weight:800;">RH</span></span>
+      </a>
+      <p><span data-es>Toda la gestión de tu gente en un solo lugar. Hecho para empresas de República Dominicana y Latinoamérica.</span><span data-en>All your people management in one place. Made for companies in the Dominican Republic and Latin America.</span></p>
+    </div>
+
+    <div class="footer-col">
+      <h4><span data-es>Producto</span><span data-en>Product</span></h4>
+      <a href="#modulos"><span data-es>Módulos</span><span data-en>Modules</span></a>
+      <a href="#precios"><span data-es>Precios</span><span data-en>Pricing</span></a>
+      <a href="#como-funciona"><span data-es>Cómo funciona</span><span data-en>How it works</span></a>
+      <a href="/flotilla/">Portal Fleet</a>
     </div>
     <div class="footer-col">
-      <h4>Producto</h4>
-      <a href="#modulos">M&#243;dulos</a>
-      <a href="#como-funciona">C&#243;mo funciona</a>
-      <a href="soluciones.html">Soluciones</a>
-      <a href="#precios">Precios</a>
-      <a href="contacto.html">Demo gratuita</a>
+      <h4><span data-es>Empresa</span><span data-en>Company</span></h4>
+      <a href="#"><span data-es>Sobre nosotros</span><span data-en>About us</span></a>
+      <a href="#">Blog</a>
+      <a href="#contacto"><span data-es>Contacto</span><span data-en>Contact</span></a>
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
-      <a href="privacidad.html">Privacidad</a>
-      <a href="terminos.html">T&#233;rminos de uso</a>
-      <a href="seguridad.html">Seguridad</a>
-    </div>
-    <div class="footer-col">
-      <h4>Contacto</h4>
-      <a href="contacto.html">Solicitar demo</a>
-      <a href="mailto:hola@portal-hr.com">hola@portal-hr.com</a>
-      <a href="https://wa.me/18094567890">WhatsApp</a>
+      <a href="#"><span data-es>Términos de uso</span><span data-en>Terms of use</span></a>
+      <a href="#"><span data-es>Privacidad</span><span data-en>Privacy</span></a>
+      <a href="#"><span data-es>Seguridad</span><span data-en>Security</span></a>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&#169; 2026 Portal RH. Todos los derechos reservados. Hecho en Rep&#250;blica Dominicana &#127465;&#127476;</p>
-    <div class="footer-badges">
-      <div class="footer-badge">&#128274; SSL</div>
-      <div class="footer-badge">&#127465;&#127476; Ley 172-13</div>
-      <div class="footer-badge">&#9729;&#65039; 99.9% uptime</div>
-    </div>
+    <p>© 2025 Portal RH · portal-hr.com · <span data-es>Todos los derechos reservados</span><span data-en>All rights reserved</span></p>
+    <p><span data-es>Hecho con ❤️ en República Dominicana</span><span data-en>Made with ❤️ in the Dominican Republic</span></p>
   </div>
 </footer>
 
-
 <script>
-(function(){
-  var total = 5;
-  var tabSets = [
-    ['Dashboard','Empleados','N\u00f3mina'],
-    ['Empleados','Asistencia','Vacaciones'],
-    ['N\u00f3mina','Historial','Reportes'],
-    ['Asistencia','Justificaciones','Reportes'],
-    ['Vacaciones','Permisos','Calendario']
-  ];
-  var cur = 0;
-  var timer;
-
-  function go(n){
-    document.getElementById('dscreen-'+cur).classList.remove('active');
-    document.querySelectorAll('.dash-dot')[cur].classList.remove('active');
-    cur = ((n % total) + total) % total;
-    document.getElementById('dscreen-'+cur).classList.add('active');
-    document.querySelectorAll('.dash-dot')[cur].classList.add('active');
-    var tabs = document.querySelectorAll('.dash-tab');
-    tabSets[cur].forEach(function(lbl,i){ if(tabs[i]) tabs[i].textContent = lbl; });
-    tabs.forEach(function(t,i){ t.classList.toggle('active', i===0); });
-    clearInterval(timer);
-    timer = setInterval(function(){ go(cur+1); }, 4500);
+  // ── Language toggle ──────────────────────────────────────────────────────
+  function setLang(lang) {
+    if (lang === 'en') {
+      document.body.classList.add('lang-en');
+      document.getElementById('langBtn').textContent = 'ES';
+    } else {
+      document.body.classList.remove('lang-en');
+      document.getElementById('langBtn').textContent = 'EN';
+    }
+    localStorage.setItem('prh_lang', lang);
   }
 
-  window.goToScreen = go;
-  timer = setInterval(function(){ go(1); }, 4500);
-})();
+  function toggleLang() {
+    const isEn = document.body.classList.contains('lang-en');
+    setLang(isEn ? 'es' : 'en');
+  }
+
+  // ── Mobile menu ──────────────────────────────────────────────────────────
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('hamburger');
+    menu.classList.toggle('open');
+    burger.classList.toggle('open');
+    document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+  }
+
+  function closeMenu() {
+    const menu = document.getElementById('mobileMenu');
+    const burger = document.getElementById('hamburger');
+    menu.classList.remove('open');
+    burger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Close menu on scroll
+  window.addEventListener('scroll', function() {
+    const menu = document.getElementById('mobileMenu');
+    if (menu.classList.contains('open')) closeMenu();
+  }, { passive: true });
+
+  // ── Init ─────────────────────────────────────────────────────────────────
+  (function() {
+    const saved = localStorage.getItem('prh_lang');
+    if (saved === 'en') setLang('en');
+  })();
+
+  // ── PWA ──────────────────────────────────────────────────────────────────
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/sw.js');
+    });
+  }
 </script>
+
 </body>
 </html>
