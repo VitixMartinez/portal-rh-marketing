@@ -1651,5 +1651,46 @@
   timer = setInterval(function(){ go(1); }, 4500);
 })();
 </script>
+
+<!-- ── COOKIE BANNER ── -->
+<style>
+#cookie-banner {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 9999;
+  background: #1E293B; color: #CBD5E1;
+  padding: 1rem 2rem;
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.5rem; flex-wrap: wrap;
+  font-family: 'Inter', sans-serif; font-size: 0.875rem;
+  box-shadow: 0 -2px 16px rgba(0,0,0,0.25);
+  transform: translateY(100%);
+  transition: transform 0.4s ease;
+}
+#cookie-banner.visible { transform: translateY(0); }
+#cookie-banner a { color: #818CF8; text-decoration: underline; }
+#cookie-banner-accept {
+  background: #4F46E5; color: #fff; border: none;
+  padding: 0.5rem 1.4rem; border-radius: 6px;
+  font-size: 0.875rem; font-weight: 600; cursor: pointer;
+  white-space: nowrap; transition: background .2s;
+}
+#cookie-banner-accept:hover { background: #4338CA; }
+</style>
+<div id="cookie-banner" role="dialog" aria-label="Aviso de cookies">
+  <span>🍪 Usamos cookies para mejorar tu experiencia y analizar el tráfico. Al continuar navegando, aceptas nuestra <a href="/privacidad" target="_blank">Política de Privacidad</a>.</span>
+  <button id="cookie-banner-accept">Aceptar</button>
+</div>
+<script>
+(function(){
+  if (!localStorage.getItem('cookiesAccepted')) {
+    setTimeout(function(){
+      document.getElementById('cookie-banner').classList.add('visible');
+    }, 1200);
+  }
+  document.getElementById('cookie-banner-accept').addEventListener('click', function(){
+    localStorage.setItem('cookiesAccepted', '1');
+    document.getElementById('cookie-banner').style.transform = 'translateY(100%)';
+  });
+})();
+</script>
 </body>
 </html>
