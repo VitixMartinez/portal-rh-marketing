@@ -240,6 +240,7 @@
     .check-cell { color: var(--green); font-size: 18px; }
     .x-cell { color: var(--bg3); font-size: 18px; }
     .price-us { color: var(--green); font-weight: 700; }
+    .price-unit { display: block; font-size: 11px; color: var(--muted); font-weight: 400; }
     .compare-note { font-size: 12px; color: var(--subtle); padding: 12px 20px; border-top: 1px solid rgba(51,65,85,0.4); }
 
     /* ── CTA FINAL ── */
@@ -1399,12 +1400,12 @@
       </thead>
       <tbody>
         <tr>
-          <td data-es>Precio por vehículo/mes</td>
-          <td data-en>Price per vehicle/month</td>
-          <td class="price-us">Desde $12</td>
-          <td>$33–$60</td>
-          <td>$4–$10*</td>
-          <td>$40–$60</td>
+          <td data-es>Precio mensual</td>
+          <td data-en>Monthly price</td>
+          <td class="price-us">Desde $49</td>
+          <td>$33–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
+          <td>$4–$10*<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
+          <td>$40–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
         </tr>
         <tr>
           <td data-es>Sin contrato anual obligatorio</td>
@@ -1433,8 +1434,8 @@
         </tr>
       </tbody>
     </table>
-    <div class="compare-note" data-es>* Fleetio cobra por funciones adicionales y tiene mínimo de 5 vehículos.</div>
-    <div class="compare-note" data-en>* Fleetio charges extra for add-ons and requires a 5-vehicle minimum.</div>
+    <div class="compare-note" data-es>Portal Fleet: precio fijo por plan para toda tu flota, no por vehículo. * Fleetio cobra por funciones adicionales y tiene mínimo de 5 vehículos.</div>
+    <div class="compare-note" data-en>Portal Fleet: flat plan price for your whole fleet, not per vehicle. * Fleetio charges extra for add-ons and requires a 5-vehicle minimum.</div>
   </div>
 </section>
 
