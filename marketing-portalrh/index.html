@@ -1185,24 +1185,40 @@
     font-size: 12px; margin-top: 1px;
   }
   .fleet-price-box {
-    display: flex; align-items: center; gap: 16px;
     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    padding: 14px 20px; border-radius: 14px;
+    padding: 16px 18px; border-radius: 14px;
     margin-bottom: 1.75rem;
   }
-  .fleet-price-num {
-    font-size: 2rem; font-weight: 900; color: #fff;
-    font-family: 'Inter', system-ui, sans-serif; line-height: 1;
-  }
-  .fleet-price-unit {
-    font-size: 0.78rem; color: #67e8f9; line-height: 1.4;
+  .fleet-price-label {
+    font-size: 0.7rem; font-weight: 700; color: #67e8f9;
+    text-transform: uppercase; letter-spacing: 1px;
+    margin-bottom: 10px;
     font-family: 'Inter', system-ui, sans-serif;
   }
-  .fleet-price-sep {
-    width: 1px; height: 36px; background: rgba(255,255,255,0.1);
+  .fleet-price-tiers {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 8px; margin-bottom: 8px;
   }
-  .fleet-price-info {
-    font-size: 0.78rem; color: #94A3B8; line-height: 1.5;
+  .fleet-tier {
+    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 10px; padding: 10px 10px 8px;
+    text-align: center; transition: border-color .2s;
+  }
+  .fleet-tier:hover { border-color: rgba(103,232,249,0.3); }
+  .fleet-tier-price {
+    font-size: 1.35rem; font-weight: 900; color: #fff; line-height: 1;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-tier-unit {
+    font-size: 0.6rem; color: #94A3B8; margin-top: 1px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-tier-limit {
+    font-size: 0.62rem; color: #67e8f9; font-weight: 600; margin-top: 5px;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  .fleet-price-note {
+    font-size: 0.72rem; color: #475569;
     font-family: 'Inter', system-ui, sans-serif;
   }
   .fleet-cta-row {
@@ -1344,15 +1360,25 @@
         </li>
       </ul>
       <div class="fleet-price-box">
-        <div>
-          <div class="fleet-price-num">$12</div>
-          <div class="fleet-price-unit">por veh&#237;culo / mes</div>
+        <div class="fleet-price-label">&#128664; Planes mensuales seg&#250;n tama&#241;o de flota</div>
+        <div class="fleet-price-tiers">
+          <div class="fleet-tier">
+            <div class="fleet-tier-price">$49</div>
+            <div class="fleet-tier-unit">/mes</div>
+            <div class="fleet-tier-limit">Hasta 10 activos</div>
+          </div>
+          <div class="fleet-tier">
+            <div class="fleet-tier-price">$89</div>
+            <div class="fleet-tier-unit">/mes</div>
+            <div class="fleet-tier-limit">Hasta 25 activos</div>
+          </div>
+          <div class="fleet-tier">
+            <div class="fleet-tier-price">$149</div>
+            <div class="fleet-tier-unit">/mes</div>
+            <div class="fleet-tier-limit">Hasta 50 activos</div>
+          </div>
         </div>
-        <div class="fleet-price-sep"></div>
-        <div class="fleet-price-info">
-          Plan Pro desde <strong style="color:#fff">$19</strong> &middot; hasta 50 activos<br/>
-          Empresas grandes: precio a medida
-        </div>
+        <div class="fleet-price-note">M&#225;s de 50 activos: precio a medida &#183; Sin contratos anuales</div>
       </div>
       <div class="fleet-cta-row">
         <a href="/flotilla" class="btn-fleet">Ver Portal Fleet &#8594;</a>
