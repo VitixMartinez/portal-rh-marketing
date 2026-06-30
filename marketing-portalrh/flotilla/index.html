@@ -217,6 +217,37 @@
       background: var(--blue-dark); color: white;
       box-shadow: 0 4px 20px rgba(37,99,235,0.3);
     }
+    /* Implementation fee badges */
+    .impl-badge {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 12px; font-weight: 500; line-height: 1.45;
+      padding: 10px 12px; border-radius: 10px; margin-bottom: 20px;
+    }
+    .impl-badge-icon { flex-shrink: 0; font-size: 14px; margin-top: 1px; }
+    .impl-badge strong { display: block; font-weight: 700; margin-bottom: 1px; font-size: 12.5px; }
+    .impl-standalone {
+      background: rgba(99,102,241,0.1); border: 1px solid rgba(99,102,241,0.25);
+      color: #a5b4fc;
+    }
+    .impl-bundled {
+      background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2);
+      color: #6ee7b7;
+    }
+    /* 50+ note card */
+    .plan-custom-note {
+      text-align: center; padding: 28px 24px;
+      background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.1);
+      border-radius: 18px; margin-top: 20px;
+    }
+    .plan-custom-note h4 { font-size: 16px; font-weight: 700; color: #e2e8f0; margin-bottom: 6px; }
+    .plan-custom-note p { font-size: 13px; color: #64748b; margin-bottom: 16px; }
+    .plan-custom-note a {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 14px; font-weight: 600; color: #60a5fa;
+      text-decoration: none; border: 1px solid rgba(96,165,250,0.3);
+      padding: 8px 20px; border-radius: 8px; transition: all .2s;
+    }
+    .plan-custom-note a:hover { background: rgba(96,165,250,0.1); border-color: rgba(96,165,250,0.5); }
     .btn-plan-blue:hover { background: var(--blue); }
 
     /* ── COMPARE ── */
@@ -1296,8 +1327,15 @@
           <div class="plan-price-per" data-es>/ mes</div>
           <div class="plan-price-per" data-en>/ month</div>
         </div>
-        <div class="plan-desc" data-es>Para flotas pequeñas que quieren digitalizarse hoy mismo.</div>
+        <div class="plan-desc" data-es>Para flotas peque&#241;as que quieren digitalizarse hoy mismo.</div>
         <div class="plan-desc" data-en>For small fleets that want to go digital today.</div>
+        <div class="impl-badge impl-standalone">
+          <span class="impl-badge-icon">&#9881;</span>
+          <span>
+            <strong>Implementaci&#243;n: $99 pago &#250;nico</strong>
+            Stand-alone &middot; Con Portal RH: <strong style="color:#6ee7b7">gratis</strong>
+          </span>
+        </div>
         <ul class="plan-features">
           <li data-es><span class="check">✓</span> Hasta 10 vehículos o activos</li>
           <li data-en><span class="check">✓</span> Up to 10 vehicles or assets</li>
@@ -1322,15 +1360,22 @@
         <div class="plan-badge" data-en>Most popular</div>
         <div class="plan-name">Pro</div>
         <div class="plan-price">
-          <div class="plan-price-num" id="price2">$99</div>
+          <div class="plan-price-num" id="price2">$89</div>
           <div class="plan-price-per" data-es>/ mes</div>
           <div class="plan-price-per" data-en>/ month</div>
         </div>
         <div class="plan-desc" data-es>Para empresas con flotas medianas que necesitan control completo.</div>
         <div class="plan-desc" data-en>For companies with mid-size fleets that need full control.</div>
+        <div class="impl-badge impl-standalone">
+          <span class="impl-badge-icon">&#9881;</span>
+          <span>
+            <strong>Implementaci&#243;n: $149 pago &#250;nico</strong>
+            Stand-alone &middot; Con Portal RH: <strong style="color:#6ee7b7">gratis</strong>
+          </span>
+        </div>
         <ul class="plan-features">
-          <li data-es><span class="check-blue">✓</span> Hasta 30 vehículos o activos</li>
-          <li data-en><span class="check-blue">✓</span> Up to 30 vehicles or assets</li>
+          <li data-es><span class="check-blue">&#10003;</span> Hasta 25 veh&#237;culos o activos</li>
+          <li data-en><span class="check-blue">&#10003;</span> Up to 25 vehicles or assets</li>
           <li data-es><span class="check-blue">✓</span> Todo lo del plan Starter</li>
           <li data-en><span class="check-blue">✓</span> Everything in Starter</li>
           <li data-es><span class="check-blue">✓</span> Fotos y documentos adjuntos</li>
@@ -1348,33 +1393,53 @@
         <a href="../contacto.html" class="btn-plan btn-plan-blue" data-en>Request demo</a>
       </div>
 
-      <!-- ENTERPRISE -->
+      <!-- EMPRESARIAL -->
       <div class="plan-card">
         <div class="plan-name" data-es>Empresarial</div>
-        <div class="plan-name" data-en>Enterprise</div>
+        <div class="plan-name" data-en>Business</div>
         <div class="plan-price">
-          <div class="plan-price-num" data-es>A medida</div>
-          <div class="plan-price-num" data-en>Custom</div>
+          <div class="plan-price-num" id="price3">$149</div>
+          <div class="plan-price-per" data-es>/ mes</div>
+          <div class="plan-price-per" data-en>/ month</div>
         </div>
-        <div class="plan-desc" data-es>Para flotas de más de 30 vehículos o con necesidades específicas.</div>
-        <div class="plan-desc" data-en>For fleets with more than 30 vehicles or specific requirements.</div>
+        <div class="plan-desc" data-es>Para flotas de hasta 50 veh&#237;culos con necesidades avanzadas.</div>
+        <div class="plan-desc" data-en>For fleets up to 50 vehicles with advanced needs.</div>
+        <div class="impl-badge impl-standalone">
+          <span class="impl-badge-icon">&#9881;</span>
+          <span>
+            <strong>Implementaci&#243;n: $199 pago &#250;nico</strong>
+            Stand-alone &middot; Con Portal RH: <strong style="color:#6ee7b7">gratis</strong>
+          </span>
+        </div>
         <ul class="plan-features">
-          <li data-es><span class="check-violet">✓</span> Vehículos ilimitados</li>
-          <li data-en><span class="check-violet">✓</span> Unlimited vehicles</li>
-          <li data-es><span class="check-violet">✓</span> Todo lo del plan Pro</li>
-          <li data-en><span class="check-violet">✓</span> Everything in Pro</li>
-          <li data-es><span class="check-violet">✓</span> API y webhooks personalizados</li>
-          <li data-en><span class="check-violet">✓</span> Custom API and webhooks</li>
-          <li data-es><span class="check-violet">✓</span> SLA garantizado por contrato</li>
-          <li data-en><span class="check-violet">✓</span> SLA guaranteed by contract</li>
-          <li data-es><span class="check-violet">✓</span> Gerente de cuenta dedicado</li>
-          <li data-en><span class="check-violet">✓</span> Dedicated account manager</li>
+          <li data-es><span class="check-violet">&#10003;</span> Hasta 50 veh&#237;culos o activos</li>
+          <li data-en><span class="check-violet">&#10003;</span> Up to 50 vehicles or assets</li>
+          <li data-es><span class="check-violet">&#10003;</span> Todo lo del plan Pro</li>
+          <li data-en><span class="check-violet">&#10003;</span> Everything in Pro</li>
+          <li data-es><span class="check-violet">&#10003;</span> API y webhooks personalizados</li>
+          <li data-en><span class="check-violet">&#10003;</span> Custom API and webhooks</li>
+          <li data-es><span class="check-violet">&#10003;</span> SLA garantizado por contrato</li>
+          <li data-en><span class="check-violet">&#10003;</span> SLA guaranteed by contract</li>
+          <li data-es><span class="check-violet">&#10003;</span> Gerente de cuenta dedicado</li>
+          <li data-en><span class="check-violet">&#10003;</span> Dedicated account manager</li>
         </ul>
-        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-es>Hablar con ventas</a>
-        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-en>Talk to sales</a>
+        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-es>Solicitar demo</a>
+        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-en>Request demo</a>
       </div>
 
     </div>
+
+    <!-- 50+ custom note -->
+    <div class="plan-custom-note">
+      <h4 data-es>&#128664; &#191;M&#225;s de 50 veh&#237;culos?</h4>
+      <h4 data-en>&#128664; More than 50 vehicles?</h4>
+      <p data-es>Dise&#241;amos un plan a medida para tu flota. Sin c&#243;digos, sin contratos complicados.</p>
+      <p data-en>We design a custom plan for your fleet. No gimmicks, no complex contracts.</p>
+      <a href="mailto:info@portal-hr.com">
+        <span data-es>Hablar con ventas</span><span data-en>Talk to sales</span> &#8594;
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1402,7 +1467,7 @@
         <tr>
           <td data-es>Precio mensual</td>
           <td data-en>Monthly price</td>
-          <td class="price-us">Desde $49</td>
+          <td class="price-us">$49&#8211;$149</td>
           <td>$33–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
           <td>$4–$10*<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
           <td>$40–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
@@ -1497,12 +1562,13 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   let isAnnual = false;
-  const prices = { monthly: [49, 99], annual: [39, 79] };
+  const prices = { monthly: [49, 89, 149], annual: [39, 71, 119] };
 
   function updatePrices() {
     const p = isAnnual ? prices.annual : prices.monthly;
     document.getElementById('price1').textContent = '$' + p[0];
     document.getElementById('price2').textContent = '$' + p[1];
+    document.getElementById('price3').textContent = '$' + p[2];
   }
 
   function toggleBilling() {
