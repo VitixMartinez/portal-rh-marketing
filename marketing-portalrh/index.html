@@ -441,16 +441,48 @@
     .btn-plan-primary:hover { box-shadow: 0 8px 25px rgba(99,102,241,0.45); transform: translateY(-1px); }
     .btn-plan-outline { border: 1.5px solid #E2E8F0; color: var(--indigo); }
     .btn-plan-outline:hover { border-color: var(--indigo); background: #EEF2FF; }
-    /* Implementation fee badge */
-    .impl-fee {
+
+    /* ── Implementation badge button ── */
+    .impl-btn {
       display: flex; align-items: center; gap: 7px;
-      font-size: 0.775rem; font-weight: 600;
-      padding: 7px 11px; border-radius: 9px;
-      margin-bottom: 1rem;
+      width: 100%; background: #EEF2FF; border: 1.5px solid #C7D2FE;
+      border-radius: 10px; padding: 9px 14px; margin-bottom: 1.5rem;
+      cursor: pointer; font-size: 0.8rem; font-weight: 600; color: #4338CA;
+      transition: all .2s; text-align: left; font-family: inherit;
     }
-    .impl-fee-free   { background: #F0FDF4; color: #16A34A; border: 1px solid #BBF7D0; }
-    .impl-fee-paid   { background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
-    .impl-fee-custom { background: #F8FAFC; color: #64748B; border: 1px solid #E2E8F0; }
+    .impl-btn:hover { background: #E0E7FF; border-color: var(--indigo); box-shadow: 0 4px 12px rgba(99,102,241,0.15); }
+    .impl-btn .impl-text { flex: 1; line-height: 1.3; }
+    .impl-btn .impl-sub { font-size: 0.7rem; color: #818CF8; font-weight: 500; display: block; margin-top: 1px; }
+    .pricing-card.popular .impl-btn { background: #E0E7FF; border-color: #A5B4FC; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(6,11,24,0.75); backdrop-filter: blur(6px);
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff; border-radius: 20px; max-width: 480px; width: 100%;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+      animation: modalIn .25s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes modalIn { from { opacity:0; transform:scale(.92) translateY(14px); } to { opacity:1; transform:scale(1) translateY(0); } }
+    .modal-header { padding: 24px 28px 20px; border-bottom: 1px solid #F1F5F9; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+    .modal-plan-badge { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 99px; margin-bottom: 6px; background: #EEF2FF; color: var(--indigo); border: 1px solid #C7D2FE; }
+    .modal-header h3 { font-size: 1.15rem; font-weight: 800; color: #0F172A; margin: 0; line-height: 1.2; }
+    .modal-price { font-size: 1.5rem; font-weight: 900; color: var(--indigo); margin-top: 6px; }
+    .modal-price small { font-size: 0.85rem; color: #94A3B8; font-weight: 500; }
+    .modal-close { background: #F1F5F9; border: none; border-radius: 8px; width: 32px; height: 32px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background .15s; }
+    .modal-close:hover { background: #E2E8F0; }
+    .modal-body { padding: 24px 28px 28px; }
+    .modal-body > p { font-size: 0.875rem; color: #64748B; line-height: 1.65; margin-bottom: 18px; }
+    .modal-items { display: flex; flex-direction: column; gap: 11px; }
+    .modal-item { display: flex; align-items: flex-start; gap: 10px; }
+    .modal-item-icon { width: 30px; height: 30px; border-radius: 8px; flex-shrink: 0; background: linear-gradient(135deg, #EEF2FF, #E0E7FF); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; margin-top: 1px; }
+    .modal-item-text h4 { font-size: 0.875rem; font-weight: 700; color: #0F172A; margin-bottom: 2px; }
+    .modal-item-text p  { font-size: 0.78rem; color: #64748B; margin: 0; line-height: 1.55; }
+    .modal-footer { padding: 14px 28px 20px; border-top: 1px solid #F1F5F9; font-size: 0.78rem; color: #94A3B8; text-align: center; line-height: 1.5; }
 
     /* &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; CTA BANNER &#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472; */
     .cta-banner {
@@ -857,8 +889,8 @@
         <div class="stat-box-label">Soporte t&#233;cnico disponible</div>
       </div>
       <div class="stat-box">
-        <div class="stat-box-value">&lt;1<span class="unit">d</span></div>
-        <div class="stat-box-label">En marcha en menos de un d&#237;a</div>
+        <div class="stat-box-value">0<span class="unit">$</span></div>
+        <div class="stat-box-label">Costo de implementaci&#243;n</div>
       </div>
     </div>
   </div>
@@ -1043,7 +1075,10 @@
       <div class="price-desc-top">Empresas peque&#241;as que arrancan</div>
       <div class="price">$49<span>/mes</span></div>
       <div class="price-sub">Hasta 15 empleados &#183; 1 admin</div>
-      <div class="impl-fee impl-fee-free">&#10003; Implementaci&#243;n gratuita incluida</div>
+      <button class="impl-btn" onclick="openModal('starter')">
+        <span>⚡</span>
+        <span class="impl-text">Implementación: $99 USD<span class="impl-sub">Pago único · ¿Qué incluye? →</span></span>
+      </button>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Gesti&#243;n de empleados</li>
@@ -1060,7 +1095,10 @@
       <div class="price-desc-top">El favorito de las PyMEs</div>
       <div class="price">$119<span>/mes</span></div>
       <div class="price-sub">Hasta 50 empleados &#183; 5 admins</div>
-      <div class="impl-fee impl-fee-paid">&#9881; Implementaci&#243;n: $199 pago &#250;nico</div>
+      <button class="impl-btn" onclick="openModal('business')">
+        <span>🚀</span>
+        <span class="impl-text">Implementación: $199 USD<span class="impl-sub">Pago único · ¿Qué incluye? →</span></span>
+      </button>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Starter</li>
@@ -1078,7 +1116,10 @@
       <div class="price-desc-top">Para empresas en crecimiento</div>
       <div class="price">$249<span>/mes</span></div>
       <div class="price-sub">Hasta 150 empleados &#183; admins ilimitados</div>
-      <div class="impl-fee impl-fee-paid">&#9881; Implementaci&#243;n: $349 pago &#250;nico</div>
+      <button class="impl-btn" onclick="openModal('pro')">
+        <span>🏗️</span>
+        <span class="impl-text">Implementación: $499 USD<span class="impl-sub">Pago único · ¿Qué incluye? →</span></span>
+      </button>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Business</li>
@@ -1095,7 +1136,10 @@
       <div class="price-desc-top">Grandes organizaciones</div>
       <div class="price" style="font-size:1.8rem;letter-spacing:-0.5px">A medida</div>
       <div class="price-sub">Empleados ilimitados &#183; SLA garantizado</div>
-      <div class="impl-fee impl-fee-custom">&#9998; Implementaci&#243;n a medida &#183; se incluye en propuesta</div>
+      <button class="impl-btn" onclick="openModal('enterprise')">
+        <span>🏢</span>
+        <span class="impl-text">Implementación a medida<span class="impl-sub">Se incluye en propuesta · Ver detalle →</span></span>
+      </button>
       <div class="pricing-divider"></div>
       <ul class="pricing-features">
         <li>Todo lo del plan Pro</li>
@@ -1185,40 +1229,24 @@
     font-size: 12px; margin-top: 1px;
   }
   .fleet-price-box {
+    display: flex; align-items: center; gap: 16px;
     background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);
-    padding: 16px 18px; border-radius: 14px;
+    padding: 14px 20px; border-radius: 14px;
     margin-bottom: 1.75rem;
   }
-  .fleet-price-label {
-    font-size: 0.7rem; font-weight: 700; color: #67e8f9;
-    text-transform: uppercase; letter-spacing: 1px;
-    margin-bottom: 10px;
+  .fleet-price-num {
+    font-size: 2rem; font-weight: 900; color: #fff;
+    font-family: 'Inter', system-ui, sans-serif; line-height: 1;
+  }
+  .fleet-price-unit {
+    font-size: 0.78rem; color: #67e8f9; line-height: 1.4;
     font-family: 'Inter', system-ui, sans-serif;
   }
-  .fleet-price-tiers {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 8px; margin-bottom: 8px;
+  .fleet-price-sep {
+    width: 1px; height: 36px; background: rgba(255,255,255,0.1);
   }
-  .fleet-tier {
-    background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
-    border-radius: 10px; padding: 10px 10px 8px;
-    text-align: center; transition: border-color .2s;
-  }
-  .fleet-tier:hover { border-color: rgba(103,232,249,0.3); }
-  .fleet-tier-price {
-    font-size: 1.35rem; font-weight: 900; color: #fff; line-height: 1;
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-  .fleet-tier-unit {
-    font-size: 0.6rem; color: #94A3B8; margin-top: 1px;
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-  .fleet-tier-limit {
-    font-size: 0.62rem; color: #67e8f9; font-weight: 600; margin-top: 5px;
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-  .fleet-price-note {
-    font-size: 0.72rem; color: #475569;
+  .fleet-price-info {
+    font-size: 0.78rem; color: #94A3B8; line-height: 1.5;
     font-family: 'Inter', system-ui, sans-serif;
   }
   .fleet-cta-row {
@@ -1359,27 +1387,7 @@
           <span><strong style="color:#fff">Reportes de accidentes</strong> &#8212; Documenta terceros, lesiones, da&#241;os, n&#250;mero de parte policial y revisi&#243;n interna.</span>
         </li>
       </ul>
-      <div class="fleet-price-box">
-        <div class="fleet-price-label">&#128664; Planes mensuales seg&#250;n tama&#241;o de flota</div>
-        <div class="fleet-price-tiers">
-          <div class="fleet-tier">
-            <div class="fleet-tier-price">$49</div>
-            <div class="fleet-tier-unit">/mes</div>
-            <div class="fleet-tier-limit">Hasta 10 activos</div>
-          </div>
-          <div class="fleet-tier">
-            <div class="fleet-tier-price">$89</div>
-            <div class="fleet-tier-unit">/mes</div>
-            <div class="fleet-tier-limit">Hasta 25 activos</div>
-          </div>
-          <div class="fleet-tier">
-            <div class="fleet-tier-price">$149</div>
-            <div class="fleet-tier-unit">/mes</div>
-            <div class="fleet-tier-limit">Hasta 50 activos</div>
-          </div>
-        </div>
-        <div class="fleet-price-note">M&#225;s de 50 activos: precio a medida &#183; Sin contratos anuales</div>
-      </div>
+
       <div class="fleet-cta-row">
         <a href="/flotilla" class="btn-fleet">Ver Portal Fleet &#8594;</a>
         <a href="contacto.html" class="btn-fleet-ghost">Solicitar demo &#10132;</a>
@@ -1530,6 +1538,101 @@
   </div>
 </footer>
 
+
+<!-- ── IMPLEMENTATION MODAL ── -->
+<div class="modal-overlay" id="impl-modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div class="modal-plan-badge" id="modal-badge"></div>
+        <h3 id="modal-title">¿Qué incluye la implementación?</h3>
+        <div class="modal-price" id="modal-price"></div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p id="modal-desc"></p>
+      <div class="modal-items" id="modal-items"></div>
+    </div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<script>
+var IMPL = {
+  starter: {
+    badge:'Plan Starter', price:'$99 USD <small>· pago único</small>',
+    desc:'Nos encargamos de dejarte todo listo desde el primer día para que puedas empezar sin complicaciones.',
+    items:[
+      {i:'🎨',t:'Personalización de marca',d:'Configuramos el sistema con los colores de tu empresa y subimos tu logo.'},
+      {i:'👥',t:'Carga inicial de empleados',d:'Subimos hasta 15 empleados desde tu archivo Excel o planilla actual.'},
+      {i:'🏢',t:'Configuración de departamentos',d:'Creamos la estructura de departamentos y puestos de tu empresa.'},
+      {i:'🔑',t:'Creación de cuentas de acceso',d:'Generamos las credenciales y enviamos las invitaciones a tu equipo.'},
+      {i:'📞',t:'Sesión de orientación (1 hora)',d:'Sesión virtual para que el administrador conozca el sistema paso a paso.'},
+    ],
+    footer:'⏱️ Tiempo estimado: <strong>1–2 días hábiles</strong>'
+  },
+  business: {
+    badge:'Plan Business', price:'$199 USD <small>· pago único</small>',
+    desc:'Implementación completa con todos los módulos del plan Business, incluyendo nómina y evaluaciones.',
+    items:[
+      {i:'✅',t:'Todo lo del plan Starter',d:'Marca, empleados, departamentos, cuentas y sesión de orientación.'},
+      {i:'💰',t:'Configuración de nómina',d:'Cargamos salarios, configuramos TSS y dejamos lista la primera quincena.'},
+      {i:'🌴',t:'Importación de saldos de vacaciones',d:'Subimos el saldo de vacaciones acumuladas de cada empleado.'},
+      {i:'⭐',t:'Configuración de evaluaciones',d:'Configuramos las plantillas de evaluación según tu metodología.'},
+      {i:'🎓',t:'Capacitación al equipo de RH (2h)',d:'Dos horas virtuales de capacitación al equipo administrador.'},
+      {i:'🛟',t:'Soporte de puesta en marcha (2 semanas)',d:'Acompañamiento vía WhatsApp y correo durante las primeras dos semanas.'},
+    ],
+    footer:'⏱️ Tiempo estimado: <strong>3–5 días hábiles</strong>'
+  },
+  pro: {
+    badge:'Plan Pro', price:'$499 USD <small>· pago único</small>',
+    desc:'Implementación avanzada con migración completa de datos históricos y capacitación personalizada.',
+    items:[
+      {i:'✅',t:'Todo lo del plan Business',d:'Configuración completa incluyendo marca, nómina y módulos base.'},
+      {i:'📂',t:'Migración de datos históricos',d:'Importamos historial de nómina, asistencia y vacaciones de años anteriores.'},
+      {i:'🔗',t:'Configuración de API',d:'Documentación y configuración del acceso API para integraciones.'},
+      {i:'📊',t:'Reportes personalizados',d:'Creamos hasta 3 reportes personalizados según tus necesidades.'},
+      {i:'🎓',t:'Capacitación extendida (hasta 5 personas)',d:'Sesiones personalizadas para tu equipo de RH y gerentes.'},
+      {i:'👤',t:'Gerente de cuenta durante onboarding',d:'Un gerente dedicado te acompaña durante todo el proceso.'},
+      {i:'🛟',t:'Soporte prioritario (4 semanas)',d:'Canal directo de soporte prioritario durante el primer mes.'},
+    ],
+    footer:'⏱️ Tiempo estimado: <strong>1–2 semanas</strong>'
+  },
+  enterprise: {
+    badge:'Plan Enterprise', price:'Incluida en propuesta',
+    desc:'Para organizaciones grandes diseñamos un plan de implementación a medida según la complejidad de tu empresa.',
+    items:[
+      {i:'📋',t:'Plan de implementación personalizado',d:'Cronograma detallado adaptado a tu empresa y plazos.'},
+      {i:'🔄',t:'Migración completa de datos históricos',d:'Sin límite de volumen desde tus sistemas actuales.'},
+      {i:'🔗',t:'Integración con sistemas existentes',d:'Conectamos Portal RH con tu ERP, nómina u otras plataformas.'},
+      {i:'🎓',t:'Capacitación al equipo completo',d:'Presencial o virtual, sin límite de personas.'},
+      {i:'🏗️',t:'Personalización avanzada',d:'Adaptaciones al sistema según los flujos de tu organización.'},
+      {i:'👤',t:'Gerente de cuenta dedicado',d:'Punto de contacto exclusivo durante y después de la implementación.'},
+      {i:'📜',t:'SLA de implementación garantizado',d:'Compromisos de entrega y calidad formalizados en el contrato.'},
+    ],
+    footer:'📞 Conversemos sobre tu proyecto — <strong>sin compromiso</strong>'
+  }
+};
+function openModal(plan){
+  var d=IMPL[plan]; if(!d) return;
+  document.getElementById('modal-badge').textContent=d.badge;
+  document.getElementById('modal-title').textContent='¿Qué incluye la implementación?';
+  document.getElementById('modal-price').innerHTML=d.price;
+  document.getElementById('modal-desc').textContent=d.desc;
+  document.getElementById('modal-footer').innerHTML=d.footer;
+  document.getElementById('modal-items').innerHTML=d.items.map(function(i){
+    return '<div class="modal-item"><div class="modal-item-icon">'+i.i+'</div><div class="modal-item-text"><h4>'+i.t+'</h4><p>'+i.d+'</p></div></div>';
+  }).join('');
+  document.getElementById('impl-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('impl-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
+</script>
 
 <script>
 (function(){
