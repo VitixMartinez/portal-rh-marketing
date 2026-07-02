@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portal Fleet — Gestión de Flotilla Inteligente</title>
-  <meta name="description" content="Portal Fleet: gestiona vehículos, conductores, mantenimiento y accidentes sin papeles. Planes desde $49/mes para toda tu flota." />
+  <meta name="description" content="Portal Fleet: gestiona vehículos, conductores, mantenimiento y accidentes sin papeles. Planes desde $89/mes para toda tu flota." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
@@ -178,7 +178,7 @@
       background: rgba(16,185,129,0.2); color: #34d399; border-radius: 999px;
       padding: 2px 10px; font-size: 12px; font-weight: 700;
     }
-    .plans-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .plans-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; max-width: 860px; margin: 0 auto; }
     .plan-card {
       background: rgba(30,41,59,0.6); border: 1px solid rgba(51,65,85,0.6);
       border-radius: 20px; padding: 32px; display: flex; flex-direction: column;
@@ -1318,47 +1318,10 @@
     </div>
     <div class="plans-grid">
 
-      <!-- STARTER -->
-      <div class="plan-card">
-        <div class="plan-name" data-es>Starter</div>
-        <div class="plan-name" data-en>Starter</div>
-        <div class="plan-price">
-          <div class="plan-price-num" id="price1">$49</div>
-          <div class="plan-price-per" data-es>/ mes</div>
-          <div class="plan-price-per" data-en>/ month</div>
-        </div>
-        <div class="plan-desc" data-es>Para flotas peque&#241;as que quieren digitalizarse hoy mismo.</div>
-        <div class="plan-desc" data-en>For small fleets that want to go digital today.</div>
-        <div class="impl-badge impl-standalone">
-          <span class="impl-badge-icon">&#9881;</span>
-          <span>
-            <strong>Implementaci&#243;n: $99 pago &#250;nico</strong>
-            Stand-alone &middot; Con Portal RH: <strong style="color:#6ee7b7">gratis</strong>
-          </span>
-        </div>
-        <ul class="plan-features">
-          <li data-es><span class="check">✓</span> Hasta 10 vehículos o activos</li>
-          <li data-en><span class="check">✓</span> Up to 10 vehicles or assets</li>
-          <li data-es><span class="check">✓</span> Check-in / Check-out con checklist</li>
-          <li data-en><span class="check">✓</span> Check-in / Check-out with checklist</li>
-          <li data-es><span class="check">✓</span> Historial de uso por empleado</li>
-          <li data-en><span class="check">✓</span> Usage history per employee</li>
-          <li data-es><span class="check">✓</span> Alertas de mantenimiento por email</li>
-          <li data-en><span class="check">✓</span> Maintenance alerts by email</li>
-          <li data-es><span class="check">✓</span> Reportes de accidentes</li>
-          <li data-en><span class="check">✓</span> Accident reports</li>
-          <li data-es><span class="check">✓</span> Soporte por email</li>
-          <li data-en><span class="check">✓</span> Email support</li>
-        </ul>
-        <a href="../contacto.html" class="btn-plan btn-plan-outline" data-es>Solicitar demo</a>
-        <a href="../contacto.html" class="btn-plan btn-plan-outline" data-en>Request demo</a>
-      </div>
-
-      <!-- PRO (featured) -->
+      <!-- ESTÁNDAR (featured) -->
       <div class="plan-card featured">
-        <div class="plan-badge" data-es>Más popular</div>
-        <div class="plan-badge" data-en>Most popular</div>
-        <div class="plan-name">Pro</div>
+        <div class="plan-name" data-es>Est&#225;ndar</div>
+        <div class="plan-name" data-en>Standard</div>
         <div class="plan-price">
           <div class="plan-price-num" id="price2">$89</div>
           <div class="plan-price-per" data-es>/ mes</div>
@@ -1369,22 +1332,21 @@
         <div class="impl-badge impl-standalone">
           <span class="impl-badge-icon">&#9881;</span>
           <span>
-            <strong>Implementaci&#243;n: $149 pago &#250;nico</strong>
-            Stand-alone &middot; Con Portal RH: <strong style="color:#6ee7b7">gratis</strong>
+            <strong>Implementaci&#243;n: $199 pago &#250;nico</strong>
           </span>
         </div>
         <ul class="plan-features">
           <li data-es><span class="check-blue">&#10003;</span> Hasta 25 veh&#237;culos o activos</li>
           <li data-en><span class="check-blue">&#10003;</span> Up to 25 vehicles or assets</li>
-          <li data-es><span class="check-blue">✓</span> Todo lo del plan Starter</li>
-          <li data-en><span class="check-blue">✓</span> Everything in Starter</li>
+          <li data-es><span class="check-blue">✓</span> Check-in / Check-out con checklist</li>
+          <li data-en><span class="check-blue">✓</span> Check-in / Check-out with checklist</li>
           <li data-es><span class="check-blue">✓</span> Fotos y documentos adjuntos</li>
           <li data-en><span class="check-blue">✓</span> Photos and attached documents</li>
           <li data-es><span class="check-blue">✓</span> Contactos de flotilla ilimitados</li>
           <li data-en><span class="check-blue">✓</span> Unlimited fleet contacts</li>
           <li data-es><span class="check-blue">✓</span> Reportes de accidentes avanzados</li>
           <li data-en><span class="check-blue">✓</span> Advanced accident reports</li>
-          <li data-es><span class="check-blue">✓</span> Integración con módulo de RH</li>
+          <li data-es><span class="check-blue">✓</span> Integraci&#243;n con m&#243;dulo de RH</li>
           <li data-en><span class="check-blue">✓</span> HR module integration</li>
           <li data-es><span class="check-blue">✓</span> Soporte prioritario por WhatsApp</li>
           <li data-en><span class="check-blue">✓</span> Priority WhatsApp support</li>
@@ -1393,10 +1355,10 @@
         <a href="../contacto.html" class="btn-plan btn-plan-blue" data-en>Request demo</a>
       </div>
 
-      <!-- EMPRESARIAL -->
+      <!-- PRO -->
       <div class="plan-card">
-        <div class="plan-name" data-es>Empresarial</div>
-        <div class="plan-name" data-en>Business</div>
+        <div class="plan-name" data-es>Pro</div>
+        <div class="plan-name" data-en>Pro</div>
         <div class="plan-price">
           <div class="plan-price-num" id="price3">$149</div>
           <div class="plan-price-per" data-es>/ mes</div>
@@ -1407,15 +1369,14 @@
         <div class="impl-badge impl-standalone">
           <span class="impl-badge-icon">&#9881;</span>
           <span>
-            <strong>Implementaci&#243;n: $199 pago &#250;nico</strong>
-            Stand-alone &middot; Con Portal RH: <strong style="color:#6ee7b7">gratis</strong>
+            <strong>Implementaci&#243;n: $319 pago &#250;nico</strong>
           </span>
         </div>
         <ul class="plan-features">
           <li data-es><span class="check-violet">&#10003;</span> Hasta 50 veh&#237;culos o activos</li>
           <li data-en><span class="check-violet">&#10003;</span> Up to 50 vehicles or assets</li>
-          <li data-es><span class="check-violet">&#10003;</span> Todo lo del plan Pro</li>
-          <li data-en><span class="check-violet">&#10003;</span> Everything in Pro</li>
+          <li data-es><span class="check-violet">&#10003;</span> Todo lo del plan Est&#225;ndar</li>
+          <li data-en><span class="check-violet">&#10003;</span> Everything in Standard</li>
           <li data-es><span class="check-violet">&#10003;</span> API y webhooks personalizados</li>
           <li data-en><span class="check-violet">&#10003;</span> Custom API and webhooks</li>
           <li data-es><span class="check-violet">&#10003;</span> SLA garantizado por contrato</li>
@@ -1423,22 +1384,12 @@
           <li data-es><span class="check-violet">&#10003;</span> Gerente de cuenta dedicado</li>
           <li data-en><span class="check-violet">&#10003;</span> Dedicated account manager</li>
         </ul>
-        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-es>Solicitar demo</a>
-        <a href="mailto:info@portal-hr.com" class="btn-plan btn-plan-outline" data-en>Request demo</a>
+        <a href="../contacto.html" class="btn-plan btn-plan-outline" data-es>Solicitar demo</a>
+        <a href="../contacto.html" class="btn-plan btn-plan-outline" data-en>Request demo</a>
       </div>
 
     </div>
 
-    <!-- 50+ custom note -->
-    <div class="plan-custom-note">
-      <h4 data-es>&#128664; &#191;M&#225;s de 50 veh&#237;culos?</h4>
-      <h4 data-en>&#128664; More than 50 vehicles?</h4>
-      <p data-es>Dise&#241;amos un plan a medida para tu flota. Sin c&#243;digos, sin contratos complicados.</p>
-      <p data-en>We design a custom plan for your fleet. No gimmicks, no complex contracts.</p>
-      <a href="mailto:info@portal-hr.com">
-        <span data-es>Hablar con ventas</span><span data-en>Talk to sales</span> &#8594;
-      </a>
-    </div>
 
   </div>
 </section>
@@ -1467,7 +1418,7 @@
         <tr>
           <td data-es>Precio mensual</td>
           <td data-en>Monthly price</td>
-          <td class="price-us">$49&#8211;$149</td>
+          <td class="price-us">$89&#8211;$149</td>
           <td>$33–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
           <td>$4–$10*<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
           <td>$40–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
@@ -1562,13 +1513,12 @@
   document.getElementById('year').textContent = new Date().getFullYear();
 
   let isAnnual = false;
-  const prices = { monthly: [49, 89, 149], annual: [39, 71, 119] };
+  const prices = { monthly: [89, 149], annual: [71, 119] };
 
   function updatePrices() {
     const p = isAnnual ? prices.annual : prices.monthly;
-    document.getElementById('price1').textContent = '$' + p[0];
-    document.getElementById('price2').textContent = '$' + p[1];
-    document.getElementById('price3').textContent = '$' + p[2];
+    document.getElementById('price2').textContent = '$' + p[0];
+    document.getElementById('price3').textContent = '$' + p[1];
   }
 
   function toggleBilling() {
