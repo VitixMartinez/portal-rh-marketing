@@ -322,7 +322,8 @@
       .how-grid { grid-template-columns: 1fr; }
       .phone-wrap { display: none; }
       .plans-grid { grid-template-columns: 1fr; }
-      .compare-table th:nth-child(n+3), .compare-table td:nth-child(n+3) { display: none; }
+      .compare-bg .section-inner { overflow-x: auto; }
+      .compare-table { min-width: 560px; }
       .footer-links-group { gap: 24px; }
     }
     @media (max-width: 480px) {
@@ -1406,52 +1407,52 @@
     <table class="compare-table">
       <thead>
         <tr>
-          <th style="text-align:left" data-es>Característica</th>
+          <th style="text-align:left" data-es>Caracter&#237;stica</th>
           <th style="text-align:left" data-en>Feature</th>
           <th><span class="compare-us-th">Portal Fleet <span class="star">★</span></span></th>
-          <th>Samsara</th>
-          <th>Fleetio</th>
-          <th>Verizon Connect</th>
+          <th>PRO GPS</th>
+          <th>CaribeTrack</th>
+          <th>Ultron GPS</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td data-es>Precio mensual</td>
           <td data-en>Monthly price</td>
-          <td class="price-us">$89&#8211;$149</td>
-          <td>$33–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
-          <td>$4–$10*<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
-          <td>$40–$60<span class="price-unit" data-es>/vehículo</span><span class="price-unit" data-en>/vehicle</span></td>
+          <td class="price-us">$89&#8211;$149<span class="price-unit" data-es>toda la flota</span><span class="price-unit" data-en>whole fleet</span></td>
+          <td><span style="color:var(--muted)" data-es>Por veh&#237;culo</span><span style="color:var(--muted)" data-en>Per vehicle</span></td>
+          <td><span style="color:var(--muted)" data-es>Por veh&#237;culo</span><span style="color:var(--muted)" data-en>Per vehicle</span></td>
+          <td><span style="color:var(--muted)" data-es>Por veh&#237;culo</span><span style="color:var(--muted)" data-en>Per vehicle</span></td>
+        </tr>
+        <tr>
+          <td data-es>Sin hardware / instalaci&#243;n requerida</td>
+          <td data-en>No hardware / installation required</td>
+          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
+        </tr>
+        <tr>
+          <td data-es>Check-in / Check-out de conductores</td>
+          <td data-en>Driver check-in / check-out</td>
+          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
+        </tr>
+        <tr>
+          <td data-es>Gesti&#243;n de mantenimiento</td>
+          <td data-en>Maintenance management</td>
+          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
+        </tr>
+        <tr>
+          <td data-es>Reportes de accidentes</td>
+          <td data-en>Accident reports</td>
+          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
         </tr>
         <tr>
           <td data-es>Sin contrato anual obligatorio</td>
           <td data-en>No mandatory annual contract</td>
           <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
         </tr>
-        <tr>
-          <td data-es>Integración nativa con RR.HH.</td>
-          <td data-en>Native HR system integration</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Interfaz en español</td>
-          <td data-en>Spanish interface</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Soporte local Latinoamérica</td>
-          <td data-en>Latin America local support</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="x-cell">✗</td><td class="x-cell">✗</td>
-        </tr>
-        <tr>
-          <td data-es>Sin hardware requerido</td>
-          <td data-en>No hardware required</td>
-          <td class="check-cell">✓</td><td class="x-cell">✗</td><td class="check-cell">✓</td><td class="x-cell">✗</td>
-        </tr>
       </tbody>
     </table>
-    <div class="compare-note" data-es>Portal Fleet: precio fijo por plan para toda tu flota, no por vehículo. * Fleetio cobra por funciones adicionales y tiene mínimo de 5 vehículos.</div>
-    <div class="compare-note" data-en>Portal Fleet: flat plan price for your whole fleet, not per vehicle. * Fleetio charges extra for add-ons and requires a 5-vehicle minimum.</div>
+    <div class="compare-note" data-es>Los GPS locales rastrean ubicaci&#243;n. Portal Fleet gestiona operaciones: qui&#233;n us&#243; el veh&#237;culo, c&#243;mo est&#225; y qu&#233; pas&#243;. &#191;Ya tienes GPS? Portal Fleet lo complementa perfectamente.</div>
+    <div class="compare-note" data-en>Local GPS companies track location. Portal Fleet manages operations: who used the vehicle, its condition, and what happened. Already have GPS? Portal Fleet complements it perfectly.</div>
   </div>
 </section>
 
