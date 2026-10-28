@@ -1,92 +1,99 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Seguridad — Portal RH</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --blue-dark:#1A4FAA; --blue-mid:#2563EB; --gray-dark:#4B5563; --gray-mid:#6B7280; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; color: #111827; background: #fff; }
-    nav {
-      position: sticky; top: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 78px;
-      background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
-      border-bottom: 1px solid #E5E7EB;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-    .nav-logo span { font-size: 1.6rem; font-weight: 900; color: var(--blue-dark); letter-spacing: -0.5px; }
-    .nav-logo span em { color: var(--gray-dark); font-style: normal; }
-    .btn-demo { background: var(--blue-mid); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: background .2s; }
-    .btn-demo:hover { background: var(--blue-dark); }
-
-    .legal-hero {
-      background: linear-gradient(135deg, #EFF6FF 0%, #F0F9FF 60%, #F8FAFC 100%);
-      padding: 4rem 5% 3rem; border-bottom: 1px solid #E5E7EB;
-    }
-    .legal-hero .breadcrumb { font-size: 0.8rem; color: #9CA3AF; margin-bottom: 1rem; }
-    .legal-hero .breadcrumb a { color: var(--blue-mid); text-decoration: none; }
-    .legal-hero h1 { font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 900; color: #0F172A; margin-bottom: 0.5rem; }
-    .legal-hero p { font-size: 0.95rem; color: var(--gray-mid); }
-
-    .legal-body { max-width: 780px; margin: 0 auto; padding: 3.5rem 5%; }
-    .legal-body h2 { font-size: 1.15rem; font-weight: 700; color: #0F172A; margin: 2.5rem 0 0.75rem; padding-top: 2rem; border-top: 1px solid #F3F4F6; }
-    .legal-body h2:first-child { border-top: none; padding-top: 0; margin-top: 0; }
-    .legal-body p { font-size: 0.95rem; color: #374151; line-height: 1.75; margin-bottom: 1rem; }
-    .legal-body ul { margin: 0.5rem 0 1rem 1.5rem; }
-    .legal-body ul li { font-size: 0.95rem; color: #374151; line-height: 1.75; margin-bottom: 0.4rem; }
-    .legal-body a { color: var(--blue-mid); }
-
-    .security-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
-    .security-card {
-      background: #F8FAFC; border: 1px solid #E5E7EB; border-radius: 14px;
-      padding: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;
-    }
-    .security-card .icon {
-      width: 44px; height: 44px; border-radius: 10px;
-      background: #EFF6FF; display: flex; align-items: center; justify-content: center;
-    }
-    .security-card h3 { font-size: 0.95rem; font-weight: 700; color: #0F172A; }
-    .security-card p { font-size: 0.85rem; color: #6B7280; line-height: 1.6; }
-
-    .report-box {
-      background: #F0F6FF; border: 1px solid #C7DEFF; border-radius: 14px;
-      padding: 1.75rem 2rem; margin-top: 2rem;
-    }
-    .report-box h3 { font-size: 1rem; font-weight: 700; color: #0F172A; margin-bottom: 0.5rem; }
-    .report-box p { font-size: 0.9rem; color: #374151; line-height: 1.7; }
-    .report-box a { color: var(--blue-mid); font-weight: 600; text-decoration: none; }
-
-    footer { background: #0F172A; color: #94A3B8; padding: 2rem 5%; text-align: center; }
-    footer p { font-size: 0.8rem; }
-    footer a { color: #60A5FA; text-decoration: none; }
-    footer a:hover { color: #fff; }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Seguridad — Portal RH</title>
+<meta name="description" content="Seguridad — Portal RH">
+<link rel="icon" href="apple-touch-icon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+<style>
+:root{--ink:#121417;--muted:#5b616b;--line:#e4e4e0;--bg:#fff;--soft:#f4f4f1;--ok:#12805c;--warn:#b26a00}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+a{color:inherit}
+.serif{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.02em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:18px}
+.logo img{width:30px;height:30px;border-radius:7px}
+nav .links{display:flex;gap:26px;font-size:14px;color:var(--muted)} nav .links a{text-decoration:none} nav .links a.on{color:var(--ink);font-weight:600}
+.navr{display:flex;gap:10px;align-items:center}
+.lang{background:none;border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;padding:72px 0 80px;align-items:center}
+.hero h1,.ph1{font-size:60px;line-height:1.03;margin:18px 0 22px}
+.hero p{font-size:19px;color:var(--muted);max-width:470px}
+.cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.demo,.card{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.22);background:#fff}
+.demo .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--soft)}
+.demo .bar i{width:10px;height:10px;border-radius:50%;background:#d6d6d2}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:12px;background:none;border:0;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--ink);border-color:var(--ink);font-weight:600}
+.pane{display:none;padding:22px;min-height:320px}.pane.on{display:block}
+.clock{font-size:46px;font-variant-numeric:tabular-nums}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.pill{font-size:12px;padding:3px 9px;border-radius:20px;background:var(--soft);white-space:nowrap}
+.pill.ok{background:#e3f4ec;color:var(--ok)}.pill.warn{background:#fff1dc;color:var(--warn)}
+.hint{font-size:12px;color:var(--muted);margin-top:12px}
+section{padding:90px 0;border-top:1px solid var(--line)}
+h2{font-size:44px;line-height:1.08;margin:12px 0 18px;max-width:760px}
+.lead{font-size:18px;color:var(--muted);max-width:620px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border-top:1px solid var(--ink)}
+.grid3>div{padding:26px 26px 0 0}.grid3 h3{font-size:20px;margin-bottom:8px}.grid3 p{color:var(--muted);font-size:15px}
+.num{font-size:13px;color:var(--muted);margin-bottom:28px;display:block}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:40px;align-items:start}
+label{font-size:14px;font-weight:600;display:flex;justify-content:space-between;margin:22px 0 8px}
+input[type=range]{width:100%;accent-color:var(--ink)}
+.result{background:var(--ink);color:#fff;border-radius:12px;padding:36px}
+.result .big{font-size:72px;line-height:1}.result small{color:#a9adb5;font-size:13px}
+.result .split{display:flex;gap:36px;margin-top:28px;padding-top:22px;border-top:1px solid #2c3036}
+.result .split b{font-size:26px;display:block;font-weight:500}
+.band{background:var(--soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+ul.check{list-style:none;margin-top:22px}ul.check li{padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.mod{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 0;border-top:1px solid var(--line)}
+.mod:nth-child(even) .txt{order:2}
+.mod h3{font-size:34px;margin:10px 0 14px;line-height:1.1}
+.cardimg{width:100%;height:200px;object-fit:cover;display:block}.cardin{padding:22px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:44px;border-top:1px solid var(--ink)}
+.plan{padding:28px 24px 28px 0;border-right:1px solid var(--line);margin-right:24px}
+.plan:last-child{border-right:0}
+.plan .pn{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.plan .pr{font-size:48px;margin:10px 0 2px}.plan .pr small{font-size:15px;color:var(--muted);font-family:inherit}
+.plan .ps{font-size:13px;color:var(--muted);margin-bottom:16px}
+.plan ul{list-style:none;margin-bottom:22px}.plan li{font-size:14px;padding:6px 0;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;font-size:11px;background:var(--ink);color:#fff;padding:3px 8px;border-radius:4px;margin-left:6px;vertical-align:middle;letter-spacing:0;text-transform:none}
+footer{padding:70px 0 40px;border-top:1px solid var(--line)}
+.final{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}.final h2{margin:0}
+.fine{margin-top:50px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.fine a{text-decoration:none;margin-left:18px}
+@media(max-width:900px){.hero,.calc,.two,.mod{grid-template-columns:1fr}.mod:nth-child(even) .txt{order:0}.hero h1,.ph1{font-size:40px}h2{font-size:32px}.grid3{grid-template-columns:1fr}nav .links{display:none}.plan{border-right:0;margin-right:0;border-bottom:1px solid var(--line)}}
+</style>
+<style>
+.legal-hero{padding:72px 0 30px}.legal-hero h1{font-family:Georgia,serif;font-weight:400;font-size:52px;letter-spacing:-.02em;margin:6px 0 10px}
+.legal-hero p{color:var(--muted)}
+.legal-body{max-width:760px;padding-bottom:80px}
+.legal-body h2{font-family:Georgia,serif;font-weight:400;font-size:28px;margin:44px 0 12px;max-width:none}
+.legal-body h3{font-size:17px;margin:24px 0 8px}
+.legal-body p,.legal-body li{color:#33373d;font-size:16px;margin-bottom:12px}
+.legal-body ul,.legal-body ol{padding-left:22px;margin-bottom:14px}
+.legal-note,.report-box{background:var(--soft);border-radius:10px;padding:18px 20px;margin:20px 0;font-size:15px}
+.security-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border-top:1px solid var(--ink);margin:30px 0}
+.security-card{padding:22px 22px 10px 0}.security-card .icon{display:none}
+.security-card h3{margin-top:0}
+.legal-body a{color:var(--ink)}
+</style>
 </head>
 <body>
-
-<nav>
-  <a href="index.html" class="nav-logo">
-    <svg width="36" height="42" viewBox="0 0 36 42" fill="none">
-      <path d="M18 1L2 7.5V20C2 29.5 9.5 38 18 41C26.5 38 34 29.5 34 20V7.5L18 1Z" fill="white" stroke="#1A4FAA" stroke-width="2.5"/>
-      <circle cx="10" cy="16" r="3.5" fill="#6B7280"/>
-      <path d="M4 28C4 23.5 7 21 10 21C11 21 12 21.3 12.8 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <circle cx="26" cy="16" r="3.5" fill="#6B7280"/>
-      <path d="M32 28C32 23.5 29 21 26 21C25 21 24 21.3 23.2 21.9" stroke="#6B7280" stroke-width="2" stroke-linecap="round" fill="none"/>
-      <circle cx="18" cy="14" r="4.5" fill="#4A9FD4"/>
-      <path d="M10.5 30C10.5 24.5 14 22 18 22C22 22 25.5 24.5 25.5 30" stroke="#4A9FD4" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-    </svg>
-    <span>Portal <em>RH</em></span>
-  </a>
-  <a href="contacto.html" class="btn-demo">Solicitar demo</a>
-</nav>
-
-<div class="legal-hero">
+<div class="wrap"><nav>
+  <a class="logo" href="/"><img src="apple-touch-icon.png" alt="Portal RH">Portal RH</a>
+  <div class="links"><a href="/"><span data-es="Inicio" data-en="Home">Inicio</span></a><a href="/soluciones.html"><span data-es="Soluciones" data-en="Solutions">Soluciones</span></a><a href="/flotilla/"><span data-es="Flotilla" data-en="Fleet">Flotilla</span></a><a href="/contacto.html"><span data-es="Contacto" data-en="Contact">Contacto</span></a></div>
+  <div class="navr"><button class="lang" id="langBtn" onclick="toggleLang()">EN</button>
+  <a class="btn" href="https://wa.me/18092995916?text=" target="_blank" rel="noopener"><span data-es="Pedir demo" data-en="Request demo">Pedir demo</span></a></div>
+</nav></div>
+<div class="wrap"><div class="legal-hero">
   <p class="breadcrumb"><a href="index.html">Inicio</a> / Seguridad</p>
   <h1>Seguridad</h1>
   <p>Cómo protegemos los datos de tu empresa y tus empleados</p>
@@ -172,9 +179,27 @@
 
 </div>
 
-<footer>
-  <p>© 2026 Portal RH · <a href="index.html">Inicio</a> · <a href="terminos.html">Términos de uso</a> · <a href="privacidad.html">Privacidad</a></p>
-</footer>
+</div>
+<footer id="contacto"><div class="wrap">
+  <div class="final"><h2 class="serif"><span data-es="Te lo enseñamos en 20 minutos." data-en="We’ll show you in 20 minutes.">Te lo enseñamos en 20 minutos.</span></h2>
+  <div class="cta" style="margin:0"><a class="btn" href="https://wa.me/18092995916?text=" target="_blank" rel="noopener">WhatsApp</a><a class="btn ghost" href="tel:+18092995916">+1 (809) 299-5916</a></div></div>
+  <div class="fine"><span>© <span id="yr">2026</span> Portal RH · <a href="mailto:info@portal-hr.com" style="margin:0">info@portal-hr.com</a></span>
+  <span><a href="privacidad.html"><span data-es="Privacidad" data-en="Privacy">Privacidad</span></a><a href="terminos.html"><span data-es="Términos" data-en="Terms">Términos</span></a><a href="seguridad.html"><span data-es="Seguridad" data-en="Security">Seguridad</span></a></span></div>
+</div></footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 
-</body>
-</html>
+<script>
+(function(){
+  function apply(l){
+    document.querySelectorAll('[data-es]').forEach(function(e){e.innerHTML=e.getAttribute('data-'+l);});
+    document.documentElement.lang=l;
+    var b=document.getElementById('langBtn'); if(b) b.textContent=l==='es'?'EN':'ES';
+    window.LANG=l; try{localStorage.setItem('prh_lang',l);}catch(e){}
+    if(window.onLang) window.onLang(l);
+  }
+  var l='es'; try{l=localStorage.getItem('prh_lang')||'es';}catch(e){}
+  window.toggleLang=function(){apply(window.LANG==='es'?'en':'es');};
+  apply(l);
+})();
+</script>
+</body></html>

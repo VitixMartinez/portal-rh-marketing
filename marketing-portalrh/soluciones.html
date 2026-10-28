@@ -1,696 +1,130 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Soluciones — Portal RH</title>
-  <meta name="description" content="Conoce todos los módulos de Portal RH: nómina, asistencia, vacaciones, reclutamiento, evaluación y más. Diseñado para empresas dominicanas." />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="icon" href="apple-touch-icon.png" type="image/png" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --navy:   #060B18;
-      --navy2:  #0D1526;
-      --navy3:  #111E35;
-      --blue:   #2563EB;
-      --indigo: #6366F1;
-      --cyan:   #38BDF8;
-      --white:  #FFFFFF;
-      --gray:   #94A3B8;
-      --border: rgba(255,255,255,0.08);
-      --card:   #0F1C33;
-    }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', sans-serif; background: var(--navy); color: #E2E8F0; line-height: 1.6; overflow-x: hidden; }
-
-    /* ── NAV ── */
-    nav {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 5%; height: 68px;
-      background: rgba(6,11,24,0.92);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; z-index: 200;
-    }
-    .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .nav-logo img { width: 36px; height: 36px; border-radius: 8px; object-fit: contain; }
-    .nav-logo span { font-size: 1.1rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; }
-    .nav-logo span em { color: var(--indigo); font-style: normal; }
-    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--gray); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
-    .nav-links a:hover { color: #fff; }
-    .btn-nav {
-      background: var(--blue); color: #fff; padding: 9px 20px; border-radius: 8px;
-      font-weight: 600; font-size: .875rem; text-decoration: none; transition: background .2s;
-    }
-    .btn-nav:hover { background: #1d4ed8; }
-
-    /* ── HERO ── */
-    .hero {
-      display: grid; grid-template-columns: 1fr 1fr;
-      min-height: 380px; overflow: hidden;
-    }
-    .hero-left {
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 72px 64px; background: var(--navy2);
-    }
-    .hero-tag {
-      display: inline-block; background: rgba(99,102,241,.15);
-      color: var(--cyan); font-size: .75rem; font-weight: 700;
-      letter-spacing: .12em; text-transform: uppercase;
-      padding: 5px 12px; border-radius: 20px;
-      border: 1px solid rgba(56,189,248,.25); margin-bottom: 20px; width: fit-content;
-    }
-    .hero-title { font-size: 2.6rem; font-weight: 900; line-height: 1.15; color: #fff; margin-bottom: 18px; }
-    .hero-title span { color: var(--cyan); }
-    .hero-desc { font-size: 1rem; color: var(--gray); max-width: 460px; margin-bottom: 32px; }
-    .btn-primary {
-      display: inline-block; background: var(--blue); color: #fff;
-      padding: 13px 28px; border-radius: 8px; font-weight: 700;
-      font-size: .95rem; text-decoration: none; width: fit-content; transition: background .2s;
-    }
-    .btn-primary:hover { background: #1d4ed8; }
-    .hero-right { position: relative; overflow: hidden; }
-    .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
-    .hero-placeholder {
-      width: 100%; height: 100%; min-height: 380px;
-      background: linear-gradient(135deg, #1a2f5e 0%, #0d1a38 100%);
-      display: flex; align-items: center; justify-content: center; color: var(--gray);
-    }
-
-    /* ── SECTION INTRO ── */
-    .section-intro { text-align: center; padding: 72px 5% 40px; max-width: 760px; margin: 0 auto; }
-    .section-label {
-      font-size: .75rem; font-weight: 700; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--cyan); margin-bottom: 14px;
-    }
-    .section-title { font-size: 2.2rem; font-weight: 900; color: #fff; line-height: 1.2; margin-bottom: 16px; }
-    .section-desc { font-size: 1rem; color: var(--gray); }
-
-    /* ── MODULE GRID ── */
-    .modules-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 2px; background: var(--border); margin: 0 0 80px;
-    }
-    .mod-card {
-      background: var(--card); overflow: hidden;
-      display: flex; flex-direction: column;
-      transition: background .2s; scroll-margin-top: 90px;
-    }
-    .mod-card:hover { background: #162040; }
-    .mod-card-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; display: block; }
-    .mod-card-img-ph {
-      width: 100%; aspect-ratio: 16/9;
-      background: linear-gradient(135deg, #1a2f5e 0%, #0d1a38 100%);
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gray); font-size: .8rem;
-    }
-    .mod-card-body { padding: 28px 28px 32px; flex: 1; display: flex; flex-direction: column; }
-    .mod-card-icon {
-      width: 40px; height: 40px; background: rgba(99,102,241,.15);
-      border-radius: 10px; display: flex; align-items: center; justify-content: center;
-      margin-bottom: 16px; color: var(--cyan);
-    }
-    .mod-card-icon svg { width: 20px; height: 20px; }
-    .mod-card-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
-    .mod-card-desc { font-size: .875rem; color: var(--gray); line-height: 1.65; flex: 1; }
-    .btn-details {
-      display: inline-flex; align-items: center; gap: 6px;
-      margin-top: 20px; color: var(--cyan); font-size: .875rem;
-      font-weight: 600; text-decoration: none; background: none;
-      border: none; cursor: pointer; padding: 0; font-family: inherit;
-      transition: gap .2s;
-    }
-    .btn-details:hover { gap: 10px; }
-    .btn-details svg { width: 16px; height: 16px; }
-
-    /* ── PILLARS ── */
-    .pillars { background: var(--navy2); padding: 72px 5%; text-align: center; }
-    .pillars h2 { font-size: 1.9rem; font-weight: 900; color: #fff; margin-bottom: 12px; }
-    .pillars p { color: var(--gray); font-size: 1rem; max-width: 580px; margin: 0 auto 52px; }
-    .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 940px; margin: 0 auto; }
-    .pillar { text-align: left; }
-    .pillar-icon { width: 46px; height: 46px; color: var(--cyan); margin-bottom: 14px; }
-    .pillar-name { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-    .pillar-text { font-size: .875rem; color: var(--gray); line-height: 1.65; }
-
-    /* ── CTA ── */
-    .cta-bottom {
-      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
-      padding: 72px 5%; text-align: center;
-    }
-    .cta-bottom h2 { font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 14px; }
-    .cta-bottom p { color: rgba(255,255,255,.8); font-size: 1rem; margin-bottom: 32px; }
-    .cta-group { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
-    .btn-white {
-      background: #fff; color: #1e3a8a; padding: 13px 28px; border-radius: 8px;
-      font-weight: 700; text-decoration: none; font-size: .95rem; transition: opacity .2s;
-    }
-    .btn-white:hover { opacity: .9; }
-    .btn-outline-white {
-      background: transparent; color: #fff; padding: 13px 28px; border-radius: 8px;
-      font-weight: 700; text-decoration: none; font-size: .95rem;
-      border: 2px solid rgba(255,255,255,.5); transition: border-color .2s;
-    }
-    .btn-outline-white:hover { border-color: #fff; }
-
-    /* ── FOOTER ── */
-    footer {
-      background: #040A14; padding: 28px 5%; text-align: center;
-      color: var(--gray); font-size: .82rem; border-top: 1px solid var(--border);
-    }
-    footer a { color: var(--gray); text-decoration: none; }
-    footer a:hover { color: #fff; }
-
-    /* ── MODAL ── */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(4,10,20,.85); backdrop-filter: blur(6px);
-      align-items: center; justify-content: center; padding: 24px;
-    }
-    .modal-overlay.open { display: flex; }
-    .modal {
-      background: #0F1C33; border: 1px solid rgba(99,102,241,.25);
-      border-radius: 16px; width: 100%; max-width: 640px;
-      max-height: 88vh; overflow-y: auto; position: relative;
-      padding: 40px 40px 36px;
-    }
-    .modal-close {
-      position: absolute; top: 18px; right: 18px;
-      background: rgba(255,255,255,.06); border: none; cursor: pointer;
-      color: var(--gray); width: 32px; height: 32px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center; font-size: 1.2rem;
-      transition: background .2s; font-family: inherit;
-    }
-    .modal-close:hover { background: rgba(255,255,255,.12); color: #fff; }
-    .modal-icon {
-      width: 52px; height: 52px; background: rgba(99,102,241,.15);
-      border-radius: 14px; display: flex; align-items: center;
-      justify-content: center; color: var(--cyan); margin-bottom: 20px;
-    }
-    .modal-icon svg { width: 26px; height: 26px; }
-    .modal h2 { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 12px; }
-    .modal .modal-subtitle { font-size: .95rem; color: var(--gray); margin-bottom: 24px; line-height: 1.6; }
-    .modal-features { list-style: none; margin-bottom: 28px; display: flex; flex-direction: column; gap: 10px; }
-    .modal-features li {
-      display: flex; align-items: flex-start; gap: 10px;
-      font-size: .9rem; color: #CBD5E1; line-height: 1.5;
-    }
-    .modal-features li::before {
-      content: "✓"; color: var(--cyan); font-weight: 800;
-      font-size: .85rem; margin-top: 1px; flex-shrink: 0;
-    }
-    .modal-tag {
-      display: inline-block; background: rgba(56,189,248,.1);
-      border: 1px solid rgba(56,189,248,.2); color: var(--cyan);
-      font-size: .75rem; font-weight: 600; padding: 4px 10px;
-      border-radius: 20px; margin-bottom: 20px;
-    }
-    .modal-cta {
-      display: inline-block; background: var(--blue); color: #fff;
-      padding: 12px 26px; border-radius: 8px; font-weight: 700;
-      font-size: .9rem; text-decoration: none; transition: background .2s;
-    }
-    .modal-cta:hover { background: #1d4ed8; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; }
-      .hero-right { display: none; }
-      .modules-grid { grid-template-columns: 1fr 1fr; }
-      .pillars-grid { grid-template-columns: 1fr; gap: 32px; }
-      nav { padding: 0 24px; }
-      .nav-links { display: none; }
-      .modal { padding: 28px 24px 24px; }
-    }
-    @media (max-width: 600px) {
-      .modules-grid { grid-template-columns: 1fr; }
-      .hero-left { padding: 48px 24px; }
-      .hero-title { font-size: 2rem; }
-      .section-intro { padding: 52px 24px 32px; }
-      .pillars { padding: 52px 24px; }
-      .cta-bottom { padding: 52px 24px; }
-    }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Soluciones — Portal RH</title>
+<meta name="description" content="Módulos de Portal RH: empleados, asistencia, vacaciones, nómina, desempeño, entrenamientos, reconocimientos, reclutamiento y documentos.">
+<link rel="icon" href="apple-touch-icon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png"><link rel="manifest" href="manifest.json">
+<style>
+:root{--ink:#121417;--muted:#5b616b;--line:#e4e4e0;--bg:#fff;--soft:#f4f4f1;--ok:#12805c;--warn:#b26a00}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.5}
+a{color:inherit}
+.serif{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.02em}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-bottom:1px solid var(--line);gap:16px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;font-size:18px}
+.logo img{width:30px;height:30px;border-radius:7px}
+nav .links{display:flex;gap:26px;font-size:14px;color:var(--muted)} nav .links a{text-decoration:none} nav .links a.on{color:var(--ink);font-weight:600}
+.navr{display:flex;gap:10px;align-items:center}
+.lang{background:none;border:1px solid var(--line);border-radius:6px;padding:9px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.btn{display:inline-block;background:var(--ink);color:#fff;padding:12px 20px;border-radius:6px;text-decoration:none;font-size:14px;font-weight:600;border:0;cursor:pointer}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hero{display:grid;grid-template-columns:1fr 1.05fr;gap:56px;padding:72px 0 80px;align-items:center}
+.hero h1,.ph1{font-size:60px;line-height:1.03;margin:18px 0 22px}
+.hero p{font-size:19px;color:var(--muted);max-width:470px}
+.cta{display:flex;gap:12px;margin-top:30px;flex-wrap:wrap}
+.demo,.card{border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 30px 60px -30px rgba(0,0,0,.22);background:#fff}
+.demo .bar{display:flex;gap:6px;padding:10px 14px;border-bottom:1px solid var(--line);background:var(--soft)}
+.demo .bar i{width:10px;height:10px;border-radius:50%;background:#d6d6d2}
+.tabs{display:flex;border-bottom:1px solid var(--line)}
+.tabs button{flex:1;padding:12px;background:none;border:0;font-size:13px;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent}
+.tabs button.on{color:var(--ink);border-color:var(--ink);font-weight:600}
+.pane{display:none;padding:22px;min-height:320px}.pane.on{display:block}
+.clock{font-size:46px;font-variant-numeric:tabular-nums}
+.row{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.pill{font-size:12px;padding:3px 9px;border-radius:20px;background:var(--soft);white-space:nowrap}
+.pill.ok{background:#e3f4ec;color:var(--ok)}.pill.warn{background:#fff1dc;color:var(--warn)}
+.hint{font-size:12px;color:var(--muted);margin-top:12px}
+section{padding:90px 0;border-top:1px solid var(--line)}
+h2{font-size:44px;line-height:1.08;margin:12px 0 18px;max-width:760px}
+.lead{font-size:18px;color:var(--muted);max-width:620px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);margin-top:48px;border-top:1px solid var(--ink)}
+.grid3>div{padding:26px 26px 0 0}.grid3 h3{font-size:20px;margin-bottom:8px}.grid3 p{color:var(--muted);font-size:15px}
+.num{font-size:13px;color:var(--muted);margin-bottom:28px;display:block}
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:56px;margin-top:40px;align-items:start}
+label{font-size:14px;font-weight:600;display:flex;justify-content:space-between;margin:22px 0 8px}
+input[type=range]{width:100%;accent-color:var(--ink)}
+.result{background:var(--ink);color:#fff;border-radius:12px;padding:36px}
+.result .big{font-size:72px;line-height:1}.result small{color:#a9adb5;font-size:13px}
+.result .split{display:flex;gap:36px;margin-top:28px;padding-top:22px;border-top:1px solid #2c3036}
+.result .split b{font-size:26px;display:block;font-weight:500}
+.band{background:var(--soft)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+ul.check{list-style:none;margin-top:22px}ul.check li{padding:9px 0;border-bottom:1px solid var(--line);font-size:15px}
+.mod{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:64px 0;border-top:1px solid var(--line)}
+.mod:nth-child(even) .txt{order:2}
+.mod h3{font-size:34px;margin:10px 0 14px;line-height:1.1}
+.cardimg{width:100%;height:200px;object-fit:cover;display:block}.cardin{padding:22px}
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:44px;border-top:1px solid var(--ink)}
+.plan{padding:28px 24px 28px 0;border-right:1px solid var(--line);margin-right:24px}
+.plan:last-child{border-right:0}
+.plan .pn{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.plan .pr{font-size:48px;margin:10px 0 2px}.plan .pr small{font-size:15px;color:var(--muted);font-family:inherit}
+.plan .ps{font-size:13px;color:var(--muted);margin-bottom:16px}
+.plan ul{list-style:none;margin-bottom:22px}.plan li{font-size:14px;padding:6px 0;border-bottom:1px solid var(--line)}
+.tag{display:inline-block;font-size:11px;background:var(--ink);color:#fff;padding:3px 8px;border-radius:4px;margin-left:6px;vertical-align:middle;letter-spacing:0;text-transform:none}
+footer{padding:70px 0 40px;border-top:1px solid var(--line)}
+.final{display:flex;justify-content:space-between;align-items:end;gap:30px;flex-wrap:wrap}.final h2{margin:0}
+.fine{margin-top:50px;font-size:13px;color:var(--muted);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.fine a{text-decoration:none;margin-left:18px}
+@media(max-width:900px){.hero,.calc,.two,.mod{grid-template-columns:1fr}.mod:nth-child(even) .txt{order:0}.hero h1,.ph1{font-size:40px}h2{font-size:32px}.grid3{grid-template-columns:1fr}nav .links{display:none}.plan{border-right:0;margin-right:0;border-bottom:1px solid var(--line)}}
+</style>
 </head>
 <body>
-
-<!-- ══ NAV ══ -->
-<nav>
-  <a href="index.html" class="nav-logo">
-    <img src="apple-touch-icon.png" alt="Portal RH" />
-    <span>Portal<em>RH</em></span>
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html#modulos">Módulos</a></li>
-    <li><a href="index.html#como-funciona">Cómo funciona</a></li>
-    <li><a href="index.html#precios">Precios</a></li>
-    <li><a href="contacto.html">Contacto</a></li>
-  </ul>
-  <a href="contacto.html" class="btn-nav">Solicitar demo</a>
-</nav>
-
-<!-- ══ HERO ══ -->
-<section class="hero">
-  <div class="hero-left">
-    <span class="hero-tag">Soluciones de RH</span>
-    <h1 class="hero-title">Todo lo que tu equipo<br/><span>necesita para crecer.</span></h1>
-    <p class="hero-desc">Portal RH reúne en una sola plataforma todo lo que necesitas para gestionar tu gente: desde el expediente hasta la nómina, los beneficios y el desarrollo profesional.</p>
-    <a href="contacto.html" class="btn-primary">Solicitar demo gratuita</a>
-  </div>
-  <div class="hero-right">
-    <img src="images/hero-soluciones.jpg" alt="Gestión de RH"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="hero-placeholder" style="display:none">📷 hero-soluciones.jpg</div>
-  </div>
-</section>
-
-<!-- ══ INTRO ══ -->
-<div class="section-intro">
-  <p class="section-label">Plataforma Integral</p>
-  <h2 class="section-title">Todos los módulos que tu empresa necesita.</h2>
-  <p class="section-desc">Desde la contratación hasta la nómina, cada módulo está conectado y diseñado para el mercado dominicano. Haz clic en cualquier módulo para ver los detalles.</p>
+<div class="wrap"><nav>
+  <a class="logo" href="/"><img src="apple-touch-icon.png" alt="Portal RH">Portal RH</a>
+  <div class="links"><a href="/"><span data-es="Inicio" data-en="Home">Inicio</span></a><a href="/soluciones.html" class="on"><span data-es="Soluciones" data-en="Solutions">Soluciones</span></a><a href="/flotilla/"><span data-es="Flotilla" data-en="Fleet">Flotilla</span></a><a href="/contacto.html"><span data-es="Contacto" data-en="Contact">Contacto</span></a></div>
+  <div class="navr"><button class="lang" id="langBtn" onclick="toggleLang()">EN</button>
+  <a class="btn" href="https://wa.me/18092995916?text=" target="_blank" rel="noopener"><span data-es="Pedir demo" data-en="Request demo">Pedir demo</span></a></div>
+</nav></div>
+<div class="wrap" style="padding-top:72px">
+  <span class="eyebrow"><span data-es="Soluciones" data-en="Solutions">Soluciones</span></span>
+  <h1 class="serif ph1" style="max-width:840px"><span data-es="Un módulo para cada cosa que hoy haces a mano." data-en="A module for everything you do by hand today.">Un módulo para cada cosa que hoy haces a mano.</span></h1>
+  <p class="lead"><span data-es="Activa solo lo que necesitas. Todo comparte los mismos empleados, permisos y reportes." data-en="Turn on only what you need. Everything shares the same employees, permissions and reports.">Activa solo lo que necesitas. Todo comparte los mismos empleados, permisos y reportes.</span></p>
+  <img src="images/hero-soluciones.jpg" alt="" style="width:100%;height:380px;object-fit:cover;border-radius:12px;margin:40px 0 20px">
 </div>
-
-<!-- ══ MÓDULOS GRID ══ -->
-<div class="modules-grid">
-
-  <!-- 1. Gestión de Empleados -->
-  <div class="mod-card" id="gestion-empleados">
-    <img class="mod-card-img" src="images/foto-gestion.jpg" alt="Gestión de Empleados"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">👥 Gestión de Empleados</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-      </div>
-      <h3 class="mod-card-title">Gestión de Empleados</h3>
-      <p class="mod-card-desc">Expedientes digitales completos: datos personales, contratos, documentos y historial laboral en un solo lugar seguro.</p>
-      <button class="btn-details" onclick="openModal('modal-empleados')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 2. Control de Asistencia -->
-  <div class="mod-card" id="asistencia">
-    <img class="mod-card-img" src="images/foto-portal.jpg" alt="Control de Asistencia"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">📅 Control de Asistencia</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      </div>
-      <h3 class="mod-card-title">Control de Asistencia</h3>
-      <p class="mod-card-desc">Registra entradas, salidas, ausencias y tardanzas. Genera reportes con un clic. Cumple con la Ley 16-92.</p>
-      <button class="btn-details" onclick="openModal('modal-asistencia')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 3. Gestión de Vacaciones -->
-  <div class="mod-card" id="vacaciones">
-    <img class="mod-card-img" src="images/foto-beneficios.jpg" alt="Gestión de Vacaciones"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">🌴 Gestión de Vacaciones</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
-      </div>
-      <h3 class="mod-card-title">Gestión de Vacaciones</h3>
-      <p class="mod-card-desc">Flujo completo de solicitud, aprobación y seguimiento. Los empleados ven su saldo desde su portal personal.</p>
-      <button class="btn-details" onclick="openModal('modal-vacaciones')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 4. Nómina -->
-  <div class="mod-card" id="nomina">
-    <img class="mod-card-img" src="images/foto-nomina.jpg" alt="Nómina"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">💰 Nómina</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-      </div>
-      <h3 class="mod-card-title">Nómina Automatizada</h3>
-      <p class="mod-card-desc">Cálculo automático de salarios, bonificaciones, deducciones y TSS. Exporta en formatos para bancos locales.</p>
-      <button class="btn-details" onclick="openModal('modal-nomina')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 5. Evaluación de Desempeño -->
-  <div class="mod-card" id="evaluacion">
-    <img class="mod-card-img" src="images/foto-reportes.jpg" alt="Evaluación de Desempeño"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">📈 Evaluación de Desempeño</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-      </div>
-      <h3 class="mod-card-title">Evaluación de Desempeño</h3>
-      <p class="mod-card-desc">Evaluaciones 360°, metas y retroalimentación continua. Identifica talento y toma decisiones con datos.</p>
-      <button class="btn-details" onclick="openModal('modal-evaluacion')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 6. Capacitación -->
-  <div class="mod-card" id="capacitacion">
-    <img class="mod-card-img" src="images/foto-gestion.jpg" alt="Capacitación"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">🎓 Capacitación</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-      </div>
-      <h3 class="mod-card-title">Capacitación y Cursos</h3>
-      <p class="mod-card-desc">Asigna cursos, rastrea avances y certifica a tu equipo. Todo en la plataforma sin herramientas externas.</p>
-      <button class="btn-details" onclick="openModal('modal-capacitacion')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 7. Reconocimientos -->
-  <div class="mod-card" id="reconocimientos">
-    <img class="mod-card-img" src="images/foto-portal.jpg" alt="Reconocimientos"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">🏆 Reconocimientos</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 22V4h4v18"/><path d="M6 9v5a6 6 0 0 0 12 0V9"/></svg>
-      </div>
-      <h3 class="mod-card-title">Reconocimientos</h3>
-      <p class="mod-card-desc">Premios y reconocimientos que motivan a tu equipo. Empleado del mes, mejor desempeño y logros destacados.</p>
-      <button class="btn-details" onclick="openModal('modal-reconocimientos')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- 8. Reclutamiento -->
-  <div class="mod-card" id="reclutamiento">
-    <img class="mod-card-img" src="images/foto-vacantes.jpg" alt="Reclutamiento"
-         onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
-    <div class="mod-card-img-ph" style="display:none">🔍 Reclutamiento</div>
-    <div class="mod-card-body">
-      <div class="mod-card-icon">
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </div>
-      <h3 class="mod-card-title">Vacantes Internas y Externas</h3>
-      <p class="mod-card-desc">Publica vacantes dentro y fuera de tu organización. Gestiona candidatos y formaliza contrataciones sin salir de la plataforma.</p>
-      <button class="btn-details" onclick="openModal('modal-reclutamiento')">
-        Ver detalles
-        <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </button>
-    </div>
-  </div>
-
+<div class="wrap">
+<div class="mod"><div class="txt"><span class="eyebrow">01 · <span data-es="Gestión de empleados" data-en="Employee management">Gestión de empleados</span></span><h3 class="serif"><span data-es="Todo sobre cada persona, en un lugar." data-en="Everything about each person, in one place.">Todo sobre cada persona, en un lugar.</span></h3><p class="lead"><span data-es="Perfil, puesto, salario, supervisor e historial de cada empleado." data-en="Profile, position, salary, supervisor and history for every employee.">Perfil, puesto, salario, supervisor e historial de cada empleado.</span></p><ul class="check"><li><span data-es="Expediente completo por empleado" data-en="Complete file per employee">Expediente completo por empleado</span></li><li><span data-es="Organigrama y departamentos" data-en="Org chart and departments">Organigrama y departamentos</span></li><li><span data-es="Portal propio para cada empleado" data-en="Each employee gets their own portal">Portal propio para cada empleado</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-gestion.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="Ana Rodríguez" data-en="Ana Rodríguez">Ana Rodríguez</span></span><span class="pill"><span data-es="Contabilidad" data-en="Accounting">Contabilidad</span></span></div><div class="row"><span><span data-es="Puesto" data-en="Position">Puesto</span></span><b>Analista</b></div><div class="row"><span><span data-es="Supervisor" data-en="Supervisor">Supervisor</span></span><b>Pedro Gil</b></div><div class="row"><span><span data-es="Estado" data-en="Status">Estado</span></span><span class="pill ok"><span data-es="Activo" data-en="Active">Activo</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">02 · <span data-es="Asistencia" data-en="Attendance">Asistencia</span></span><h3 class="serif"><span data-es="Marcaciones con hora real." data-en="Punches with the real time.">Marcaciones con hora real.</span></h3><p class="lead"><span data-es="El empleado marca desde el celular. Si corrige una hora, el reporte muestra la que declaró y la real del sistema." data-en="Employees punch from their phone. If they adjust a time, the report shows both the declared and the real system time.">El empleado marca desde el celular. Si corrige una hora, el reporte muestra la que declaró y la real del sistema.</span></p><ul class="check"><li><span data-es="Almuerzo manual o automático" data-en="Manual or automatic lunch">Almuerzo manual o automático</span></li><li><span data-es="Horas atrasadas con límite de días" data-en="Backdated hours with a day limit">Horas atrasadas con límite de días</span></li><li><span data-es="Reporte en Excel y PDF con tu logo" data-en="Excel and PDF report with your logo">Reporte en Excel y PDF con tu logo</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-portal.jpg" alt="" loading="lazy"><div class="cardin"><div class="eyebrow" style="margin-bottom:8px">Ana Rodríguez · <span data-es="lunes" data-en="Monday">lunes</span></div><div class="row"><span><span data-es="Entrada" data-en="Clock in">Entrada</span></span><span class="pill ok"><span data-es="08:00 · real 08:00" data-en="08:00 · real 08:00">08:00 · real 08:00</span></span></div><div class="row"><span><span data-es="Salida almuerzo" data-en="Lunch out">Salida almuerzo</span></span><span class="pill ok"><span data-es="12:00 · real 12:02" data-en="12:00 · real 12:02">12:00 · real 12:02</span></span></div><div class="row"><span><span data-es="Regreso" data-en="Lunch in">Regreso</span></span><span class="pill ok"><span data-es="13:00 · real 13:01" data-en="13:00 · real 13:01">13:00 · real 13:01</span></span></div><div class="row"><span><span data-es="Salida" data-en="Clock out">Salida</span></span><span class="pill warn"><span data-es="17:00 · real 17:45" data-en="17:00 · real 17:45">17:00 · real 17:45</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">03 · <span data-es="Vacaciones y permisos" data-en="Time off and leave">Vacaciones y permisos</span></span><h3 class="serif"><span data-es="Pide, aprueba y listo." data-en="Request, approve, done.">Pide, aprueba y listo.</span></h3><p class="lead"><span data-es="Sin papeles ni mensajes perdidos. Cada quien ve sus días disponibles." data-en="No paperwork or lost messages. Everyone sees their available days.">Sin papeles ni mensajes perdidos. Cada quien ve sus días disponibles.</span></p><ul class="check"><li><span data-es="Aprobación del supervisor desde el celular" data-en="Supervisor approval from the phone">Aprobación del supervisor desde el celular</span></li><li><span data-es="Calendario del equipo" data-en="Team calendar">Calendario del equipo</span></li><li><span data-es="Historial por empleado" data-en="History per employee">Historial por empleado</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-beneficios.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="Días disponibles" data-en="Days available">Días disponibles</span></span><b>14</b></div><div class="row"><span><span data-es="Vacaciones 3 días" data-en="3-day vacation">Vacaciones 3 días</span></span><span class="pill ok"><span data-es="Aprobada" data-en="Approved">Aprobada</span></span></div><div class="row"><span><span data-es="Permiso médico" data-en="Medical leave">Permiso médico</span></span><span class="pill warn"><span data-es="Pendiente" data-en="Pending">Pendiente</span></span></div><div class="row"><span><span data-es="Día personal" data-en="Personal day">Día personal</span></span><span class="pill"><span data-es="Borrador" data-en="Draft">Borrador</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">04 · <span data-es="Nómina" data-en="Payroll">Nómina</span></span><h3 class="serif"><span data-es="La nómina, sin hojas de Excel." data-en="Payroll, without spreadsheets.">La nómina, sin hojas de Excel.</span></h3><p class="lead"><span data-es="Salarios, descuentos e ingresos extra en un solo lugar." data-en="Salaries, deductions and extra income in one place.">Salarios, descuentos e ingresos extra en un solo lugar.</span></p><ul class="check"><li><span data-es="Volantes de pago para cada empleado" data-en="Pay stubs for every employee">Volantes de pago para cada empleado</span></li><li><span data-es="Historial de pagos" data-en="Payment history">Historial de pagos</span></li><li><span data-es="Exportación para contabilidad" data-en="Export for accounting">Exportación para contabilidad</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-nomina.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="Período" data-en="Period">Período</span></span><b><span data-es="1–15 octubre" data-en="Oct 1–15">1–15 octubre</span></b></div><div class="row"><span><span data-es="Empleados" data-en="Employees">Empleados</span></span><b>48</b></div><div class="row"><span><span data-es="Total bruto" data-en="Gross total">Total bruto</span></span><b>RD$1,284,500</b></div><div class="row"><span><span data-es="Estado" data-en="Status">Estado</span></span><span class="pill ok"><span data-es="Lista para pagar" data-en="Ready to pay">Lista para pagar</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">05 · <span data-es="Evaluación de desempeño" data-en="Performance reviews">Evaluación de desempeño</span></span><h3 class="serif"><span data-es="Conversaciones con datos, no con memoria." data-en="Conversations with data, not memory.">Conversaciones con datos, no con memoria.</span></h3><p class="lead"><span data-es="Evalúa por competencias y objetivos, y guarda el historial de cada persona." data-en="Review by competencies and goals, and keep each person’s history.">Evalúa por competencias y objetivos, y guarda el historial de cada persona.</span></p><ul class="check"><li><span data-es="Evaluaciones por período" data-en="Reviews by period">Evaluaciones por período</span></li><li><span data-es="Objetivos y competencias" data-en="Goals and competencies">Objetivos y competencias</span></li><li><span data-es="Historial de resultados" data-en="Results history">Historial de resultados</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-reportes.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="Período" data-en="Period">Período</span></span><b>2026 · S1</b></div><div class="row"><span><span data-es="Trabajo en equipo" data-en="Teamwork">Trabajo en equipo</span></span><span class="pill ok"><span data-es="4.5 / 5" data-en="4.5 / 5">4.5 / 5</span></span></div><div class="row"><span><span data-es="Puntualidad" data-en="Punctuality">Puntualidad</span></span><span class="pill ok"><span data-es="4.8 / 5" data-en="4.8 / 5">4.8 / 5</span></span></div><div class="row"><span><span data-es="Objetivos" data-en="Goals">Objetivos</span></span><span class="pill warn"><span data-es="3 de 4" data-en="3 of 4">3 de 4</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">06 · <span data-es="Entrenamientos" data-en="Training">Entrenamientos</span></span><h3 class="serif"><span data-es="Cursos con evaluación." data-en="Courses with assessments.">Cursos con evaluación.</span></h3><p class="lead"><span data-es="Asigna cursos, el empleado los completa y responde la evaluación ahí mismo." data-en="Assign courses; employees complete them and take the assessment right there.">Asigna cursos, el empleado los completa y responde la evaluación ahí mismo.</span></p><ul class="check"><li><span data-es="Seguimiento de quién completó" data-en="Track who completed">Seguimiento de quién completó</span></li><li><span data-es="Evaluaciones con nota" data-en="Graded assessments">Evaluaciones con nota</span></li><li><span data-es="Disponible también para administradores" data-en="Available for admins too">Disponible también para administradores</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-gestion.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="Seguridad en el trabajo" data-en="Workplace safety">Seguridad en el trabajo</span></span><span class="pill ok"><span data-es="Completado · 90%" data-en="Completed · 90%">Completado · 90%</span></span></div><div class="row"><span><span data-es="Servicio al cliente" data-en="Customer service">Servicio al cliente</span></span><span class="pill warn"><span data-es="En progreso" data-en="In progress">En progreso</span></span></div><div class="row"><span><span data-es="Inducción" data-en="Onboarding">Inducción</span></span><span class="pill ok"><span data-es="Completado" data-en="Completed">Completado</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">07 · <span data-es="Reconocimientos" data-en="Recognition">Reconocimientos</span></span><h3 class="serif"><span data-es="Que el buen trabajo se note." data-en="Make good work visible.">Que el buen trabajo se note.</span></h3><p class="lead"><span data-es="Reconoce logros y aniversarios, y que todo el equipo lo vea." data-en="Celebrate achievements and anniversaries, and let the whole team see it.">Reconoce logros y aniversarios, y que todo el equipo lo vea.</span></p><ul class="check"><li><span data-es="Reconocimientos entre compañeros" data-en="Peer-to-peer recognition">Reconocimientos entre compañeros</span></li><li><span data-es="Aniversarios y cumpleaños" data-en="Anniversaries and birthdays">Aniversarios y cumpleaños</span></li><li><span data-es="Historial en el perfil" data-en="History on the profile">Historial en el perfil</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-portal.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="María Gómez" data-en="María Gómez">María Gómez</span></span><span class="pill ok"><span data-es="Empleada del mes" data-en="Employee of the month">Empleada del mes</span></span></div><div class="row"><span><span data-es="José Martínez" data-en="José Martínez">José Martínez</span></span><span class="pill"><span data-es="5 años en la empresa" data-en="5 years with the company">5 años en la empresa</span></span></div><div class="row"><span><span data-es="Equipo de ventas" data-en="Sales team">Equipo de ventas</span></span><span class="pill ok"><span data-es="Meta cumplida" data-en="Goal reached">Meta cumplida</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">08 · <span data-es="Reclutamiento" data-en="Recruiting">Reclutamiento</span></span><h3 class="serif"><span data-es="De la vacante al primer día." data-en="From job post to day one.">De la vacante al primer día.</span></h3><p class="lead"><span data-es="Publica la vacante con tu logo, recibe aplicaciones y contrata con un clic." data-en="Post the job with your logo, receive applications and hire in one click.">Publica la vacante con tu logo, recibe aplicaciones y contrata con un clic.</span></p><ul class="check"><li><span data-es="Página de vacante con tu marca" data-en="Branded job page">Página de vacante con tu marca</span></li><li><span data-es="Correo automático de confirmación al candidato" data-en="Automatic confirmation email to candidates">Correo automático de confirmación al candidato</span></li><li><span data-es="Contratar crea el perfil del empleado" data-en="Hiring creates the employee profile">Contratar crea el perfil del empleado</span></li></ul></div>
+<div class="card"><img class="cardimg" src="images/foto-vacantes.jpg" alt="" loading="lazy"><div class="cardin"><div class="row"><span><span data-es="Aplicaciones" data-en="Applications">Aplicaciones</span></span><b>23</b></div><div class="row"><span>María Gómez</span><span class="pill ok"><span data-es="Entrevista" data-en="Interview">Entrevista</span></span></div><div class="row"><span>José Martínez</span><span class="pill"><span data-es="Nuevo" data-en="New">Nuevo</span></span></div><div class="row"><span>Laura Peña</span><span class="pill ok"><span data-es="Contratada" data-en="Hired">Contratada</span></span></div></div></div></div>
+<div class="mod"><div class="txt"><span class="eyebrow">09 · <span data-es="Documentos" data-en="Documents">Documentos</span></span><h3 class="serif"><span data-es="Cada papel en su sitio." data-en="Every document in its place.">Cada papel en su sitio.</span></h3><p class="lead"><span data-es="Contratos, cédulas y certificados por empleado, con alertas cuando algo vence." data-en="Contracts, IDs and certificates per employee, with alerts when something expires.">Contratos, cédulas y certificados por empleado, con alertas cuando algo vence.</span></p><ul class="check"><li><span data-es="Expediente digital por empleado" data-en="Digital file per employee">Expediente digital por empleado</span></li><li><span data-es="Avisos de vencimiento" data-en="Expiration alerts">Avisos de vencimiento</span></li><li><span data-es="Acceso según permisos" data-en="Permission-based access">Acceso según permisos</span></li></ul></div>
+<div class="card"><div class="cardin"><div class="row"><span><span data-es="Contrato de trabajo" data-en="Employment contract">Contrato de trabajo</span></span><span class="pill ok"><span data-es="Firmado" data-en="Signed">Firmado</span></span></div><div class="row"><span><span data-es="Cédula" data-en="ID card">Cédula</span></span><span class="pill ok"><span data-es="Vigente" data-en="Valid">Vigente</span></span></div><div class="row"><span><span data-es="Certificado médico" data-en="Medical certificate">Certificado médico</span></span><span class="pill warn"><span data-es="Vence en 9 días" data-en="Expires in 9 days">Vence en 9 días</span></span></div></div></div></div>
 </div>
+<footer id="contacto"><div class="wrap">
+  <div class="final"><h2 class="serif"><span data-es="Te lo enseñamos en 20 minutos." data-en="We’ll show you in 20 minutes.">Te lo enseñamos en 20 minutos.</span></h2>
+  <div class="cta" style="margin:0"><a class="btn" href="https://wa.me/18092995916?text=" target="_blank" rel="noopener">WhatsApp</a><a class="btn ghost" href="tel:+18092995916">+1 (809) 299-5916</a></div></div>
+  <div class="fine"><span>© <span id="yr">2026</span> Portal RH · <a href="mailto:info@portal-hr.com" style="margin:0">info@portal-hr.com</a></span>
+  <span><a href="privacidad.html"><span data-es="Privacidad" data-en="Privacy">Privacidad</span></a><a href="terminos.html"><span data-es="Términos" data-en="Terms">Términos</span></a><a href="seguridad.html"><span data-es="Seguridad" data-en="Security">Seguridad</span></a></span></div>
+</div></footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
 
-<!-- ══ PILLARS ══ -->
-<section class="pillars">
-  <h2>Una plataforma diseñada para crecer contigo.</h2>
-  <p>Portal RH se adapta a tu empresa sin importar el tamaño, con soporte local y actualizaciones continuas.</p>
-  <div class="pillars-grid">
-    <div class="pillar">
-      <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-      </svg>
-      <div class="pillar-name">Seguro y confiable</div>
-      <p class="pillar-text">Cifrado de extremo a extremo, copias de seguridad automáticas y cumplimiento con la Ley 172-13 de protección de datos de República Dominicana.</p>
-    </div>
-    <div class="pillar">
-      <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-      </svg>
-      <div class="pillar-name">Hecho para RD y LATAM</div>
-      <p class="pillar-text">Construido desde el origen con el Código de Trabajo dominicano, cálculo de TSS, regalía pascual y bonificación anual ya incorporados.</p>
-    </div>
-    <div class="pillar">
-      <svg class="pillar-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/>
-      </svg>
-      <div class="pillar-name">Soporte en español</div>
-      <p class="pillar-text">Nuestro equipo de soporte atiende en español e inglés por WhatsApp, teléfono y correo. Sin bots, sin esperas — personas reales que entienden tu negocio.</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══ CTA ══ -->
-<div class="cta-bottom">
-  <h2>¿Listo para transformar tu gestión de RH?</h2>
-  <p>Agenda una demo de 30 minutos y te mostramos cómo Portal RH se adapta a tu empresa.</p>
-  <div class="cta-group">
-    <a href="contacto.html" class="btn-white">Solicitar demo gratuita</a>
-    <a href="https://wa.me/18092995916" class="btn-outline-white">WhatsApp</a>
-  </div>
-</div>
-
-<!-- ══ FOOTER ══ -->
-<footer>
-  <p>© 2026 Portal RH · <a href="index.html">Inicio</a> · <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a> · Todos los derechos reservados</p>
-</footer>
-
-
-<!-- ══════════════════════════════════════════
-     MODALES
-═══════════════════════════════════════════ -->
-
-<!-- Modal: Gestión de Empleados -->
-<div class="modal-overlay" id="modal-empleados" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-empleados')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-    </div>
-    <span class="modal-tag">Módulo principal</span>
-    <h2>Gestión de Empleados</h2>
-    <p class="modal-subtitle">El expediente digital de cada colaborador en un solo lugar: datos, documentos, contratos e historial laboral accesibles en segundos, con control de permisos por rol.</p>
-    <ul class="modal-features">
-      <li>Expediente digital completo: datos personales, contacto de emergencia, cargo, departamento y fecha de ingreso</li>
-      <li>Carga y firma digital de contratos, acuerdos de confidencialidad y documentos de onboarding</li>
-      <li>Historial laboral con cambios de cargo, aumentos de sueldo y sanciones</li>
-      <li>Importación masiva de empleados desde Excel con plantilla incluida</li>
-      <li>Foto de perfil, acceso desde cualquier dispositivo</li>
-      <li>Roles diferenciados: Admin, Gerente y Empleado ven solo lo que les corresponde</li>
-      <li>Alertas automáticas de vencimiento de contratos y documentos</li>
-      <li>Reportes de headcount, rotación y antigüedad exportables en PDF o Excel</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Control de Asistencia -->
-<div class="modal-overlay" id="modal-asistencia" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-asistencia')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-    </div>
-    <span class="modal-tag">Cumplimiento Ley 16-92</span>
-    <h2>Control de Asistencia</h2>
-    <p class="modal-subtitle">Registra la jornada de trabajo de cada empleado con precisión. Elimina las hojas de cálculo y cumple con los requerimientos del Código de Trabajo dominicano.</p>
-    <ul class="modal-features">
-      <li>Registro de entrada y salida con marca de tiempo (timestamp) desde el portal del empleado</li>
-      <li>Detección automática de tardanzas, ausencias y horas extra</li>
-      <li>Aprobación de justificaciones de ausencia por el supervisor directo</li>
-      <li>Reportes de asistencia semanal, mensual y por rango de fechas con un clic</li>
-      <li>Integración directa con nómina: descuentos por ausencias se calculan automáticamente</li>
-      <li>Alertas al supervisor cuando un empleado no marca entrada</li>
-      <li>Historial de asistencia por empleado exportable a Excel o PDF</li>
-      <li>Compatible con la normativa de jornadas laborales de la Ley 16-92</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Gestión de Vacaciones -->
-<div class="modal-overlay" id="modal-vacaciones" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-vacaciones')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6v6l4 2"/></svg>
-    </div>
-    <span class="modal-tag">Flujo completo</span>
-    <h2>Gestión de Vacaciones y Permisos</h2>
-    <p class="modal-subtitle">Digitaliza el proceso completo de vacaciones: desde la solicitud del empleado hasta la aprobación del gerente, con cálculo automático de días disponibles según la ley dominicana.</p>
-    <ul class="modal-features">
-      <li>Solicitud de vacaciones en línea desde el portal del empleado, sin formularios en papel</li>
-      <li>Cálculo automático de días disponibles según antigüedad (14 días al año según el Código de Trabajo)</li>
-      <li>Flujo de aprobación: el supervisor recibe la solicitud, aprueba o rechaza con un comentario</li>
-      <li>Notificación automática al empleado al ser aprobado o rechazado</li>
-      <li>Visualización del equipo en modo calendario para evitar conflictos de fechas</li>
-      <li>Permisos por enfermedad, maternidad, paternidad y días personales diferenciados</li>
-      <li>Historial completo de vacaciones por empleado</li>
-      <li>Reporte de saldos pendientes por departamento</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Nómina -->
-<div class="modal-overlay" id="modal-nomina" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-nomina')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
-    </div>
-    <span class="modal-tag">Integrado con TSS e ISR</span>
-    <h2>Nómina Automatizada</h2>
-    <p class="modal-subtitle">Calcula la nómina de toda tu empresa en minutos con todas las deducciones legales aplicadas. Sin errores, sin recalcular manualmente, listo para exportar al banco.</p>
-    <ul class="modal-features">
-      <li>Cálculo automático de salario bruto, TSS (AFP + SFS), ISR y otras deducciones configurables</li>
-      <li>Regalía pascual y bonificación anual calculadas automáticamente con base en el sueldo</li>
-      <li>Descuentos automáticos por ausencias y tardanzas vinculados al módulo de asistencia</li>
-      <li>Generación de recibos de pago digitales para cada empleado (enviados por correo o disponibles en su portal)</li>
-      <li>Exportación de archivo de pago en formato compatible con Banco Popular, BHD, Banreservas y más</li>
-      <li>Historial de nóminas por período con posibilidad de reimpresión</li>
-      <li>Soporte para nómina semanal, quincenal y mensual</li>
-      <li>Reportes de costo laboral por departamento y centro de costo</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Evaluación de Desempeño -->
-<div class="modal-overlay" id="modal-evaluacion" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-evaluacion')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-    </div>
-    <span class="modal-tag">Decisiones basadas en datos</span>
-    <h2>Evaluación de Desempeño</h2>
-    <p class="modal-subtitle">Deja de depender de la intuición. Evalúa a tu equipo con criterios objetivos, establece metas medibles y construye planes de desarrollo personalizados.</p>
-    <ul class="modal-features">
-      <li>Evaluaciones 360°: el empleado se evalúa, su supervisor lo evalúa y sus compañeros también</li>
-      <li>Creación de metas (OKRs o KPIs) por empleado, departamento o empresa</li>
-      <li>Seguimiento del avance de metas en tiempo real con semáforo de estatus</li>
-      <li>Retroalimentación continua: los supervisores pueden dejar comentarios en cualquier momento</li>
-      <li>Planes de mejora individual (PIP) con fechas y responsables asignados</li>
-      <li>Identificación de talento de alto rendimiento para promociones internas</li>
-      <li>Historial de evaluaciones anteriores por empleado</li>
-      <li>Reportes de desempeño por equipo y área para decisiones de compensación</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Capacitación -->
-<div class="modal-overlay" id="modal-capacitacion" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-capacitacion')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-    </div>
-    <span class="modal-tag">Sin herramientas externas</span>
-    <h2>Capacitación y Cursos</h2>
-    <p class="modal-subtitle">Gestiona el desarrollo de tu equipo dentro de la misma plataforma. Asigna cursos, rastrea avances y emite certificaciones sin necesidad de herramientas externas.</p>
-    <ul class="modal-features">
-      <li>Biblioteca de cursos interna: sube videos, PDFs, presentaciones o enlaces externos</li>
-      <li>Asignación de cursos por empleado, cargo o departamento con fecha límite</li>
-      <li>Seguimiento de avance por módulo: el supervisor ve quién completó y quién no</li>
-      <li>Evaluaciones y quizzes al final de cada curso para validar el aprendizaje</li>
-      <li>Certificados digitales personalizados al completar un curso</li>
-      <li>Registro del historial de capacitaciones de cada empleado en su expediente</li>
-      <li>Alertas automáticas de cursos pendientes o próximos a vencer</li>
-      <li>Reportes de horas de capacitación por empleado y departamento</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Reconocimientos -->
-<div class="modal-overlay" id="modal-reconocimientos" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-reconocimientos')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 22V4h4v18"/><path d="M6 9v5a6 6 0 0 0 12 0V9"/></svg>
-    </div>
-    <span class="modal-tag">Cultura organizacional</span>
-    <h2>Reconocimientos</h2>
-    <p class="modal-subtitle">Un equipo motivado es más productivo. El módulo de reconocimientos permite celebrar logros, destacar colaboradores y fortalecer la cultura de tu empresa.</p>
-    <ul class="modal-features">
-      <li>Nominación de Empleado del Mes con votación entre compañeros o decisión gerencial</li>
-      <li>Reconocimientos por metas cumplidas, antigüedad, proyectos especiales y valores de la empresa</li>
-      <li>Feed interno de reconocimientos visible para todo el equipo (tipo mural de logros)</li>
-      <li>Notificación al empleado reconocido con mensaje personalizable</li>
-      <li>Integración con el módulo de evaluación: los reconocimientos se registran en el expediente</li>
-      <li>Historial de reconocimientos por empleado visible en su perfil</li>
-      <li>Categorías de reconocimiento configurables según los valores de tu empresa</li>
-      <li>Reportes de reconocimientos por período y departamento</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-<!-- Modal: Reclutamiento -->
-<div class="modal-overlay" id="modal-reclutamiento" onclick="closeOnOverlay(event, this)">
-  <div class="modal">
-    <button class="modal-close" onclick="closeModal('modal-reclutamiento')">✕</button>
-    <div class="modal-icon">
-      <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    </div>
-    <span class="modal-tag">Interno y externo</span>
-    <h2>Vacantes Internas y Externas</h2>
-    <p class="modal-subtitle">Gestiona todo tu proceso de reclutamiento desde un solo lugar: publica vacantes, recibe aplicaciones, evalúa candidatos y formaliza contrataciones sin salir de Portal RH.</p>
-    <ul class="modal-features">
-      <li>Publicación de vacantes internas: tus empleados pueden ver y aplicar desde su portal</li>
-      <li>Publicación de vacantes externas con página de aplicación pública para candidatos externos</li>
-      <li>Pipeline de candidatos por etapa: Recibido → Entrevista → Oferta → Contratado</li>
-      <li>Gestión de CVs y perfiles de candidatos centralizados por vacante</li>
-      <li>Programación de entrevistas con notificaciones automáticas al candidato y entrevistador</li>
-      <li>Evaluación de candidatos con formulario de retroalimentación post-entrevista</li>
-      <li>Al contratar, el candidato se convierte en empleado y se crea su expediente automáticamente</li>
-      <li>Reportes de tiempo de contratación, fuentes de candidatos y costo por hire</li>
-    </ul>
-    <a href="contacto.html" class="modal-cta">Solicitar demo gratuita →</a>
-  </div>
-</div>
-
-
-<!-- ══ SCRIPTS ══ -->
 <script>
-  function openModal(id) {
-    document.getElementById(id).classList.add('open');
-    document.body.style.overflow = 'hidden';
+(function(){
+  function apply(l){
+    document.querySelectorAll('[data-es]').forEach(function(e){e.innerHTML=e.getAttribute('data-'+l);});
+    document.documentElement.lang=l;
+    var b=document.getElementById('langBtn'); if(b) b.textContent=l==='es'?'EN':'ES';
+    window.LANG=l; try{localStorage.setItem('prh_lang',l);}catch(e){}
+    if(window.onLang) window.onLang(l);
   }
-  function closeModal(id) {
-    document.getElementById(id).classList.remove('open');
-    document.body.style.overflow = '';
-  }
-  function closeOnOverlay(event, overlay) {
-    if (event.target === overlay) {
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  }
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-      document.querySelectorAll('.modal-overlay.open').forEach(function(m) {
-        m.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    }
-  });
+  var l='es'; try{l=localStorage.getItem('prh_lang')||'es';}catch(e){}
+  window.toggleLang=function(){apply(window.LANG==='es'?'en':'es');};
+  apply(l);
+})();
 </script>
-
-</body>
-</html>
+</body></html>
